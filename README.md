@@ -8,6 +8,8 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 
 - Edward Twe Ting Yau (ext320@student.bham.ac.uk)
 
+- Chew Xin Yao (XXC345@student.bham.ac.uk)
+
 ## changes for Teamproject
 
 Modified by Madasar Shah for Team Project
