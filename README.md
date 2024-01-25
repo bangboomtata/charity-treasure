@@ -2,11 +2,11 @@
 
 This application was generated using JHipster 7.9.4, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v7.9.4](https://www.jhipster.tech/documentation-archive/v7.9.4).
 
-## This repository belongs to team x
+## This repository belongs to team 24
 
 - Alice W (alw783@student.bham.ac.uk)
 
-- 
+- Edward Twe Ting Yau (ext320@student.bham.ac.uk)
 
 ## changes for Teamproject
 
