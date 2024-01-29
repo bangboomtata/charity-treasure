@@ -4,8 +4,6 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 
 ## This repository belongs to team 24
 
-- Alice W (alw783@student.bham.ac.uk)
-
 - Edward Twe Ting Yau (ext320@student.bham.ac.uk)
 
 - Chew Xin Yao (XXC345@student.bham.ac.uk)
