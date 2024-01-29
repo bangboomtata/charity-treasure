@@ -12,6 +12,8 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 
 - Brian Nyit Chiung Bong (bxb371@student.bham.ac.uk)
 
+- Toru Yamaguchi (txy212@student.bham.ac.uk)
+
 ## changes for Teamproject
 
 Modified by Madasar Shah for Team Project
