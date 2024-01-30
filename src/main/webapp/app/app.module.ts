@@ -24,6 +24,9 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
 
+// new import library
+import 'leaflet/dist/leaflet.js';
+
 @NgModule({
   imports: [
     BrowserModule,
