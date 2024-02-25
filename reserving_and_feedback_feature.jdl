@@ -1,0 +1,42 @@
+entity Reservation {
+    reservationID String required
+    itemID String required
+    userID String required
+    reservedTime Instant required
+    reservedExpiry Instant
+
+}
+
+entity Item {
+    itemID String required
+    itemName String required
+    itemDescription String
+    itemAvailability Boolean
+    location String required
+}
+
+entity Feedback {
+    feedbackID String required
+    userID String required
+    userName String required
+    feedbackText TextBlob required
+    time Instant
+}
+
+
+relationship OneToOne {
+    Reservation{item} to Item
+    Item {reservation} to Reservation
+
+}
+
+relationship OneToMany {
+    User{reservations} to Reservation{user}
+
+    User{feedback} to Feedback{user}
+}
+
+
+
+
+
