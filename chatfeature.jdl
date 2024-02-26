@@ -1,0 +1,46 @@
+entity Users {
+    username String,
+    profilePic ImageBlob,
+    phoneNumber UUID,
+    status String
+}
+
+entity ContactList {
+    recentMessage String,
+    username String,
+    sender UUID,
+    timestamp String,
+    readStatus String
+}
+
+entity Chat {
+    username String,
+    sender UUID,
+    receiver UUID,
+    activeStatus String
+}
+
+entity Message {
+    content String,
+    timestamp String
+}
+
+entity Document {
+    document DocumentType,
+    documentName String,
+    timestamp String
+}
+
+enum DocumentType {
+    PDF,PNG,JPEG,MP3,MP4
+}
+
+relationship OneToOne {
+    Users to ContactList
+}
+
+relationship OneToMany {
+    ContactList to Chat,
+    Chat to Message,
+    Chat to Document
+}
