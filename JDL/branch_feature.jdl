@@ -1,5 +1,5 @@
 entity Item {
-    itemID String required
+    iD UUID required
 }
 
 entity Branch {
@@ -20,7 +20,26 @@ entity Branch {
     duration Duration,
 }
 
+entity BranchView {
+    sort SortType
+}
+
+enum SortType {
+    HIGHEST_RATING
+    NEAREST_DISTANCE
+    SHORTEST_DURATION
+}
+
+relationship  OneToOne {
+    User to BranchView
+    Item to Branch
+}
+
 relationship ManyToOne{
     //One branch has many items for reserve
-    Branch to Item
+    BranchView to Branch
+}
+
+relationship  ManyToMany {
+    User to Item
 }
