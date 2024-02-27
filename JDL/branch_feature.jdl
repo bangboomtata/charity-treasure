@@ -1,0 +1,26 @@
+entity Item {
+    itemID String required
+}
+
+entity Branch {
+    branchName String required,
+    branchCode String required,
+    branchEmail String,
+    branchPhoneNumber Integer,
+    openHoursWeekdays String,
+    openHoursWeekends String,
+    openHoursHolidays String,
+    street String,
+    city String,
+    state String,
+    zipCode String,
+    country String,
+    rating Double,
+    distance Double,
+    duration Duration,
+}
+
+relationship ManyToOne{
+    //One branch has many items for reserve
+    Branch to Item
+}
