@@ -1,0 +1,35 @@
+entity Item {
+    itemID Integer required,
+    itemName String required,
+    itemPrice BigDecimal,
+    itemSize Size,
+    itemCategory Category,
+    itemDescription String
+}
+
+entity Photo {
+    photoID Integer required,
+    imageURL ImageBlob required
+}
+
+enum Category {
+    CLOTH,
+    BOOK,
+    TOY,
+    ACCESSORY,
+    OTHER
+}
+
+enum Size {
+    EXTRA_SMALL,
+    SMALL,
+    MEDIUM,
+    LARGE,
+    EXTRA_LARGE
+}
+
+relationship ManyToOne {
+    Photo{Item} to Item
+}
+
+
