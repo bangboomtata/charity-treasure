@@ -136,7 +136,7 @@ public class ItemResource {
                 String formattedOriginalPrice = originalPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
                 String formattedDiscountedPrice = discountedPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
                 String formattedPrice = String.format(
-                    "%s £%s (-%s%%)",
+                    "£%s £%s (-%s%%)",
                     formattedOriginalPrice,
                     formattedDiscountedPrice,
                     String.valueOf(saleAmountInt)

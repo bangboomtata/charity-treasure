@@ -11,6 +11,7 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, ItemService } from '../service/item.service';
 import { ItemDeleteDialogComponent } from '../delete/item-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
+import dayjs from "dayjs/esm";
 
 @Component({
   selector: 'jhi-item',
@@ -72,10 +73,29 @@ export class ItemComponent implements OnInit {
         this.onResponseSuccess(res);
       },
     });
-    // this.items.forEach((item) => {
-    //   this.itemService.
-    // })
+    if (this.items !== undefined) {
+      this.checkAndUpdateItems();
+    }
   }
+
+  checkAndUpdateItems() {
+    const currentTime = dayjs(); // Get the current time
+    // @ts-ignore
+    this.items.forEach(item => {
+      if (item.saleFlag && item.saleEndTime && item.saleEndTime.isBefore(currentTime)) {
+        // The sale has ended
+        item.saleFlag = false; // Set saleFlag to false
+        // @ts-ignore
+        const parts = item.shownPrice.split(' ');
+        item.shownPrice = parts[0];
+        item.price = +parts[0];
+        item.saleAmount = null;
+        this.itemService.update(item); // Call the update function with this item
+      }
+    });
+  }
+
+
 
   updateSaleFlags(items: IItem[]) {}
 
