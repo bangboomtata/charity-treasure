@@ -1,0 +1,40 @@
+.interested-event-list-container {
+  background-color: white;
+  width: 90%;
+  margin: auto;
+}
+
+.interested-event-info-box {
+  margin-left: 100px;
+  margin-top: 20px;
+  border-radius: 20px;
+  padding-top: 15px;
+  padding-left: 20px;
+  min-width: 1100px;
+  max-width: 1100px;
+  background-color: #ffc9c9;
+}
+
+.button-from-interested-events-to-events {
+  margin-right: 25px;
+  font-size: 15px;
+  border-radius: 20px;
+  background-color: #ffc9c9;
+  font-weight: bold;
+  border: none;
+  min-width: 50px;
+}
+
+.button-from-interested-events-to-events:hover {
+  background-color: #ff6961;
+  transition: 0.5s;
+}
+
+.interested-events-reload {
+  margin-right: 700px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 20px;
+  background-color: #ff6961;
+  border: none;
+}

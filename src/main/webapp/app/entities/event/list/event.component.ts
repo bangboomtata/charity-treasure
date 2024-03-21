@@ -12,8 +12,11 @@ import { EntityArrayResponseType, EventService } from '../service/event.service'
 import { EventDeleteDialogComponent } from '../delete/event-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 
+import { Location } from '../../enumerations/location.model';
+
 @Component({
   selector: 'jhi-event',
+  styleUrls: ['./event.component.scss'],
   templateUrl: './event.component.html',
 })
 export class EventComponent implements OnInit {
@@ -26,6 +29,9 @@ export class EventComponent implements OnInit {
   itemsPerPage = ITEMS_PER_PAGE;
   totalItems = 0;
   page = 1;
+
+  locationValues = Object.keys(Location);
+  filteredEvents?: IEvent[];
 
   constructor(
     protected eventService: EventService,
@@ -96,10 +102,20 @@ export class EventComponent implements OnInit {
     this.ascending = sort[1] === ASC;
   }
 
+  filterLocation() {
+    let x = (<HTMLSelectElement>document.getElementById('field_eventLocation_dropdown')).value;
+    if (!x) {
+      this.filteredEvents = this.events;
+    } else {
+      this.filteredEvents = this.events?.filter(e => e.eventLocation === x);
+    }
+  }
   protected onResponseSuccess(response: EntityArrayResponseType): void {
     this.fillComponentAttributesFromResponseHeader(response.headers);
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
     this.events = dataFromBody;
+
+    this.filterLocation();
   }
 
   protected fillComponentAttributesFromResponseBody(data: IEvent[] | null): IEvent[] {

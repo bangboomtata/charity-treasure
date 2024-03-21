@@ -1,11 +1,33 @@
-<div>
-  <h2 id="page-heading" data-cy="EventHeading">
-    <span>Events</span>
+<div class="event-list-page-container">
+  <h2 id="page-heading" data-cy="EventHeading" style="text-align: center; color: #000080">
+    <span>EVENTS</span>
+
+    <hr style="background-color: #ff6961; border: 0; height: 4px; opacity: 1" />
 
     <div class="d-flex justify-content-end">
+      <button class="events-reload-btn" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>All Events</span>
+      </button>
+
+      <button class="button-to-interested-events" [routerLink]="['/interested-events']">
+        <span>Interested Events</span>
+      </button>
+
+      <!--
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refresh list</span>
+      </button>
+      -->
+      <label class="location-dropdown-label">Location</label>
+      <select class="location-dropdown-box" id="field_eventLocation_dropdown" onchange="filterLocation()">
+        <option [ngValue]="null"></option>
+        <option *ngFor="let location of locationValues" [value]="location">{{ location }}</option>
+      </select>
+
+      <button class="location-filter-reload-button" (click)="load()" [disabled]="isLoading">
+        <span>Filter</span>
       </button>
 
       <button
@@ -24,10 +46,11 @@
 
   <jhi-alert></jhi-alert>
 
-  <div class="alert alert-warning" id="no-result" *ngIf="events?.length === 0">
+  <div class="alert alert-warning" id="no-result" *ngIf="filteredEvents?.length === 0">
     <span>No Events found</span>
   </div>
 
+  <!--
   <div class="table-responsive table-entities" id="entities" *ngIf="events && events.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
@@ -92,18 +115,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="eventImage">
-            <div class="d-flex">
-              <span>Event Image</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="eventEndDate">
-            <div class="d-flex">
-              <span>Event End Date</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="shop.id">
             <div class="d-flex">
               <span>Shop</span>
@@ -127,17 +138,6 @@
           <td>{{ event.eventTime }}</td>
           <td>{{ event.contactNumber }}</td>
           <td>{{ event.eventEmail }}</td>
-          <td>
-            <a *ngIf="event.eventImage" (click)="openFile(event.eventImage, event.eventImageContentType)">
-              <img
-                [src]="'data:' + event.eventImageContentType + ';base64,' + event.eventImage"
-                style="max-height: 30px"
-                alt="event image"
-              />
-            </a>
-            <span *ngIf="event.eventImage">{{ event.eventImageContentType }}, {{ byteSize(event.eventImage) }}</span>
-          </td>
-          <td>{{ event.eventEndDate | formatMediumDate }}</td>
           <td>
             <div *ngIf="event.shop">
               <a [routerLink]="['/shop', event.shop.id, 'view']">{{ event.shop.id }}</a>
@@ -166,7 +166,77 @@
     </table>
   </div>
 
-  <div *ngIf="events && events.length > 0">
+  -->
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="filteredEvents && filteredEvents.length > 0">
+    <div class="col-4" *ngFor="let event of filteredEvents; trackBy: trackId">
+      <div class="event-info-box">
+        <h2>
+          <span
+            ><a style="color: #000080" [routerLink]="['/event', event.id, 'view']">{{ event.eventName }}</a></span
+          >
+        </h2>
+
+        <hr />
+
+        <dl class="event-details">
+          <dt>Date: &nbsp;</dt>
+          <dd>{{ event.eventDate | formatMediumDate }}</dd>
+
+          <dt>Event Time: &nbsp;</dt>
+          <dd>{{ event.eventTime }}</dd>
+
+          <dt>Event City: &nbsp;</dt>
+          <dd>{{ event.eventCity }}</dd>
+
+          <dt>Event Address: &nbsp;</dt>
+          <dd>{{ event.eventAddress }}</dd>
+
+          <dt>Event Description: &nbsp;</dt>
+          <dd>{{ event.eventDescription }}</dd>
+
+          <!--
+          <dt>Contact Number</dt>
+          <dd>{{event.contactNumber}} </dd>
+
+          <dt>Email Address</dt>
+          <dd>{{event.eventEmail}} </dd>
+          -->
+        </dl>
+
+        <div class="text-end">
+          <!-- Add button to add to interested events here -->
+
+          <div class="btn-group">
+            <!--
+            <button type="button" class="add-event-to-interested-events">
+              <span>I'm Interested</span>
+            </button>
+            -->
+
+            <!--
+            <button type="submit" [routerLink]="['/event', event.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+              <fa-icon icon="eye"></fa-icon>
+              <span class="d-none d-md-inline">View</span>
+            </button>
+            -->
+
+            <button type="submit" [routerLink]="['/event', event.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <fa-icon icon="pencil-alt"></fa-icon>
+              <span class="d-none d-md-inline">Edit</span>
+            </button>
+
+            <button type="submit" (click)="delete(event)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <fa-icon icon="times"></fa-icon>
+              <span class="d-none d-md-inline">Delete</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="filteredEvents && filteredEvents.length > 0">
     <div class="d-flex justify-content-center">
       <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
     </div>

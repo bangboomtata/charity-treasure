@@ -86,7 +86,7 @@
             data-cy="eventLocation"
           >
             <option [ngValue]="null"></option>
-            <option *ngFor="let location of locationValues" [value]="location">location</option>
+            <option *ngFor="let location of locationValues" [value]="location">{{ location }}</option>
           </select>
         </div>
 

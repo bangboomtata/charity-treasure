@@ -4,14 +4,33 @@ import { ActivatedRoute } from '@angular/router';
 import { IEvent } from '../event.model';
 import { DataUtils } from 'app/core/util/data-util.service';
 
+//my added imports
+import { InterestedEventsService } from '../../interested-events/service/interested-events.service';
+import { InterestedEventsFormGroup, InterestedEventsFormService } from '../../interested-events/update/interested-events-form.service';
+import { IInterestedEvents } from '../../interested-events/interested-events.model';
+import { EventService } from '../service/event.service';
+import { Observable } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
+
 @Component({
   selector: 'jhi-event-detail',
+  styleUrls: ['event-detail.component.scss'],
   templateUrl: './event-detail.component.html',
 })
 export class EventDetailComponent implements OnInit {
   event: IEvent | null = null;
 
-  constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute) {}
+  //stuff I added
+  interestedEventDetails: InterestedEventsFormGroup = this.interestedEventsFormService.createInterestedEventsFormGroup();
+  isSaving = false;
+
+  constructor(
+    protected dataUtils: DataUtils,
+    protected activatedRoute: ActivatedRoute,
+    protected interestedEventsService: InterestedEventsService,
+    protected interestedEventsFormService: InterestedEventsFormService
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ event }) => {
@@ -29,5 +48,35 @@ export class EventDetailComponent implements OnInit {
 
   previousState(): void {
     window.history.back();
+  }
+
+  //method to add detail of event to interested events entity
+  transferToInterested(): void {
+    this.interestedEventDetails.patchValue({
+      event: this.event,
+    });
+    const interestedEvent = this.interestedEventsFormService.getInterestedEvents(this.interestedEventDetails);
+    if (interestedEvent.id == null) {
+      this.subscribeToSaveResponse2(this.interestedEventsService.create(interestedEvent));
+    }
+  }
+
+  protected subscribeToSaveResponse2(result: Observable<HttpResponse<IInterestedEvents>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize2())).subscribe({
+      next: () => this.onSaveSuccess2(),
+      error: () => this.onSaveError2(),
+    });
+  }
+
+  protected onSaveSuccess2(): void {
+    this.previousState();
+  }
+
+  protected onSaveError2(): void {
+    // Api for inheritance.
+  }
+
+  protected onSaveFinalize2(): void {
+    this.isSaving = false;
   }
 }

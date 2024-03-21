@@ -1,0 +1,70 @@
+.event-list-page-container {
+  background-color: white;
+  width: 90%;
+  margin: auto;
+}
+.event-info-box {
+  margin-left: 100px;
+  margin-top: 20px;
+  border-radius: 20px;
+  padding-top: 15px;
+  padding-left: 20px;
+  min-width: 1100px;
+  max-width: 1100px;
+  background-color: #ffc9c9;
+  padding-bottom: 5px;
+  padding-right: 5px;
+}
+
+.event-details {
+  dt {
+    float: left;
+  }
+}
+
+.button-to-interested-events {
+  margin-right: 475px;
+  font-size: 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
+  background-color: #ffc9c9;
+  height: 37px;
+  min-width: 140px;
+}
+
+.button-to-interested-events:hover {
+  background-color: #ff6961;
+  transition: 0.5s;
+}
+
+.events-reload-btn {
+  margin-left: 10px;
+  margin-right: 25px;
+  font-size: 15px;
+  border-radius: 20px;
+  background-color: #ff6961;
+  font-weight: bold;
+  border: none;
+  height: 37px;
+  min-width: 100px;
+}
+
+.location-dropdown-box {
+  height: 30px;
+  width: 150px;
+  font-size: 15px;
+  background-color: #ffc9c9;
+}
+
+.location-dropdown-label {
+  font-size: 20px;
+  margin-right: 2px;
+}
+
+.location-filter-reload-button {
+  height: 30px;
+  width: 60px;
+  font-size: 15px;
+  margin-right: 30px;
+}
