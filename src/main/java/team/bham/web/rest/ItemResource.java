@@ -1,7 +1,10 @@
 package team.bham.web.rest;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import team.bham.domain.Item;
 import team.bham.repository.ItemRepository;
+import team.bham.service.MailService;
+import team.bham.service.dto.SaleDTO;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -98,6 +103,49 @@ public class ItemResource {
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, item.getId().toString()))
             .body(result);
+    }
+
+    @PatchMapping("/items/sale")
+    public ResponseEntity<Boolean> createSale(@RequestBody SaleDTO sale) {
+        log.debug("Applying sale to items based on saleDTO");
+        log.debug("CHECKING SALE {}", sale.getSaleAmount());
+        for (String subCategory : sale.getSubCategory()) {
+            List<Item> items = itemRepository.findAllBySubCategory(subCategory);
+            log.debug("Found {} items for subCategory '{}'", items.size(), subCategory);
+
+            for (Item item : items) {
+                BigDecimal originalPrice = item.getPrice();
+                int saleAmountInt = sale.getSaleAmount();
+                long hundredd = 100;
+                BigDecimal saleAmount = BigDecimal.valueOf((long) saleAmountInt);
+                BigDecimal hundred = BigDecimal.valueOf(hundredd);
+                BigDecimal discountRate = saleAmount.divide(hundred);
+                BigDecimal discountAmount = originalPrice.multiply(discountRate);
+                BigDecimal discountedPrice = originalPrice.subtract(discountAmount);
+
+                item.setSaleFlag(true);
+                ZonedDateTime currentTime = ZonedDataTime.now();
+                if (sale.getTimeDays() == null) {
+                    ZonedDateTime adjusted = currentTime.plusHours(sale.getTimeHours());
+                } else {
+                    ZonedDateTime adjusted = currentTime.plusDays(sale.getTimeDays().with(LocalTime.of(sale.getTimeHours(), 0)));
+                }
+                item.setSaleEndTime(adjusted);
+                item.setSaleAmount(sale.getSaleAmount());
+                item.setPrice(discountedPrice);
+                String formattedOriginalPrice = originalPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+                String formattedDiscountedPrice = discountedPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+                String formattedPrice = String.format(
+                    "%s £%s (-%s%%)",
+                    formattedOriginalPrice,
+                    formattedDiscountedPrice,
+                    String.valueOf(saleAmountInt)
+                );
+                item.setShownPrice(formattedPrice);
+                itemRepository.save(item);
+            }
+        }
+        return ResponseEntity.ok().body(true);
     }
 
     /**
