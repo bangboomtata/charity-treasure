@@ -1,0 +1,202 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-shop-heading" data-cy="ShopCreateUpdateHeading">Create or edit a Shop</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_shopName">Shop Name</label>
+          <input type="text" class="form-control" name="shopName" id="field_shopName" data-cy="shopName" formControlName="shopName" />
+          <div *ngIf="editForm.get('shopName')!.invalid && (editForm.get('shopName')!.dirty || editForm.get('shopName')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('shopName')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_contactNum">Contact Num</label>
+          <input
+            type="text"
+            class="form-control"
+            name="contactNum"
+            id="field_contactNum"
+            data-cy="contactNum"
+            formControlName="contactNum"
+          />
+          <div *ngIf="editForm.get('contactNum')!.invalid && (editForm.get('contactNum')!.dirty || editForm.get('contactNum')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('contactNum')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_shopEmail">Shop Email</label>
+          <input type="text" class="form-control" name="shopEmail" id="field_shopEmail" data-cy="shopEmail" formControlName="shopEmail" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_charityShopId">Charity Shop Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="charityShopId"
+            id="field_charityShopId"
+            data-cy="charityShopId"
+            formControlName="charityShopId"
+          />
+          <div
+            *ngIf="
+              editForm.get('charityShopId')!.invalid && (editForm.get('charityShopId')!.dirty || editForm.get('charityShopId')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('charityShopId')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_openHoursWeekdays">Open Hours Weekdays</label>
+          <input
+            type="text"
+            class="form-control"
+            name="openHoursWeekdays"
+            id="field_openHoursWeekdays"
+            data-cy="openHoursWeekdays"
+            formControlName="openHoursWeekdays"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_openHoursWeekends">Open Hours Weekends</label>
+          <input
+            type="text"
+            class="form-control"
+            name="openHoursWeekends"
+            id="field_openHoursWeekends"
+            data-cy="openHoursWeekends"
+            formControlName="openHoursWeekends"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_openHoursHolidays">Open Hours Holidays</label>
+          <input
+            type="text"
+            class="form-control"
+            name="openHoursHolidays"
+            id="field_openHoursHolidays"
+            data-cy="openHoursHolidays"
+            formControlName="openHoursHolidays"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_street">Street</label>
+          <input type="text" class="form-control" name="street" id="field_street" data-cy="street" formControlName="street" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_city">City</label>
+          <input type="text" class="form-control" name="city" id="field_city" data-cy="city" formControlName="city" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_postCode">Post Code</label>
+          <input type="text" class="form-control" name="postCode" id="field_postCode" data-cy="postCode" formControlName="postCode" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_country">Country</label>
+          <input type="text" class="form-control" name="country" id="field_country" data-cy="country" formControlName="country" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_creationDate">Creation Date</label>
+          <div class="input-group">
+            <input
+              id="field_creationDate"
+              data-cy="creationDate"
+              type="text"
+              class="form-control"
+              name="creationDate"
+              ngbDatepicker
+              #creationDateDp="ngbDatepicker"
+              formControlName="creationDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="creationDateDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_logo">Logo</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('logoContentType')!.value + ';base64,' + editForm.get('logo')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('logo')!.value"
+              alt="shop image"
+            />
+            <div *ngIf="editForm.get('logo')!.value" class="form-text text-danger clearfix">
+              <span class="pull-start">{{ editForm.get('logoContentType')!.value }}, {{ byteSize(editForm.get('logo')!.value!) }}</span>
+              <button
+                type="button"
+                (click)="clearInputImage('logo', 'logoContentType', 'file_logo')"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input type="file" id="file_logo" data-cy="logo" (change)="setFileData($event, 'logo', true)" accept="image/*" />
+          </div>
+          <input type="hidden" class="form-control" name="logo" id="field_logo" data-cy="logo" formControlName="logo" />
+          <input type="hidden" class="form-control" name="logoContentType" id="field_logoContentType" formControlName="logoContentType" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_rating">Rating</label>
+          <input type="number" class="form-control" name="rating" id="field_rating" data-cy="rating" formControlName="rating" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_distance">Distance</label>
+          <input type="number" class="form-control" name="distance" id="field_distance" data-cy="distance" formControlName="distance" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_duration">Duration</label>
+          <input type="text" class="form-control" name="duration" id="field_duration" data-cy="duration" formControlName="duration" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

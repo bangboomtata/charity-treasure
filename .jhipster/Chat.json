@@ -1,0 +1,40 @@
+{
+  "applications": "*",
+  "changelogDate": "20240321141940",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "chat",
+  "fields": [
+    {
+      "fieldName": "senderLogin",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "groupChat",
+      "fieldType": "GroupChatName",
+      "fieldValues": "BRITISHHEARTFOUNDATION,CANCERRESEARCHCENTER"
+    },
+    {
+      "fieldName": "message",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "timestamp",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Chat",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

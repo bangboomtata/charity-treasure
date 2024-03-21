@@ -48,6 +48,25 @@ public class CacheConfiguration {
             createCache(cm, team.bham.domain.User.class.getName());
             createCache(cm, team.bham.domain.Authority.class.getName());
             createCache(cm, team.bham.domain.User.class.getName() + ".authorities");
+            createCache(cm, team.bham.domain.Customer.class.getName());
+            createCache(cm, team.bham.domain.Customer.class.getName() + ".apps");
+            createCache(cm, team.bham.domain.Customer.class.getName() + ".interestedEvents");
+            createCache(cm, team.bham.domain.Chat.class.getName());
+            createCache(cm, team.bham.domain.Shop.class.getName());
+            createCache(cm, team.bham.domain.Shop.class.getName() + ".reservations");
+            createCache(cm, team.bham.domain.Shop.class.getName() + ".volunteerPosts");
+            createCache(cm, team.bham.domain.Shop.class.getName() + ".items");
+            createCache(cm, team.bham.domain.Shop.class.getName() + ".events");
+            createCache(cm, team.bham.domain.Shop.class.getName() + ".feedbacks");
+            createCache(cm, team.bham.domain.VolunteerPost.class.getName());
+            createCache(cm, team.bham.domain.VolunteerPost.class.getName() + ".apps");
+            createCache(cm, team.bham.domain.Application.class.getName());
+            createCache(cm, team.bham.domain.Reservation.class.getName());
+            createCache(cm, team.bham.domain.Feedback.class.getName());
+            createCache(cm, team.bham.domain.Item.class.getName());
+            createCache(cm, team.bham.domain.Event.class.getName());
+            createCache(cm, team.bham.domain.Event.class.getName() + ".interestedEvents");
+            createCache(cm, team.bham.domain.InterestedEvents.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

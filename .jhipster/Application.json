@@ -1,0 +1,119 @@
+{
+  "applications": "*",
+  "changelogDate": "20240321141943",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "application",
+  "fields": [
+    {
+      "fieldName": "firstName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "contactNum",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateOfBirth",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "commitmentDuration",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "volunteerExperience",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "relevantSkills",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "motivation",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "applicationDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "applicationStatus",
+      "fieldType": "ApplicationStatus",
+      "fieldValues": "PENDING,ACCEPTED,REJECTED"
+    },
+    {
+      "fieldName": "appliedMonday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "appliedTuesday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "appliedWednesday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "appliedThursday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "appliedFriday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "appliedSaturday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "appliedSunday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "appliedMorning",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "appliedAfternoon",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "appliedEvening",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Application",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "volunteerPost",
+      "otherEntityRelationshipName": "app",
+      "relationshipName": "post",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "app",
+      "relationshipName": "customer",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

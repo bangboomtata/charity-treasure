@@ -1,0 +1,197 @@
+<div>
+  <h2 id="page-heading" data-cy="ShopHeading">
+    <span>Shops</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-shop"
+        [routerLink]="['/shop/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Shop </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="shops?.length === 0">
+    <span>No Shops found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="shops && shops.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="shopName">
+            <div class="d-flex">
+              <span>Shop Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="contactNum">
+            <div class="d-flex">
+              <span>Contact Num</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="shopEmail">
+            <div class="d-flex">
+              <span>Shop Email</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="charityShopId">
+            <div class="d-flex">
+              <span>Charity Shop Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="openHoursWeekdays">
+            <div class="d-flex">
+              <span>Open Hours Weekdays</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="openHoursWeekends">
+            <div class="d-flex">
+              <span>Open Hours Weekends</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="openHoursHolidays">
+            <div class="d-flex">
+              <span>Open Hours Holidays</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="street">
+            <div class="d-flex">
+              <span>Street</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="city">
+            <div class="d-flex">
+              <span>City</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="postCode">
+            <div class="d-flex">
+              <span>Post Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="country">
+            <div class="d-flex">
+              <span>Country</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="creationDate">
+            <div class="d-flex">
+              <span>Creation Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="logo">
+            <div class="d-flex">
+              <span>Logo</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="rating">
+            <div class="d-flex">
+              <span>Rating</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="distance">
+            <div class="d-flex">
+              <span>Distance</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="duration">
+            <div class="d-flex">
+              <span>Duration</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="user.id">
+            <div class="d-flex">
+              <span>User</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let shop of shops; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/shop', shop.id, 'view']">{{ shop.id }}</a>
+          </td>
+          <td>{{ shop.shopName }}</td>
+          <td>{{ shop.contactNum }}</td>
+          <td>{{ shop.shopEmail }}</td>
+          <td>{{ shop.charityShopId }}</td>
+          <td>{{ shop.openHoursWeekdays }}</td>
+          <td>{{ shop.openHoursWeekends }}</td>
+          <td>{{ shop.openHoursHolidays }}</td>
+          <td>{{ shop.street }}</td>
+          <td>{{ shop.city }}</td>
+          <td>{{ shop.postCode }}</td>
+          <td>{{ shop.country }}</td>
+          <td>{{ shop.creationDate | formatMediumDate }}</td>
+          <td>
+            <a *ngIf="shop.logo" (click)="openFile(shop.logo, shop.logoContentType)">
+              <img [src]="'data:' + shop.logoContentType + ';base64,' + shop.logo" style="max-height: 30px" alt="shop image" />
+            </a>
+            <span *ngIf="shop.logo">{{ shop.logoContentType }}, {{ byteSize(shop.logo) }}</span>
+          </td>
+          <td>{{ shop.rating }}</td>
+          <td>{{ shop.distance }}</td>
+          <td title="{{ shop.duration }}">{{ shop.duration | duration }}</td>
+          <td>
+            {{ shop.user?.id }}
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/shop', shop.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/shop', shop.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(shop)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

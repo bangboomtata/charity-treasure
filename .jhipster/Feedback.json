@@ -1,0 +1,38 @@
+{
+  "applications": "*",
+  "changelogDate": "20240321141945",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "feedback",
+  "fields": [
+    {
+      "fieldName": "feedbackText",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "time",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Feedback",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "customer",
+      "relationshipName": "customer",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "shop",
+      "otherEntityRelationshipName": "feedback",
+      "relationshipName": "shop",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

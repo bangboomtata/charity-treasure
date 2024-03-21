@@ -1,0 +1,41 @@
+{
+  "applications": "*",
+  "changelogDate": "20240321141939",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "customer",
+  "fields": [
+    {
+      "fieldName": "status",
+      "fieldType": "Status",
+      "fieldValues": "ONLINE (Online),OFFLINE (Offline)"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "The VolunteerPost entity.\\n@author A true hipster",
+  "jpaMetamodelFiltering": false,
+  "name": "Customer",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "application",
+      "otherEntityRelationshipName": "customer",
+      "relationshipName": "app",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "interestedEvents",
+      "otherEntityRelationshipName": "user",
+      "relationshipName": "interestedEvents",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

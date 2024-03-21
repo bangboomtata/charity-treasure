@@ -1,0 +1,221 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-event-heading" data-cy="EventCreateUpdateHeading">Create or edit a Event</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventName">Event Name</label>
+          <input type="text" class="form-control" name="eventName" id="field_eventName" data-cy="eventName" formControlName="eventName" />
+          <div *ngIf="editForm.get('eventName')!.invalid && (editForm.get('eventName')!.dirty || editForm.get('eventName')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('eventName')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventDate">Event Date</label>
+          <div class="input-group">
+            <input
+              id="field_eventDate"
+              data-cy="eventDate"
+              type="text"
+              class="form-control"
+              name="eventDate"
+              ngbDatepicker
+              #eventDateDp="ngbDatepicker"
+              formControlName="eventDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="eventDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+          <div *ngIf="editForm.get('eventDate')!.invalid && (editForm.get('eventDate')!.dirty || editForm.get('eventDate')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('eventDate')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventDescription">Event Description</label>
+          <textarea
+            class="form-control"
+            name="eventDescription"
+            id="field_eventDescription"
+            data-cy="eventDescription"
+            formControlName="eventDescription"
+          ></textarea>
+          <div
+            *ngIf="
+              editForm.get('eventDescription')!.invalid &&
+              (editForm.get('eventDescription')!.dirty || editForm.get('eventDescription')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('eventDescription')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventAddress">Event Address</label>
+          <textarea
+            class="form-control"
+            name="eventAddress"
+            id="field_eventAddress"
+            data-cy="eventAddress"
+            formControlName="eventAddress"
+          ></textarea>
+          <div
+            *ngIf="editForm.get('eventAddress')!.invalid && (editForm.get('eventAddress')!.dirty || editForm.get('eventAddress')!.touched)"
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('eventAddress')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventLocation">Event Location</label>
+          <select
+            class="form-control"
+            name="eventLocation"
+            formControlName="eventLocation"
+            id="field_eventLocation"
+            data-cy="eventLocation"
+          >
+            <option [ngValue]="null"></option>
+            <option *ngFor="let location of locationValues" [value]="location">location</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventCity">Event City</label>
+          <input type="text" class="form-control" name="eventCity" id="field_eventCity" data-cy="eventCity" formControlName="eventCity" />
+          <div *ngIf="editForm.get('eventCity')!.invalid && (editForm.get('eventCity')!.dirty || editForm.get('eventCity')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('eventCity')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventTime">Event Time</label>
+          <input type="text" class="form-control" name="eventTime" id="field_eventTime" data-cy="eventTime" formControlName="eventTime" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_contactNumber">Contact Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="contactNumber"
+            id="field_contactNumber"
+            data-cy="contactNumber"
+            formControlName="contactNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventEmail">Event Email</label>
+          <input
+            type="text"
+            class="form-control"
+            name="eventEmail"
+            id="field_eventEmail"
+            data-cy="eventEmail"
+            formControlName="eventEmail"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventImage">Event Image</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('eventImageContentType')!.value + ';base64,' + editForm.get('eventImage')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('eventImage')!.value"
+              alt="event image"
+            />
+            <div *ngIf="editForm.get('eventImage')!.value" class="form-text text-danger clearfix">
+              <span class="pull-start"
+                >{{ editForm.get('eventImageContentType')!.value }}, {{ byteSize(editForm.get('eventImage')!.value!) }}</span
+              >
+              <button
+                type="button"
+                (click)="clearInputImage('eventImage', 'eventImageContentType', 'file_eventImage')"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_eventImage"
+              data-cy="eventImage"
+              (change)="setFileData($event, 'eventImage', true)"
+              accept="image/*"
+            />
+          </div>
+          <input
+            type="hidden"
+            class="form-control"
+            name="eventImage"
+            id="field_eventImage"
+            data-cy="eventImage"
+            formControlName="eventImage"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            name="eventImageContentType"
+            id="field_eventImageContentType"
+            formControlName="eventImageContentType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventEndDate">Event End Date</label>
+          <div class="input-group">
+            <input
+              id="field_eventEndDate"
+              data-cy="eventEndDate"
+              type="text"
+              class="form-control"
+              name="eventEndDate"
+              ngbDatepicker
+              #eventEndDateDp="ngbDatepicker"
+              formControlName="eventEndDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="eventEndDateDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_shop">Shop</label>
+          <select class="form-control" id="field_shop" data-cy="shop" name="shop" formControlName="shop" [compareWith]="compareShop">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="shopOption" *ngFor="let shopOption of shopsSharedCollection">{{ shopOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

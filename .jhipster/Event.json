@@ -1,0 +1,82 @@
+{
+  "applications": "*",
+  "changelogDate": "20240321141947",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "event",
+  "fields": [
+    {
+      "fieldName": "eventName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eventDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eventDescription",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eventAddress",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eventLocation",
+      "fieldType": "Location",
+      "fieldValues": "SCOTLAND (Scotland),NORTHEAST (NorthEast),NORTHWEST (NorthWest),YORKSHIRE (Yorkshire),EASTMIDLANDS (EastMidlands),WESTMIDLANDS (WestMidlands),EASTANGLIA (EastAnglia),LONDON (London),SOUTHEAST (SouthEast),SOUTHWEST (SouthWest),NORTHWALES (NorthWales),SOUTHWALES (SouthWales),IRELAND (Ireland)"
+    },
+    {
+      "fieldName": "eventCity",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eventTime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "contactNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "eventEmail",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "eventImage",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "eventEndDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Event",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "shop",
+      "otherEntityRelationshipName": "event",
+      "relationshipName": "shop",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "interestedEvents",
+      "otherEntityRelationshipName": "event",
+      "relationshipName": "interestedEvents",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

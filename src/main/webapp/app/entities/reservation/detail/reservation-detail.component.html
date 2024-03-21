@@ -1,0 +1,58 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="reservation">
+      <h2 data-cy="reservationDetailsHeading"><span>Reservation</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ reservation.id }}</span>
+        </dd>
+        <dt><span>Reserved Time</span></dt>
+        <dd>
+          <span>{{ reservation.reservedTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Reserved Expiry</span></dt>
+        <dd>
+          <span>{{ reservation.reservedExpiry | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+          <span>{{ reservation.status }}</span>
+        </dd>
+        <dt><span>Item</span></dt>
+        <dd>
+          <div *ngIf="reservation.item">
+            <a [routerLink]="['/item', reservation.item.id, 'view']">{{ reservation.item.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Customer</span></dt>
+        <dd>
+          <div *ngIf="reservation.customer">
+            <a [routerLink]="['/customer', reservation.customer.id, 'view']">{{ reservation.customer.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Shop</span></dt>
+        <dd>
+          <div *ngIf="reservation.shop">
+            <a [routerLink]="['/shop', reservation.shop.id, 'view']">{{ reservation.shop.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/reservation', reservation.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

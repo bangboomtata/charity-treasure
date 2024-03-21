@@ -1,0 +1,28 @@
+{
+  "applications": "*",
+  "changelogDate": "20240321141948",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "interested_events",
+  "fields": [],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "InterestedEvents",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "interestedEvents",
+      "relationshipName": "user",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "event",
+      "otherEntityRelationshipName": "interestedEvents",
+      "relationshipName": "event",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

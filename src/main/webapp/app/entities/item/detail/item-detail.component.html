@@ -1,0 +1,95 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="item">
+      <h2 data-cy="itemDetailsHeading"><span>Item</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ item.id }}</span>
+        </dd>
+        <dt><span>Price</span></dt>
+        <dd>
+          <span>{{ item.price }}</span>
+        </dd>
+        <dt><span>Sale Flag</span></dt>
+        <dd>
+          <span>{{ item.saleFlag }}</span>
+        </dd>
+        <dt><span>Sale Amount</span></dt>
+        <dd>
+          <span>{{ item.saleAmount }}</span>
+        </dd>
+        <dt><span>Shown Price</span></dt>
+        <dd>
+          <span>{{ item.shownPrice }}</span>
+        </dd>
+        <dt><span>Sale End Time</span></dt>
+        <dd>
+          <span>{{ item.saleEndTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Item Name</span></dt>
+        <dd>
+          <span>{{ item.itemName }}</span>
+        </dd>
+        <dt><span>Item Description</span></dt>
+        <dd>
+          <span>{{ item.itemDescription }}</span>
+        </dd>
+        <dt><span>Item Availability</span></dt>
+        <dd>
+          <span>{{ item.itemAvailability }}</span>
+        </dd>
+        <dt><span>Item Image</span></dt>
+        <dd>
+          <div *ngIf="item.itemImage">
+            <a (click)="openFile(item.itemImage, item.itemImageContentType)">
+              <img [src]="'data:' + item.itemImageContentType + ';base64,' + item.itemImage" style="max-width: 100%" alt="item image" />
+            </a>
+            {{ item.itemImageContentType }}, {{ byteSize(item.itemImage) }}
+          </div>
+        </dd>
+        <dt><span>Reserve Flag</span></dt>
+        <dd>
+          <span>{{ item.reserveFlag }}</span>
+        </dd>
+        <dt><span>Gender</span></dt>
+        <dd>
+          <span>{{ item.gender }}</span>
+        </dd>
+        <dt><span>Condition</span></dt>
+        <dd>
+          <span>{{ item.condition }}</span>
+        </dd>
+        <dt><span>Item Type</span></dt>
+        <dd>
+          <span>{{ item.itemType }}</span>
+        </dd>
+        <dt><span>Sub Category</span></dt>
+        <dd>
+          <span>{{ item.subCategory }}</span>
+        </dd>
+        <dt><span>Shop</span></dt>
+        <dd>
+          <div *ngIf="item.shop">
+            <a [routerLink]="['/shop', item.shop.id, 'view']">{{ item.shop.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/item', item.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
