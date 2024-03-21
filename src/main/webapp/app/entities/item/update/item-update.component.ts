@@ -6,6 +6,7 @@ import { finalize, map } from 'rxjs/operators';
 
 import { ItemFormService, ItemFormGroup } from './item-form.service';
 import { IItem } from '../item.model';
+import { subCategoryOptions } from '../item.model';
 import { ItemService } from '../service/item.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
@@ -18,16 +19,19 @@ import { ItemType } from 'app/entities/enumerations/item-type.model';
 
 @Component({
   selector: 'jhi-item-update',
+  styleUrls: ['./item-update.component.scss'],
   templateUrl: './item-update.component.html',
 })
 export class ItemUpdateComponent implements OnInit {
   isSaving = false;
   item: IItem | null = null;
-  genderValues = Object.keys(Gender);
+  genderValues = Object.values(Gender);
   conditionValues = Object.keys(Condition);
-  itemTypeValues = Object.keys(ItemType);
+  itemTypeValues = Object.values(ItemType);
 
   shopsSharedCollection: IShop[] = [];
+
+  currentSubCategories: string[] = [];
 
   editForm: ItemFormGroup = this.itemFormService.createItemFormGroup();
 
@@ -41,6 +45,21 @@ export class ItemUpdateComponent implements OnInit {
     protected activatedRoute: ActivatedRoute
   ) {}
 
+  shouldShowGender(itemType: string | null | undefined): boolean {
+    return itemType === 'CLOTHING';
+  }
+
+  updateSubCategoryOptions(): void {
+    const itemType = this.editForm.get('itemType')?.value as ItemType;
+    const gender = this.editForm.get('gender')?.value;
+    if (itemType === ItemType.CLOTHING && gender) {
+      this.currentSubCategories = subCategoryOptions[itemType][gender] || [];
+    } else if (itemType && !(itemType in subCategoryOptions)) {
+      this.currentSubCategories = [];
+    } else {
+      this.currentSubCategories = itemType ? (subCategoryOptions[itemType] as string[]) : [];
+    }
+  }
   compareShop = (o1: IShop | null, o2: IShop | null): boolean => this.shopService.compareShop(o1, o2);
 
   ngOnInit(): void {
@@ -48,8 +67,16 @@ export class ItemUpdateComponent implements OnInit {
       this.item = item;
       if (item) {
         this.updateForm(item);
+        this.loadRelationshipsOptions();
       }
-
+      this.editForm.get('itemType')!.valueChanges.subscribe(() => {
+        this.updateSubCategoryOptions();
+      });
+      this.editForm.get('gender')!.valueChanges.subscribe(() => {
+        if (this.shouldShowGender(this.editForm.get('itemType')?.value as ItemType)) {
+          this.updateSubCategoryOptions();
+        }
+      });
       this.loadRelationshipsOptions();
     });
   }

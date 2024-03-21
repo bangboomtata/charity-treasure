@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
 import dayjs from 'dayjs/esm';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IItem, NewItem } from '../item.model';
@@ -58,7 +57,7 @@ export class ItemFormService {
       ...this.getFormDefaults(),
       ...item,
     });
-    return new FormGroup<ItemFormGroupContent>({
+    const formGroup = new FormGroup<ItemFormGroupContent>({
       id: new FormControl(
         { value: itemRawValue.id, disabled: true },
         {
@@ -66,25 +65,25 @@ export class ItemFormService {
           validators: [Validators.required],
         }
       ),
-      price: new FormControl(itemRawValue.price, {
+      price: new FormControl(itemRawValue.price || 0, {
         validators: [Validators.required],
       }),
-      saleFlag: new FormControl(itemRawValue.saleFlag),
+      saleFlag: new FormControl({ value: false, disabled: true }),
       saleAmount: new FormControl(itemRawValue.saleAmount, {
         validators: [Validators.min(10), Validators.max(90)],
       }),
-      shownPrice: new FormControl(itemRawValue.shownPrice),
-      saleEndTime: new FormControl(itemRawValue.saleEndTime),
+      shownPrice: new FormControl(String(itemRawValue.price)),
+      saleEndTime: new FormControl({ value: null, disabled: true }),
       itemName: new FormControl(itemRawValue.itemName, {
         validators: [Validators.required],
       }),
       itemDescription: new FormControl(itemRawValue.itemDescription),
-      itemAvailability: new FormControl(itemRawValue.itemAvailability),
+      itemAvailability: new FormControl({ value: true, disabled: true }),
       itemImage: new FormControl(itemRawValue.itemImage, {
         validators: [Validators.required],
       }),
       itemImageContentType: new FormControl(itemRawValue.itemImageContentType),
-      reserveFlag: new FormControl(itemRawValue.reserveFlag),
+      reserveFlag: new FormControl({ value: false, disabled: true }),
       gender: new FormControl(itemRawValue.gender),
       condition: new FormControl(itemRawValue.condition, {
         validators: [Validators.required],
@@ -97,6 +96,16 @@ export class ItemFormService {
       }),
       shop: new FormControl(itemRawValue.shop),
     });
+    const priceControl = formGroup.get('price');
+    if (priceControl) {
+      priceControl.valueChanges.subscribe(value => {
+        const shownPriceControl = formGroup.get('shownPrice');
+        if (shownPriceControl) {
+          shownPriceControl.setValue(String(value || ''), { emitEvent: false });
+        }
+      });
+    }
+    return formGroup;
   }
 
   getItem(form: ItemFormGroup): IItem | NewItem {

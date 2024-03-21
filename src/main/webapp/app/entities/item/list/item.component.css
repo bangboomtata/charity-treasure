@@ -1,0 +1,72 @@
+* {
+  box-sizing: border-box;
+}
+
+div.productDisplay {
+  background-color: #ffe7e7;
+  padding: 60px 75px;
+  border-radius: 10px;
+}
+
+div.rowContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+div.rowContainer > * {
+  flex: 0 0 calc(30% - 20px); /* 20% width with 10px margin between items */
+  margin: 15px; /* Adjust the margin as needed */
+}
+
+div.productCard {
+  background-color: aliceblue;
+  margin-top: 30px;
+  height: 250px;
+  width: 250px;
+  border-radius: 7px;
+}
+
+h2.page_title {
+  margin: 5px auto;
+  width: 200px;
+  text-align: center;
+}
+
+div.card-img {
+  height: 150px; /* Set the height of the image to 100% of the parent container */
+  width: auto;
+  margin: 30px auto 0px auto; /* Adjust the margin as needed */
+  object-fit: cover;
+}
+
+div.card-details {
+  margin-top: 30px;
+  padding: 15px 0px 0px 20px;
+  height: 100px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.card-name,
+.card-price {
+  margin: 0px;
+  overflow: hidden;
+  white-space: nowrap; /* Prevent text from wrapping to the next line */
+  overflow: hidden; /* Hide content that exceeds the container */
+  text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+}
+
+.card-price .original-price {
+  text-decoration: line-through;
+}
+
+.card-price .discounted-price {
+  color: red;
+}
+
+.card-price .discount-percentage {
+  color: red;
+}

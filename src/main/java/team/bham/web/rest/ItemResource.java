@@ -124,13 +124,13 @@ public class ItemResource {
                 BigDecimal discountedPrice = originalPrice.subtract(discountAmount);
 
                 item.setSaleFlag(true);
-                ZonedDateTime currentTime = ZonedDataTime.now();
+                ZonedDateTime currentTime = ZonedDateTime.now();
                 if (sale.getTimeDays() == null) {
-                    ZonedDateTime adjusted = currentTime.plusHours(sale.getTimeHours());
+                    currentTime = currentTime.plusHours(sale.getTimeHours());
                 } else {
-                    ZonedDateTime adjusted = currentTime.plusDays(sale.getTimeDays().with(LocalTime.of(sale.getTimeHours(), 0)));
+                    currentTime = currentTime.plusDays(sale.getTimeDays()).plusHours(sale.getTimeHours());
                 }
-                item.setSaleEndTime(adjusted);
+                item.setSaleEndTime(currentTime);
                 item.setSaleAmount(sale.getSaleAmount());
                 item.setPrice(discountedPrice);
                 String formattedOriginalPrice = originalPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString();

@@ -1,109 +1,158 @@
-<div class="d-flex justify-content-center">
-  <div class="col-8">
+<div class="big-container">
+  <div>
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-item-heading" data-cy="ItemCreateUpdateHeading">Create or edit a Item</h2>
+      <h2 id="jhi-item-heading" class="big-title" data-cy="ItemCreateUpdateHeading">Upload Item</h2>
 
-      <div>
+      <div class="main-box">
         <jhi-alert-error></jhi-alert-error>
 
         <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_price">Price</label>
-          <input type="number" class="form-control" name="price" id="field_price" data-cy="price" formControlName="price" />
-          <div *ngIf="editForm.get('price')!.invalid && (editForm.get('price')!.dirty || editForm.get('price')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('price')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('price')?.errors?.number"> This field should be a number. </small>
+          <div class="col">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_saleFlag">Sale Flag</label>
-          <input type="checkbox" class="form-check" name="saleFlag" id="field_saleFlag" data-cy="saleFlag" formControlName="saleFlag" />
-        </div>
+          <div class="col">
+            <label class="form-label" for="field_itemType">Item Type</label>
+            <select class="form-control" name="itemType" formControlName="itemType" id="field_itemType" data-cy="itemType">
+              <option [ngValue]="null"></option>
+              <option *ngFor="let itemType of itemTypeValues" [value]="itemType">{{ itemType }}</option>
+            </select>
+            <div *ngIf="editForm.get('itemType')!.invalid && (editForm.get('itemType')!.dirty || editForm.get('itemType')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('itemType')?.errors?.required"> This field is required. </small>
+            </div>
+          </div>
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_saleAmount">Sale Amount</label>
-          <input
-            type="number"
-            class="form-control"
-            name="saleAmount"
-            id="field_saleAmount"
-            data-cy="saleAmount"
-            formControlName="saleAmount"
-          />
-          <div *ngIf="editForm.get('saleAmount')!.invalid && (editForm.get('saleAmount')!.dirty || editForm.get('saleAmount')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('saleAmount')?.errors?.min"> This field should be at least 10. </small>
-            <small class="form-text text-danger" *ngIf="editForm.get('saleAmount')?.errors?.max">
-              This field cannot be more than 90.
-            </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('saleAmount')?.errors?.number">
-              This field should be a number.
-            </small>
+          <div class="col" *ngIf="editForm.get('itemType')?.value && shouldShowGender(editForm.get('itemType')?.value)">
+            <label for="field_gender" class="form-label">Gender</label>
+            <select class="form-control" name="gender" formControlName="gender" id="field_gender" data-cy="gender">
+              <option [ngValue]="null"></option>
+              <option *ngFor="let gender of genderValues" [value]="gender">{{ gender }}</option>
+            </select>
           </div>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_shownPrice">Shown Price</label>
-          <input
-            type="text"
-            class="form-control"
-            name="shownPrice"
-            id="field_shownPrice"
-            data-cy="shownPrice"
-            formControlName="shownPrice"
-          />
+          <div class="col" *ngIf="currentSubCategories.length > 0">
+            <label class="form-label" for="field_subCategory">Sub Category</label>
+            <select class="form-control" name="subCategory" id="field_subCategory" data-cy="subCategory" formControlName="subCategory">
+              <option [ngValue]="null"></option>
+              <option *ngFor="let subCategory of currentSubCategories" [value]="subCategory">{{ subCategory }}</option>
+            </select>
+          </div>
         </div>
 
+        <!--        <label class="form-label" for="field_subCategory">Sub Category</label>-->
+        <!--        <input-->
+        <!--          type="text"-->
+        <!--          class="form-control"-->
+        <!--          name="subCategory"-->
+        <!--          id="field_subCategory"-->
+        <!--          data-cy="subCategory"-->
+        <!--          formControlName="subCategory"-->
+        <!--        />-->
+        <!--        <div *ngIf="editForm.get('subCategory')!.invalid && (editForm.get('subCategory')!.dirty || editForm.get('subCategory')!.touched)">-->
+        <!--          <small class="form-text text-danger" *ngIf="editForm.get('subCategory')?.errors?.required"> This field is required. </small>-->
+        <!--        </div>-->
+
         <div class="row mb-3">
-          <label class="form-label" for="field_saleEndTime">Sale End Time</label>
-          <div class="d-flex">
-            <input
-              id="field_saleEndTime"
-              data-cy="saleEndTime"
-              type="datetime-local"
+          <div class="col">
+            <label class="form-label" for="field_itemName">Item Name</label>
+            <input type="text" class="form-control" name="itemName" id="field_itemName" data-cy="itemName" formControlName="itemName" />
+            <div *ngIf="editForm.get('itemName')!.invalid && (editForm.get('itemName')!.dirty || editForm.get('itemName')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('itemName')?.errors?.required"> This field is required. </small>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col">
+            <label class="form-label" for="field_itemDescription">Item Description</label>
+            <textarea
               class="form-control"
-              name="saleEndTime"
-              formControlName="saleEndTime"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
+              name="itemDescription"
+              id="field_itemDescription"
+              data-cy="itemDescription"
+              formControlName="itemDescription"
+            ></textarea
+            >>
           </div>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_itemName">Item Name</label>
-          <input type="text" class="form-control" name="itemName" id="field_itemName" data-cy="itemName" formControlName="itemName" />
-          <div *ngIf="editForm.get('itemName')!.invalid && (editForm.get('itemName')!.dirty || editForm.get('itemName')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('itemName')?.errors?.required"> This field is required. </small>
+          <div class="col">
+            <label class="form-label" for="field_condition">Condition</label>
+            <select class="form-control" name="condition" formControlName="condition" id="field_condition" data-cy="condition">
+              <option [ngValue]="null"></option>
+              <option *ngFor="let condition of conditionValues" [value]="condition">{{ condition }}</option>
+            </select>
+            <div *ngIf="editForm.get('condition')!.invalid && (editForm.get('condition')!.dirty || editForm.get('condition')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('condition')?.errors?.required"> This field is required. </small>
+            </div>
+          </div>
+
+          <div class="col">
+            <label class="form-label" for="field_price">Price</label>
+            <input type="number" class="form-control" name="price" id="field_price" data-cy="price" formControlName="price" />
+            <div *ngIf="editForm.get('price')!.invalid && (editForm.get('price')!.dirty || editForm.get('price')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('price')?.errors?.required"> This field is required. </small>
+              <small class="form-text text-danger" [hidden]="!editForm.get('price')?.errors?.number">
+                This field should be a number.
+              </small>
+            </div>
           </div>
         </div>
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_itemDescription">Item Description</label>
-          <input
-            type="text"
-            class="form-control"
-            name="itemDescription"
-            id="field_itemDescription"
-            data-cy="itemDescription"
-            formControlName="itemDescription"
-          />
-        </div>
+        <!--        <div class="row mb-3">-->
+        <!--          <label class="form-label" for="field_saleFlag">Sale Flag</label>-->
+        <!--          <input type="checkbox" class="form-check" name="saleFlag" id="field_saleFlag" data-cy="saleFlag" formControlName="saleFlag" />-->
+        <!--        </div>-->
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_itemAvailability">Item Availability</label>
-          <input
-            type="checkbox"
-            class="form-check"
-            name="itemAvailability"
-            id="field_itemAvailability"
-            data-cy="itemAvailability"
-            formControlName="itemAvailability"
-          />
-        </div>
+        <!--        <div class="row mb-3">-->
+        <!--          <label class="form-label" for="field_saleAmount">Sale Amount</label>-->
+        <!--          <input-->
+        <!--            type="number"-->
+        <!--            class="form-control"-->
+        <!--            name="saleAmount"-->
+        <!--            id="field_saleAmount"-->
+        <!--            data-cy="saleAmount"-->
+        <!--            formControlName="saleAmount"-->
+        <!--          />-->
+        <!--          <div *ngIf="editForm.get('saleAmount')!.invalid && (editForm.get('saleAmount')!.dirty || editForm.get('saleAmount')!.touched)">-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('saleAmount')?.errors?.min"> This field should be at least 10. </small>-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('saleAmount')?.errors?.max">-->
+        <!--              This field cannot be more than 90.-->
+        <!--            </small>-->
+        <!--            <small class="form-text text-danger" [hidden]="!editForm.get('saleAmount')?.errors?.number">-->
+        <!--              This field should be a number.-->
+        <!--            </small>-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <!--        <div class="row mb-3">-->
+        <!--          <label class="form-label" for="field_shownPrice">Shown Price</label>-->
+        <!--          <input-->
+        <!--            type="text"-->
+        <!--            class="form-control"-->
+        <!--            name="shownPrice"-->
+        <!--            id="field_shownPrice"-->
+        <!--            data-cy="shownPrice"-->
+        <!--            formControlName="shownPrice"-->
+        <!--          />-->
+        <!--        </div>-->
+
+        <!--        <div class="row mb-3">-->
+        <!--          <label class="form-label" for="field_itemAvailability">Item Availability</label>-->
+        <!--          <input-->
+        <!--            type="checkbox"-->
+        <!--            class="form-check"-->
+        <!--            name="itemAvailability"-->
+        <!--            id="field_itemAvailability"-->
+        <!--            data-cy="itemAvailability"-->
+        <!--            formControlName="itemAvailability"-->
+        <!--          />-->
+        <!--        </div>-->
 
         <div class="row mb-3">
           <label class="form-label" for="field_itemImage">Item Image</label>
@@ -141,70 +190,25 @@
           </div>
         </div>
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_reserveFlag">Reserve Flag</label>
-          <input
-            type="checkbox"
-            class="form-check"
-            name="reserveFlag"
-            id="field_reserveFlag"
-            data-cy="reserveFlag"
-            formControlName="reserveFlag"
-          />
-        </div>
+        <!--        <div class="row mb-3">-->
+        <!--          <label class="form-label" for="field_reserveFlag">Reserve Flag</label>-->
+        <!--          <input-->
+        <!--            type="checkbox"-->
+        <!--            class="form-check"-->
+        <!--            name="reserveFlag"-->
+        <!--            id="field_reserveFlag"-->
+        <!--            data-cy="reserveFlag"-->
+        <!--            formControlName="reserveFlag"-->
+        <!--          />-->
+        <!--        </div>-->
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_gender">Gender</label>
-          <select class="form-control" name="gender" formControlName="gender" id="field_gender" data-cy="gender">
-            <option [ngValue]="null"></option>
-            <option *ngFor="let gender of genderValues" [value]="gender">gender</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_condition">Condition</label>
-          <select class="form-control" name="condition" formControlName="condition" id="field_condition" data-cy="condition">
-            <option [ngValue]="null"></option>
-            <option *ngFor="let condition of conditionValues" [value]="condition">condition</option>
-          </select>
-          <div *ngIf="editForm.get('condition')!.invalid && (editForm.get('condition')!.dirty || editForm.get('condition')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('condition')?.errors?.required"> This field is required. </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_itemType">Item Type</label>
-          <select class="form-control" name="itemType" formControlName="itemType" id="field_itemType" data-cy="itemType">
-            <option [ngValue]="null"></option>
-            <option *ngFor="let itemType of itemTypeValues" [value]="itemType">itemType</option>
-          </select>
-          <div *ngIf="editForm.get('itemType')!.invalid && (editForm.get('itemType')!.dirty || editForm.get('itemType')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('itemType')?.errors?.required"> This field is required. </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_subCategory">Sub Category</label>
-          <input
-            type="text"
-            class="form-control"
-            name="subCategory"
-            id="field_subCategory"
-            data-cy="subCategory"
-            formControlName="subCategory"
-          />
-          <div *ngIf="editForm.get('subCategory')!.invalid && (editForm.get('subCategory')!.dirty || editForm.get('subCategory')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('subCategory')?.errors?.required"> This field is required. </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_shop">Shop</label>
-          <select class="form-control" id="field_shop" data-cy="shop" name="shop" formControlName="shop" [compareWith]="compareShop">
-            <option [ngValue]="null"></option>
-            <option [ngValue]="shopOption" *ngFor="let shopOption of shopsSharedCollection">{{ shopOption.id }}</option>
-          </select>
-        </div>
+        <!--        <div class="row mb-3">-->
+        <!--          <label class="form-label" for="field_shop">Shop</label>-->
+        <!--          <select class="form-control" id="field_shop" data-cy="shop" name="shop" formControlName="shop" [compareWith]="compareShop">-->
+        <!--            <option [ngValue]="null"></option>-->
+        <!--            <option [ngValue]="shopOption" *ngFor="let shopOption of shopsSharedCollection">{{ shopOption.id }}</option>-->
+        <!--          </select>-->
+        <!--        </div>-->
       </div>
 
       <div>
@@ -214,12 +218,12 @@
 
         <button
           type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
+          id="upload-entity"
+          data-cy="entityCreateUploadButton"
           [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
+          class="btn btn-primary post-button"
         >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Upload</span>
         </button>
       </div>
     </form>

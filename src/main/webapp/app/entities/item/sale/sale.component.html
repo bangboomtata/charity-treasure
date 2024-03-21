@@ -1,0 +1,135 @@
+<h2 id="jhi-item-heading" class="form-title-p text-center" data-cy="SaleHeading">Create a Sale</h2>
+<div class="big-container">
+  <form class="form" name="saleForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <div class="row-divider"></div>
+    <div class="row-mb-4">
+      <div class="announcement-box">
+        <label class="announcement-label" for="onlineA">Online Announcement</label>
+        <input type="checkbox" id="onlineA" name="onlineA" formControlName="onlineA" data-cy="onlineA" />
+      </div>
+      <div class="announcement-box">
+        <label class="announcement-label" for="emailA">Email Announcement</label>
+        <input type="checkbox" id="emailA" name="emailA" formControlName="emailA" data-cy="emailA" />
+      </div>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="container">
+      <div class="main-box">
+        <div class="border-box">
+          <div class="row mb-3">
+            <div class="col">
+              <label class="form-label" for="message">Message</label>
+              <textarea
+                class="form-control"
+                name="message"
+                id="message"
+                data-cy="message"
+                formControlName="message"
+                placeholder="Enter here"
+              ></textarea>
+            </div>
+          </div>
+          <div class="form-label">Time limit</div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              <label class="form-label-small" for="timeDays">Days</label>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label-small" for="timeHours">Hours</label>
+            </div>
+            <div class="col-md-8"></div>
+          </div>
+          <div class="row mb-4">
+            <div class="col-2">
+              <input type="number" class="form-control" name="timeDays" id="timeDays" data-cy="timeDays" formControlName="timeDays" />
+              <div *ngIf="editForm.get('timeDays')!.invalid && (editForm.get('timeDays')!.dirty || editForm.get('timeDays')!.touched)">
+                <small class="form-text text-danger" *ngIf="editForm.get('timeDays')?.errors?.number">This field should be a number </small>
+              </div>
+            </div>
+            <div class="col-2">
+              <input type="number" class="form-control" name="timeHours" id="timeHours" data-cy="timeHours" formControlName="timeHours" />
+              <div *ngIf="editForm.get('timeHours')!.invalid && (editForm.get('timeHours')!.dirty || editForm.get('timeHours')!.touched)">
+                <small class="form-text text-danger" *ngIf="editForm.get('timeHours')?.errors?.number"
+                  >This field should be a number
+                </small>
+              </div>
+            </div>
+            <div class="col-8"></div>
+          </div>
+          <label class="form-label" for="saleAmount">Sale Amount</label>
+          <div class="row mb-2">
+            <div class="col">
+              <input
+                type="number"
+                class="form-control"
+                name="saleAmount"
+                id="saleAmount"
+                data-cy="saleAmount"
+                formControlName="saleAmount"
+              />
+              <div
+                *ngIf="editForm.get('saleAmount')!.invalid && (editForm.get('saleAmount')!.dirty || editForm.get('saleAmount')!.touched)"
+              >
+                <small class="form-text text-danger">This field should be a number </small>
+              </div>
+            </div>
+          </div>
+          <div class="row-divider"></div>
+
+          <div class="row mb-3">
+            <div class="col-5">
+              <label class="form-label-other" for="itemType">Item Type</label>
+              <div class="row-divider"></div>
+              <select class="form-control" name="itemType" formControlName="itemType" id="itemType" data-cy="itemType">
+                <option [ngValue]="null"></option>
+                <option *ngFor="let itemType of itemTypeValues" [value]="itemType">{{ itemType }}</option>
+              </select>
+              <div *ngIf="editForm.get('itemType')!.invalid && (editForm.get('itemType')!.dirty || editForm.get('itemType')!.touched)">
+                <small class="form-text text-danger" *ngIf="editForm.get('itemType')?.errors?.required">This field is required. </small>
+              </div>
+            </div>
+            <div class="col-5" *ngIf="editForm.get('itemType')?.value && shouldShowGender(editForm.get('itemType')?.value)">
+              <label for="gender" class="form-label-other">Gender</label>
+              <div class="row-divider"></div>
+              <select class="form-control" name="gender" formControlName="gender" id="gender" data-cy="gender">
+                <option [ngValue]="null"></option>
+                <option *ngFor="let gender of genderValues" [value]="gender">{{ gender }}</option>
+              </select>
+            </div>
+            <div class="col-2"></div>
+          </div>
+
+          <div class="row-mb-3">
+            <div class="row mb-3">
+              <div class="col-5" formArrayName="subCategory" *ngIf="currentSubCategories.length > 0">
+                <label class="form-label-other">Sub Category</label>
+                <div *ngFor="let subCategory of currentSubCategories; let i = index" class="checkbox-row">
+                  <label class="subcategory-label">{{ subCategory }}</label>
+                  <input type="checkbox" [formControlName]="i" />
+                </div>
+              </div>
+              <div class="col-7"></div>
+            </div>
+          </div>
+        </div>
+        <button type="button" id="cancel-save" data-cy="saleCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon> <span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="createSale"
+          data-cy="saleCreateButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary post-button"
+        >
+          <fa-icon icon="save"></fa-icon> <span>Submit</span>
+        </button>
+      </div>
+      <br />
+    </div>
+    <!--<button type="submit" data-cy="saleSubmit">Create</button> -->
+  </form>
+</div>

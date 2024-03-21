@@ -24,4 +24,60 @@ export interface IItem {
   shop?: Pick<IShop, 'id'> | null;
 }
 
+export interface SSale {
+  onlineA?: boolean | null;
+  emailA?: boolean | null;
+  message?: string | null;
+  timeDays?: number | null;
+  timeHours?: number | null;
+  saleAmount?: number | null;
+  itemType?: ItemType | null;
+  subCategory?: string[] | null;
+  gender?: Gender | null;
+  shop?: Pick<IShop, 'id'> | null;
+}
+
 export type NewItem = Omit<IItem, 'id'> & { id: null };
+
+export type SubCategoryOptions = {
+  [K in ItemType]: K extends ItemType.CLOTHING ? { [G in Gender]: string[] } : string[];
+};
+
+export const subCategoryOptions: SubCategoryOptions = {
+  [ItemType.CLOTHING]: {
+    [Gender.MALE]: [
+      'Coats & Jackets',
+      'Hoodies & Sweatshirts',
+      'Jeans & Trousers',
+      'Knitwear',
+      'Shirts & Tops',
+      'Suits & Sets',
+      'Accessories',
+    ],
+    [Gender.FEMALE]: [
+      'Coats & Jackets',
+      'Dresses',
+      'Hoodies & Sweatshirts',
+      'Jeans',
+      'Jumpsuits & Playsuits',
+      'Knitwear',
+      'Shirts & Blouses',
+      'Skirts',
+      'Trousers and Leggings',
+    ],
+    [Gender.UNISEX]: ['Accessories', 'Coats & Jackets', 'Hoodies & Sweatshirts', 'Jumpsuits & Dungarees', 'Knitwear', 'Shoes & Boots'],
+  },
+  [ItemType.TOY]: ['Board Games', 'Dolls & Soft Toys', 'Jigsaws', 'Models', 'Action Figures'],
+  [ItemType.BOOK]: [
+    'Art & Photography',
+    'Academic',
+    'Biographies',
+    'History',
+    'Non-Fiction',
+    'Fiction',
+    'Children',
+    'Comic & Graphic Novels',
+  ],
+  [ItemType.HOMEWARE]: ['Antiques', 'Ceramic', 'Glassware', 'Metalware', 'Sewing, Knitting', 'Silverware'],
+  [ItemType.ENTERTAINMENT]: ['CDs', 'DVD', 'Bluray', 'Cassette', 'Vinyl', 'Video Games'],
+};

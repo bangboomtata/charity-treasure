@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
@@ -7,7 +7,7 @@ import dayjs from 'dayjs/esm';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IItem, NewItem } from '../item.model';
+import { IItem, NewItem, SSale } from '../item.model';
 
 export type PartialUpdateItem = Partial<IItem> & Pick<IItem, 'id'>;
 
@@ -40,6 +40,16 @@ export class ItemService {
     return this.http
       .put<RestItem>(`${this.resourceUrl}/${this.getItemIdentifier(item)}`, copy, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
+  }
+
+  createSale(sale: SSale): Observable<HttpResponse<boolean>> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      observe: 'response' as const,
+    };
+    return this.http.patch<boolean>(this.applicationConfigService.getEndpointFor('api/items/sale'), sale, httpOptions);
   }
 
   partialUpdate(item: PartialUpdateItem): Observable<EntityResponseType> {

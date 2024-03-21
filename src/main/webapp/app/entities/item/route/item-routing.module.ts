@@ -7,6 +7,7 @@ import { ItemDetailComponent } from '../detail/item-detail.component';
 import { ItemUpdateComponent } from '../update/item-update.component';
 import { ItemRoutingResolveService } from './item-routing-resolve.service';
 import { ASC } from 'app/config/navigation.constants';
+import { SaleComponent } from '../sale/sale.component';
 
 const itemRoute: Routes = [
   {
@@ -16,6 +17,10 @@ const itemRoute: Routes = [
       defaultSort: 'id,' + ASC,
     },
     canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'sale',
+    component: SaleComponent,
   },
   {
     path: ':id/view',
