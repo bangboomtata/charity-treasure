@@ -16,6 +16,7 @@ import { Location } from 'app/entities/enumerations/location.model';
 
 @Component({
   selector: 'jhi-event-update',
+  styleUrls: ['event-update.component.scss'],
   templateUrl: './event-update.component.html',
 })
 export class EventUpdateComponent implements OnInit {

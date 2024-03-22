@@ -129,6 +129,13 @@
             <span> {{ event.eventDate | formatMediumDate }}</span>
           </dd>
 
+          <div class="event-end-date-div" *ngIf="event.eventEndDate">
+            <dt><span>Event End Date</span></dt>
+            <dd>
+              <span>{{ event.eventEndDate | formatMediumDate }}</span>
+            </dd>
+          </div>
+
           <dt><span>Event Time: &nbsp; </span></dt>
           <dd>
             <span> {{ event.eventTime }}</span>
@@ -164,12 +171,29 @@
             <span> {{ event.eventEmail }}</span>
           </dd>
 
+          <!--        <dt><span>Event Image: &nbsp; </span></dt> -->
+
+          <dd>
+            <div *ngIf="event.eventImage">
+              <a (click)="openFile(event.eventImage, event.eventImageContentType)">
+                <img
+                  [src]="'data:' + event.eventImageContentType + ';base64,' + event.eventImage"
+                  style="margin-left: 200px; width: 50%"
+                  alt="event image"
+                />
+              </a>
+              <!--  {{ event.eventImageContentType }}, {{ byteSize(event.eventImage) }} -->
+            </div>
+          </dd>
+
+          <!--
           <dt><span>Shop: &nbsp; </span></dt>
           <dd>
             <div *ngIf="event.shop">
               <a [routerLink]="['/shop', event.shop.id, 'view']">{{ event.shop.id }}</a>
             </div>
           </dd>
+          -->
         </dl>
       </div>
 

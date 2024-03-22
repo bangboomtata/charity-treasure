@@ -1,7 +1,9 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-event-heading" data-cy="EventCreateUpdateHeading">Create or edit a Event</h2>
+      <h2 id="jhi-event-heading" data-cy="EventCreateUpdateHeading" style="text-align: center; color: #000080">Create or edit a Event</h2>
+
+      <hr style="background-color: #ff6961; border: 0; height: 4px; opacity: 1" />
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -19,7 +21,7 @@
           </div>
         </div>
 
-        <div class="row mb-3">
+        <div class="form-text-box-1">
           <label class="form-label" for="field_eventDate">Event Date</label>
           <div class="input-group">
             <input
@@ -37,6 +39,68 @@
           <div *ngIf="editForm.get('eventDate')!.invalid && (editForm.get('eventDate')!.dirty || editForm.get('eventDate')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('eventDate')?.errors?.required"> This field is required. </small>
           </div>
+        </div>
+
+        <div class="form-text-box-1">
+          <label class="form-label" for="field_eventEndDate">Event End Date (If event runs for more than 1 day)</label>
+          <div class="input-group">
+            <input
+              id="field_eventEndDate"
+              data-cy="eventEndDate"
+              type="text"
+              class="form-control"
+              name="eventEndDate"
+              ngbDatepicker
+              #eventEndDateDp="ngbDatepicker"
+              formControlName="eventEndDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="eventEndDateDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-text-box-1">
+          <label class="form-label" for="field_eventLocation">Event Location (General location, select from option)</label>
+          <select
+            class="form-control"
+            name="eventLocation"
+            formControlName="eventLocation"
+            id="field_eventLocation"
+            data-cy="eventLocation"
+          >
+            <option [ngValue]="null"></option>
+            <option *ngFor="let location of locationValues" [value]="location">{{ location }}</option>
+          </select>
+        </div>
+
+        <div class="form-text-box-1">
+          <label class="form-label" for="field_eventCity">Event City</label>
+          <input type="text" class="form-control" name="eventCity" id="field_eventCity" data-cy="eventCity" formControlName="eventCity" />
+          <div *ngIf="editForm.get('eventCity')!.invalid && (editForm.get('eventCity')!.dirty || editForm.get('eventCity')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('eventCity')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventAddress">Event Address</label>
+          <textarea
+            class="form-control"
+            name="eventAddress"
+            id="field_eventAddress"
+            data-cy="eventAddress"
+            formControlName="eventAddress"
+          ></textarea>
+          <div
+            *ngIf="editForm.get('eventAddress')!.invalid && (editForm.get('eventAddress')!.dirty || editForm.get('eventAddress')!.touched)"
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('eventAddress')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-text-box-1">
+          <label class="form-label" for="field_eventTime">Event Time</label>
+          <input type="text" class="form-control" name="eventTime" id="field_eventTime" data-cy="eventTime" formControlName="eventTime" />
         </div>
 
         <div class="row mb-3">
@@ -60,50 +124,7 @@
           </div>
         </div>
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_eventAddress">Event Address</label>
-          <textarea
-            class="form-control"
-            name="eventAddress"
-            id="field_eventAddress"
-            data-cy="eventAddress"
-            formControlName="eventAddress"
-          ></textarea>
-          <div
-            *ngIf="editForm.get('eventAddress')!.invalid && (editForm.get('eventAddress')!.dirty || editForm.get('eventAddress')!.touched)"
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('eventAddress')?.errors?.required"> This field is required. </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_eventLocation">Event Location</label>
-          <select
-            class="form-control"
-            name="eventLocation"
-            formControlName="eventLocation"
-            id="field_eventLocation"
-            data-cy="eventLocation"
-          >
-            <option [ngValue]="null"></option>
-            <option *ngFor="let location of locationValues" [value]="location">{{ location }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_eventCity">Event City</label>
-          <input type="text" class="form-control" name="eventCity" id="field_eventCity" data-cy="eventCity" formControlName="eventCity" />
-          <div *ngIf="editForm.get('eventCity')!.invalid && (editForm.get('eventCity')!.dirty || editForm.get('eventCity')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('eventCity')?.errors?.required"> This field is required. </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_eventTime">Event Time</label>
-          <input type="text" class="form-control" name="eventTime" id="field_eventTime" data-cy="eventTime" formControlName="eventTime" />
-        </div>
-
-        <div class="row mb-3">
+        <div class="form-text-box-1">
           <label class="form-label" for="field_contactNumber">Contact Number</label>
           <input
             type="text"
@@ -171,25 +192,6 @@
             id="field_eventImageContentType"
             formControlName="eventImageContentType"
           />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_eventEndDate">Event End Date</label>
-          <div class="input-group">
-            <input
-              id="field_eventEndDate"
-              data-cy="eventEndDate"
-              type="text"
-              class="form-control"
-              name="eventEndDate"
-              ngbDatepicker
-              #eventEndDateDp="ngbDatepicker"
-              formControlName="eventEndDate"
-            />
-            <button type="button" class="btn btn-secondary" (click)="eventEndDateDp.toggle()">
-              <fa-icon icon="calendar-alt"></fa-icon>
-            </button>
-          </div>
         </div>
 
         <div class="row mb-3">
