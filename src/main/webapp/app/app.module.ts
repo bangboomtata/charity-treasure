@@ -26,6 +26,8 @@ import { ErrorComponent } from './layouts/error/error.component';
 
 // new import library
 import 'leaflet/dist/leaflet.js';
+import 'leaflet.fullscreen';
+import { ItemUploadSuccessComponent } from './item-upload-success/item-upload-success.component';
 
 @NgModule({
   imports: [
@@ -45,7 +47,7 @@ import 'leaflet/dist/leaflet.js';
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
   ],
-  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
+  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent, ItemUploadSuccessComponent],
   bootstrap: [MainComponent],
 })
 export class AppModule {

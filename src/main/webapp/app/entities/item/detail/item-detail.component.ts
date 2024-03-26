@@ -7,6 +7,7 @@ import { DataUtils } from 'app/core/util/data-util.service';
 @Component({
   selector: 'jhi-item-detail',
   templateUrl: './item-detail.component.html',
+  styleUrls: ['./item-detail.component.scss'],
 })
 export class ItemDetailComponent implements OnInit {
   item: IItem | null = null;

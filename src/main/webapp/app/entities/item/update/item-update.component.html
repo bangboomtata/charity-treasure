@@ -75,8 +75,7 @@
               id="field_itemDescription"
               data-cy="itemDescription"
               formControlName="itemDescription"
-            ></textarea
-            >>
+            ></textarea>
           </div>
         </div>
 
@@ -155,38 +154,53 @@
         <!--        </div>-->
 
         <div class="row mb-3">
-          <label class="form-label" for="field_itemImage">Item Image</label>
-          <div>
-            <img
-              [src]="'data:' + editForm.get('itemImageContentType')!.value + ';base64,' + editForm.get('itemImage')!.value"
-              style="max-height: 100px"
-              *ngIf="editForm.get('itemImage')!.value"
-              alt="item image"
-            />
-            <div *ngIf="editForm.get('itemImage')!.value" class="form-text text-danger clearfix">
-              <span class="pull-start"
-                >{{ editForm.get('itemImageContentType')!.value }}, {{ byteSize(editForm.get('itemImage')!.value!) }}</span
-              >
-              <button
-                type="button"
-                (click)="clearInputImage('itemImage', 'itemImageContentType', 'file_itemImage')"
-                class="btn btn-secondary btn-xs pull-end"
-              >
-                <fa-icon icon="times"></fa-icon>
-              </button>
+          <div class="col">
+            <label class="form-label" for="field_itemImage">Item Image</label>
+            <div>
+              <img
+                [src]="'data:' + editForm.get('itemImageContentType')!.value + ';base64,' + editForm.get('itemImage')!.value"
+                style="max-height: 100px"
+                *ngIf="editForm.get('itemImage')!.value"
+                alt="item image"
+              />
+              <div *ngIf="editForm.get('itemImage')!.value" class="form-text text-danger clearfix">
+                <span class="pull-start"
+                  >{{ editForm.get('itemImageContentType')!.value }}, {{ byteSize(editForm.get('itemImage')!.value!) }}</span
+                >
+                <button
+                  type="button"
+                  (click)="clearInputImage('itemImage', 'itemImageContentType', 'file_itemImage')"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+              <input
+                type="file"
+                id="file_itemImage"
+                data-cy="itemImage"
+                (change)="setFileData($event, 'itemImage', true)"
+                accept="image/*"
+              />
             </div>
-            <input type="file" id="file_itemImage" data-cy="itemImage" (change)="setFileData($event, 'itemImage', true)" accept="image/*" />
-          </div>
-          <input type="hidden" class="form-control" name="itemImage" id="field_itemImage" data-cy="itemImage" formControlName="itemImage" />
-          <input
-            type="hidden"
-            class="form-control"
-            name="itemImageContentType"
-            id="field_itemImageContentType"
-            formControlName="itemImageContentType"
-          />
-          <div *ngIf="editForm.get('itemImage')!.invalid && (editForm.get('itemImage')!.dirty || editForm.get('itemImage')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('itemImage')?.errors?.required"> This field is required. </small>
+            <input
+              type="hidden"
+              class="form-control"
+              name="itemImage"
+              id="field_itemImage"
+              data-cy="itemImage"
+              formControlName="itemImage"
+            />
+            <input
+              type="hidden"
+              class="form-control"
+              name="itemImageContentType"
+              id="field_itemImageContentType"
+              formControlName="itemImageContentType"
+            />
+            <div *ngIf="editForm.get('itemImage')!.invalid && (editForm.get('itemImage')!.dirty || editForm.get('itemImage')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('itemImage')?.errors?.required"> This field is required. </small>
+            </div>
           </div>
         </div>
 
@@ -202,29 +216,36 @@
         <!--          />-->
         <!--        </div>-->
 
-        <!--        <div class="row mb-3">-->
-        <!--          <label class="form-label" for="field_shop">Shop</label>-->
-        <!--          <select class="form-control" id="field_shop" data-cy="shop" name="shop" formControlName="shop" [compareWith]="compareShop">-->
-        <!--            <option [ngValue]="null"></option>-->
-        <!--            <option [ngValue]="shopOption" *ngFor="let shopOption of shopsSharedCollection">{{ shopOption.id }}</option>-->
-        <!--          </select>-->
-        <!--        </div>-->
-      </div>
+        <!-- <div class="row mb-3">
+          <label class="form-label" for="field_shop">Shop</label>
+          <select class="form-control" id="field_shop" data-cy="shop" name="shop" formControlName="shop" [compareWith]="compareShop">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="shopOption" *ngFor="let shopOption of shopsSharedCollection">{{ shopOption.id }}</option>
+          </select>
+        </div> -->
+        <div class="row">
+          <div class="col text-center">
+            <button
+              type="button"
+              id="cancel-save"
+              data-cy="entityCreateCancelButton"
+              class="btn btn-secondary back-button"
+              (click)="previousState()"
+            >
+              <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+            </button>
 
-      <div>
-        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
-        </button>
-
-        <button
-          type="submit"
-          id="upload-entity"
-          data-cy="entityCreateUploadButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary post-button"
-        >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span>Upload</span>
-        </button>
+            <button
+              type="submit"
+              id="upload-entity"
+              data-cy="entityCreateUploadButton"
+              [disabled]="editForm.invalid || isSaving"
+              class="btn btn-primary edit-button"
+            >
+              <fa-icon icon="save"></fa-icon>&nbsp;<span>Upload</span>
+            </button>
+          </div>
+        </div>
       </div>
     </form>
   </div>

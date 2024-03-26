@@ -3,6 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { ItemFormService, ItemFormGroup } from './item-form.service';
 import { IItem } from '../item.model';
@@ -16,6 +17,7 @@ import { ShopService } from 'app/entities/shop/service/shop.service';
 import { Gender } from 'app/entities/enumerations/gender.model';
 import { Condition } from 'app/entities/enumerations/condition.model';
 import { ItemType } from 'app/entities/enumerations/item-type.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-item-update',
@@ -23,6 +25,7 @@ import { ItemType } from 'app/entities/enumerations/item-type.model';
   templateUrl: './item-update.component.html',
 })
 export class ItemUpdateComponent implements OnInit {
+  currentShopId: number | null = null;
   isSaving = false;
   item: IItem | null = null;
   genderValues = Object.values(Gender);
@@ -42,7 +45,9 @@ export class ItemUpdateComponent implements OnInit {
     protected itemFormService: ItemFormService,
     protected shopService: ShopService,
     protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected router: Router,
+    protected accountService: AccountService
   ) {}
 
   shouldShowGender(itemType: string | null | undefined): boolean {
@@ -78,6 +83,21 @@ export class ItemUpdateComponent implements OnInit {
         }
       });
       this.loadRelationshipsOptions();
+    });
+
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getShop().subscribe(fetchedShop => {
+          if (fetchedShop) {
+            console.log('Shop ID: ', fetchedShop.id);
+            this.currentShopId = fetchedShop.id;
+
+            this.editForm.patchValue({
+              shop: fetchedShop,
+            });
+          }
+        });
+      }
     });
   }
 
@@ -128,7 +148,7 @@ export class ItemUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    this.router.navigate(['/item-upload-success']);
   }
 
   protected onSaveError(): void {

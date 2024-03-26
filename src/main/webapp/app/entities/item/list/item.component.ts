@@ -11,14 +11,17 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, ItemService } from '../service/item.service';
 import { ItemDeleteDialogComponent } from '../delete/item-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
-import dayjs from "dayjs/esm";
+import { AccountService } from 'app/core/auth/account.service';
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-item',
   templateUrl: './item.component.html',
-  styleUrls: ['./item.component.css'],
+  styleUrls: ['./item.component.scss'],
 })
 export class ItemComponent implements OnInit {
+  currentShopId: number | null = null;
+  selectedCategory = 'ALL';
   items?: IItem[];
   isLoading = false;
 
@@ -34,12 +37,23 @@ export class ItemComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected dataUtils: DataUtils,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected accountService: AccountService
   ) {}
 
   trackId = (_index: number, item: IItem): number => this.itemService.getItemIdentifier(item);
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getShop().subscribe(shop => {
+          if (shop) {
+            console.log('Shop ID: ', shop.id);
+            this.currentShopId = shop.id;
+          }
+        });
+      }
+    });
     this.load();
   }
 
@@ -95,8 +109,6 @@ export class ItemComponent implements OnInit {
     });
   }
 
-
-
   updateSaleFlags(items: IItem[]) {}
 
   navigateToWithComponentValues(): void {
@@ -130,24 +142,6 @@ export class ItemComponent implements OnInit {
 
   protected fillComponentAttributesFromResponseBody(data: IItem[] | null): IItem[] {
     return data ?? [];
-  }
-
-  getPriceParts(shownPrice: string | null | undefined): { originalPrice: string; discountedPrice: string; discountPercentage: string } {
-    if (shownPrice === null || shownPrice === undefined) {
-      return { originalPrice: '', discountedPrice: '', discountPercentage: '' }; // Handle null or undefined by returning empty parts
-    }
-
-    // Split the string by spaces to separate the parts
-    const parts = shownPrice.split(' ');
-    if (parts.length === 3) {
-      return {
-        originalPrice: parts[0],
-        discountedPrice: parts[1],
-        discountPercentage: parts[2],
-      };
-    }
-
-    return { originalPrice: '', discountedPrice: '', discountPercentage: '' }; // Return empty parts if the format doesn't match
   }
 
   protected fillComponentAttributesFromResponseHeader(headers: HttpHeaders): void {

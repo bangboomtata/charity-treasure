@@ -1,0 +1,119 @@
+$main-pink: #ff6961;
+$second-pink: #ffe7e7;
+$main-blue: #000080;
+
+.main-box {
+  height: 500px;
+
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 8px; // Adjust the width of the scrollbar as needed
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $main-pink; // Color of the scrollbar thumb
+    border-radius: 6px; // Adjust the border radius as needed
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #ffc1c1; // Color of the scrollbar track
+    border-radius: 8px; // Adjust the border radius as needed
+  }
+}
+
+.productDisplay {
+  padding: 10px 10px;
+}
+
+.rowContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: auto;
+
+  .productCard {
+    margin: 2.5%;
+  }
+}
+
+div.productCard {
+  background-color: white;
+  margin-top: 30px;
+  height: 250px;
+  width: calc(20%);
+  border-radius: 7px;
+  overflow: hidden;
+  transition: 1s ease;
+  background-position: center;
+  background-size: 0;
+  border: $main-pink 2px solid;
+  box-shadow: 0 4px 8px $main-pink;
+
+  &:hover {
+    background: radial-gradient(circle, $second-pink 50%, transparent 50%);
+    background-size: 300%;
+    background-position: center;
+
+    cursor: pointer;
+  }
+}
+
+h2.page_title {
+  margin: 5px auto;
+  width: 200px;
+  text-align: center;
+}
+
+.card-img {
+  height: 70%;
+  width: auto;
+  margin: 0;
+
+  img {
+    height: 100%;
+    margin: 0 auto;
+  }
+}
+
+.card-details {
+  margin: 0;
+  padding: 0px 15px;
+}
+
+.card-name {
+  color: $main-blue;
+  font-size: 1.5rem;
+}
+
+.card-name,
+.card-price {
+  margin: 0px;
+  overflow: hidden;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.card-price {
+  color: $main-pink;
+}
+
+select {
+  background-color: $second-pink;
+  height: 100%;
+  padding: 7px;
+  margin-right: 8px;
+  border: none;
+  border-radius: 6px;
+
+  option:hover {
+    background-color: #ffc1c1;
+  }
+}
