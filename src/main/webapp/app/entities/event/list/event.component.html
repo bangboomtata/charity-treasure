@@ -35,6 +35,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-event"
         [routerLink]="['/event/new']"
+        *jhiHasAnyAuthority="'ROLE_ADMIN'"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Create a new Event </span>
@@ -207,7 +208,7 @@
         <div class="text-end">
           <!-- Add button to add to interested events here -->
 
-          <div class="btn-group">
+          <div class="btn-group" *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <!--
             <button type="button" class="add-event-to-interested-events">
               <span>I'm Interested</span>

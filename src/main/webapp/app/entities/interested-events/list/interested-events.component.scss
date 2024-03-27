@@ -16,13 +16,16 @@
 }
 
 .button-from-interested-events-to-events {
-  margin-right: 25px;
+  //margin-right: 25px;
+  position: absolute;
+  left: 200px;
   font-size: 15px;
   border-radius: 20px;
   background-color: #ffc9c9;
   font-weight: bold;
   border: none;
   min-width: 50px;
+  height: 37px;
 }
 
 .button-from-interested-events-to-events:hover {
@@ -31,10 +34,13 @@
 }
 
 .interested-events-reload {
-  margin-right: 700px;
+  //margin-right: 700px;
+  position: absolute;
+  left: 300px;
   font-size: 15px;
   font-weight: bold;
   border-radius: 20px;
   background-color: #ff6961;
   border: none;
+  height: 37px;
 }

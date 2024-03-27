@@ -23,7 +23,9 @@
 }
 
 .button-to-interested-events {
-  margin-right: 475px;
+  //margin-right: 475px;
+  position: absolute;
+  left: 325px;
   font-size: 15px;
   border-radius: 20px;
   font-weight: bold;
@@ -39,8 +41,10 @@
 }
 
 .events-reload-btn {
-  margin-left: 10px;
-  margin-right: 25px;
+  //margin-left: 10px;
+  //margin-right: 25px;
+  position: absolute;
+  left: 200px;
   font-size: 15px;
   border-radius: 20px;
   background-color: #ff6961;
