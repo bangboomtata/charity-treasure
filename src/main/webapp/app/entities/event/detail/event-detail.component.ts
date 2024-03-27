@@ -13,6 +13,9 @@ import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 
+import { AccountService } from '../../../core/auth/account.service';
+import { ICustomer } from '../../customer/customer.model';
+
 @Component({
   selector: 'jhi-event-detail',
   styleUrls: ['event-detail.component.scss'],
@@ -25,16 +28,29 @@ export class EventDetailComponent implements OnInit {
   interestedEventDetails: InterestedEventsFormGroup = this.interestedEventsFormService.createInterestedEventsFormGroup();
   isSaving = false;
 
+  customer: ICustomer | null = null;
+
   constructor(
     protected dataUtils: DataUtils,
     protected activatedRoute: ActivatedRoute,
     protected interestedEventsService: InterestedEventsService,
-    protected interestedEventsFormService: InterestedEventsFormService
+    protected interestedEventsFormService: InterestedEventsFormService,
+    protected accountService: AccountService
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ event }) => {
       this.event = event;
+    });
+
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getCustomer().subscribe(customer => {
+          if (customer) {
+            this.customer = customer;
+          }
+        });
+      }
     });
   }
 
@@ -55,6 +71,11 @@ export class EventDetailComponent implements OnInit {
     this.interestedEventDetails.patchValue({
       event: this.event,
     });
+
+    this.interestedEventDetails.patchValue({
+      user: this.customer,
+    });
+
     const interestedEvent = this.interestedEventsFormService.getInterestedEvents(this.interestedEventDetails);
     if (interestedEvent.id == null) {
       this.subscribeToSaveResponse2(this.interestedEventsService.create(interestedEvent));
