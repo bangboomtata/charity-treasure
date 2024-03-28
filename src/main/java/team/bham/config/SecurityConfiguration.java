@@ -60,7 +60,7 @@ public class SecurityConfiguration {
                 .accessDeniedHandler(problemSupport)
         .and()
             .headers()
-                .contentSecurityPolicy(jHipsterProperties.getSecurity().getContentSecurityPolicy())
+                .contentSecurityPolicy(jHipsterProperties.getSecurity().getContentSecurityPolicy() + " img-src 'self' data: https://tile.openstreetmap.org;")
             .and()
                 .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
             .and()
