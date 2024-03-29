@@ -173,6 +173,13 @@
 
           <!--        <dt><span>Event Image: &nbsp; </span></dt> -->
 
+          <dt><span>Shop: &nbsp; </span></dt>
+          <dd>
+            <div *ngIf="event.shop">
+              <a [routerLink]="['/shop', event.shop.id, 'view']">{{ event.shop.id }}</a>
+            </div>
+          </dd>
+
           <dd>
             <div *ngIf="event.eventImage">
               <a (click)="openFile(event.eventImage, event.eventImageContentType)">

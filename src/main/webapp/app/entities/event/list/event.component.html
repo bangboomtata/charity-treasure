@@ -20,15 +20,29 @@
         <span>Refresh list</span>
       </button>
       -->
-      <label class="location-dropdown-label">Location</label>
-      <select class="location-dropdown-box" id="field_eventLocation_dropdown" onchange="filterLocation()">
-        <option [ngValue]="null"></option>
-        <option *ngFor="let location of locationValues" [value]="location">{{ location }}</option>
-      </select>
+      <ng-container *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <label class="events-by-shop-label">Filter My Events</label>
+        <select class="events-by-shop-dropdown" id="event_by_shop" onchange="filterByShop()">
+          <option value="all">All</option>
+          <option value="myEvents">My Events</option>
+        </select>
 
-      <button class="location-filter-reload-button" (click)="load()" [disabled]="isLoading">
-        <span>Filter</span>
-      </button>
+        <button class="event-filter-reload-button" (click)="load()" [disabled]="isLoading">
+          <span>Filter</span>
+        </button>
+      </ng-container>
+
+      <ng-container *jhiHasAnyAuthority="'ROLE_USER'">
+        <label class="location-dropdown-label">Location</label>
+        <select class="location-dropdown-box" id="field_eventLocation_dropdown" onchange="filterLocation()">
+          <option [ngValue]="null"></option>
+          <option *ngFor="let location of locationValues" [value]="location">{{ location }}</option>
+        </select>
+
+        <button class="location-filter-reload-button" (click)="load()" [disabled]="isLoading">
+          <span>Filter</span>
+        </button>
+      </ng-container>
 
       <button
         id="jh-create-entity"
