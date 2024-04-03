@@ -1,0 +1,82 @@
+$main-pink: #ff6961;
+$second-pink: #ffe9e7;
+$main-blue: #000080;
+
+.selection-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.selection-overlay img {
+  margin: 0 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.selection-overlay img:hover {
+  transform: scale(1.05);
+}
+
+.blurred {
+  filter: blur(5px);
+}
+
+.form-title-p {
+  font-weight: bold;
+  color: $main-pink;
+  font-size: 50px;
+}
+
+.form-container {
+  width: 100%;
+}
+
+.form-class {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input {
+  max-width: 400px;
+}
+
+.label-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.change-role-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  // could change width not sure
+  width: 40%;
+  border-radius: 8px;
+  background-color: #ffd2d2;
+  padding: 30px;
+  transition: filter 0.3s ease;
+}
+
+.container-fill {
+  height: 750px;
+}
+
+.row-divider {
+  height: 10px;
+}
