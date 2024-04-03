@@ -144,6 +144,24 @@ export class ItemComponent implements OnInit {
     return data ?? [];
   }
 
+  getPriceParts(shownPrice: string | null | undefined): { originalPrice: string; discountedPrice: string; discountPercentage: string } {
+    if (shownPrice === null || shownPrice === undefined) {
+      return { originalPrice: '', discountedPrice: '', discountPercentage: '' }; // Handle null or undefined by returning empty parts
+    }
+
+    // Split the string by spaces to separate the parts
+    const parts = shownPrice.split(' ');
+    if (parts.length === 3) {
+      return {
+        originalPrice: parts[0],
+        discountedPrice: parts[1],
+        discountPercentage: parts[2],
+      };
+    }
+
+    return { originalPrice: '', discountedPrice: '', discountPercentage: '' }; // Return empty parts if the format doesn't match
+  }
+
   protected fillComponentAttributesFromResponseHeader(headers: HttpHeaders): void {
     this.totalItems = Number(headers.get(TOTAL_COUNT_RESPONSE_HEADER));
   }

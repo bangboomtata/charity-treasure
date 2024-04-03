@@ -37,6 +37,10 @@ $main-blue: #000080;
   }
 }
 
+.row-divider {
+  height: 10px;
+}
+
 div.productCard {
   background-color: white;
   margin-top: 30px;
@@ -103,6 +107,18 @@ h2.page_title {
 
 .card-price {
   color: $main-pink;
+}
+
+.card-price .original-price {
+  text-decoration: line-through;
+}
+
+.card-price .discounted-price {
+  color: red;
+}
+
+.card-price .discount-percentage {
+  color: red;
 }
 
 select {

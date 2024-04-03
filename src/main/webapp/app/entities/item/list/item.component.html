@@ -24,6 +24,7 @@
       [routerLink]="['/item/new']"
       *jhiHasAnyAuthority="'ROLE_ADMIN'"
     >
+      <!-- shouldn't have role admin for this -->
       <fa-icon icon="plus"></fa-icon>
       <span> Create a new Item </span>
     </button>
@@ -286,7 +287,14 @@
               </div>
               <div class="card-details">
                 <p class="card-name">{{ item.itemName }}</p>
-                <p class="card-price">£{{ item.shownPrice }}</p>
+                <div *ngIf="item.saleFlag; else notOnSale" class="card-price">
+                  <span class="original-price">{{ getPriceParts(item.shownPrice).originalPrice }}</span>
+                  <span class="discounted-price">{{ getPriceParts(item.shownPrice).discountedPrice }}</span>
+                  <span class="discount-percentage">{{ getPriceParts(item.shownPrice).discountPercentage }}</span>
+                </div>
+                <ng-template #notOnSale>
+                  <p class="card-price">£{{ item.shownPrice }}</p>
+                </ng-template>
               </div>
             </div>
           </ng-container>
@@ -299,8 +307,19 @@
             </div>
             <div class="card-details">
               <p class="card-name">{{ item.itemName }}</p>
-              <p class="card-price">£{{ item.shownPrice }}</p>
+              <div *ngIf="item.saleFlag; else notOnSale" class="card-price">
+                <span class="original-price">{{ getPriceParts(item.shownPrice).originalPrice }}</span>
+                <span class="discounted-price">{{ getPriceParts(item.shownPrice).discountedPrice }}</span>
+                <span class="discount-percentage">{{ getPriceParts(item.shownPrice).discountPercentage }}</span>
+              </div>
+              <ng-template #notOnSale>
+                <p class="card-price">£{{ item.shownPrice }}</p>
+              </ng-template>
             </div>
+            <!--            <div class="card-details">-->
+            <!--              <p class="card-name">{{ item.itemName }}</p>-->
+            <!--              <p class="card-price">£{{ item.shownPrice }}</p>-->
+            <!--            </div>-->
           </div>
         </ng-template>
       </div>
