@@ -13,6 +13,8 @@ import { EventDeleteDialogComponent } from '../delete/event-delete-dialog.compon
 import { DataUtils } from 'app/core/util/data-util.service';
 
 import { Location } from '../../enumerations/location.model';
+import { AccountService } from '../../../core/auth/account.service';
+import { IShop } from '../../shop/shop.model';
 
 @Component({
   selector: 'jhi-event',
@@ -33,17 +35,30 @@ export class EventComponent implements OnInit {
   locationValues = Object.keys(Location);
   filteredEvents?: IEvent[];
 
+  shopId: number | null = null;
+
   constructor(
     protected eventService: EventService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected dataUtils: DataUtils,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected accountService: AccountService
   ) {}
 
   trackId = (_index: number, item: IEvent): number => this.eventService.getEventIdentifier(item);
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getShop().subscribe(shop => {
+          if (shop) {
+            this.shopId = shop.id;
+          }
+        });
+      }
+    });
+
     this.load();
   }
 
@@ -110,12 +125,21 @@ export class EventComponent implements OnInit {
       this.filteredEvents = this.events?.filter(e => e.eventLocation === x);
     }
   }
+
+  filterByShop() {
+    let y = (<HTMLSelectElement>document.getElementById('event_by_shop')).value;
+    if (y == 'myEvents') {
+      this.filteredEvents = this.events?.filter(event => event.shop?.id === this.shopId);
+    }
+  }
+
   protected onResponseSuccess(response: EntityArrayResponseType): void {
     this.fillComponentAttributesFromResponseHeader(response.headers);
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
     this.events = dataFromBody;
 
     this.filterLocation();
+    this.filterByShop();
   }
 
   protected fillComponentAttributesFromResponseBody(data: IEvent[] | null): IEvent[] {
