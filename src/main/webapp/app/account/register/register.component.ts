@@ -8,6 +8,7 @@ import { RegisterService } from './register.service';
 @Component({
   selector: 'jhi-register',
   templateUrl: './register.component.html',
+  styleUrls: ['register.component.scss'],
 })
 export class RegisterComponent implements AfterViewInit {
   @ViewChild('login', { static: false })
@@ -18,6 +19,7 @@ export class RegisterComponent implements AfterViewInit {
   errorEmailExists = false;
   errorUserExists = false;
   success = false;
+  selectedRole: 'customer' | 'shopkeeper' | null = null;
 
   registerForm = new FormGroup({
     login: new FormControl('', {
@@ -49,6 +51,15 @@ export class RegisterComponent implements AfterViewInit {
     if (this.login) {
       this.login.nativeElement.focus();
     }
+  }
+
+  selectRole(role: 'customer' | 'shopkeeper'): void {
+    this.selectedRole = role;
+  }
+
+  changeRole(): void {
+    this.selectedRole = null;
+    // reset form?
   }
 
   register(): void {

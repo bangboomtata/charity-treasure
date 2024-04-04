@@ -30,11 +30,15 @@ $main-blue: #000080;
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: auto;
+  // gap: auto;
 
   .productCard {
     margin: 2.5%;
   }
+}
+
+.row-divider {
+  height: 10px;
 }
 
 div.productCard {
@@ -98,11 +102,22 @@ h2.page_title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
-  overflow: hidden;
 }
 
 .card-price {
   color: $main-pink;
+}
+
+.card-price .original-price {
+  text-decoration: line-through;
+}
+
+.card-price .discounted-price {
+  color: red;
+}
+
+.card-price .discount-percentage {
+  color: red;
 }
 
 select {
