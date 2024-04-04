@@ -162,27 +162,26 @@
   </div>
 </div>
 
-<div *jhiHasAnyAuthority="'ROLE_ADMIN'">
-  <h2 id="page-heading" data-cy="ShopHeading">
+<div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="admin-main-box">
+  <h2 id="page-heading" data-cy="ShopHeading" class="big-title">
     <span>Shops</span>
-
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh list</span>
-      </button>
-
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-shop"
-        [routerLink]="['/shop/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Shop </span>
-      </button>
-    </div>
   </h2>
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+      <span>Refresh list</span>
+    </button>
+
+    <!-- <button
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-shop"
+      [routerLink]="['/shop/new']"
+    >
+      <fa-icon icon="plus"></fa-icon>
+      <span> Create a new Shop </span>
+    </button> -->
+  </div>
 
   <jhi-alert-error></jhi-alert-error>
 
@@ -308,10 +307,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let shop of shops; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/shop', shop.id, 'view']">{{ shop.id }}</a>
-          </td>
+        <tr
+          *ngFor="let shop of shops; trackBy: trackId"
+          data-cy="entityTable"
+          class="admin-tr"
+          (click)="onTableRowClick($event, shop.id.toString())"
+        >
+          <td>{{ shop.id }}</td>
           <td>{{ shop.shopName }}</td>
           <td>{{ shop.contactNum }}</td>
           <td>{{ shop.shopEmail }}</td>
@@ -338,17 +340,35 @@
           </td>
           <td class="text-end">
             <div class="btn-group">
-              <button type="submit" [routerLink]="['/shop', shop.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+              <button
+                type="submit"
+                [routerLink]="['/shop', shop.id, 'view']"
+                (click)="$event.stopPropagation()"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">View</span>
               </button>
 
-              <button type="submit" [routerLink]="['/shop', shop.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <button
+                type="submit"
+                [routerLink]="['/shop', shop.id, 'edit']"
+                (click)="$event.stopPropagation()"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline">Edit</span>
               </button>
 
-              <button type="submit" (click)="delete(shop)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <button
+                type="submit"
+                (click)="delete(shop)"
+                (click)="$event.stopPropagation()"
+                class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton"
+              >
                 <fa-icon icon="times"></fa-icon>
                 <span class="d-none d-md-inline">Delete</span>
               </button>

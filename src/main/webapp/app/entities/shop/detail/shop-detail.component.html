@@ -9,7 +9,119 @@
 
       <jhi-alert></jhi-alert>
 
-      <dl class="row-md jh-entity-details">
+      <div class="row">
+        <div class="col">
+          <h3 class="shop-name">{{ shop.shopName }}</h3>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <p><span class="small-title">Creation Date: </span>{{ shop.creationDate | formatMediumDate }}</p>
+          </div>
+          <div class="col">
+            <p class="shop-id"><span class="small-title">ID: </span>{{ shop.id }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div *ngIf="shop.logo" class="shop-logo">
+            <a (click)="openFile(shop.logo, shop.logoContentType)">
+              <img [src]="'data:' + shop.logoContentType + ';base64,' + shop.logo" style="max-width: 100%" alt="shop image" />
+            </a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col-4 small-title"><p>Charity Shop ID:</p></div>
+              <div class="col">
+                <p>{{ shop.charityShopId }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 small-title"><p>Email:</p></div>
+              <div class="col">
+                <p>{{ shop.shopEmail }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 small-title"><p>Contact Number:</p></div>
+              <div class="col">
+                <p>{{ shop.contactNum }}</p>
+              </div>
+            </div>
+            <div class="row small-title2"><p>Address</p></div>
+            <div class="row">
+              <div class="col-4 small-title"><p>Street:</p></div>
+              <div class="col">
+                <p>{{ shop.street }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 small-title"><p>City:</p></div>
+              <div class="col">
+                <p>{{ shop.city }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 small-title"><p>Post Code:</p></div>
+              <div class="col">
+                <p>{{ shop.postCode }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 small-title"><p>Country:</p></div>
+              <div class="col">
+                <p>{{ shop.country }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row small-title2"><p>Open Hours</p></div>
+            <div class="row">
+              <div class="col small-title"><p>Weekdays:</p></div>
+              <div class="col">
+                <p>{{ shop.openHoursWeekdays }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col small-title"><p>Weekends:</p></div>
+              <div class="col">
+                <p>{{ shop.openHoursWeekends }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col small-title"><p>Public Holidays:</p></div>
+              <div class="col">
+                <p>{{ shop.openHoursHolidays }}</p>
+              </div>
+            </div>
+            <div class="row small-title2"><p>Details</p></div>
+            <div class="row">
+              <div class="col small-title"><p>Rating:</p></div>
+              <div class="col">
+                <p>{{ shop.rating }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col small-title"><p>Duration:</p></div>
+              <div class="col">
+                <p>{{ shop.duration }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col small-title"><p>Distance:</p></div>
+              <div class="col">
+                <p>{{ shop.distance }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="row shop-userID">
+            <p>User: {{ shop.user?.id }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Original template -->
+      <!-- <dl class="row-md jh-entity-details">
         <dt><span>ID</span></dt>
         <dd>
           <span>{{ shop.id }}</span>
@@ -87,15 +199,16 @@
         <dd>
           <span>{{ shop.user?.id }}</span>
         </dd>
-      </dl>
+      </dl> -->
+      <div class="rol btn-row">
+        <button type="submit" (click)="previousState()" class="btn btn-info btn-back" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        </button>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-      </button>
-
-      <button type="button" [routerLink]="['/shop', shop.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-      </button>
+        <button type="button" [routerLink]="['/shop', shop.id, 'edit']" class="btn btn-primary btn-edit">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        </button>
+      </div>
     </div>
   </div>
 </div>

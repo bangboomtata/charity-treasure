@@ -4,7 +4,8 @@ import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as L from 'leaflet';
 import 'leaflet.fullscreen';
-// import '../../../../../../../node_modules/leaflet.fullscreen/Control.FullScreen.css'
+import 'leaflet.locatecontrol';
+import 'leaflet-routing-machine';
 
 import { IShop } from '../shop.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
@@ -25,7 +26,7 @@ export class ShopComponent implements OnInit {
   isLoading = false;
   map?: L.Map;
   mapReady = false;
-  universityCoordinates: [number, number] = [52.4508, -1.9305]; // University of Birmingham's coordinates
+  userLocation: L.LatLngTuple | null = null;
   userURL = '../../../../content/images/userLocationIcon.png';
   iconRetinaUrl = 'assets/marker-icon-2x.png';
   iconUrl = 'assets/marker-icon.png';
@@ -51,7 +52,7 @@ export class ShopComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.initMapForUniversity();
+      this.initMap();
     }, 100); // Adjust the delay as needed
     this.load();
   }
@@ -77,6 +78,14 @@ export class ShopComponent implements OnInit {
           this.onResponseSuccess(res);
         },
       });
+  }
+
+  onTableRowClick(event: MouseEvent, shopId: string) {
+    const target = event.target as HTMLElement;
+    if (!target.matches('.btn')) {
+      // If the click target is not a button, navigate to the view page
+      this.router.navigate(['/shop', shopId, 'view']);
+    }
   }
 
   // Load all the shop location
@@ -166,47 +175,87 @@ export class ShopComponent implements OnInit {
     this.selectedShop = null; // Set selectedShop to null to go back to the non-selected state
   }
 
-  //Initialise Map preset at University of Birmingham
-  protected initMapForUniversity(): void {
-    const tileLayerUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  //Initialize the map and setup real user location data
+  protected initMap(): void {
+    if (navigator.permissions) {
+      navigator.permissions.query({ name: 'geolocation' }).then(permissionStatus => {
+        if (permissionStatus.state === 'granted') {
+          this.getUserLocationAndSetupMap();
+        } else if (permissionStatus.state === 'prompt') {
+          // The user hasn't decided yet, so you may want to show a message asking for permission
+          // You can handle this case according to your UI/UX requirements
+        } else {
+          console.error('Geolocation permission denied.');
+          // Handle permission denied scenario
+        }
+      });
+    } else {
+      console.error('Geolocation permissions API is not supported.');
+      // Handle unsupported browser
+    }
+  }
+
+  protected getUserLocationAndSetupMap(): void {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        this.userLocation = [position.coords.latitude, position.coords.longitude];
+        this.setupMap();
+      },
+      error => {
+        console.error('Error getting user location:', error);
+        // Handle error
+      }
+    );
+  }
+
+  // Set up the map with user's location
+  protected setupMap(): void {
+    const tileLayerUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const tileLayer = L.tileLayer(tileLayerUrl, {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     });
 
     try {
-      // Get the map container element by id
-      const mapElement = document.getElementById('map-container-rectangle') as HTMLDivElement;
-      console.log('Map Element:', mapElement);
+      const mapElement = document.getElementById('map-container-rectangle') as HTMLElement;
       if (!mapElement) {
         console.error('Map container not found.');
+        return;
       }
 
-      // Initialize the map with the University of Birmingham's coordinates
-      this.map = new L.Map(mapElement, {
-        fullscreenControl: true,
-        fullscreenControlOptions: {
-          position: 'topleft',
-          content: '[--]',
-        },
-      }).setView(this.universityCoordinates, 13);
-      tileLayer.addTo(this.map);
-      const universityMarker = L.marker(this.universityCoordinates, {
-        icon: L.icon({
-          iconUrl: this.userURL,
-          shadowUrl: this.shadowUrl,
-          iconSize: [53, 51],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
-          tooltipAnchor: [16, -28],
-          shadowSize: [55, 55],
-          shadowAnchor: [5, 45],
-        }),
-      }).addTo(this.map);
+      if (this.userLocation) {
+        this.map = new L.Map(mapElement, {
+          fullscreenControl: true,
+          fullscreenControlOptions: {
+            position: 'topleft',
+            content: '[--]',
+          },
+        }).setView(this.userLocation, 13);
+        const userMarker = L.marker(this.userLocation, {
+          icon: L.icon({
+            iconUrl: this.userURL,
+            shadowUrl: this.shadowUrl,
+            iconSize: [53, 51],
+            iconAnchor: [12, 41],
+            popupAnchor: [15, -34],
+            tooltipAnchor: [16, -28],
+            shadowSize: [55, 55],
+            shadowAnchor: [5, 45],
+          }),
+        })
+          .addTo(this.map)
+          .bindPopup('User Location')
+          .openPopup();
+      } else {
+        console.error('User location is not available.');
+      }
 
-      // Set the flag to indicate that the map is ready
+      if (this.map) {
+        tileLayer.addTo(this.map);
+      } else {
+        console.error('Map is not initialized.');
+      }
+
       this.mapReady = true;
-      // this.map.addControl(new L.Control.Fullscreen());
-      // Call the method to display all shop locations
       this.displayAllShopLocation();
     } catch (error) {
       console.error('Error initializing map:', error);
@@ -320,6 +369,38 @@ export class ShopComponent implements OnInit {
   protected displaySelectedShopDetails(selectedShop: IShop): void {
     this.selectedShop = selectedShop;
   }
+
+  // protected startRouting(): void {
+  //   if (this.selectedShop && this.userLocation && this.map) {
+  //     L.Routing.control({
+  //       waypoints: [
+  //         L.latLng(this.userLocation[0], this.userLocation[1]),
+  //         L.latLng(this.selectedShop.latitude, this.selectedShop.longitude)
+  //       ],
+  //       routeWhileDragging: true,
+  //       show: true,
+  //       createMarker: function(i, wp, nWps) {
+  //         if (i === 0) {
+  //           // User's location
+  //           return L.marker(wp.latLng, {
+  //             icon: L.icon({
+  //               iconUrl: 'path/to/user-location-icon.png', // Replace with your user location icon
+  //               iconSize: [32, 32],
+  //             })
+  //           });
+  //         } else {
+  //           // Shop's location
+  //           return L.marker(wp.latLng, {
+  //             icon: L.icon({
+  //               iconUrl: 'path/to/shop-icon.png', // Replace with your shop location icon
+  //               iconSize: [32, 32],
+  //             })
+  //           });
+  //         }
+  //       }
+  //     }).addTo(this.map);
+  //   }
+  // }
 
   //Sort By function to sort the arrangement of the map-container-rectangle to see which are the highest rating, nearest distance, shortest duration
   protected sortFilteredShops(): void {
