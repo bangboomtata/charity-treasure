@@ -15,6 +15,7 @@ import { finalize } from 'rxjs/operators';
 
 import { AccountService } from '../../../core/auth/account.service';
 import { ICustomer } from '../../customer/customer.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-event-detail',
@@ -35,7 +36,8 @@ export class EventDetailComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected interestedEventsService: InterestedEventsService,
     protected interestedEventsFormService: InterestedEventsFormService,
-    protected accountService: AccountService
+    protected accountService: AccountService,
+    protected route: Router
   ) {}
 
   ngOnInit(): void {
@@ -90,7 +92,8 @@ export class EventDetailComponent implements OnInit {
   }
 
   protected onSaveSuccess2(): void {
-    this.previousState();
+    //this.previousState();
+    this.route.navigateByUrl('/interested-events');
   }
 
   protected onSaveError2(): void {
