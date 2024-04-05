@@ -13,6 +13,7 @@ import { InterestedEventsDeleteDialogComponent } from '../delete/interested-even
 
 @Component({
   selector: 'jhi-interested-events',
+  styleUrls: ['./interested-events.component.scss'],
   templateUrl: './interested-events.component.html',
 })
 export class InterestedEventsComponent implements OnInit {

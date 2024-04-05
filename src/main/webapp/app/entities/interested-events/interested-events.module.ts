@@ -6,8 +6,10 @@ import { InterestedEventsUpdateComponent } from './update/interested-events-upda
 import { InterestedEventsDeleteDialogComponent } from './delete/interested-events-delete-dialog.component';
 import { InterestedEventsRoutingModule } from './route/interested-events-routing.module';
 
+import { EventRoutingModule } from '../event/route/event-routing.module';
+
 @NgModule({
-  imports: [SharedModule, InterestedEventsRoutingModule],
+  imports: [SharedModule, InterestedEventsRoutingModule, EventRoutingModule],
   declarations: [
     InterestedEventsComponent,
     InterestedEventsDetailComponent,
