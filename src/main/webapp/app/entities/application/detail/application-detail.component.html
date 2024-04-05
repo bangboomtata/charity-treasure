@@ -1,0 +1,124 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="application">
+      <h2 data-cy="applicationDetailsHeading"><span>Application</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ application.id }}</span>
+        </dd>
+        <dt><span>First Name</span></dt>
+        <dd>
+          <span>{{ application.firstName }}</span>
+        </dd>
+        <dt><span>Last Name</span></dt>
+        <dd>
+          <span>{{ application.lastName }}</span>
+        </dd>
+        <dt><span>Contact Num</span></dt>
+        <dd>
+          <span>{{ application.contactNum }}</span>
+        </dd>
+        <dt><span>Email</span></dt>
+        <dd>
+          <span>{{ application.email }}</span>
+        </dd>
+        <dt><span>Date Of Birth</span></dt>
+        <dd>
+          <span>{{ application.dateOfBirth | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Commitment Duration</span></dt>
+        <dd>
+          <span>{{ application.commitmentDuration }}</span>
+        </dd>
+        <dt><span>Volunteer Experience</span></dt>
+        <dd>
+          <span>{{ application.volunteerExperience }}</span>
+        </dd>
+        <dt><span>Relevant Skills</span></dt>
+        <dd>
+          <span>{{ application.relevantSkills }}</span>
+        </dd>
+        <dt><span>Motivation</span></dt>
+        <dd>
+          <span>{{ application.motivation }}</span>
+        </dd>
+        <dt><span>Application Date</span></dt>
+        <dd>
+          <span>{{ application.applicationDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Application Status</span></dt>
+        <dd>
+          <span>{{ application.applicationStatus }}</span>
+        </dd>
+        <dt><span>Applied Monday</span></dt>
+        <dd>
+          <span>{{ application.appliedMonday }}</span>
+        </dd>
+        <dt><span>Applied Tuesday</span></dt>
+        <dd>
+          <span>{{ application.appliedTuesday }}</span>
+        </dd>
+        <dt><span>Applied Wednesday</span></dt>
+        <dd>
+          <span>{{ application.appliedWednesday }}</span>
+        </dd>
+        <dt><span>Applied Thursday</span></dt>
+        <dd>
+          <span>{{ application.appliedThursday }}</span>
+        </dd>
+        <dt><span>Applied Friday</span></dt>
+        <dd>
+          <span>{{ application.appliedFriday }}</span>
+        </dd>
+        <dt><span>Applied Saturday</span></dt>
+        <dd>
+          <span>{{ application.appliedSaturday }}</span>
+        </dd>
+        <dt><span>Applied Sunday</span></dt>
+        <dd>
+          <span>{{ application.appliedSunday }}</span>
+        </dd>
+        <dt><span>Applied Morning</span></dt>
+        <dd>
+          <span>{{ application.appliedMorning }}</span>
+        </dd>
+        <dt><span>Applied Afternoon</span></dt>
+        <dd>
+          <span>{{ application.appliedAfternoon }}</span>
+        </dd>
+        <dt><span>Applied Evening</span></dt>
+        <dd>
+          <span>{{ application.appliedEvening }}</span>
+        </dd>
+        <dt><span>Post</span></dt>
+        <dd>
+          <div *ngIf="application.post">
+            <a [routerLink]="['/volunteer-post', application.post.id, 'view']">{{ application.post.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Customer</span></dt>
+        <dd>
+          <div *ngIf="application.customer">
+            <a [routerLink]="['/customer', application.customer.id, 'view']">{{ application.customer.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/application', application.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

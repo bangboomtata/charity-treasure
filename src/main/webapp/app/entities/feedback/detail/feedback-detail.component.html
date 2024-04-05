@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="feedback">
+      <h2 data-cy="feedbackDetailsHeading"><span>Feedback</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ feedback.id }}</span>
+        </dd>
+        <dt><span>Feedback Text</span></dt>
+        <dd>
+          <span>{{ feedback.feedbackText }}</span>
+        </dd>
+        <dt><span>Time</span></dt>
+        <dd>
+          <span>{{ feedback.time | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Customer</span></dt>
+        <dd>
+          <div *ngIf="feedback.customer">
+            <a [routerLink]="['/customer', feedback.customer.id, 'view']">{{ feedback.customer.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Shop</span></dt>
+        <dd>
+          <div *ngIf="feedback.shop">
+            <a [routerLink]="['/shop', feedback.shop.id, 'view']">{{ feedback.shop.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/feedback', feedback.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

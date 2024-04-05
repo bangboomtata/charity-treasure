@@ -1,0 +1,268 @@
+<div>
+  <h2 id="page-heading" data-cy="ApplicationHeading">
+    <span>Applications</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-application"
+        [routerLink]="['/application/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Application </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="applications?.length === 0">
+    <span>No Applications found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="applications && applications.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="firstName">
+            <div class="d-flex">
+              <span>First Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastName">
+            <div class="d-flex">
+              <span>Last Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="contactNum">
+            <div class="d-flex">
+              <span>Contact Num</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="email">
+            <div class="d-flex">
+              <span>Email</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dateOfBirth">
+            <div class="d-flex">
+              <span>Date Of Birth</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="commitmentDuration">
+            <div class="d-flex">
+              <span>Commitment Duration</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="volunteerExperience">
+            <div class="d-flex">
+              <span>Volunteer Experience</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="relevantSkills">
+            <div class="d-flex">
+              <span>Relevant Skills</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="motivation">
+            <div class="d-flex">
+              <span>Motivation</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="applicationDate">
+            <div class="d-flex">
+              <span>Application Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="applicationStatus">
+            <div class="d-flex">
+              <span>Application Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appliedMonday">
+            <div class="d-flex">
+              <span>Applied Monday</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appliedTuesday">
+            <div class="d-flex">
+              <span>Applied Tuesday</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appliedWednesday">
+            <div class="d-flex">
+              <span>Applied Wednesday</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appliedThursday">
+            <div class="d-flex">
+              <span>Applied Thursday</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appliedFriday">
+            <div class="d-flex">
+              <span>Applied Friday</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appliedSaturday">
+            <div class="d-flex">
+              <span>Applied Saturday</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appliedSunday">
+            <div class="d-flex">
+              <span>Applied Sunday</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appliedMorning">
+            <div class="d-flex">
+              <span>Applied Morning</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appliedAfternoon">
+            <div class="d-flex">
+              <span>Applied Afternoon</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appliedEvening">
+            <div class="d-flex">
+              <span>Applied Evening</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="post.id">
+            <div class="d-flex">
+              <span>Post</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="customer.id">
+            <div class="d-flex">
+              <span>Customer</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let application of applications; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/application', application.id, 'view']">{{ application.id }}</a>
+          </td>
+          <td>{{ application.firstName }}</td>
+          <td>{{ application.lastName }}</td>
+          <td>{{ application.contactNum }}</td>
+          <td>{{ application.email }}</td>
+          <td>{{ application.dateOfBirth | formatMediumDate }}</td>
+          <td>{{ application.commitmentDuration }}</td>
+          <td>{{ application.volunteerExperience }}</td>
+          <td>{{ application.relevantSkills }}</td>
+          <td>{{ application.motivation }}</td>
+          <td>{{ application.applicationDate | formatMediumDate }}</td>
+          <td>{{ application.applicationStatus }}</td>
+          <td>{{ application.appliedMonday }}</td>
+          <td>{{ application.appliedTuesday }}</td>
+          <td>{{ application.appliedWednesday }}</td>
+          <td>{{ application.appliedThursday }}</td>
+          <td>{{ application.appliedFriday }}</td>
+          <td>{{ application.appliedSaturday }}</td>
+          <td>{{ application.appliedSunday }}</td>
+          <td>{{ application.appliedMorning }}</td>
+          <td>{{ application.appliedAfternoon }}</td>
+          <td>{{ application.appliedEvening }}</td>
+          <td>
+            <div *ngIf="application.post">
+              <a [routerLink]="['/volunteer-post', application.post.id, 'view']">{{ application.post.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="application.customer">
+              <a [routerLink]="['/customer', application.customer.id, 'view']">{{ application.customer.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/application', application.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/application', application.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(application)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="applications && applications.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

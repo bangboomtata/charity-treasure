@@ -1,0 +1,11 @@
+export enum ItemType {
+  CLOTHING = 'CLOTHING',
+
+  BOOK = 'BOOK',
+
+  HOMEWARE = 'HOMEWARE',
+
+  ENTERTAINMENT = 'ENTERTAINMENT',
+
+  TOY = 'TOY',
+}

@@ -1,0 +1,99 @@
+{
+  "applications": "*",
+  "changelogDate": "20240404233952",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "item",
+  "fields": [
+    {
+      "fieldName": "price",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "saleFlag",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "saleAmount",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["min", "max"],
+      "fieldValidateRulesMax": "90",
+      "fieldValidateRulesMin": "10"
+    },
+    {
+      "fieldName": "shownPrice",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "saleEndTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "itemName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "itemDescription",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "itemAvailability",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "itemImage",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "reserveFlag",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "Gender",
+      "fieldValues": "MALE,FEMALE,UNISEX"
+    },
+    {
+      "fieldName": "condition",
+      "fieldType": "Condition",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "VERYGOOD,GOOD,SATISFACTORY"
+    },
+    {
+      "fieldName": "itemType",
+      "fieldType": "ItemType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "CLOTHING,BOOK,HOMEWARE,ENTERTAINMENT,TOY"
+    },
+    {
+      "fieldName": "subCategory",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Item",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "shop",
+      "otherEntityRelationshipName": "item",
+      "relationshipName": "shop",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "reservation",
+      "otherEntityRelationshipName": "item",
+      "ownerSide": false,
+      "relationshipName": "reservedBy",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "no"
+}

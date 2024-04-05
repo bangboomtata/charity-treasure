@@ -1,0 +1,172 @@
+<div class="big-container">
+  <div>
+    <div *ngIf="item">
+      <h2 data-cy="itemDetailsHeading" class="big-title"><span>Item</span></h2>
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+      <div class="main-box">
+        <ng-container *jhiHasAnyAuthority="'ROLE_USER'">
+          <div class="row">
+            <div class="col-auto">
+              <div class="img-container" *ngIf="item.itemImage">
+                <a (click)="openFile(item.itemImage, item.itemImageContentType)">
+                  <img [src]="'data:' + item.itemImageContentType + ';base64,' + item.itemImage" style="max-width: 100%" alt="item image" />
+                </a>
+              </div>
+            </div>
+            <div class="col">
+              <div class="item-detail-box">
+                <div>
+                  <p class="item-name">{{ item.itemName?.toString() }}</p>
+                  <p class="item-price">
+                    <span> £{{ item.price?.toFixed(2) }}</span>
+                  </p>
+                </div>
+
+                <hr />
+                <div class="small-details">
+                  <p>
+                    <span>Item Availability: </span>
+                    <ng-container *ngIf="item.itemAvailability">
+                      <span style="color: green">AVAILABLE</span>
+                    </ng-container>
+                    <ng-container *ngIf="!item.itemAvailability">
+                      <span style="color: red">NOT AVAILABLE</span>
+                    </ng-container>
+                  </p>
+                  <p><span>CONDITION: </span>{{ item.condition }}</p>
+                  <p><span>ITEM TYPE: </span>{{ item.itemType }}</p>
+                  <p><span>ITEM SUB CATEGORY: </span>{{ item.subCategory }}</p>
+                  <ng-container *ngIf="item.itemType?.toString() == 'CLOTHING'">
+                    <p><span>GENDER: </span>{{ item.gender }}</p>
+                  </ng-container>
+                </div>
+
+                <div class="button-box">
+                  <button>RESERVE NOW</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <ng-container *ngIf="item.shop">
+            <div class="row shop-details" [routerLink]="['/shop', item.shop.id, 'view']">
+              <div class="col-auto">
+                <div class="shop-img-container">
+                  <img [src]="'data:' + item.shop.logoContentType + ';base64,' + item.shop.logo" class="shop-img" alt="item image" />
+                </div>
+              </div>
+              <div class="col">
+                <p class="shop-name">
+                  <span>{{ item.shop.shopName?.toString() }}</span>
+                </p>
+                <p><span>RATING: </span>{{ item.shop.rating }}</p>
+              </div>
+            </div>
+          </ng-container>
+          <hr />
+
+          <div class="row">
+            <div class="col">
+              <p class="small-title"><span>About the Item: </span></p>
+              <p>{{ item.itemDescription }}</p>
+            </div>
+          </div>
+        </ng-container>
+
+        <dl class="row-md jh-entity-details" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+          <dt><span>ID</span></dt>
+          <dd>
+            <span>{{ item.id }}</span>
+          </dd>
+          <dt><span>Price</span></dt>
+          <dd>
+            <span>{{ item.price }}</span>
+          </dd>
+          <dt><span>Sale Flag</span></dt>
+          <dd>
+            <span>{{ item.saleFlag }}</span>
+          </dd>
+          <dt><span>Sale Amount</span></dt>
+          <dd>
+            <span>{{ item.saleAmount }}</span>
+          </dd>
+          <dt><span>Shown Price</span></dt>
+          <dd>
+            <span>{{ item.shownPrice }}</span>
+          </dd>
+          <dt><span>Item Name</span></dt>
+          <dd>
+            <span>{{ item.itemName }}</span>
+          </dd>
+          <dt><span>Sale End Time</span></dt>
+          <dd>
+            <span>{{ item.saleEndTime | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>Item Description</span></dt>
+          <dd>
+            <span>{{ item.itemDescription }}</span>
+          </dd>
+          <dt><span>Item Availability</span></dt>
+          <dd>
+            <span>{{ item.itemAvailability }}</span>
+          </dd>
+          <dt><span>Item Image</span></dt>
+          <dd>
+            <div *ngIf="item.itemImage">
+              <a (click)="openFile(item.itemImage, item.itemImageContentType)">
+                <img [src]="'data:' + item.itemImageContentType + ';base64,' + item.itemImage" style="max-width: 100%" alt="item image" />
+              </a>
+              {{ item.itemImageContentType }}, {{ byteSize(item.itemImage) }}
+            </div>
+          </dd>
+          <dt><span>Reserve Flag</span></dt>
+          <dd>
+            <span>{{ item.reserveFlag }}</span>
+          </dd>
+          <dt><span>Gender</span></dt>
+          <dd>
+            <span>{{ item.gender }}</span>
+          </dd>
+          <dt><span>Condition</span></dt>
+          <dd>
+            <span>{{ item.condition }}</span>
+          </dd>
+          <dt><span>Item Type</span></dt>
+          <dd>
+            <span>{{ item.itemType }}</span>
+          </dd>
+          <dt><span>Sub Category</span></dt>
+          <dd>
+            <span>{{ item.subCategory }}</span>
+          </dd>
+          <dt><span>Shop</span></dt>
+          <dd>
+            <div *ngIf="item.shop">
+              <a [routerLink]="['/shop', item.shop.id, 'view']">{{ item.shop.id }}</a>
+            </div>
+          </dd>
+        </dl>
+
+        <div class="text-center">
+          <button type="submit" (click)="previousState()" class="btn btn-info back-button" data-cy="entityDetailsBackButton">
+            <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+          </button>
+
+          <button
+            type="button"
+            [routerLink]="['/item', item.id, 'edit']"
+            class="btn btn-primary edit-button"
+            *jhiHasAnyAuthority="'ROLE_ADMIN'"
+          >
+            <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

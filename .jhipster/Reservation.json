@@ -1,0 +1,50 @@
+{
+  "applications": "*",
+  "changelogDate": "20240404233950",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "reservation",
+  "fields": [
+    {
+      "fieldName": "reservedTime",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "reservedExpiry",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "ReservationStatus",
+      "fieldValues": "PENDING,CONFIRMED,COLLECTED,CANCELLED"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Reservation",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "item",
+      "otherEntityRelationshipName": "reservedBy",
+      "ownerSide": true,
+      "relationshipName": "item",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "customer",
+      "relationshipName": "customer",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "shop",
+      "otherEntityRelationshipName": "reservations",
+      "relationshipName": "shop",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,27 @@
+{
+  "applications": "*",
+  "changelogDate": "20240404233945",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "customer_emails",
+  "fields": [
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "CustomerEmails",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "email",
+      "relationshipName": "customer",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

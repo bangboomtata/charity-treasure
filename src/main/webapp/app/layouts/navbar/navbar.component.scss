@@ -21,7 +21,8 @@ Navbar
   .dropdown-item.active,
   .dropdown-item.active:focus,
   .dropdown-item.active:hover {
-    background-color: $dark;
+    background-color: #ffe7e7;
+    color: #ff6961;
   }
 
   a.nav-link {
@@ -35,14 +36,48 @@ Navbar
   }
 }
 
-/* ==========================================================================
-Logo styles
-========================================================================== */
+.container-fluid {
+  color: white;
+  background-color: #ff6961;
+  min-height: 80px;
+  max-height: 80px;
+}
+
+.nav-text {
+  color: white;
+  font-weight: bold;
+}
+
+.dropdown-menu {
+  background-color: #ff6961;
+}
+
+.dropdown-item {
+  background-color: #ff6961;
+  color: white;
+  font-weight: bold;
+}
+
+.dropdown-item:hover {
+  background-color: #ffe7e7;
+  color: #ff6961;
+  font-weight: bold;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background-color: #ffe7e7;
+  .nav-text {
+    color: #ff6961;
+    font-weight: bold;
+  }
+}
+
 .logo-img {
-  height: 45px;
-  width: 45px;
+  height: 75px;
+  width: 60px;
   display: inline-block;
   vertical-align: middle;
-  background: url('../../../content/images/logo-jhipster.png') no-repeat center center;
+  background: url('../../../content/images/logo-CharityTreasures.png') no-repeat center center;
   background-size: contain;
 }

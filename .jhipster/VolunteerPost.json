@@ -1,0 +1,115 @@
+{
+  "applications": "*",
+  "changelogDate": "20240404233948",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "volunteer_post",
+  "fields": [
+    {
+      "fieldName": "postTitle",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "locationAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "contactNum",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aboutUs",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "aboutRole",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "benefits",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "img",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "activeStatus",
+      "fieldType": "ActiveStatus",
+      "fieldValues": "ACTIVE (Active),EXPIRED (Expired)"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "monday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "tuesday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "wednesday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "thursday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "friday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "saturday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "sunday",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "morning",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "afternoon",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "evening",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "VolunteerPost",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "shop",
+      "otherEntityRelationshipName": "volunteerPost",
+      "relationshipName": "shop",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "application",
+      "otherEntityRelationshipName": "post",
+      "relationshipName": "app",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

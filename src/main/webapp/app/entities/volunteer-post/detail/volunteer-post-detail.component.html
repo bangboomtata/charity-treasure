@@ -1,0 +1,123 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="volunteerPost">
+      <h2 data-cy="volunteerPostDetailsHeading"><span>Volunteer Post</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ volunteerPost.id }}</span>
+        </dd>
+        <dt><span>Post Title</span></dt>
+        <dd>
+          <span>{{ volunteerPost.postTitle }}</span>
+        </dd>
+        <dt><span>Location Address</span></dt>
+        <dd>
+          <span>{{ volunteerPost.locationAddress }}</span>
+        </dd>
+        <dt><span>Contact Num</span></dt>
+        <dd>
+          <span>{{ volunteerPost.contactNum }}</span>
+        </dd>
+        <dt><span>Email</span></dt>
+        <dd>
+          <span>{{ volunteerPost.email }}</span>
+        </dd>
+        <dt><span>About Us</span></dt>
+        <dd>
+          <span>{{ volunteerPost.aboutUs }}</span>
+        </dd>
+        <dt><span>About Role</span></dt>
+        <dd>
+          <span>{{ volunteerPost.aboutRole }}</span>
+        </dd>
+        <dt><span>Benefits</span></dt>
+        <dd>
+          <span>{{ volunteerPost.benefits }}</span>
+        </dd>
+        <dt><span>Img</span></dt>
+        <dd>
+          <div *ngIf="volunteerPost.img">
+            <a (click)="openFile(volunteerPost.img, volunteerPost.imgContentType)">
+              <img
+                [src]="'data:' + volunteerPost.imgContentType + ';base64,' + volunteerPost.img"
+                style="max-width: 100%"
+                alt="volunteerPost image"
+              />
+            </a>
+            {{ volunteerPost.imgContentType }}, {{ byteSize(volunteerPost.img) }}
+          </div>
+        </dd>
+        <dt><span>Active Status</span></dt>
+        <dd>
+          <span>{{ volunteerPost.activeStatus }}</span>
+        </dd>
+        <dt><span>Start Date</span></dt>
+        <dd>
+          <span>{{ volunteerPost.startDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Monday</span></dt>
+        <dd>
+          <span>{{ volunteerPost.monday }}</span>
+        </dd>
+        <dt><span>Tuesday</span></dt>
+        <dd>
+          <span>{{ volunteerPost.tuesday }}</span>
+        </dd>
+        <dt><span>Wednesday</span></dt>
+        <dd>
+          <span>{{ volunteerPost.wednesday }}</span>
+        </dd>
+        <dt><span>Thursday</span></dt>
+        <dd>
+          <span>{{ volunteerPost.thursday }}</span>
+        </dd>
+        <dt><span>Friday</span></dt>
+        <dd>
+          <span>{{ volunteerPost.friday }}</span>
+        </dd>
+        <dt><span>Saturday</span></dt>
+        <dd>
+          <span>{{ volunteerPost.saturday }}</span>
+        </dd>
+        <dt><span>Sunday</span></dt>
+        <dd>
+          <span>{{ volunteerPost.sunday }}</span>
+        </dd>
+        <dt><span>Morning</span></dt>
+        <dd>
+          <span>{{ volunteerPost.morning }}</span>
+        </dd>
+        <dt><span>Afternoon</span></dt>
+        <dd>
+          <span>{{ volunteerPost.afternoon }}</span>
+        </dd>
+        <dt><span>Evening</span></dt>
+        <dd>
+          <span>{{ volunteerPost.evening }}</span>
+        </dd>
+        <dt><span>Shop</span></dt>
+        <dd>
+          <div *ngIf="volunteerPost.shop">
+            <a [routerLink]="['/shop', volunteerPost.shop.id, 'view']">{{ volunteerPost.shop.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/volunteer-post', volunteerPost.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

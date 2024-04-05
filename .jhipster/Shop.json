@@ -1,0 +1,121 @@
+{
+  "applications": "*",
+  "changelogDate": "20240404233947",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "shop",
+  "fields": [
+    {
+      "fieldName": "shopName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "contactNum",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "shopEmail",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "charityShopId",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "openHoursWeekdays",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "openHoursWeekends",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "openHoursHolidays",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "street",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "city",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "postCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "country",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "creationDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "logo",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "rating",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "distance",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "duration",
+      "fieldType": "Duration"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Shop",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "reservation",
+      "otherEntityRelationshipName": "shop",
+      "relationshipName": "reservations",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "volunteerPost",
+      "otherEntityRelationshipName": "shop",
+      "relationshipName": "volunteerPost",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "item",
+      "otherEntityRelationshipName": "shop",
+      "relationshipName": "item",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "event",
+      "otherEntityRelationshipName": "shop",
+      "relationshipName": "event",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "feedback",
+      "otherEntityRelationshipName": "shop",
+      "relationshipName": "feedback",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

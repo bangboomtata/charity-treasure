@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ItemUploadSuccessComponent } from './item-upload-success/item-upload-success.component';
 
 import { errorRoute } from './layouts/error/error.route';
 import { navbarRoute } from './layouts/navbar/navbar.route';
@@ -27,6 +28,10 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
         {
           path: 'login',
           loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
+        },
+        {
+          path: 'item-upload-success',
+          component: ItemUploadSuccessComponent,
         },
         {
           path: '',

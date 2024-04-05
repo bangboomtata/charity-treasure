@@ -1,0 +1,101 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="shop">
+      <h2 data-cy="shopDetailsHeading"><span>Shop</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ shop.id }}</span>
+        </dd>
+        <dt><span>Shop Name</span></dt>
+        <dd>
+          <span>{{ shop.shopName }}</span>
+        </dd>
+        <dt><span>Contact Num</span></dt>
+        <dd>
+          <span>{{ shop.contactNum }}</span>
+        </dd>
+        <dt><span>Shop Email</span></dt>
+        <dd>
+          <span>{{ shop.shopEmail }}</span>
+        </dd>
+        <dt><span>Charity Shop Id</span></dt>
+        <dd>
+          <span>{{ shop.charityShopId }}</span>
+        </dd>
+        <dt><span>Open Hours Weekdays</span></dt>
+        <dd>
+          <span>{{ shop.openHoursWeekdays }}</span>
+        </dd>
+        <dt><span>Open Hours Weekends</span></dt>
+        <dd>
+          <span>{{ shop.openHoursWeekends }}</span>
+        </dd>
+        <dt><span>Open Hours Holidays</span></dt>
+        <dd>
+          <span>{{ shop.openHoursHolidays }}</span>
+        </dd>
+        <dt><span>Street</span></dt>
+        <dd>
+          <span>{{ shop.street }}</span>
+        </dd>
+        <dt><span>City</span></dt>
+        <dd>
+          <span>{{ shop.city }}</span>
+        </dd>
+        <dt><span>Post Code</span></dt>
+        <dd>
+          <span>{{ shop.postCode }}</span>
+        </dd>
+        <dt><span>Country</span></dt>
+        <dd>
+          <span>{{ shop.country }}</span>
+        </dd>
+        <dt><span>Creation Date</span></dt>
+        <dd>
+          <span>{{ shop.creationDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Logo</span></dt>
+        <dd>
+          <div *ngIf="shop.logo">
+            <a (click)="openFile(shop.logo, shop.logoContentType)">
+              <img [src]="'data:' + shop.logoContentType + ';base64,' + shop.logo" style="max-width: 100%" alt="shop image" />
+            </a>
+            {{ shop.logoContentType }}, {{ byteSize(shop.logo) }}
+          </div>
+        </dd>
+        <dt><span>Rating</span></dt>
+        <dd>
+          <span>{{ shop.rating }}</span>
+        </dd>
+        <dt><span>Distance</span></dt>
+        <dd>
+          <span>{{ shop.distance }}</span>
+        </dd>
+        <dt><span>Duration</span></dt>
+        <dd>
+          <span>{{ shop.duration | duration }} ({{ shop.duration }})</span>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+          <span>{{ shop.user?.id }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/shop', shop.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
