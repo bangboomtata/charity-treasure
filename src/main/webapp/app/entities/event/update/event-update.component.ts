@@ -14,8 +14,11 @@ import { IShop } from 'app/entities/shop/shop.model';
 import { ShopService } from 'app/entities/shop/service/shop.service';
 import { Location } from 'app/entities/enumerations/location.model';
 
+import { AccountService } from '../../../core/auth/account.service';
+
 @Component({
   selector: 'jhi-event-update',
+  styleUrls: ['./event-update.component.scss'],
   templateUrl: './event-update.component.html',
 })
 export class EventUpdateComponent implements OnInit {
@@ -27,6 +30,8 @@ export class EventUpdateComponent implements OnInit {
 
   editForm: EventFormGroup = this.eventFormService.createEventFormGroup();
 
+  shop: IShop | null = null;
+
   constructor(
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
@@ -34,7 +39,8 @@ export class EventUpdateComponent implements OnInit {
     protected eventFormService: EventFormService,
     protected shopService: ShopService,
     protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected accountService: AccountService
   ) {}
 
   compareShop = (o1: IShop | null, o2: IShop | null): boolean => this.shopService.compareShop(o1, o2);
@@ -47,6 +53,16 @@ export class EventUpdateComponent implements OnInit {
       }
 
       this.loadRelationshipsOptions();
+    });
+
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getShop().subscribe(shop => {
+          if (shop) {
+            this.shop = shop;
+          }
+        });
+      }
     });
   }
 
@@ -81,6 +97,11 @@ export class EventUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
+
+    this.editForm.patchValue({
+      shop: this.shop,
+    });
+
     const event = this.eventFormService.getEvent(this.editForm);
     if (event.id !== null) {
       this.subscribeToSaveResponse(this.eventService.update(event));
