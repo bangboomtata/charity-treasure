@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, Observable, Subscription, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IChat } from '../chat.model';
+import { IShop } from 'app/entities/shop/shop.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { ShopService } from 'app/entities/shop/service/shop.service';
+import { SelectedShopService } from '../service/selected-shop.service';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
@@ -16,10 +20,25 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 @Component({
   selector: 'jhi-chat',
   templateUrl: './chat.component.html',
+  styleUrls: ['./chat.component.css'],
 })
 export class ChatComponent implements OnInit {
   chats?: IChat[];
   isLoading = false;
+  newMessage: string = '';
+  userIds: number[] = [];
+  shops: IShop[] = [];
+  shopUserLogins: (string | null | undefined)[] = [];
+  receiverLogin: string = '';
+  shopName: string = '';
+  shopUserId: number = 0;
+
+  //Show
+  showChatPerson: boolean = false;
+  showChatHistory: boolean = false;
+  showSendMessage: boolean = false;
+  currentUserLogin: string = '';
+  currentUserId: number = 0;
 
   predicate = 'id';
   ascending = true;
@@ -36,8 +55,27 @@ export class ChatComponent implements OnInit {
     public router: Router,
     protected parseLinks: ParseLinks,
     protected dataUtils: DataUtils,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected accountService: AccountService,
+    protected shopService: ShopService,
+    protected selectedShopService: SelectedShopService,
+    protected route: ActivatedRoute
   ) {}
+
+  sendMessageAndNavigate(): void {
+    const message = (document.getElementById('messageInput') as HTMLInputElement).value;
+    this.setReceiverLoginAndSendMessage;
+    this.router.navigate(['/chat/new'], { queryParams: { message: message, receiverLogin: this.receiverLogin } });
+  }
+
+  setReceiverLoginAndSendMessage(shopName: string, shopUserId: number): void {
+    this.showChatPerson = true;
+    this.showChatHistory = true;
+    this.showSendMessage = true;
+    this.shopName = shopName;
+    this.receiverLogin = shopUserId.toString();
+    this.shopUserId = shopUserId;
+  }
 
   reset(): void {
     this.page = 1;
@@ -54,6 +92,59 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
+
+    // Retrieve current user's login and set senderLogin
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.currentUserLogin = account.login;
+        console.log('Current User Login:', this.currentUserLogin);
+      }
+    });
+
+    // Retrieve current user's ID
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getUserIdByLogin(account.login).subscribe(userId => {
+          if (userId) {
+            this.currentUserId = userId;
+            console.log('Current User ID:', this.currentUserId);
+          }
+        });
+      }
+    });
+
+    this.shopService.getAllShopUserIds().subscribe(userIds => {
+      this.userIds = userIds;
+    });
+
+    this.shopService.getAllShops().subscribe({
+      next: (shops: IShop[]) => {
+        this.shops = shops;
+        console.log('Shops:', shops);
+      },
+      error: (error: any) => {
+        console.error('Error fetching shops:', error);
+        // Handle error as needed
+      },
+    });
+
+    this.shopService.getLoginsForShopUsers().subscribe({
+      next: logins => {
+        this.shopUserLogins = logins;
+        console.log('Shop user logins:', logins);
+      },
+      error: error => {
+        console.error('Error fetching shop user logins:', error);
+      },
+    });
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      // Handle the selected file here, you can upload it or perform any other operation
+      console.log('Selected file:', file);
+    }
   }
 
   byteSize(base64String: string): string {

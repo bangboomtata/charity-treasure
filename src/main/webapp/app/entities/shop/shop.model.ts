@@ -20,7 +20,7 @@ export interface IShop {
   rating?: number | null;
   distance?: number | null;
   duration?: string | null;
-  user?: Pick<IUser, 'id'> | null;
+  user?: IUser | null;
 }
 
 export type NewShop = Omit<IShop, 'id'> & { id: null };

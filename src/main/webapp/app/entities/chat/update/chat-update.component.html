@@ -29,12 +29,12 @@
         <div class="row mb-3">
           <label class="form-label" for="field_receiverLogin">Receiver Login</label>
           <input
+            id="field_receiverLogin"
             type="text"
             class="form-control"
-            name="receiverLogin"
-            id="field_receiverLogin"
-            data-cy="receiverLogin"
             formControlName="receiverLogin"
+            placeholder="Receiver Login"
+            readonly
           />
           <div
             *ngIf="

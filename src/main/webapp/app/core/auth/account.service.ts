@@ -24,6 +24,15 @@ export class AccountService {
     private applicationConfigService: ApplicationConfigService
   ) {}
 
+  getLoginByUserId(userId: number): Observable<string | null | undefined> {
+    return this.getAllUsers().pipe(
+      map(users => {
+        const user = users.find(u => u.id === userId);
+        return user ? user.login : null;
+      })
+    );
+  }
+
   //get id of user based on account
   getUserIdByLogin(login: string): Observable<number | null> {
     return this.getAllUsers().pipe(

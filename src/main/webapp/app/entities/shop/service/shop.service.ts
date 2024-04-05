@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, forkJoin } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
@@ -9,6 +9,7 @@ import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IShop, NewShop } from '../shop.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 export type PartialUpdateShop = Partial<IShop> & Pick<IShop, 'id'>;
 
@@ -29,7 +30,34 @@ export type EntityArrayResponseType = HttpResponse<IShop[]>;
 export class ShopService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/shops');
 
-  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+    protected accountService: AccountService
+  ) {}
+
+  getAllShops(): Observable<IShop[]> {
+    // Assuming your API endpoint for getting all shops is '/api/shops'
+    return this.http.get<IShop[]>('/api/shops');
+  }
+
+  getAllShopUserIds(): Observable<number[]> {
+    return this.getAllShops().pipe(
+      map(shops => shops.map(shop => shop.user?.id).filter((userId): userId is number => typeof userId === 'number'))
+    );
+  }
+
+  getLoginsForShopUsers(): Observable<(string | null | undefined)[]> {
+    return this.getAllShopUserIds().pipe(
+      mergeMap(userIds => {
+        const requests: Observable<string | null | undefined>[] = [];
+        for (const userId of userIds) {
+          requests.push(this.accountService.getLoginByUserId(userId));
+        }
+        return forkJoin(requests);
+      })
+    );
+  }
 
   create(shop: NewShop): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(shop);
