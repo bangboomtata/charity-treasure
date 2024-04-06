@@ -1,3 +1,4 @@
+<!--
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="event">
@@ -74,6 +75,134 @@
           </div>
         </dd>
       </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/event', event.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
+-->
+
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="event">
+      <h2 data-cy="eventDetailsHeading" style="color: #000080; text-align: center">
+        <span>EVENTS</span>
+      </h2>
+
+      <hr style="background-color: #ff6961; border: 0; height: 4px; opacity: 1" />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <div class="event-details-cont">
+        <h2 style="color: #000080; text-align: center">
+          <span>{{ event.eventName }}</span>
+
+          <button type="button" class="add-to-interested-events-entity" (click)="transferToInterested()">
+            <fa-icon icon="plus"></fa-icon>
+            <span>I'm Interested!</span>
+          </button>
+        </h2>
+
+        <dl class="events-further-details">
+          <!--
+          <dt><span>ID</span></dt>
+          <dd>
+            <span>{{ event.id }}</span>
+          </dd>
+
+          <dt><span>Event Name</span></dt>
+          <dd>
+            <span>{{ event.eventName }}</span>
+          </dd>
+          -->
+
+          <dt><span>Event Date: &nbsp; </span></dt>
+          <dd>
+            <span> {{ event.eventDate | formatMediumDate }}</span>
+          </dd>
+
+          <div class="event-end-date-div" *ngIf="event.eventEndDate">
+            <dt><span>Event End Date</span></dt>
+            <dd>
+              <span>{{ event.eventEndDate | formatMediumDate }}</span>
+            </dd>
+          </div>
+
+          <dt><span>Event Time: &nbsp; </span></dt>
+          <dd>
+            <span> {{ event.eventTime }}</span>
+          </dd>
+
+          <dt><span>Event Location: &nbsp; </span></dt>
+          <dd>
+            <span> {{ event.eventLocation }}</span>
+          </dd>
+
+          <dt><span>Event City: &nbsp; </span></dt>
+          <dd>
+            <span> {{ event.eventCity }}</span>
+          </dd>
+
+          <dt><span>Event Address: &nbsp; </span></dt>
+          <dd>
+            <span> {{ event.eventAddress }}</span>
+          </dd>
+
+          <dt><span>Event Description: &nbsp; </span></dt>
+          <dd>
+            <span> {{ event.eventDescription }}</span>
+          </dd>
+
+          <dt><span>Contact Number: &nbsp; </span></dt>
+          <dd>
+            <span> {{ event.contactNumber }}</span>
+          </dd>
+
+          <dt><span>Email: &nbsp; </span></dt>
+          <dd>
+            <span> {{ event.eventEmail }}</span>
+          </dd>
+
+          <!--        <dt><span>Event Image: &nbsp; </span></dt> -->
+
+          <dt><span>Shop: &nbsp; </span></dt>
+          <dd>
+            <div *ngIf="event.shop">
+              <a [routerLink]="['/shop', event.shop.id, 'view']">{{ event.shop.id }}</a>
+            </div>
+          </dd>
+
+          <dd>
+            <div *ngIf="event.eventImage">
+              <a (click)="openFile(event.eventImage, event.eventImageContentType)">
+                <img
+                  [src]="'data:' + event.eventImageContentType + ';base64,' + event.eventImage"
+                  style="margin-left: 200px; width: 50%"
+                  alt="event image"
+                />
+              </a>
+              <!--  {{ event.eventImageContentType }}, {{ byteSize(event.eventImage) }} -->
+            </div>
+          </dd>
+
+          <!--
+          <dt><span>Shop: &nbsp; </span></dt>
+          <dd>
+            <div *ngIf="event.shop">
+              <a [routerLink]="['/shop', event.shop.id, 'view']">{{ event.shop.id }}</a>
+            </div>
+          </dd>
+          -->
+        </dl>
+      </div>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>

@@ -1,0 +1,28 @@
+input[type='text'],
+select,
+textarea {
+  background-color: #ffe7e7;
+}
+
+label {
+  color: #000080;
+  font-weight: bold;
+}
+
+.form-text-box-1 {
+  width: 400px;
+  border-radius: 8px;
+  // display: inline-block;
+  margin-bottom: 15px;
+}
+
+/*
+.form-text-box-2 {
+  width: 400px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-left: 100px;
+  margin-bottom: 15px;
+}
+
+ */
