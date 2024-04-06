@@ -62,10 +62,62 @@ export class ChatComponent implements OnInit {
     protected route: ActivatedRoute
   ) {}
 
+  hasMessages(): boolean {
+    if (this.chats) {
+      return this.chats.some(chat => chat.senderLogin == this.currentUserId.toString() && chat.receiverLogin == this.shopUserId.toString());
+    }
+    return false;
+  }
+
+  // Define a variable to store the image data
+  selectedImageData: string | ArrayBuffer | null = null;
+
+  // Event handler for when a file is selected
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      // Read the file as a data URL
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        // Store the image data in the selectedImageData variable
+        this.selectedImageData = reader.result;
+      };
+    }
+  }
+
   sendMessageAndNavigate(): void {
     const message = (document.getElementById('messageInput') as HTMLInputElement).value;
-    this.setReceiverLoginAndSendMessage;
-    this.router.navigate(['/chat/new'], { queryParams: { message: message, receiverLogin: this.receiverLogin } });
+    // Assuming this.selectedImageData holds your image data
+    if (this.selectedImageData) {
+      // Convert the image data to a base64 string
+      const base64Image = this.selectedImageData.toString();
+      // Navigate to the chat-update component with message and image as query parameters
+      this.router.navigate(['/chat/new'], {
+        queryParams: {
+          message: message,
+          receiverLogin: this.receiverLogin,
+          image: base64Image, // Pass the image data as a query parameter
+        },
+      });
+    } else {
+      // Handle case where no image is selected
+      console.error('No image selected.');
+    }
+  }
+
+  convertImageToBase64(imageData: Uint8Array): Observable<string> {
+    const blob = new Blob([imageData], { type: 'image/jpeg' });
+
+    // Read the image blob as a base64 string
+    return new Observable<string>(observer => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        observer.next(reader.result as string);
+        observer.complete();
+      };
+      reader.readAsDataURL(blob);
+    });
   }
 
   setReceiverLoginAndSendMessage(shopName: string, shopUserId: number): void {
@@ -92,6 +144,17 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
+
+    // Fetch all shops
+    this.shopService.getAllShops().subscribe({
+      next: (shops: IShop[]) => {
+        this.shops = shops;
+      },
+      error: (error: any) => {
+        console.error('Error fetching shops:', error);
+        // Handle error as needed
+      },
+    });
 
     // Retrieve current user's login and set senderLogin
     this.accountService.identity().subscribe(account => {
@@ -137,14 +200,6 @@ export class ChatComponent implements OnInit {
         console.error('Error fetching shop user logins:', error);
       },
     });
-  }
-
-  onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      // Handle the selected file here, you can upload it or perform any other operation
-      console.log('Selected file:', file);
-    }
   }
 
   byteSize(base64String: string): string {

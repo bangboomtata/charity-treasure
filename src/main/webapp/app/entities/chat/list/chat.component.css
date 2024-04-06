@@ -33,6 +33,17 @@ main {
   height: 70px;
 }
 
+.no-messages {
+  text-align: center;
+  padding-top: 30px;
+}
+
+.sayHi {
+  background-color: rgb(255, 255, 184);
+  padding: 10px 10px;
+  border-radius: 15px;
+}
+
 .messageContainer {
   margin-left: 20px; /* Add a margin to the left of the message container */
 }

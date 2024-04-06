@@ -24,13 +24,7 @@
             >
               <a class="list-group-item list-group-item-action border-0 my-3">
                 <div class="d-flex align-items-center justify-content-start px-4">
-                  <img
-                    src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                    class="rounded-circle"
-                    alt="Sharon Lessman"
-                    width="40"
-                    height="40"
-                  />
+                  <img src="../../../../content/images/user2.png" class="rounded-circle" width="40" height="40" />
                   <div id="userShopName" class="userShopName px-2">
                     {{ shop?.shopName }}
                   </div>
@@ -45,13 +39,7 @@
           <div class="chatName py-2 border-bottom d-none d-lg-block mb-3">
             <div *ngIf="showChatPerson" class="d-flex align-items-center py-1 px-4">
               <div class="position-relative">
-                <img
-                  src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                  class="rounded-circle"
-                  alt="Sharon Lessman"
-                  width="40"
-                  height="40"
-                />
+                <img src="../../../../content/images/user2.png" class="rounded-circle" width="40" height="40" />
               </div>
               <div class="flex-grow-1 pl-3">
                 <strong>{{ shopName }}</strong>
@@ -61,43 +49,57 @@
           </div>
 
           <div class="position-relative scrollable">
-            <div *ngIf="showChatHistory" class="chat-messages py-3 px-4">
-              <div class="chat-message-right" *ngFor="let chat of chats; trackBy: trackId">
-                <div
-                  *ngIf="chat.senderLogin == currentUserId.toString() && chat.receiverLogin == shopUserId.toString()"
-                  class="chat-message-left d-flex align-items-start pb-4"
-                >
-                  <img
-                    src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                    class="rounded-circle mr-3 mb-2"
-                    alt="Sharon Lessman"
-                    width="40"
-                    height="40"
-                  />
-                  <div class="messageContainer">
-                    <div class="messageBubble">
-                      <div class="messageContent">
-                        <div class="textAndTimestamp">
-                          <div class="text">{{ chat?.message }}</div>
-                          <div class="timestamp">{{ chat?.timestamp?.format('HH:mm') }}</div>
+            <ng-container *ngIf="showChatHistory">
+              <!--If no message between currentUser and selected user-->
+              <div *ngIf="!hasMessages()" class="no-messages">
+                <span class="sayHi">Say hi to {{ shopName }}</span>
+              </div>
+              <!--If there are messages between currentUser and selected User-->
+              <div *ngIf="hasMessages()" class="chat-messages py-3 px-4">
+                <div class="chat-messages py-3 px-4">
+                  <div class="chat-message-right" *ngFor="let chat of chats; trackBy: trackId">
+                    <div
+                      *ngIf="chat.senderLogin == currentUserId.toString() && chat.receiverLogin == shopUserId.toString()"
+                      class="chat-message-left d-flex align-items-start pb-4"
+                    >
+                      <img src="../../../../content/images/user2.png" class="rounded-circle mr-3 mb-2" width="40" height="40" />
+                      <div class="messageContainer">
+                        <div class="messageBubble">
+                          <div class="messageContent">
+                            <div *ngIf="chat.image">
+                              <img
+                                [src]="'data:' + chat.imageContentType + ';base64,' + chat.image"
+                                class="chat-image"
+                                style="max-height: 100px"
+                              />
+                            </div>
+                            <div class="textAndTimestamp">
+                              <div class="text">{{ chat?.message }}</div>
+                              <div class="timestamp">{{ chat?.timestamp?.format('HH:mm') }}</div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </ng-container>
           </div>
         </div>
 
-        <!--Message-->
+        <!--Send Message-->
         <div *ngIf="showSendMessage" class="flex-grow-0 py-3 px-4 border-top">
           <div class="input-group">
             <!--Attach Document-->
-            <input type="file" (change)="onFileSelected($event)" accept="image/*, video/*, .pdf" style="display: none" #fileInput />
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none" #fileInput />
             <button (click)="fileInput.click()">
               <img src="../../../../content/images/plus.svg" height="30px" width="30px" />
             </button>
+            <!-- Display Selected Image -->
+            <div *ngIf="selectedImageData">
+              <img [src]="selectedImageData" style="max-height: 50px; z-index: 1000" />
+            </div>
             <!--Text-->
             <input id="messageInput" type="text" class="form-control" placeholder="Type your message" />
             <button class="btn btn-primary" (click)="sendMessageAndNavigate()">Send</button>
@@ -108,49 +110,7 @@
   </div>
 </main>
 
-<!--Contact List-->
-<!-- <div class="col-12 col-lg-5 col-xl-3 border-right">
-        <div class=" d-none d-md-block">
-          <div class="d-flex align-items-center">
-            <div class="flex-grow-1">
-              <input type="text" class="form-control my-3" placeholder="Search...">
-            </div>
-          </div>
-        </div>
-
-        <a href="#" class="list-group-item list-group-item-action border-0 my-3">
-          <div class="d-flex align-items-start">
-            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle" alt="Sharon Lessman" width="40" height="40">
-            <div class="flex-grow-1">
-              Sharon Lessman
-              <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
-            </div>
-          </div>
-        </a>
-
-        <a href="#" class="list-group-item list-group-item-action border-0 my-3">
-          <div class="badge bg-success float-right">5</div>
-          <div class="d-flex align-items-start">
-            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="rounded-circle" alt="Vanessa Tucker" width="40" height="40">
-            <div class="flex-grow-1">
-              Vanessa Tucker
-              <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
-            </div>
-          </div>
-        </a>
-        
-        <a href="#" class="list-group-item list-group-item-action border-0 my-3">
-          <div class="d-flex align-items-start">
-            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt="William Harris" width="40" height="40">
-            <div class="flex-grow-1">
-              William Harris
-              <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
-            </div>
-          </div>
-        </a>
-        <hr class="d-block d-lg-none mt-1 mb-0">
-      </div> -->
-
+<!--Default-->
 <div>
   <h2 id="page-heading" data-cy="ChatHeading">
     <span>Chats</span>

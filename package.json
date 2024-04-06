@@ -87,7 +87,7 @@
     "@popperjs/core": "2.11.6",
     "bootstrap": "5.2.0",
     "bootswatch": "5.2.0",
-    "dayjs": "1.11.5",
+    "dayjs": "^1.11.5",
     "gsap": "^3.12.5",
     "leaflet": "1.9.4",
     "leaflet-routing-machine": "^3.2.12",

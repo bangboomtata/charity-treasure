@@ -67,6 +67,28 @@ public class ChatResource {
     }
 
     /**
+     * {@code POST  /chats/send-message} : Send a message.
+     *
+     * @param message the message to send.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the sent message, or with status {@code 400 (Bad Request)} if the message is invalid.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping("/chats/send-message")
+    public ResponseEntity<Chat> sendMessage(@Valid @RequestBody Chat message) throws URISyntaxException {
+        log.debug("REST request to send message : {}", message);
+        // Implement your logic to send the message
+        // For example, save the message to the database
+        if (message.getId() != null) {
+            throw new BadRequestAlertException("A new message cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        Chat result = chatRepository.save(message);
+        return ResponseEntity
+            .created(new URI("/api/chats/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    /**
      * {@code PUT  /chats/:id} : Updates an existing chat.
      *
      * @param id the id of the chat to save.

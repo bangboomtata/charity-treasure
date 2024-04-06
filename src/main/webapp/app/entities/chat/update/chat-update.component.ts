@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from 'app/core/auth/account.service';
 import { SelectedShopService } from '../service/selected-shop.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'jhi-chat-update',
@@ -25,6 +26,9 @@ export class ChatUpdateComponent implements OnInit {
   userLogin: string = '';
   receiverLogin: string = '';
   editForm: ChatFormGroup = this.chatFormService.createChatFormGroup();
+  image: string | null = null;
+
+  @ViewChild('editFormRef', { static: false }) editFormReference!: NgForm;
 
   constructor(
     protected dataUtils: DataUtils,
@@ -52,6 +56,10 @@ export class ChatUpdateComponent implements OnInit {
             console.log('Current User ID:', userId);
             // Set the senderLogin to the user's ID
             this.editForm.patchValue({ senderLogin: userId.toString() });
+
+            // Now, after setting senderLogin, you can trigger the save action
+            //**************** this.save(); *******************************
+            this.save();
           }
         });
       }
@@ -61,11 +69,17 @@ export class ChatUpdateComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       const message = params['message'];
       const receiverLogin = params['receiverLogin'];
+      const image = params['image']; // Retrieve image data from query parameters
       if (message) {
         this.editForm.patchValue({ message: message });
       }
       if (receiverLogin) {
         this.editForm.patchValue({ receiverLogin: receiverLogin });
+      }
+      if (image) {
+        // Extract base64 data from the string
+        const base64Data = image.split(';base64,')[1];
+        this.editForm.patchValue({ image: base64Data });
       }
     });
   }
