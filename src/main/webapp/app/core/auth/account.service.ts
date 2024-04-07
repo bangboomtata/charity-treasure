@@ -64,13 +64,13 @@ export class AccountService {
   }
 
   //retrieve list of users from database
-  private getAllUsers(): Observable<IUser[]> {
+  public getAllUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>('/api/users');
   }
-  private getAllShops(): Observable<IShop[]> {
+  public getAllShops(): Observable<IShop[]> {
     return this.http.get<IShop[]>('/api/shops');
   }
-  private getAllCustomers(): Observable<ICustomer[]> {
+  public getAllCustomers(): Observable<ICustomer[]> {
     return this.http.get<ICustomer[]>('/api/customers');
   }
 

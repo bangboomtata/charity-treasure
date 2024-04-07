@@ -1,5 +1,6 @@
 import dayjs from 'dayjs/esm';
 import { IUser } from 'app/entities/user/user.model';
+import { ICustomer } from '../customer/customer.model';
 
 export interface IShop {
   id: number;
@@ -21,6 +22,7 @@ export interface IShop {
   distance?: number | null;
   duration?: string | null;
   user?: IUser | null;
+  customer?: ICustomer | null;
 }
 
 export type NewShop = Omit<IShop, 'id'> & { id: null };

@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, filter, Observable, Subscription, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClient } from '@angular/common/http';
 
 import { IChat } from '../chat.model';
-import { IShop } from 'app/entities/shop/shop.model';
+import { IShop } from '../../shop/shop.model';
+import { ICustomer } from '../../customer/customer.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { ShopService } from 'app/entities/shop/service/shop.service';
 import { SelectedShopService } from '../service/selected-shop.service';
+import { CustomerService } from 'app/entities/customer/service/customer.service';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
@@ -16,6 +19,7 @@ import { EntityArrayResponseType, ChatService } from '../service/chat.service';
 import { ChatDeleteDialogComponent } from '../delete/chat-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
+import { IUser } from '../../user/user.model';
 
 @Component({
   selector: 'jhi-chat',
@@ -24,6 +28,8 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 })
 export class ChatComponent implements OnInit {
   chats?: IChat[];
+  customers?: ICustomer[];
+  users?: IUser[];
   isLoading = false;
   newMessage: string = '';
   userIds: number[] = [];
@@ -32,6 +38,9 @@ export class ChatComponent implements OnInit {
   receiverLogin: string = '';
   shopName: string = '';
   shopUserId: number = 0;
+  customer$!: Observable<ICustomer | null>;
+  customer?: ICustomer;
+  customerLogin?: string;
 
   //Show
   showChatPerson: boolean = false;
@@ -39,6 +48,7 @@ export class ChatComponent implements OnInit {
   showSendMessage: boolean = false;
   currentUserLogin: string = '';
   currentUserId: number = 0;
+  userLogin: string | undefined;
 
   predicate = 'id';
   ascending = true;
@@ -59,8 +69,123 @@ export class ChatComponent implements OnInit {
     protected accountService: AccountService,
     protected shopService: ShopService,
     protected selectedShopService: SelectedShopService,
-    protected route: ActivatedRoute
+    protected route: ActivatedRoute,
+    protected http: HttpClient,
+    protected customerService: CustomerService
   ) {}
+
+  ngOnInit(): void {
+    this.load();
+
+    this.customer$ = this.accountService.getCustomer();
+
+    this.customer$.subscribe(customer => {
+      console.log('Customer:', customer);
+    });
+
+    this.customerService.getAllCustomers().subscribe({
+      next: (customers: ICustomer[]) => {
+        this.customers = customers;
+      },
+      error: (error: any) => {
+        console.error('Error fetching customers:', error);
+        // Handle error as needed
+      },
+    });
+
+    // Subscribe to getAllUsers
+    this.accountService.getAllUsers().subscribe(
+      (users: IUser[]) => {
+        this.users = users;
+        console.log('All Users:', users);
+      },
+      error => {
+        console.error('Error fetching users:', error);
+        // Handle error as needed
+      }
+    );
+
+    // Fetch all shops
+    this.shopService.getAllShops().subscribe({
+      next: (shops: IShop[]) => {
+        this.shops = shops;
+      },
+      error: (error: any) => {
+        console.error('Error fetching shops:', error);
+        // Handle error as needed
+      },
+    });
+
+    // Retrieve current user's login and set senderLogin
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.currentUserLogin = account.login;
+        console.log('Current User Login:', this.currentUserLogin);
+      }
+    });
+
+    // Retrieve current user's ID
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getUserIdByLogin(account.login).subscribe(userId => {
+          if (userId) {
+            this.currentUserId = userId;
+            console.log('Current User ID:', this.currentUserId);
+          }
+        });
+      }
+    });
+
+    this.shopService.getAllShopUserIds().subscribe(userIds => {
+      this.userIds = userIds;
+    });
+
+    this.shopService.getAllShops().subscribe({
+      next: (shops: IShop[]) => {
+        this.shops = shops;
+        console.log('Shops:', shops);
+      },
+      error: (error: any) => {
+        console.error('Error fetching shops:', error);
+        // Handle error as needed
+      },
+    });
+
+    this.shopService.getLoginsForShopUsers().subscribe({
+      next: logins => {
+        this.shopUserLogins = logins;
+        console.log('Shop user logins:', logins);
+      },
+      error: error => {
+        console.error('Error fetching shop user logins:', error);
+      },
+    });
+
+    const customerId = this.customer?.id;
+
+    if (customerId !== undefined) {
+      // Call the service method to get the user login using the customer ID
+      this.accountService.getLoginByUserId(customerId).subscribe(userLogin => {
+        if (userLogin) {
+          // Do something with the user login
+          console.log('User Login:', userLogin);
+        } else {
+          console.log('User login not found for the given customer id.');
+        }
+      });
+    } else {
+      console.error('Customer ID is not available.');
+    }
+  }
+
+  getLoginByCustomerId(customerId: number): Observable<string | null> {
+    // Adjust the URL according to your backend API endpoint
+    return this.http.get<string | null>(`/api/users/login?customerId=${customerId}`);
+  }
+
+  isCurrentUserInShopUserIds(): boolean {
+    return this.userIds.includes(this.currentUserId);
+  }
 
   hasMessages(): boolean {
     if (this.chats) {
@@ -69,7 +194,6 @@ export class ChatComponent implements OnInit {
     return false;
   }
 
-  // Define a variable to store the image data
   selectedImageData: string | ArrayBuffer | null = null;
 
   // Event handler for when a file is selected
@@ -141,66 +265,6 @@ export class ChatComponent implements OnInit {
   }
 
   trackId = (_index: number, item: IChat): number => this.chatService.getChatIdentifier(item);
-
-  ngOnInit(): void {
-    this.load();
-
-    // Fetch all shops
-    this.shopService.getAllShops().subscribe({
-      next: (shops: IShop[]) => {
-        this.shops = shops;
-      },
-      error: (error: any) => {
-        console.error('Error fetching shops:', error);
-        // Handle error as needed
-      },
-    });
-
-    // Retrieve current user's login and set senderLogin
-    this.accountService.identity().subscribe(account => {
-      if (account) {
-        this.currentUserLogin = account.login;
-        console.log('Current User Login:', this.currentUserLogin);
-      }
-    });
-
-    // Retrieve current user's ID
-    this.accountService.identity().subscribe(account => {
-      if (account) {
-        this.accountService.getUserIdByLogin(account.login).subscribe(userId => {
-          if (userId) {
-            this.currentUserId = userId;
-            console.log('Current User ID:', this.currentUserId);
-          }
-        });
-      }
-    });
-
-    this.shopService.getAllShopUserIds().subscribe(userIds => {
-      this.userIds = userIds;
-    });
-
-    this.shopService.getAllShops().subscribe({
-      next: (shops: IShop[]) => {
-        this.shops = shops;
-        console.log('Shops:', shops);
-      },
-      error: (error: any) => {
-        console.error('Error fetching shops:', error);
-        // Handle error as needed
-      },
-    });
-
-    this.shopService.getLoginsForShopUsers().subscribe({
-      next: logins => {
-        this.shopUserLogins = logins;
-        console.log('Shop user logins:', logins);
-      },
-      error: error => {
-        console.error('Error fetching shop user logins:', error);
-      },
-    });
-  }
 
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);
