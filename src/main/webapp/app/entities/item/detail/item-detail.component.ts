@@ -12,6 +12,7 @@ import { DataUtils } from 'app/core/util/data-util.service';
 export class ItemDetailComponent implements OnInit {
   item: IItem | null = null;
   editable: boolean = false;
+  Shop: boolean = true;
 
   constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, private accountService: AccountService) {}
 
@@ -21,13 +22,26 @@ export class ItemDetailComponent implements OnInit {
       if (this.getShopID() === true) {
         this.editable = true;
       }
+      if (this.isShop() === true) {
+        this.Shop = false;
+      }
     });
+  }
+
+  isShop(): boolean {
+    this.accountService.getShop().subscribe(shop => {
+      if (shop !== null) {
+        return true;
+      }
+      return false;
+    });
+    return false;
   }
 
   getShopID(): boolean {
     this.accountService.getShop().subscribe(shop => {
       if (shop !== null) {
-        if (this.item !== null && shop.id === this.item.id) {
+        if (this.item !== null && shop === this.item.shop) {
           return true;
         }
       }
