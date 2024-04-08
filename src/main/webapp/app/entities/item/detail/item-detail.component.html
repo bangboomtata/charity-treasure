@@ -52,7 +52,7 @@
                   type="button"
                   [routerLink]="['/item', item.id, 'edit']"
                   class="btn btn-primary edit-button"
-                  *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                  *ngIf="getShopID() === true"
                 >
                   <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
                 </button>
@@ -87,7 +87,7 @@
           </div>
         </ng-container>
 
-        <!-- <dl class="row-md jh-entity-details" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <dl class="row-md jh-entity-details" *jhiHasAnyAuthority="'ROLE_ADMIN'">
           <dt><span>ID</span></dt>
           <dd>
             <span>{{ item.id }}</span>
@@ -159,7 +159,7 @@
               <a [routerLink]="['/shop', item.shop.id, 'view']">{{ item.shop.id }}</a>
             </div>
           </dd>
-        </dl> -->
+        </dl>
 
         <hr />
         <div class="text-center">
