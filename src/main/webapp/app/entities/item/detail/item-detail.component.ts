@@ -11,12 +11,16 @@ import { DataUtils } from 'app/core/util/data-util.service';
 })
 export class ItemDetailComponent implements OnInit {
   item: IItem | null = null;
+  editable: boolean = false;
 
   constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ item }) => {
       this.item = item;
+      if (this.getShopID() === true) {
+        this.editable = true;
+      }
     });
   }
 

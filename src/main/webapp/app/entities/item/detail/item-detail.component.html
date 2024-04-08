@@ -52,7 +52,7 @@
                   type="button"
                   [routerLink]="['/item', item.id, 'edit']"
                   class="btn btn-primary edit-button"
-                  *ngIf="getShopID() === true"
+                  *ngIf="editable === true"
                 >
                   <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
                 </button>
