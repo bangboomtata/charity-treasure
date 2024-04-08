@@ -15,22 +15,45 @@
           </div>
 
           <!-- Customer's Contact List-->
-          <div *ngFor="let shop of shops">
-            <button
-              class="shopUsers"
-              style="z-index: 1000"
-              (click)="setReceiverLoginAndSendMessage(shop?.shopName || '', shop?.user?.id || 0)"
-            >
-              <a class="list-group-item list-group-item-action border-0 my-3">
-                <div class="d-flex align-items-center justify-content-start px-4">
-                  <img src="../../../../content/images/user2.png" class="rounded-circle" width="40" height="40" />
-                  <div id="userShopName" class="userShopName px-2">
-                    {{ shop?.shopName }}
+          <ng-container *ngIf="!(isCurrentUserInShopUserIds$ | async)">
+            <div *ngFor="let shop of shops">
+              <button
+                class="shopUsers"
+                style="z-index: 1000"
+                (click)="setReceiverLoginAndSendMessage(shop?.shopName || '', shop?.user?.id || 0)"
+              >
+                <a class="list-group-item list-group-item-action border-0 my-3">
+                  <div class="d-flex align-items-center justify-content-start px-4">
+                    <img src="../../../../content/images/user2.png" class="rounded-circle" width="40" height="40" />
+                    <div id="userShopName" class="userShopName px-2">
+                      {{ shop?.shopName }}
+                    </div>
                   </div>
-                </div>
-              </a>
-            </button>
-          </div>
+                </a>
+              </button>
+            </div>
+          </ng-container>
+
+          <!-- Shop User's Contact List-->
+          <ng-container *ngIf="isCurrentUserInShopUserIds$ | async as isCurrentUserInShopUserIds">
+            <div *ngFor="let customer of customers">
+              <button
+                class="shopUsers"
+                style="z-index: 1000"
+                (click)="getLoginAndSendMessage(customer?.user?.id ?? 0)"
+                *ngIf="isCurrentUserInShopUserIds"
+              >
+                <a class="list-group-item list-group-item-action border-0 my-3">
+                  <div class="d-flex align-items-center justify-content-start px-4">
+                    <img src="../../../../content/images/user2.png" class="rounded-circle" width="40" height="40" />
+                    <div id="userShopName" class="userShopName px-2">
+                      {{ customer.user?.login }}
+                    </div>
+                  </div>
+                </a>
+              </button>
+            </div>
+          </ng-container>
         </div>
 
         <!-- Chat History -->
