@@ -13,6 +13,11 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/config/error.constants';
 import { RegisterService } from './register.service';
 
+interface UUser {
+  id: number;
+  login: string;
+}
+
 export interface SShop {
   shopName?: string | null;
   contactNum?: string | null;
@@ -31,7 +36,7 @@ export interface SShop {
   rating?: number | null;
   distance?: number | null;
   duration?: string | null;
-  user?: number | null;
+  user?: UUser | null;
 }
 
 type ShopFormGroupContent = {
@@ -222,15 +227,20 @@ export class RegisterComponent implements AfterViewInit {
             this.shopregisterForm.patchValue({
               shopEmail: email.value,
               country: 'United Kingdom',
-              user: userId,
+              user: {
+                id: userId,
+                login: user.value,
+              },
             });
+            const shop = this.shopregisterForm.getRawValue();
+            this.shopService
+              .createShop(shop)
+              .subscribe({ next: () => (this.success = true), error: response => this.processError(response) });
+            this.router.navigate(['']);
           }
         }
       });
     }
-    const shop = this.shopregisterForm.getRawValue();
-    this.shopService.createShop(shop).subscribe({ next: () => (this.success = true), error: response => this.processError(response) });
-    this.router.navigate(['']);
   }
 
   private processError(response: HttpErrorResponse): void {

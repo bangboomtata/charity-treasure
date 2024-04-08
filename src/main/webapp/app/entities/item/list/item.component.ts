@@ -29,6 +29,7 @@ export class ItemComponent implements OnInit {
   currentSubCategories: string[] = [];
   isLoading = false;
   selectedOptions: string[] = [];
+  isShop: boolean = false;
 
   genderValues = Object.values(Gender);
   itemTypeValues = Object.values(ItemType);
@@ -106,6 +107,7 @@ export class ItemComponent implements OnInit {
       if (account) {
         this.accountService.getShop().subscribe(shop => {
           if (shop) {
+            this.isShop = true;
             console.log('Shop ID: ', shop.id);
             this.currentShopId = shop.id;
           }

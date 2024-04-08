@@ -12,7 +12,7 @@
       <option value="ENTERTAINMENT">ENTERTAINMENT</option>
       <option value="TOY">TOY</option>
     </select> -->
-    <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+    <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading">
       <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
       <span>Refresh list</span>
     </button>
@@ -22,7 +22,7 @@
       data-cy="entityCreateButton"
       class="btn btn-primary jh-create-entity create-item create-entity-button"
       [routerLink]="['/item/new']"
-      *jhiHasAnyAuthority="'ROLE_ADMIN'"
+      *ngIf="isShop"
     >
       <!-- shouldn't have role admin for this -->
       <fa-icon icon="plus"></fa-icon>
