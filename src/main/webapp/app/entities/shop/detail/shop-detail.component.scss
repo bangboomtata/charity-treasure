@@ -1,0 +1,66 @@
+$main-pink: #ff6961;
+$second-pink: #ffe7e7;
+$main-blue: #000080;
+$main-red: #ff392e;
+
+h2 {
+  color: $main-blue;
+  text-align: center;
+  letter-spacing: 0.03em;
+  font-weight: bold;
+}
+
+.small-title {
+  color: $main-blue;
+  font-weight: 700;
+}
+
+.small-title2 {
+  color: $main-red;
+  font-weight: 700;
+}
+
+p {
+  font-weight: 600;
+}
+
+.shop-name {
+  color: $main-red;
+  font-weight: bold;
+  // text-align: center;
+}
+
+.shop-id {
+  text-align: right;
+}
+
+.shop-logo {
+  width: 95%;
+  height: auto;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.shop-userID {
+  text-align: center;
+}
+
+.btn-row {
+  text-align: center;
+}
+
+button {
+  width: 12%;
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 50px;
+  border: none;
+}
+
+.btn-back {
+  background-color: $main-blue;
+}
+
+.btn-edit {
+  background-color: $main-pink;
+}
