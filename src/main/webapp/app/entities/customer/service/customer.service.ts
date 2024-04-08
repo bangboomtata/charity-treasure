@@ -18,6 +18,10 @@ export class CustomerService {
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
+  public getAllCustomers(): Observable<ICustomer[]> {
+    return this.http.get<ICustomer[]>('/api/customers');
+  }
+
   create(customer: NewCustomer): Observable<EntityResponseType> {
     return this.http.post<ICustomer>(this.resourceUrl, customer, { observe: 'response' });
   }

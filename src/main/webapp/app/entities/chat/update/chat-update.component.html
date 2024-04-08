@@ -8,7 +8,7 @@
 
         <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" />
         </div>
 
         <div class="row mb-3">
@@ -28,14 +28,7 @@
 
         <div class="row mb-3">
           <label class="form-label" for="field_receiverLogin">Receiver Login</label>
-          <input
-            id="field_receiverLogin"
-            type="text"
-            class="form-control"
-            formControlName="receiverLogin"
-            placeholder="Receiver Login"
-            readonly
-          />
+          <input id="field_receiverLogin" type="text" class="form-control" formControlName="receiverLogin" placeholder="Receiver Login" />
           <div
             *ngIf="
               editForm.get('receiverLogin')!.invalid && (editForm.get('receiverLogin')!.dirty || editForm.get('receiverLogin')!.touched)

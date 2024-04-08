@@ -38,12 +38,12 @@ public class Customer implements Serializable {
 
     @OneToMany(mappedBy = "customer")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "customer" }, allowSetters = true)
+    // @JsonIgnoreProperties(value = { "customer" }, allowSetters = true)
     private Set<CustomerEmails> emails = new HashSet<>();
 
     @OneToMany(mappedBy = "customer")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "post", "customer" }, allowSetters = true)
+    // @JsonIgnoreProperties(value = { "post", "customer" }, allowSetters = true)
     private Set<Application> apps = new HashSet<>();
 
     @OneToMany(mappedBy = "user")

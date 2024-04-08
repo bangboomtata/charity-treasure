@@ -1,0 +1,69 @@
+//main
+$main-pink: #ff6961;
+$second-pink: #ffe7e7;
+$main-blue: #000080;
+$main-red: #ff392e;
+
+// container
+.big-container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+}
+
+.big-title {
+  font-weight: 700;
+  color: $main-blue;
+  padding-bottom: 10px;
+  border-bottom: solid $main-pink 7px;
+  text-align: center;
+}
+
+.main-box {
+  padding: 20px;
+}
+
+hr {
+  // width: 96%;
+  margin: 0 auto;
+  color: $main-pink;
+}
+
+//label
+label {
+  color: $main-blue;
+  font-weight: bold;
+}
+
+h3 {
+  color: $main-red;
+}
+
+//input
+input[type='text'],
+input[type='number'],
+select {
+  background-color: $second-pink;
+  border: none;
+  border-radius: 10px;
+}
+
+input[type='file'] {
+  background-color: $second-pink;
+}
+
+button {
+  margin: 0 10px;
+  width: 150px;
+  border-radius: 50px;
+  border: none;
+}
+
+button[type='submit'] {
+  background-color: $main-pink;
+}
+
+.button-row {
+  text-align: center;
+}

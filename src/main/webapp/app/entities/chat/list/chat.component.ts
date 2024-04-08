@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, Subscription, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, Observable, Subscription, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClient } from '@angular/common/http';
 
 import { IChat } from '../chat.model';
-import { IShop } from 'app/entities/shop/shop.model';
+import { IShop } from '../../shop/shop.model';
+import { ICustomer } from '../../customer/customer.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { ShopService } from 'app/entities/shop/service/shop.service';
 import { SelectedShopService } from '../service/selected-shop.service';
+import { CustomerService } from 'app/entities/customer/service/customer.service';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
@@ -16,6 +19,7 @@ import { EntityArrayResponseType, ChatService } from '../service/chat.service';
 import { ChatDeleteDialogComponent } from '../delete/chat-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
+import { IUser } from '../../user/user.model';
 
 @Component({
   selector: 'jhi-chat',
@@ -24,6 +28,8 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 })
 export class ChatComponent implements OnInit {
   chats?: IChat[];
+  customers?: ICustomer[];
+  users?: IUser[];
   isLoading = false;
   newMessage: string = '';
   userIds: number[] = [];
@@ -32,6 +38,9 @@ export class ChatComponent implements OnInit {
   receiverLogin: string = '';
   shopName: string = '';
   shopUserId: number = 0;
+  customer$!: Observable<ICustomer | null>;
+  customer?: ICustomer;
+  customerLogin?: string;
 
   //Show
   showChatPerson: boolean = false;
@@ -39,6 +48,8 @@ export class ChatComponent implements OnInit {
   showSendMessage: boolean = false;
   currentUserLogin: string = '';
   currentUserId: number = 0;
+  userLogin: string | undefined;
+  isCurrentUserInShopUserIds$ = new BehaviorSubject<boolean>(false);
 
   predicate = 'id';
   ascending = true;
@@ -59,91 +70,43 @@ export class ChatComponent implements OnInit {
     protected accountService: AccountService,
     protected shopService: ShopService,
     protected selectedShopService: SelectedShopService,
-    protected route: ActivatedRoute
+    protected route: ActivatedRoute,
+    protected http: HttpClient,
+    protected customerService: CustomerService
   ) {}
-
-  hasMessages(): boolean {
-    if (this.chats) {
-      return this.chats.some(chat => chat.senderLogin == this.currentUserId.toString() && chat.receiverLogin == this.shopUserId.toString());
-    }
-    return false;
-  }
-
-  // Define a variable to store the image data
-  selectedImageData: string | ArrayBuffer | null = null;
-
-  // Event handler for when a file is selected
-  onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      // Read the file as a data URL
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        // Store the image data in the selectedImageData variable
-        this.selectedImageData = reader.result;
-      };
-    }
-  }
-
-  sendMessageAndNavigate(): void {
-    const message = (document.getElementById('messageInput') as HTMLInputElement).value;
-    // Assuming this.selectedImageData holds your image data
-    if (this.selectedImageData) {
-      // Convert the image data to a base64 string
-      const base64Image = this.selectedImageData.toString();
-      // Navigate to the chat-update component with message and image as query parameters
-      this.router.navigate(['/chat/new'], {
-        queryParams: {
-          message: message,
-          receiverLogin: this.receiverLogin,
-          image: base64Image, // Pass the image data as a query parameter
-        },
-      });
-    } else {
-      // Handle case where no image is selected
-      console.error('No image selected.');
-    }
-  }
-
-  convertImageToBase64(imageData: Uint8Array): Observable<string> {
-    const blob = new Blob([imageData], { type: 'image/jpeg' });
-
-    // Read the image blob as a base64 string
-    return new Observable<string>(observer => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        observer.next(reader.result as string);
-        observer.complete();
-      };
-      reader.readAsDataURL(blob);
-    });
-  }
-
-  setReceiverLoginAndSendMessage(shopName: string, shopUserId: number): void {
-    this.showChatPerson = true;
-    this.showChatHistory = true;
-    this.showSendMessage = true;
-    this.shopName = shopName;
-    this.receiverLogin = shopUserId.toString();
-    this.shopUserId = shopUserId;
-  }
-
-  reset(): void {
-    this.page = 1;
-    this.chats = [];
-    this.load();
-  }
-
-  loadPage(page: number): void {
-    this.page = page;
-    this.load();
-  }
-
-  trackId = (_index: number, item: IChat): number => this.chatService.getChatIdentifier(item);
 
   ngOnInit(): void {
     this.load();
+
+    this.checkCurrentUserInShopUserIds();
+
+    this.customer$ = this.accountService.getCustomer();
+
+    this.customer$.subscribe(customer => {
+      console.log('Customer:', customer);
+    });
+
+    this.customerService.getAllCustomers().subscribe({
+      next: (customers: ICustomer[]) => {
+        this.customers = customers;
+      },
+      error: (error: any) => {
+        console.error('Error fetching customers:', error);
+        // Handle error as needed
+      },
+    });
+
+    // Subscribe to getAllUsers
+    this.accountService.getAllUsers().subscribe(
+      (users: IUser[]) => {
+        this.users = users;
+        console.log('All Users:', users);
+      },
+      error => {
+        console.error('Error fetching users:', error);
+        // Handle error as needed
+      }
+    );
 
     // Fetch all shops
     this.shopService.getAllShops().subscribe({
@@ -164,6 +127,13 @@ export class ChatComponent implements OnInit {
       }
     });
 
+    // Fetch all shop user IDs
+    this.shopService.getAllShopUserIds().subscribe(userIds => {
+      this.userIds = userIds;
+      // Once user IDs are fetched, check if current user is in the shop user IDs
+      this.checkCurrentUserInShopUserIds();
+    });
+
     // Retrieve current user's ID
     this.accountService.identity().subscribe(account => {
       if (account) {
@@ -171,13 +141,11 @@ export class ChatComponent implements OnInit {
           if (userId) {
             this.currentUserId = userId;
             console.log('Current User ID:', this.currentUserId);
+            // Once current user ID is fetched, check if current user is in the shop user IDs
+            this.checkCurrentUserInShopUserIds();
           }
         });
       }
-    });
-
-    this.shopService.getAllShopUserIds().subscribe(userIds => {
-      this.userIds = userIds;
     });
 
     this.shopService.getAllShops().subscribe({
@@ -191,16 +159,144 @@ export class ChatComponent implements OnInit {
       },
     });
 
-    this.shopService.getLoginsForShopUsers().subscribe({
-      next: logins => {
-        this.shopUserLogins = logins;
-        console.log('Shop user logins:', logins);
-      },
-      error: error => {
-        console.error('Error fetching shop user logins:', error);
-      },
+    const customerId = this.customer?.user?.id;
+
+    if (customerId !== undefined) {
+      // Call the service method to get the user login using the customer ID
+      this.accountService.getLoginByUserId(customerId).subscribe(userLogin => {
+        if (userLogin) {
+          // Do something with the user login
+          console.log('User Login:', userLogin);
+        } else {
+          console.log('User login not found for the given customer id.');
+        }
+      });
+    } else {
+      console.error('Customer ID is not available.');
+    }
+  }
+
+  getLoginAndSendMessage(customerId: number) {
+    if (customerId !== undefined) {
+      this.accountService.getLoginByUserId(customerId).subscribe(
+        login => {
+          if (login) {
+            this.setReceiverLoginAndSendMessage(login, customerId);
+          } else {
+            console.log('User login not found for the given user ID.');
+          }
+        },
+        error => {
+          console.error('Error fetching user login:', error);
+          // Handle error as needed
+        }
+      );
+    } else {
+      console.log('Customer ID is undefined. Cannot fetch user login.');
+    }
+  }
+
+  setReceiverLoginAndSendMessage(shopName: string, shopUserId: number): void {
+    this.showChatPerson = true;
+    this.showChatHistory = true;
+    this.showSendMessage = true;
+    this.shopName = shopName;
+    this.receiverLogin = shopUserId.toString();
+    this.shopUserId = shopUserId;
+  }
+
+  checkCurrentUserInShopUserIds(): void {
+    // Perform your logic to check if current user is in shop user IDs
+    const isUserInShopUserIds = this.userIds.includes(this.currentUserId);
+
+    // Update the behavior subject with the result
+    this.isCurrentUserInShopUserIds$.next(isUserInShopUserIds);
+  }
+
+  getLoginByCustomerId(customerId: number): Observable<string | null> {
+    // Adjust the URL according to your backend API endpoint
+    return this.http.get<string | null>(`/api/users/login?customerId=${customerId}`);
+  }
+
+  isCurrentUserInShopUserIds(): boolean {
+    return this.userIds.includes(this.currentUserId);
+  }
+
+  hasMessages(): boolean {
+    if (this.chats) {
+      return this.chats.some(chat => chat.senderLogin == this.currentUserId.toString() && chat.receiverLogin == this.shopUserId.toString());
+    }
+    return false;
+  }
+
+  selectedImageData: string | ArrayBuffer | null = null;
+
+  // Event handler for when a file is selected
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      // Read the file as a data URL
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        // Store the image data in the selectedImageData variable
+        this.selectedImageData = reader.result;
+      };
+    }
+  }
+
+  sendMessageAndNavigate(): void {
+    const message = (document.getElementById('messageInput') as HTMLInputElement).value;
+
+    // Check if message is not empty
+    if (message.trim() !== '') {
+      // Initialize queryParams with message
+      const queryParams: any = {
+        message: message,
+        receiverLogin: this.receiverLogin,
+      };
+
+      // Check if an image is selected
+      if (this.selectedImageData) {
+        // Convert the image data to a base64 string and add it to queryParams
+        const base64Image = this.selectedImageData.toString();
+        queryParams.image = base64Image;
+      }
+
+      // Navigate to the chat-update component with queryParams
+      this.router.navigate(['/chat/new'], { queryParams: queryParams });
+    } else {
+      // Handle case where message is empty
+      console.error('Message cannot be empty.');
+    }
+  }
+
+  convertImageToBase64(imageData: Uint8Array): Observable<string> {
+    const blob = new Blob([imageData], { type: 'image/jpeg' });
+
+    // Read the image blob as a base64 string
+    return new Observable<string>(observer => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        observer.next(reader.result as string);
+        observer.complete();
+      };
+      reader.readAsDataURL(blob);
     });
   }
+
+  reset(): void {
+    this.page = 1;
+    this.chats = [];
+    this.load();
+  }
+
+  loadPage(page: number): void {
+    this.page = page;
+    this.load();
+  }
+
+  trackId = (_index: number, item: IChat): number => this.chatService.getChatIdentifier(item);
 
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);

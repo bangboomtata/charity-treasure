@@ -1,24 +1,194 @@
-<div>
-  <h2 id="page-heading" data-cy="ShopHeading">
-    <span>Shops</span>
+<!-- WHEN USER LOGIN -->
+<div *jhiHasAnyAuthority="'ROLE_USER'">
+  <div class="big-container">
+    <h2 class="big-title">SHOPS NEAR ME</h2>
+    <div class="map-container">
+      <div class="row">
+        <!-- Search Box -->
+        <div class="col-4 left">
+          <!-- Not Selected -->
+          <ng-container *ngIf="!selectedShop">
+            <div class="searchBox">
+              <input
+                type="search"
+                class="shopSearch"
+                name="shopSearch"
+                id="shopSearch"
+                placeholder="Search..."
+                [(ngModel)]="searchQuery"
+                (input)="filterShops()"
+              />
+              <div class="selection">
+                <select name="sortBy" id="sortBy" [(ngModel)]="selectedSortCriteria" (change)="sortFilteredShops()">
+                  <option value="sortBy" selected disabled>Sort By</option>
+                  <option value="highestRating">Highest Rating</option>
+                  <option value="nearestDistance">Nearest Distance</option>
+                  <option value="shortestDuration">Shortest Duration</option>
+                </select>
+              </div>
+            </div>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh list</span>
-      </button>
+            <!-- Display Shop list -->
+            <div class="shop-list">
+              <ng-container *ngIf="filteredShops">
+                <div *ngIf="filteredShops.length > 0; else noShopsFound">
+                  <div
+                    *ngFor="let shop of filteredShops"
+                    (click)="directSpecificShopLocation(shop)"
+                    (click)="selectedShop && displaySelectedShopDetails(selectedShop)"
+                    class="shop-list-container"
+                  >
+                    <div class="row shop-title">
+                      <div class="col-9">
+                        <p class="shop-name">{{ shop.shopName }}</p>
+                      </div>
+                      <div class="col">
+                        <p class="shop-distance">{{ shop.distance }}</p>
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="row shop-info">
+                      <div class="col-8">
+                        <p class="shop-rating">{{ shop.rating }}</p>
+                      </div>
+                      <div class="col">
+                        <p class="shop-duration">{{ shop.duration }}</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <p class="shop-address">{{ shop.street }}, {{ shop.city }}, {{ shop.postCode }}, {{ shop.country }}</p>
+                    </div>
+                    <div class="row">
+                      <p class="shop-contact">{{ shop.contactNum }}</p>
+                    </div>
+                    <div class="row">
+                      <p class="shop-email">{{ shop.shopEmail }}</p>
+                    </div>
+                  </div>
+                </div>
+                <ng-template #noShopsFound>
+                  <div class="no-shop-found">No Shops found</div>
+                </ng-template>
+              </ng-container>
+            </div>
+          </ng-container>
 
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-shop"
-        [routerLink]="['/shop/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Shop </span>
-      </button>
+          <!-- Selected -->
+          <ng-container *ngIf="selectedShop">
+            <div class="row selected-scroll">
+              <div class="selected-shop-container">
+                <div class="col">
+                  <img [src]="'data:' + selectedShop.logoContentType + ';base64,' + selectedShop.logo" alt="shop image" class="logo" />
+                </div>
+                <div class="selected-shop-title">
+                  <div class="row">
+                    <div class="col-9">
+                      <p class="selected-shop-name">{{ selectedShop.shopName }}</p>
+                    </div>
+                    <div class="col">
+                      <p class="selected-shop-distance">{{ selectedShop.distance }}</p>
+                    </div>
+                  </div>
+                </div>
+                <hr class="selected-hr" />
+                <div class="row shop-info">
+                  <div class="col-9">
+                    <p class="selected-shop-rating">{{ selectedShop.rating }}</p>
+                  </div>
+                  <div class="col">
+                    <p class="selected-shop-duration">{{ selectedShop.duration }}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-2"><img src="../../../../content/images/icon-address.png" alt="addres" class="icon" /></div>
+                  <div class="col">
+                    <p class="selected-shop-address">
+                      {{ selectedShop.street }}, {{ selectedShop.city }}, {{ selectedShop.postCode }}, {{ selectedShop.country }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-2"><img src="../../../../content/images/icon-Contact.png" alt="contactNum" class="icon" /></div>
+                  <div class="col">
+                    <p class="selected-shop-contact">{{ selectedShop.contactNum }}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-2"><img src="../../../../content/images/icon-Email.png" alt="email" class="icon" /></div>
+                  <div class="col">
+                    <p class="selected-shop-email">{{ selectedShop.shopEmail }}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-2"><img src="../../../../content/images/icon-openHours.png" alt="openHours" class="icon" /></div>
+                  <div class="col">
+                    <p class="selected-shop-openHours">Open Hours :-</p>
+                    <div class="row">
+                      <div class="col"><p>Weekdays</p></div>
+                      <div class="col">
+                        <p class="selected-shop-weekDays">{{ selectedShop.openHoursWeekdays }}</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col"><p>Weekends</p></div>
+                      <div class="col">
+                        <p class="selected-shop-weekEnds">{{ selectedShop.openHoursWeekends }}</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col"><p>Public Holidays</p></div>
+                      <div class="col">
+                        <p class="selected-shop-publicHolidays">{{ selectedShop.openHoursHolidays }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="button-row">
+                    <div class="col">
+                      <input type="button" value="Contact Us" class="contact" />
+                    </div>
+                  </div>
+                  <div class="button-row2">
+                    <div class="col">
+                      <input type="button" value="Navigate" class="navigate" (click)="startRouting()" />
+                      <input type="button" value="Back" class="back" (click)="goBack()" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <!-- Display Map -->
+        <div id="map-box" class="col map-box">
+          <div id="map-container-rectangle" class="map-container-rectangle"></div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- ADMIN SIDE -->
+
+<div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="admin-main-box">
+  <h2 id="page-heading" data-cy="ShopHeading" class="big-title">
+    <span>Shops</span>
   </h2>
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+      <span>Refresh list</span>
+    </button>
+
+    <!-- <button
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-shop"
+      [routerLink]="['/shop/new']"
+    >
+      <fa-icon icon="plus"></fa-icon>
+      <span> Create a new Shop </span>
+    </button> -->
+  </div>
 
   <jhi-alert-error></jhi-alert-error>
 
@@ -144,10 +314,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let shop of shops; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/shop', shop.id, 'view']">{{ shop.id }}</a>
-          </td>
+        <tr
+          *ngFor="let shop of shops; trackBy: trackId"
+          data-cy="entityTable"
+          class="admin-tr"
+          (click)="onTableRowClick($event, shop.id.toString())"
+        >
+          <td>{{ shop.id }}</td>
           <td>{{ shop.shopName }}</td>
           <td>{{ shop.contactNum }}</td>
           <td>{{ shop.shopEmail }}</td>
@@ -174,17 +347,35 @@
           </td>
           <td class="text-end">
             <div class="btn-group">
-              <button type="submit" [routerLink]="['/shop', shop.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+              <button
+                type="submit"
+                [routerLink]="['/shop', shop.id, 'view']"
+                (click)="$event.stopPropagation()"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">View</span>
               </button>
 
-              <button type="submit" [routerLink]="['/shop', shop.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <button
+                type="submit"
+                [routerLink]="['/shop', shop.id, 'edit']"
+                (click)="$event.stopPropagation()"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline">Edit</span>
               </button>
 
-              <button type="submit" (click)="delete(shop)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <button
+                type="submit"
+                (click)="delete(shop)"
+                (click)="$event.stopPropagation()"
+                class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton"
+              >
                 <fa-icon icon="times"></fa-icon>
                 <span class="d-none d-md-inline">Delete</span>
               </button>

@@ -5,7 +5,6 @@
     <!--Entire Chat-->
     <div class="card">
       <div class="row g-0">
-        <!--Customer Contact List *jhiHasAnyAuthority="'ROLE_USER'"-->
         <div class="contactList col-12 col-lg-5 col-xl-3 border-right">
           <div class="searchBarBox d-none d-md-block">
             <div class="d-flex align-items-center">
@@ -15,23 +14,46 @@
             </div>
           </div>
 
-          <!-- Users in Contact List-->
-          <div *ngFor="let shop of shops">
-            <button
-              class="shopUsers"
-              style="z-index: 1000"
-              (click)="setReceiverLoginAndSendMessage(shop?.shopName || '', shop?.user?.id || 0)"
-            >
-              <a class="list-group-item list-group-item-action border-0 my-3">
-                <div class="d-flex align-items-center justify-content-start px-4">
-                  <img src="../../../../content/images/user2.png" class="rounded-circle" width="40" height="40" />
-                  <div id="userShopName" class="userShopName px-2">
-                    {{ shop?.shopName }}
+          <!-- Customer's Contact List-->
+          <ng-container *ngIf="!(isCurrentUserInShopUserIds$ | async)">
+            <div *ngFor="let shop of shops">
+              <button
+                class="shopUsers"
+                style="z-index: 1000"
+                (click)="setReceiverLoginAndSendMessage(shop?.shopName || '', shop?.user?.id || 0)"
+              >
+                <a class="list-group-item list-group-item-action border-0 my-3">
+                  <div class="d-flex align-items-center justify-content-start px-4">
+                    <img src="../../../../content/images/user2.png" class="rounded-circle" width="40" height="40" />
+                    <div id="userShopName" class="userShopName px-2">
+                      {{ shop?.shopName }}
+                    </div>
                   </div>
-                </div>
-              </a>
-            </button>
-          </div>
+                </a>
+              </button>
+            </div>
+          </ng-container>
+
+          <!-- Shop User's Contact List-->
+          <ng-container *ngIf="isCurrentUserInShopUserIds$ | async as isCurrentUserInShopUserIds">
+            <div *ngFor="let customer of customers">
+              <button
+                class="shopUsers"
+                style="z-index: 1000"
+                (click)="getLoginAndSendMessage(customer?.user?.id ?? 0)"
+                *ngIf="isCurrentUserInShopUserIds"
+              >
+                <a class="list-group-item list-group-item-action border-0 my-3">
+                  <div class="d-flex align-items-center justify-content-start px-4">
+                    <img src="../../../../content/images/user2.png" class="rounded-circle" width="40" height="40" />
+                    <div id="userShopName" class="userShopName px-2">
+                      {{ customer.user?.login }}
+                    </div>
+                  </div>
+                </a>
+              </button>
+            </div>
+          </ng-container>
         </div>
 
         <!-- Chat History -->
@@ -57,10 +79,17 @@
               <!--If there are messages between currentUser and selected User-->
               <div *ngIf="hasMessages()" class="chat-messages py-3 px-4">
                 <div class="chat-messages py-3 px-4">
-                  <div class="chat-message-right" *ngFor="let chat of chats; trackBy: trackId">
+                  <div class="chat-message" *ngFor="let chat of chats; trackBy: trackId">
                     <div
-                      *ngIf="chat.senderLogin == currentUserId.toString() && chat.receiverLogin == shopUserId.toString()"
-                      class="chat-message-left d-flex align-items-start pb-4"
+                      *ngIf="
+                        (chat.senderLogin == currentUserId.toString() && chat.receiverLogin == shopUserId.toString()) ||
+                        (chat.senderLogin == shopUserId.toString() && chat.receiverLogin == currentUserId.toString())
+                      "
+                      class="chat-message d-flex align-items-start pb-4"
+                      [ngClass]="{
+                        'justify-content-start': chat.senderLogin != currentUserId.toString(),
+                        'justify-content-end': chat.senderLogin == currentUserId.toString()
+                      }"
                     >
                       <img src="../../../../content/images/user2.png" class="rounded-circle mr-3 mb-2" width="40" height="40" />
                       <div class="messageContainer">

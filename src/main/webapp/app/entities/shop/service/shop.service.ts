@@ -48,18 +48,6 @@ export class ShopService {
     );
   }
 
-  getLoginsForShopUsers(): Observable<(string | null | undefined)[]> {
-    return this.getAllShopUserIds().pipe(
-      mergeMap(userIds => {
-        const requests: Observable<string | null | undefined>[] = [];
-        for (const userId of userIds) {
-          requests.push(this.accountService.getLoginByUserId(userId));
-        }
-        return forkJoin(requests);
-      })
-    );
-  }
-
   create(shop: NewShop): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(shop);
     return this.http.post<RestShop>(this.resourceUrl, copy, { observe: 'response' }).pipe(map(res => this.convertResponseFromServer(res)));
