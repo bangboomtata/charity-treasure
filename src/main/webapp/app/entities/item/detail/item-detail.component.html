@@ -44,7 +44,7 @@
                   </ng-container>
                 </div>
 
-                <div class="button-box" *jhiHasAnyAuthority="'ROLE_USER'">
+                <div class="button-box" *ngIf="Shop === false">
                   <button>RESERVE NOW</button>
                 </div>
 
