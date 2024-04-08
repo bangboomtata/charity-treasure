@@ -9,6 +9,7 @@ import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IShop, NewShop } from '../shop.model';
+import { SShop } from 'app/account/register/register.component';
 import { AccountService } from 'app/core/auth/account.service';
 
 export type PartialUpdateShop = Partial<IShop> & Pick<IShop, 'id'>;
@@ -62,6 +63,10 @@ export class ShopService {
   create(shop: NewShop): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(shop);
     return this.http.post<RestShop>(this.resourceUrl, copy, { observe: 'response' }).pipe(map(res => this.convertResponseFromServer(res)));
+  }
+
+  createShop(shop: SShop): Observable<EntityResponseType> {
+    return this.http.post<RestShop>(this.resourceUrl, shop, { observe: 'response' }).pipe(map(res => this.convertResponseFromServer(res)));
   }
 
   update(shop: IShop): Observable<EntityResponseType> {
