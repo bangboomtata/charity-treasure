@@ -1,0 +1,51 @@
+/* Ensures the outer table is centered and has a white background */
+.table-responsive {
+  width: 80%;
+  margin: 0 auto;
+  background-color: #ffffff; /* White background */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #fcd9df; /* Light pink background for odd rows */
+}
+/* Styles for the nested table to differentiate it */
+.nested-table {
+  width: 100%; /* Adjust based on your design needs */
+  background-color: #f9f9f9; /* Slightly off-white to distinguish from the outer table */
+  border-collapse: collapse; /* Collapse borders */
+}
+
+.nested-table th,
+.nested-table td {
+  border: 1px solid #ddd; /* Light border for table cells */
+  padding: 8px; /* Padding for content */
+}
+
+.nested-table th {
+  text-align: left;
+  background-color: #f2f2f2; /* Light background for header */
+}
+.table a {
+  color: black !important; /* Ensure it overrides any other style */
+  text-decoration: none !important; /* Removes underline from links */
+}
+
+.btn-primary,
+.btn-danger,
+.btn-sm {
+  color: black;
+  background-color: transparent;
+}
+.btn,
+.fa-icon {
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+  background-color: transparent !important; /* Ensure no background */
+}
+/* Optionally, style the nested table's rows for zebra striping */
+.nested-table tbody tr:nth-child(odd) {
+  background-color: #eee;
+}

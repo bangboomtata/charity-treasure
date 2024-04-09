@@ -1,119 +1,124 @@
-<div class="d-flex justify-content-center">
-  <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-reservation-heading" data-cy="ReservationCreateUpdateHeading">Create or edit a Reservation</h2>
+<div style="background-color: #f8e6e9">
+  <div class="d-flex justify-content-center">
+    <div class="reservation-wrapper">
+      <div class="reservation-form">
+        <h2 id="jhi-reservation-heading" data-cy="ReservationCreateUpdateHeading">Reserve</h2>
+        <p class="instructions"><i>To reserve this item we would need some details from you!</i></p>
 
-      <div>
-        <jhi-alert-error></jhi-alert-error>
-
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_reservedTime">Reserved Time</label>
-          <div class="d-flex">
-            <input
-              id="field_reservedTime"
-              data-cy="reservedTime"
-              type="datetime-local"
-              class="form-control"
-              name="reservedTime"
-              formControlName="reservedTime"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+          <div class="table-responsive" style="background-color: #ffc0cb; /* Pink background */ border-radius: 10px">
+            <table class="table">
+              <tbody>
+                <tr *ngIf="editForm.controls.id.value !== null">
+                  <td class="text-right">
+                    <label class="form-label" for="field_id">ID:</label>
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-right">
+                    <label for="customerFullName">Your Full Name:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="customerFullName"
+                      class="form-control"
+                      formControlName="customerFullName"
+                      placeholder="Customer Full Name"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-right">
+                    <label class="form-label" for="field_reservedTime">Reserved Time:</label>
+                  </td>
+                  <td>
+                    <input
+                      id="field_reservedTime"
+                      data-cy="reservedTime"
+                      type="datetime-local"
+                      class="form-control"
+                      name="reservedTime"
+                      formControlName="reservedTime"
+                      placeholder="YYYY-MM-DD HH:mm"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-right">
+                    <label class="form-label" for="field_reservedExpiry">Reserved Expiry:</label>
+                  </td>
+                  <td>
+                    <input
+                      id="field_reservedExpiry"
+                      data-cy="reservedExpiry"
+                      type="datetime-local"
+                      class="form-control"
+                      name="reservedExpiry"
+                      formControlName="reservedExpiry"
+                      placeholder="YYYY-MM-DD HH:mm"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-right">
+                    <label class="form-label" for="field_item">Item:</label>
+                  </td>
+                  <td>
+                    <select
+                      class="form-control"
+                      id="field_item"
+                      data-cy="item"
+                      name="item"
+                      formControlName="item"
+                      [compareWith]="compareItem"
+                    >
+                      <option [ngValue]="null"></option>
+                      <option [ngValue]="itemOption" *ngFor="let itemOption of itemsCollection">{{ itemOption.id }}</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-right">
+                    <label class="form-label" for="field_shop">Shop:</label>
+                  </td>
+                  <td>
+                    <select
+                      class="form-control"
+                      id="field_shop"
+                      data-cy="shop"
+                      name="shop"
+                      formControlName="shop"
+                      [compareWith]="compareShop"
+                    >
+                      <option [ngValue]="null"></option>
+                      <option [ngValue]="shopOption" *ngFor="let shopOption of shopsSharedCollection">{{ shopOption.id }}</option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div
-            *ngIf="editForm.get('reservedTime')!.invalid && (editForm.get('reservedTime')!.dirty || editForm.get('reservedTime')!.touched)"
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('reservedTime')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('reservedTime')?.errors?.datetimelocal">
-              This field should be a date and time.
-            </small>
+
+          <div class="d-flex justify-content-between mt-3">
+            <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary">
+              <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+            </button>
+            <button
+              type="button"
+              id="save-entity"
+              data-cy="entityCreateSaveButton"
+              class="btn btn-primary"
+              (click)="navigateToConfirmation()"
+            >
+              <fa-icon icon="save"></fa-icon>&nbsp;<span>Reserve</span>
+            </button>
           </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_reservedExpiry">Reserved Expiry</label>
-          <div class="d-flex">
-            <input
-              id="field_reservedExpiry"
-              data-cy="reservedExpiry"
-              type="datetime-local"
-              class="form-control"
-              name="reservedExpiry"
-              formControlName="reservedExpiry"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
-          <div
-            *ngIf="
-              editForm.get('reservedExpiry')!.invalid && (editForm.get('reservedExpiry')!.dirty || editForm.get('reservedExpiry')!.touched)
-            "
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('reservedExpiry')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('reservedExpiry')?.errors?.datetimelocal">
-              This field should be a date and time.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_status">Status</label>
-          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
-            <option [ngValue]="null"></option>
-            <option *ngFor="let reservationStatus of reservationStatusValues" [value]="reservationStatus">reservationStatus</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_item">Item</label>
-          <select class="form-control" id="field_item" data-cy="item" name="item" formControlName="item" [compareWith]="compareItem">
-            <option [ngValue]="null"></option>
-            <option [ngValue]="itemOption" *ngFor="let itemOption of itemsCollection">{{ itemOption.id }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_customer">Customer</label>
-          <select
-            class="form-control"
-            id="field_customer"
-            data-cy="customer"
-            name="customer"
-            formControlName="customer"
-            [compareWith]="compareCustomer"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="customerOption" *ngFor="let customerOption of customersSharedCollection">{{ customerOption.id }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_shop">Shop</label>
-          <select class="form-control" id="field_shop" data-cy="shop" name="shop" formControlName="shop" [compareWith]="compareShop">
-            <option [ngValue]="null"></option>
-            <option [ngValue]="shopOption" *ngFor="let shopOption of shopsSharedCollection">{{ shopOption.id }}</option>
-          </select>
-        </div>
+        </form>
       </div>
-
-      <div>
-        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
-        </button>
-
-        <button
-          type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
-        </button>
-      </div>
-    </form>
+    </div>
   </div>
 </div>
