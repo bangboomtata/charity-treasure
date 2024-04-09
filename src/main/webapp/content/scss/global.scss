@@ -239,3 +239,9 @@ body {
 form {
   padding-bottom: 20px;
 }
+
+// Leaflet
+.leaflet-routing-container-hide .leaflet-routing-collapse-btn {
+  left: 2px !important;
+  top: 0px !important;
+}

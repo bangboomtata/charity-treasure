@@ -11,6 +11,8 @@ export interface IShop {
   openHoursWeekdays?: string | null;
   openHoursWeekends?: string | null;
   openHoursHolidays?: string | null;
+  latitude?: number;
+  longitude?: number;
   street?: string | null;
   city?: string | null;
   postCode?: string | null;

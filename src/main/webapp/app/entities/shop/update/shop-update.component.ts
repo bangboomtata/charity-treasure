@@ -16,6 +16,7 @@ import { UserService } from 'app/entities/user/user.service';
 @Component({
   selector: 'jhi-shop-update',
   templateUrl: './shop-update.component.html',
+  styleUrls: ['./shop-update.component.scss'],
 })
 export class ShopUpdateComponent implements OnInit {
   isSaving = false;

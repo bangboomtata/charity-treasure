@@ -1,18 +1,18 @@
 <!-- if role is shopkeeper, not implemented yet -->
-<div class="big-container">
+<div class="big-item-container">
   <h2 id="page-heading" data-cy="ItemHeading" class="big-title">
     <span>Items</span>
   </h2>
   <div class="d-flex justify-content-end create-refresh-box">
-    <select name="filter" id="filter" [(ngModel)]="selectedCategory">
+    <!-- <select name="filter" id="filter" [(ngModel)]="selectedCategory">
       <option value="ALL" selected>ALL</option>
       <option value="CLOTHING">CLOTHING</option>
       <option value="BOOK">BOOK</option>
       <option value="HOMEWARE">HOMEWARE</option>
       <option value="ENTERTAINMENT">ENTERTAINMENT</option>
       <option value="TOY">TOY</option>
-    </select>
-    <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+    </select> -->
+    <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading">
       <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
       <span>Refresh list</span>
     </button>
@@ -22,7 +22,7 @@
       data-cy="entityCreateButton"
       class="btn btn-primary jh-create-entity create-item create-entity-button"
       [routerLink]="['/item/new']"
-      *jhiHasAnyAuthority="'ROLE_ADMIN'"
+      *ngIf="isShop"
     >
       <!-- shouldn't have role admin for this -->
       <fa-icon icon="plus"></fa-icon>
@@ -38,103 +38,134 @@
     <span>No Items found</span>
   </div>
 
+  <div class="filter-box">
+    <p class="filter-title">Filter Search</p>
+    <hr />
+    <ul class="list-unstyled" *ngFor="let itemType of itemTypeValues">
+      <li>
+        <input
+          type="checkbox"
+          (change)="updateSelectedOptions(itemType.toString())"
+          [id]="itemType.toString()"
+          [name]="itemType.toString()"
+        />
+        <label [for]="itemType.toString()">{{ itemType }}</label>
+      </li>
+      <div *ngIf="isClothing(itemType); else notClothing">
+        <ul class="subcat list-unstyled" *ngFor="let gender of genderValues">
+          <li>
+            <input type="checkbox" (change)="updateSelectedOptions(gender.toString())" [id]="gender" [name]="gender" />
+            <label [for]="gender">{{ gender }}</label>
+          </li>
+          <ul class="subsubcat list-unstyled">
+            <li *ngFor="let subcat of updateSubCategoryOptions(itemType, gender)">
+              <input type="checkbox" (change)="updateSelectedOptions(subcat.toString())" [id]="subcat" [name]="subcat" />
+              <label [for]="subcat">{{ subcat }}</label>
+            </li>
+          </ul>
+        </ul>
+      </div>
+      <ng-template #notClothing>
+        <ul class="subcat list-unstyled">
+          <li *ngFor="let subcat of updateSubCategoryOptions(itemType, null)">
+            <input type="checkbox" (change)="updateSelectedOptions(itemType.toString())" [id]="subcat" [name]="subcat" />
+            <label [for]="subcat">{{ subcat }}</label>
+          </li>
+        </ul>
+      </ng-template>
+    </ul>
+  </div>
   <div class="main-box">
     <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
       <div class="table-responsive table-entities" id="entities" *ngIf="items && items.length > 0">
-        <table class="table table-striped" aria-describedby="page-heading">
+        <table class="table text-center" aria-describedby="page-heading">
           <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-              <th scope="col" jhiSortBy="id">
+              <!-- <th scope="col" jhiSortBy="id">
                 <div class="d-flex">
                   <span>ID</span>
                   <fa-icon class="p-1" icon="sort"></fa-icon>
                 </div>
-              </th>
-              <th scope="col" jhiSortBy="price">
-                <div class="d-flex">
-                  <span>Price</span>
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
-                </div>
-              </th>
-              <!-- <th scope="col" jhiSortBy="saleFlag">
-                <div class="d-flex">
-                  <span>Sale Flag</span>
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
-                </div>
-              </th>
-              <th scope="col" jhiSortBy="saleAmount">
-                <div class="d-flex">
-                  <span>Sale Amount</span>
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
-                </div>
               </th> -->
-              <!-- <th scope="col" jhiSortBy="shownPrice">
-                <div class="d-flex">
-                  <span>Shown Price</span>
+              <th scope="col" class="text-center align-middle" jhiSortBy="itemImage">
+                <div>
+                  <span>Item Image</span>
                   <fa-icon class="p-1" icon="sort"></fa-icon>
                 </div>
-              </th> -->
-              <th scope="col" jhiSortBy="itemName">
+              </th>
+              <th scope="col" class="text-center align-middle" jhiSortBy="itemName">
                 <div class="d-flex">
                   <span>Item Name</span>
                   <fa-icon class="p-1" icon="sort"></fa-icon>
                 </div>
               </th>
-              <!-- <th scope="col" jhiSortBy="itemDescription">
+              <th scope="col" class="text-center align-middle" jhiSortBy="price">
+                <div class="d-flex">
+                  <span>Price</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </th>
+              <!-- <th scope="col" class="text-center align-middle" jhiSortBy="saleFlag">
+                <div class="d-flex">
+                  <span>Sale Flag</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </th>
+              <th scope="col" class="text-center align-middle" jhiSortBy="saleAmount">
+                <div class="d-flex">
+                  <span>Sale Amount</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </th> -->
+              <!-- <th scope="col" class="text-center align-middle" jhiSortBy="shownPrice">
+                <div class="d-flex">
+                  <span>Shown Price</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </th> -->
+              <!-- <th scope="col" class="text-center align-middle" jhiSortBy="itemDescription">
                 <div class="d-flex">
                   <span>Item Description</span>
                   <fa-icon class="p-1" icon="sort"></fa-icon>
                 </div>
               </th> -->
-              <th scope="col" jhiSortBy="itemAvailability">
+              <th scope="col" class="text-center align-middle" jhiSortBy="itemAvailability">
                 <div class="d-flex">
                   <span>Item Availability</span>
                   <fa-icon class="p-1" icon="sort"></fa-icon>
                 </div>
               </th>
-              <th scope="col" jhiSortBy="itemImage">
-                <div class="d-flex">
-                  <span>Item Image</span>
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
-                </div>
-              </th>
-              <th scope="col" jhiSortBy="reserveFlag">
+              <th scope="col" class="text-center align-middle" jhiSortBy="reserveFlag">
                 <div class="d-flex">
                   <span>Reserve Flag</span>
                   <fa-icon class="p-1" icon="sort"></fa-icon>
                 </div>
               </th>
-              <!-- <th scope="col" jhiSortBy="gender">
+              <!-- <th scope="col" class="text-center align-middle" jhiSortBy="gender">
                 <div class="d-flex">
                   <span>Gender</span>
                   <fa-icon class="p-1" icon="sort"></fa-icon>
                 </div>
               </th>
-              <th scope="col" jhiSortBy="condition">
+              <th scope="col" class="text-center align-middle" jhiSortBy="condition">
                 <div class="d-flex">
                   <span>Condition</span>
                   <fa-icon class="p-1" icon="sort"></fa-icon>
                 </div>
               </th> -->
-              <th scope="col" jhiSortBy="itemType">
+              <th scope="col" class="text-center align-middle" jhiSortBy="itemType">
                 <div class="d-flex">
                   <span>Item Type</span>
                   <fa-icon class="p-1" icon="sort"></fa-icon>
                 </div>
               </th>
-              <th scope="col" jhiSortBy="subCategory">
+              <th scope="col" class="text-center align-middle" jhiSortBy="subCategory">
                 <div class="d-flex">
                   <span>Sub Category</span>
                   <fa-icon class="p-1" icon="sort"></fa-icon>
                 </div>
               </th>
-              <th scope="col" jhiSortBy="shop.id">
-                <div class="d-flex">
-                  <span>Shop</span>
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
-                </div>
-              </th>
-              <th scope="col"></th>
+              <th scope="col" class="align-middle">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -159,7 +190,6 @@
                         alt="item image"
                       />
                     </a>
-                    <span *ngIf="item.itemImage">{{ item.itemImageContentType }}, {{ byteSize(item.itemImage) }}</span>
                   </td>
                   <td>{{ item.reserveFlag }}</td>
                   <!-- <td>{{ item.gender }}</td>
@@ -193,7 +223,7 @@
                         <span class="d-none d-md-inline">Edit</span>
                       </button>
 
-                      <button type="submit" (click)="delete(item)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                      <button type="submit" (click)="delete($event, item)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                         <fa-icon icon="times"></fa-icon>
                         <span class="d-none d-md-inline">Delete</span>
                       </button>
@@ -205,40 +235,32 @@
 
             <ng-template #elseBlock>
               <ng-container *ngFor="let item of items; trackBy: trackId">
-                <tr data-cy="entityTable" *ngIf="item.shop?.id == currentShopId">
-                  <td>
-                    <a [routerLink]="['/item', item.id, 'view']">{{ item.id }}</a>
-                  </td>
-                  <td>{{ item.price }}</td>
-                  <!-- <td>{{ item.saleFlag }}</td>
-                  <td>{{ item.saleAmount }}</td>
-                  <td>{{ item.shownPrice }}</td> -->
-                  <td>{{ item.itemName }}</td>
-                  <!-- <td>{{ item.itemDescription }}</td> -->
-                  <td>{{ item.itemAvailability }}</td>
-                  <td>
+                <tr data-cy="entityTable" *ngIf="shouldDisplayItem(item)" [routerLink]="['/item', item.id, 'view']">
+                  <td class="img-td">
                     <a *ngIf="item.itemImage" (click)="openFile(item.itemImage, item.itemImageContentType)">
-                      <img
-                        [src]="'data:' + item.itemImageContentType + ';base64,' + item.itemImage"
-                        style="max-height: 30px"
-                        alt="item image"
-                      />
+                      <img [src]="'data:' + item.itemImageContentType + ';base64,' + item.itemImage" alt="item image" />
                     </a>
-                    <span *ngIf="item.itemImage">{{ item.itemImageContentType }}, {{ byteSize(item.itemImage) }}</span>
+                  </td>
+                  <td>{{ item.itemName }}</td>
+                  <td>{{ item.price }}</td>
+                  <!-- <td>{{ item.itemDescription }}</td> -->
+                  <td>
+                    <ng-container *ngIf="item.itemAvailability; else notAvailable"> Available </ng-container>
+                    <ng-template #notAvailable> Not Available </ng-template>
                   </td>
                   <td>{{ item.reserveFlag }}</td>
                   <!-- <td>{{ item.gender }}</td>
                   <td>{{ item.condition }}</td> -->
                   <td>{{ item.itemType }}</td>
                   <td>{{ item.subCategory }}</td>
-                  <td>
+                  <!-- <td>
                     <div *ngIf="item.shop">
                       <a [routerLink]="['/shop', item.shop.id, 'view']">{{ item.shop.id }}</a>
                     </div>
-                  </td>
+                  </td> -->
                   <td class="text-end">
                     <div class="btn-group">
-                      <button
+                      <!-- <button
                         type="submit"
                         [routerLink]="['/item', item.id, 'view']"
                         class="btn btn-info btn-sm"
@@ -246,19 +268,14 @@
                       >
                         <fa-icon icon="eye"></fa-icon>
                         <span class="d-none d-md-inline">View</span>
-                      </button>
+                      </button> -->
 
-                      <button
-                        type="submit"
-                        [routerLink]="['/item', item.id, 'edit']"
-                        class="btn btn-primary btn-sm"
-                        data-cy="entityEditButton"
-                      >
+                      <button type="submit" (click)="edit($event, item)" class="btn btn-primary btn-sm edit-btn" data-cy="entityEditButton">
                         <fa-icon icon="pencil-alt"></fa-icon>
                         <span class="d-none d-md-inline">Edit</span>
                       </button>
 
-                      <button type="submit" (click)="delete(item)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                      <button type="submit" (click)="delete($event, item)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                         <fa-icon icon="times"></fa-icon>
                         <span class="d-none d-md-inline">Delete</span>
                       </button>
@@ -270,6 +287,7 @@
           </tbody>
         </table>
       </div>
+      <table></table>
     </div>
 
     <div class="productDisplay" *jhiHasAnyAuthority="'ROLE_USER'">
@@ -301,26 +319,28 @@
         </ng-container>
 
         <ng-template #elseBlock>
-          <div class="productCard" [routerLink]="['/item', item.id, 'view']" *ngFor="let item of items">
-            <div class="card-img text-center">
-              <img *ngIf="item.itemImage" [src]="'data:' + item.itemImageContentType + ';base64,' + item.itemImage" alt="item image" />
-            </div>
-            <div class="card-details">
-              <p class="card-name">{{ item.itemName }}</p>
-              <div *ngIf="item.saleFlag; else notOnSale" class="card-price">
-                <span class="original-price">{{ getPriceParts(item.shownPrice).originalPrice }}</span>
-                <span class="discounted-price">{{ getPriceParts(item.shownPrice).discountedPrice }}</span>
-                <span class="discount-percentage">{{ getPriceParts(item.shownPrice).discountPercentage }}</span>
+          <ng-container *ngFor="let item of items">
+            <div class="productCard" [routerLink]="['/item', item.id, 'view']" *ngIf="shouldDisplayItem(item)">
+              <div class="card-img text-center">
+                <img *ngIf="item.itemImage" [src]="'data:' + item.itemImageContentType + ';base64,' + item.itemImage" alt="item image" />
               </div>
-              <ng-template #notOnSale>
-                <p class="card-price">£{{ item.shownPrice }}</p>
-              </ng-template>
+              <div class="card-details">
+                <p class="card-name">{{ item.itemName }}</p>
+                <div *ngIf="item.saleFlag; else notOnSale" class="card-price">
+                  <span class="original-price">{{ getPriceParts(item.shownPrice).originalPrice }}</span>
+                  <span class="discounted-price">{{ getPriceParts(item.shownPrice).discountedPrice }}</span>
+                  <span class="discount-percentage">{{ getPriceParts(item.shownPrice).discountPercentage }}</span>
+                </div>
+                <ng-template #notOnSale>
+                  <p class="card-price">£{{ item.shownPrice }}</p>
+                </ng-template>
+              </div>
+              <!--            <div class="card-details">-->
+              <!--              <p class="card-name">{{ item.itemName }}</p>-->
+              <!--              <p class="card-price">£{{ item.shownPrice }}</p>-->
+              <!--            </div>-->
             </div>
-            <!--            <div class="card-details">-->
-            <!--              <p class="card-name">{{ item.itemName }}</p>-->
-            <!--              <p class="card-price">£{{ item.shownPrice }}</p>-->
-            <!--            </div>-->
-          </div>
+          </ng-container>
         </ng-template>
       </div>
     </div>
