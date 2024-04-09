@@ -245,6 +245,12 @@ export class ShopComponent implements OnInit {
 
   // Set up the map with user's location
   protected setupMap(): void {
+    if (this.map) {
+      // If the map is already initialized, no need to initialize it again
+      console.warn('Map is already initialized.');
+      return;
+    }
+
     const tileLayerUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const tileLayer = L.tileLayer(tileLayerUrl, {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -311,6 +317,12 @@ export class ShopComponent implements OnInit {
             // Store coordinates for this shop
             this.shopCoordinates[shop.id] = coordinates;
 
+            // Calculate distance and duration from user location to shop location
+            const distance = this.calculateDistance(this.userLocation![0], this.userLocation![1], latitude, longitude);
+            const duration = this.calculateDuration(this.userLocation![0], this.userLocation![1], latitude, longitude);
+            shop.distance = distance.value; // Assign the formatted distance value
+            shop.duration = duration;
+
             // Create shopMarker with shopMarkerIcon
             const shopMarker = L.marker(coordinates, { icon: this.shopMarkerIcon });
 
@@ -335,9 +347,108 @@ export class ShopComponent implements OnInit {
         },
         error: error => {
           console.error('Error fetching coordinates from Nominatim API:', error);
+          console.error(`Coordinates for shop ${shop.id} are not available.`);
+          // Handle error - you can log an error message and continue processing other shops
         },
       });
     });
+  }
+
+  protected degreesToRadians(degrees: number): number {
+    return degrees * (Math.PI / 180);
+  }
+
+  protected calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): { value: number } {
+    const a = 6378137; // semi-major axis of the WGS84 ellipsoid in meters
+    const f = 1 / 298.257223563; // flattening of the WGS84 ellipsoid
+    const b = (1 - f) * a; // semi-minor axis
+
+    const phi1 = this.degreesToRadians(lat1);
+    const phi2 = this.degreesToRadians(lat2);
+    const lambda1 = this.degreesToRadians(lon1);
+    const lambda2 = this.degreesToRadians(lon2);
+
+    const U1 = Math.atan((1 - f) * Math.tan(phi1));
+    const U2 = Math.atan((1 - f) * Math.tan(phi2));
+    const L = lambda2 - lambda1;
+
+    let lambda = L;
+    let lambdaPrev = 0;
+    let iterationLimit = 100;
+
+    let cosU1 = Math.cos(U1);
+    let cosU2 = Math.cos(U2);
+    let sinU1 = Math.sin(U1);
+    let sinU2 = Math.sin(U2);
+    let cosLambda;
+    let sinLambda;
+    let sinSigma;
+    let cosSigma;
+    let sigma;
+    let sinAlpha;
+    let cosSqAlpha;
+    let cos2SigmaM;
+    let C;
+
+    do {
+      sinLambda = Math.sin(lambda);
+      cosLambda = Math.cos(lambda);
+      sinSigma = Math.sqrt((cosU2 * sinLambda) ** 2 + (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) ** 2);
+      cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
+      sigma = Math.atan2(sinSigma, cosSigma);
+      sinAlpha = (cosU1 * cosU2 * sinLambda) / sinSigma;
+      cosSqAlpha = 1 - sinAlpha ** 2;
+      cos2SigmaM = cosSigma - (2 * sinU1 * sinU2) / cosSqAlpha;
+      C = (f / 16) * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));
+      lambdaPrev = lambda;
+      lambda = L + (1 - C) * f * sinAlpha * (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM ** 2)));
+    } while (Math.abs(lambda - lambdaPrev) > 1e-12 && --iterationLimit > 0);
+
+    if (iterationLimit === 0) {
+      console.error('Vincenty formula failed to converge');
+      return { value: NaN }; // Unable to compute distance
+    }
+
+    const uSq = (cosSqAlpha * (a ** 2 - b ** 2)) / b ** 2;
+    const A = 1 + (uSq / 16384) * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)));
+    const B = (uSq / 1024) * (256 + uSq * (-128 + uSq * (74 - 47 * uSq)));
+    const deltaSigma =
+      B *
+      sinSigma *
+      (cos2SigmaM +
+        (B / 4) * (cosSigma * (-1 + 2 * cos2SigmaM ** 2) - (B / 6) * cos2SigmaM * (-3 + 4 * sinSigma ** 2) * (-3 + 4 * cos2SigmaM ** 2)));
+
+    const s = b * A * (sigma - deltaSigma); // Distance in meters
+
+    const distanceInKm = s / 1000;
+
+    return { value: distanceInKm };
+  }
+
+  protected calculateDuration(lat1: number, lon1: number, lat2: number, lon2: number): string {
+    // Assuming you have a method calculateDistance already defined
+    const { value } = this.calculateDistance(lat1, lon1, lat2, lon2);
+
+    // Assuming an average driving speed of 30 km/h
+    const drivingSpeed = 30; // in km/h
+
+    let durationHours = 0;
+    durationHours = value / drivingSpeed;
+
+    const durationMinutes = Math.round(durationHours * 60);
+
+    if (durationMinutes >= 1440) {
+      // More than 24 hours
+      const days = Math.floor(durationMinutes / 1440);
+      const hours = Math.floor((durationMinutes % 1440) / 60);
+      return `${days} days ${hours} hours`;
+    } else if (durationMinutes >= 60) {
+      const hours = Math.floor(durationMinutes / 60);
+      const remainingMinutes = Math.round(durationMinutes % 60);
+      return `${hours} hours ${remainingMinutes} minutes`;
+    } else {
+      return `${Math.round(durationMinutes)} minutes`;
+    }
   }
 
   //When user press the map-container-rectangle it will direct user to the location
@@ -465,6 +576,7 @@ export class ShopComponent implements OnInit {
       fitSelectedRoutes: true,
       routeWhileDragging: false,
       showAlternatives: false,
+      collapsible: true,
     };
 
     const routingControl = L.Routing.control(routingControlOptions).addTo(this.map);
@@ -521,17 +633,35 @@ export class ShopComponent implements OnInit {
 
     switch (this.selectedSortCriteria) {
       case 'highestRating':
-        // this.filteredShops = this.filteredShops?.sort((a, b) => (a.rating > b.rating ? -1 : 1));
+        // Sort by highest rating
+        this.filteredShops = this.filteredShops?.sort((a, b) => (b.rating || 0) - (a.rating || 0));
         break;
-      case 'nearestDistance':
-        // Implement sorting by distance
-        // You may need to calculate the distance from the universityCoordinates to each shop's location
-        // and then sort the shops accordingly
+      case 'shortestDisDur':
+        // Sort by shortest distance or duration
+        // This sorting depends on pre-calculated distance and duration properties on each shop
+        // You may need to adjust the property names based on your actual implementation
+        this.filteredShops = this.filteredShops?.sort((a, b) => {
+          // Sort by distance if available, otherwise sort by duration
+          const aDistance = a.distance || Number.MAX_VALUE;
+          const bDistance = b.distance || Number.MAX_VALUE;
+          const aDuration = a.duration ? parseFloat(a.duration) : Number.MAX_VALUE; // Convert duration to number if it exists
+          const bDuration = b.duration ? parseFloat(b.duration) : Number.MAX_VALUE; // Convert duration to number if it exists
+
+          // Compare distances first
+          if (aDistance !== bDistance) {
+            return aDistance - bDistance;
+          } else {
+            // If distances are equal, compare durations
+            return aDuration - bDuration;
+          }
+        });
         break;
-      case 'shortestDuration':
-        // Implement sorting by duration
-        // You may need additional information to calculate the duration to each shop
-        // and then sort the shops accordingly
+      case 'alphabeticalOrder':
+        // Sort alphabetically by shop name
+        this.filteredShops = this.filteredShops?.sort((a, b) => {
+          // Use localeCompare for case-insensitive alphabetical sorting
+          return (a.shopName || '').localeCompare(b.shopName || '');
+        });
         break;
       default:
         break;
