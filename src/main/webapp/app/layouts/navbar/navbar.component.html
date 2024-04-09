@@ -48,25 +48,68 @@
           </a>
         </li>
 
+        <!--
         <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="shop">
             <span class="nav-text">Shop</span>
           </a>
         </li>
+        -->
 
         <li
-          *jhiHasAnyAuthority="'ROLE_ADMIN'"
+          *ngSwitchCase="true"
           ngbDropdown
           class="nav-item dropdown pointer"
           display="dynamic"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="event-menu">
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="shop-menu">
+            <span class="nav-text">Shops</span>
+          </a>
+
+          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="shop-menu">
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="shop"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <span>View Shops</span>
+              </a>
+            </li>
+
+            <li>
+              <a
+                *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                class="dropdown-item"
+                routerLink="../../shop/new"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <span>Add Shops</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!--
+        <li
+          *ngSwitchCase="true"
+          ngbDropdown
+          class="nav-item dropdown pointer"
+          display="dynamic"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="item-menu">
             <span class="nav-text">Item</span>
           </a>
 
-          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="event-menu">
+          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="item-menu">
             <li>
               <a
                 class="dropdown-item"
@@ -92,6 +135,7 @@
             </li>
           </ul>
         </li>
+        -->
 
         <li
           *ngSwitchCase="true"
@@ -165,45 +209,6 @@
                 (click)="collapseNavbar()"
               >
                 <span>Interested Events</span>
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li
-          *jhiHasAnyAuthority="'ROLE_ADMIN'"
-          ngbDropdown
-          class="nav-item dropdown pointer"
-          display="dynamic"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="event-menu">
-            <span class="nav-text">Shops</span>
-          </a>
-
-          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="event-menu">
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="shop"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <span>View Shops</span>
-              </a>
-            </li>
-
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="../../shop/new"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <span>Add Shops</span>
               </a>
             </li>
           </ul>
