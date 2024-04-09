@@ -1,38 +1,102 @@
 main {
-  padding: 0 0 50px 0;
-}
-
-.card {
-  width: 77vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0 30px 0;
 }
 
 .scrollable {
-  height: 60vh; /* Set maximum height */
   max-width: 80vw;
   overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .card {
   border-radius: 20px;
+  /* background-color: rgba(255,231,231, 0); */
+  background-color: #ffe7e7;
+  border: none;
+  width: 65vw;
+  padding: 20px 0 0 30px;
 }
 
 /* Chat Contact List */
-.contactList {
-  background-color: #ffe7e7;
-  border-color: black;
-  border-width: 10px;
-  border-radius: 20px 0 0 20px;
+.leftBox {
+  padding-top: 50px;
+  border-radius: 30px;
 }
 
 .searchBarBox {
-  border-radius: 20px 0 0 0;
-  background-color: white;
+  margin-bottom: 5px;
+}
+
+.searchBarInput {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(9px);
+  border-radius: 25px;
+  padding-left: 20px;
+  height: 45px;
+}
+
+.contactList {
+  height: 80%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(9px);
+  border-radius: 10px;
+}
+
+.searchBarBox {
+  border-radius: 30px;
+}
+
+.shopUsers {
+  background: rgba(255, 255, 255, 0);
+  width: 100%;
+  border: none;
+}
+
+.userShopName {
+  font-size: 15px;
 }
 
 /* Chat Title */
 .chatName {
-  background-color: #ffe7e7;
-  height: 70px;
+  height: 60px;
+}
+
+.chatBoxName {
+  margin-left: 10px;
+}
+
+/* Scroll Bar */
+.scrollBarContainer {
+  display: flex;
+  column-gap: 10px;
+  height: 350px;
+  width: 90%;
+}
+
+.scrollBar {
+  height: 95%;
+  width: 100%;
+  overflow: auto;
+}
+
+.scrollBar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollBar::-webkit-scrollbar-track {
+  border-radius: 8px;
+  border: 1px solid #cacaca;
+  background-color: white;
+}
+
+.scrollBar::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: grey;
 }
 
 /* Chat History */
@@ -43,30 +107,50 @@ main {
 
 .sayHi {
   background-color: rgb(255, 255, 184);
-  padding: 10px 10px;
+  padding: 10px;
   border-radius: 15px;
 }
 
-.messageContainer {
-  margin-left: 20px; /* Add a margin to the left of the message container */
-}
-
 .messageBubble {
-  background-color: #f1f1f1;
-  padding: 10px;
+  margin-left: 10px;
+  max-width: 42%;
+  padding: 8px;
   border-radius: 10px;
   margin-bottom: 10px;
 }
 
+.leftMessageBubble {
+  background-color: white;
+}
+
+.rightMessageBubble {
+  background-color: #ff6961;
+}
+
 .messageContent {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
+  max-width: 100%;
 }
 
 .textAndTimestamp {
   display: flex;
   flex-direction: row;
+  word-break: break-word;
+}
+
+.text {
+  flex: 1; /* Allow text to take up remaining space */
+  word-break: break-word; /* Allow text to break */
+}
+
+.timestamp {
+  align-self: flex-end;
+  color: #f4f2f2;
+  font-size: 10px;
+  margin-bottom: 2px;
+  margin-left: 11px;
 }
 
 .sender {
@@ -74,21 +158,55 @@ main {
   margin-right: 5px;
 }
 
-.text {
-  margin-right: 10px;
-}
-
-.timestamp {
-  align-self: flex-end;
-  color: #888;
-  font-size: 10px;
-  margin-bottom: 2px;
-}
-
+/* When current user receive message */
 .justify-content-start {
   justify-content: flex-start;
 }
 
+/* When current user receive message */
 .justify-content-end {
   justify-content: flex-end;
+}
+
+/* Send Message Input Group */
+.input-group {
+  border-radius: 15px;
+  padding: 10px;
+  max-width: 95%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+#addImgButton {
+  border-radius: 20px 0 0 20px;
+  border: none;
+  background-color: white;
+  padding: 0 0 0 15px;
+}
+
+#messageInput {
+  margin: 0 20px 0 0;
+  border-radius: 0 20px 20px 0;
+  background-color: white;
+  border: none;
+}
+
+#messageInput:focus {
+  outline-style: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+
+#sendButton {
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #3dc5b7;
+  padding: 13px 15px 13px 12px;
+}
+
+.sendIcon {
+  height: 20px;
 }
