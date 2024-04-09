@@ -25,8 +25,6 @@ import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
 
 // new import library
-import 'leaflet/dist/leaflet.js';
-import 'leaflet.fullscreen';
 import { ItemUploadSuccessComponent } from './item-upload-success/item-upload-success.component';
 
 @NgModule({

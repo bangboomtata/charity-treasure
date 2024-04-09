@@ -214,12 +214,14 @@ export class ShopComponent implements OnInit {
   protected initMap(): void {
     if (navigator.permissions) {
       navigator.permissions.query({ name: 'geolocation' }).then(permissionStatus => {
+        console.log(permissionStatus.state);
         if (permissionStatus.state === 'granted') {
           this.getUserLocationAndSetupMap();
         } else if (permissionStatus.state === 'prompt') {
           // The user hasn't decided yet, so you may want to show a message asking for permission
           // You can handle this case according to your UI/UX requirements
         } else {
+          console.log(permissionStatus.state);
           console.error('Geolocation permission denied.');
           // Handle permission denied scenario
         }
@@ -296,7 +298,7 @@ export class ShopComponent implements OnInit {
       return;
     }
 
-    if (!this.shops) {
+    if (!this.shops || this.shops.length === 0) {
       console.error('No shops available.');
       return;
     }
