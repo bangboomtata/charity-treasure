@@ -20,7 +20,7 @@
         <span>Refresh list</span>
       </button>
       -->
-      <ng-container *jhiHasAnyAuthority="'ROLE_ADMIN'">
+      <ng-container *ngIf="isShop">
         <label class="events-by-shop-label">Filter My Events</label>
         <select class="events-by-shop-dropdown" id="event_by_shop" onchange="filterByShop()">
           <option value="all">All</option>
@@ -35,7 +35,7 @@
       <ng-container *jhiHasAnyAuthority="'ROLE_USER'">
         <label class="location-dropdown-label">Location</label>
         <select class="location-dropdown-box" id="field_eventLocation_dropdown" onchange="filterLocation()">
-          <option [ngValue]="null"></option>
+          <option value="all">All</option>
           <option *ngFor="let location of locationValues" [value]="location">{{ location }}</option>
         </select>
 
@@ -49,7 +49,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-event"
         [routerLink]="['/event/new']"
-        *jhiHasAnyAuthority="'ROLE_ADMIN'"
+        *ngIf="isShop"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Create a new Event </span>
@@ -222,7 +222,7 @@
         <div class="text-end">
           <!-- Add button to add to interested events here -->
 
-          <div class="btn-group" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+          <div class="btn-group" *ngIf="event.shop?.id == shopId">
             <!--
             <button type="button" class="add-event-to-interested-events">
               <span>I'm Interested</span>

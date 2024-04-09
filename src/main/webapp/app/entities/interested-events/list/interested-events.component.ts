@@ -11,6 +11,10 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, InterestedEventsService } from '../service/interested-events.service';
 import { InterestedEventsDeleteDialogComponent } from '../delete/interested-events-delete-dialog.component';
 
+//my added imports
+import { AccountService } from '../../../core/auth/account.service';
+import { ICustomer } from '../../customer/customer.model';
+
 @Component({
   selector: 'jhi-interested-events',
   styleUrls: ['./interested-events.component.scss'],
@@ -27,16 +31,29 @@ export class InterestedEventsComponent implements OnInit {
   totalItems = 0;
   page = 1;
 
+  customerId: number | null = null;
+
   constructor(
     protected interestedEventsService: InterestedEventsService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected accountService: AccountService
   ) {}
 
   trackId = (_index: number, item: IInterestedEvents): number => this.interestedEventsService.getInterestedEventsIdentifier(item);
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getCustomer().subscribe(customer => {
+          if (customer) {
+            this.customerId = customer.id;
+          }
+        });
+      }
+    });
+
     this.load();
   }
 
