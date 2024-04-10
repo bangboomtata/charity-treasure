@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ItemUploadSuccessComponent } from './item-upload-success/item-upload-success.component';
 import { GdprPolicyComponent } from './gdpr-policy/gdpr-policy.component';
+import { ApplicationSuccessComponent } from './application-success/application-success.component';
 
 import { errorRoute } from './layouts/error/error.route';
 import { navbarRoute } from './layouts/navbar/navbar.route';
@@ -33,6 +34,10 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
         {
           path: 'item-upload-success',
           component: ItemUploadSuccessComponent,
+        },
+        {
+          path: 'application-success',
+          component: ApplicationSuccessComponent,
         },
         {
           path: 'gdpr-policy', // Route for GDPR policy page

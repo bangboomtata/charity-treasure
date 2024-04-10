@@ -27,6 +27,7 @@ import { ErrorComponent } from './layouts/error/error.component';
 // new import library
 import { ItemUploadSuccessComponent } from './item-upload-success/item-upload-success.component';
 import { GdprPolicyComponent } from './gdpr-policy/gdpr-policy.component';
+import { ApplicationSuccessComponent } from './application-success/application-success.component';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { GdprPolicyComponent } from './gdpr-policy/gdpr-policy.component';
     FooterComponent,
     ItemUploadSuccessComponent,
     GdprPolicyComponent,
+    ApplicationSuccessComponent,
   ],
   bootstrap: [MainComponent],
 })
