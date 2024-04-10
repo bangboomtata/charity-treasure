@@ -7,6 +7,7 @@ import { DataUtils } from 'app/core/util/data-util.service';
 @Component({
   selector: 'jhi-volunteer-post-detail',
   templateUrl: './volunteer-post-detail.component.html',
+  styleUrls: ['../list/volunteer.component.scss', './volunteer-detail.component.scss'],
 })
 export class VolunteerPostDetailComponent implements OnInit {
   volunteerPost: IVolunteerPost | null = null;
@@ -19,8 +20,8 @@ export class VolunteerPostDetailComponent implements OnInit {
     });
   }
 
-  byteSize(base64String: string): string {
-    return this.dataUtils.byteSize(base64String);
+  byteSize(base64String?: string | null): string {
+    return this.dataUtils.byteSize(base64String ?? '');
   }
 
   openFile(base64String: string, contentType: string | null | undefined): void {

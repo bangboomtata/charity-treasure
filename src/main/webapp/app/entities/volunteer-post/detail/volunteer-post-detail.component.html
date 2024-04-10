@@ -1,123 +1,254 @@
-<div class="d-flex justify-content-center">
-  <div class="col-8">
+<div class="big-container">
+  <div>
     <div *ngIf="volunteerPost">
-      <h2 data-cy="volunteerPostDetailsHeading"><span>Volunteer Post</span></h2>
-
-      <hr />
+      <h2 data-cy="volunteerPostDetailsHeading" class="big-title"><span>Volunteer Post</span></h2>
 
       <jhi-alert-error></jhi-alert-error>
 
       <jhi-alert></jhi-alert>
 
-      <dl class="row-md jh-entity-details">
-        <dt><span>ID</span></dt>
-        <dd>
-          <span>{{ volunteerPost.id }}</span>
-        </dd>
-        <dt><span>Post Title</span></dt>
-        <dd>
-          <span>{{ volunteerPost.postTitle }}</span>
-        </dd>
-        <dt><span>Location Address</span></dt>
-        <dd>
-          <span>{{ volunteerPost.locationAddress }}</span>
-        </dd>
-        <dt><span>Contact Num</span></dt>
-        <dd>
-          <span>{{ volunteerPost.contactNum }}</span>
-        </dd>
-        <dt><span>Email</span></dt>
-        <dd>
-          <span>{{ volunteerPost.email }}</span>
-        </dd>
-        <dt><span>About Us</span></dt>
-        <dd>
-          <span>{{ volunteerPost.aboutUs }}</span>
-        </dd>
-        <dt><span>About Role</span></dt>
-        <dd>
-          <span>{{ volunteerPost.aboutRole }}</span>
-        </dd>
-        <dt><span>Benefits</span></dt>
-        <dd>
-          <span>{{ volunteerPost.benefits }}</span>
-        </dd>
-        <dt><span>Img</span></dt>
-        <dd>
-          <div *ngIf="volunteerPost.img">
+      <!-- <div class="main-box">
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Post Image:</p>
+          </div>
+          <div *ngIf="volunteerPost.img" class="img-container">
             <a (click)="openFile(volunteerPost.img, volunteerPost.imgContentType)">
-              <img
-                [src]="'data:' + volunteerPost.imgContentType + ';base64,' + volunteerPost.img"
-                style="max-width: 100%"
-                alt="volunteerPost image"
-              />
+              <img [src]="'data:' + volunteerPost.imgContentType + ';base64,' + volunteerPost.img"
+                style="max-width: 200px" alt="volunteerPost image" />
             </a>
-            {{ volunteerPost.imgContentType }}, {{ byteSize(volunteerPost.img) }}
           </div>
-        </dd>
-        <dt><span>Active Status</span></dt>
-        <dd>
-          <span>{{ volunteerPost.activeStatus }}</span>
-        </dd>
-        <dt><span>Start Date</span></dt>
-        <dd>
-          <span>{{ volunteerPost.startDate | formatMediumDate }}</span>
-        </dd>
-        <dt><span>Monday</span></dt>
-        <dd>
-          <span>{{ volunteerPost.monday }}</span>
-        </dd>
-        <dt><span>Tuesday</span></dt>
-        <dd>
-          <span>{{ volunteerPost.tuesday }}</span>
-        </dd>
-        <dt><span>Wednesday</span></dt>
-        <dd>
-          <span>{{ volunteerPost.wednesday }}</span>
-        </dd>
-        <dt><span>Thursday</span></dt>
-        <dd>
-          <span>{{ volunteerPost.thursday }}</span>
-        </dd>
-        <dt><span>Friday</span></dt>
-        <dd>
-          <span>{{ volunteerPost.friday }}</span>
-        </dd>
-        <dt><span>Saturday</span></dt>
-        <dd>
-          <span>{{ volunteerPost.saturday }}</span>
-        </dd>
-        <dt><span>Sunday</span></dt>
-        <dd>
-          <span>{{ volunteerPost.sunday }}</span>
-        </dd>
-        <dt><span>Morning</span></dt>
-        <dd>
-          <span>{{ volunteerPost.morning }}</span>
-        </dd>
-        <dt><span>Afternoon</span></dt>
-        <dd>
-          <span>{{ volunteerPost.afternoon }}</span>
-        </dd>
-        <dt><span>Evening</span></dt>
-        <dd>
-          <span>{{ volunteerPost.evening }}</span>
-        </dd>
-        <dt><span>Shop</span></dt>
-        <dd>
-          <div *ngIf="volunteerPost.shop">
-            <a [routerLink]="['/shop', volunteerPost.shop.id, 'view']">{{ volunteerPost.shop.id }}</a>
+        </div>
+
+        <hr />
+
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Shop Image:</p>
           </div>
-        </dd>
-      </dl>
+          <div>
+            <img [src]="'data:' + volunteerPost.shop?.logoContentType + ';base64,' + volunteerPost.shop?.logo"
+              class="shop-img" style="max-width: 200px" alt="Shop Image" />
+            {{ volunteerPost.shop?.logoContentType ? volunteerPost.shop?.logoContentType : 'N/A' }}
+            , {{ byteSize(volunteerPost.shop?.logo) }}
+          </div>
+        </div>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-      </button>
+        <hr />
 
-      <button type="button" [routerLink]="['/volunteer-post', volunteerPost.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-      </button>
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Basic Info:</p>
+          </div>
+          <div>
+            <div>
+              <p>Post ID: {{ volunteerPost.id }}</p>
+            </div>
+            <div>
+              <p>Post Title: {{ volunteerPost.postTitle }}</p>
+            </div>
+            <div>
+              <p>Location: {{ volunteerPost.locationAddress }}</p>
+            </div>
+            <div *ngIf="volunteerPost.shop">
+              <p>By: <a [routerLink]="['/shop', volunteerPost.shop.id, 'view']">{{ volunteerPost.shop.shopName }}</a></p>
+            </div>
+            <div>
+              <p>Start Date: {{ (volunteerPost.startDate?.toDate() | date: 'yyyy-MM-dd') || 'N/A' }}</p>
+            </div>
+            <div *ngIf="volunteerPost.shop">
+              <p>Shop ID:</p>
+              <a [routerLink]="['/shop', volunteerPost.shop.id, 'view']">{{ volunteerPost.shop.id }}</a>
+            </div>
+          </div>
+        </div>
+
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Active Status:</p>
+          </div>
+          <p>{{ volunteerPost.activeStatus }}</p>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">About Us:</p>
+          </div>
+          <p>{{ volunteerPost.aboutUs }}</p>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">About the Role:</p>
+          </div>
+          <p>{{ volunteerPost.aboutRole }}</p>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Benefits:</p>
+          </div>
+          <p>{{ volunteerPost.benefits }}</p>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Days Required:</p>
+          </div>
+          <ul>
+            <li *ngIf="volunteerPost.monday">Monday</li>
+            <li *ngIf="volunteerPost.tuesday">Tuesday</li>
+            <li *ngIf="volunteerPost.wednesday">Wednesday</li>
+            <li *ngIf="volunteerPost.thursday">Thursday</li>
+            <li *ngIf="volunteerPost.friday">Friday</li>
+            <li *ngIf="volunteerPost.saturday">Saturday</li>
+            <li *ngIf="volunteerPost.sunday">Sunday</li>
+          </ul>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Shifts Required:</p>
+          </div>
+          <ul>
+            <li *ngIf="volunteerPost.morning">Morning</li>
+            <li *ngIf="volunteerPost.afternoon">Afternoon</li>
+            <li *ngIf="volunteerPost.evening">Evening</li>
+          </ul>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Our Contacts:</p>
+          </div>
+          <p>E-mail: {{ volunteerPost.email }}</p>
+          <p>Contact Number: {{ volunteerPost.contactNum }}</p>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Active Status:</p>
+          </div>
+          <p>{{ volunteerPost.activeStatus }}</p>
+        </div>
+        <hr />
+
+        <div class="text-center">
+          <button type="submit" (click)="previousState()" class="btn btn-info back-button"
+            data-cy="entityDetailsBackButton">
+            <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+          </button>
+
+          <button type="button" [routerLink]="['/volunteer-post', volunteerPost.id, 'edit']"
+            class="btn btn-primary edit-button" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+            <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+          </button>
+        </div>
+      </div> -->
+
+      <div class="main-box">
+        <div class="detail-img-container">
+          <img [src]="'data:' + volunteerPost.imgContentType + ';base64,' + volunteerPost.img" class="volunteer-image" />
+        </div>
+        <div class="first-row">
+          <div class="detail-profile-img-box">
+            <img [src]="'data:' + volunteerPost.shop?.logoContentType + ';base64,' + volunteerPost.shop?.logo" class="profile-pic" />
+          </div>
+          <div class="detail-basic-info-box">
+            <div class="volunteer-title detail-title-box">
+              <p class="detail-title-p">{{ volunteerPost.postTitle }}</p>
+            </div>
+            <div>
+              <p>Location: {{ volunteerPost.locationAddress }}</p>
+            </div>
+            <div *ngIf="volunteerPost.shop">
+              <p>
+                By: <a [routerLink]="['/shop', volunteerPost.shop.id, 'view']">{{ volunteerPost.shop.shopName }}</a>
+              </p>
+            </div>
+            <div>
+              <p>Start Date: {{ (volunteerPost.startDate?.toDate() | date: 'yyyy-MM-dd') || 'N/A' }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="buttons-box">
+          <!-- <button (click)="applyVolunteer(volunteerPost)">I'm Interested</button>
+          <button (click)="scrollToElement('contact-section')">Contact Us</button> -->
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">About Us:</p>
+          </div>
+          <p>{{ volunteerPost.aboutUs }}</p>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">About the Role:</p>
+          </div>
+          <p>{{ volunteerPost.aboutRole }}</p>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Benefits:</p>
+          </div>
+          <p>{{ volunteerPost.benefits }}</p>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Days Required:</p>
+          </div>
+          <ul>
+            <li *ngIf="volunteerPost.monday">Monday</li>
+            <li *ngIf="volunteerPost.tuesday">Tuesday</li>
+            <li *ngIf="volunteerPost.wednesday">Wednesday</li>
+            <li *ngIf="volunteerPost.thursday">Thursday</li>
+            <li *ngIf="volunteerPost.friday">Friday</li>
+            <li *ngIf="volunteerPost.saturday">Saturday</li>
+            <li *ngIf="volunteerPost.sunday">Sunday</li>
+          </ul>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Shifts Required:</p>
+          </div>
+          <ul>
+            <li *ngIf="volunteerPost.morning">Morning</li>
+            <li *ngIf="volunteerPost.afternoon">Afternoon</li>
+            <li *ngIf="volunteerPost.evening">Evening</li>
+          </ul>
+        </div>
+        <hr />
+        <section id="contact-section">
+          <div class="detail-section-box">
+            <div>
+              <p class="detail-title-p">Our Contacts:</p>
+            </div>
+            <p>E-mail: {{ volunteerPost.email }}</p>
+            <p>Contact Number: {{ volunteerPost.contactNum }}</p>
+          </div>
+        </section>
+        <hr />
+        <div class="text-center">
+          <button type="submit" (click)="previousState()" class="btn btn-info back-button" data-cy="entityDetailsBackButton">
+            <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+          </button>
+
+          <button
+            type="button"
+            [routerLink]="['/volunteer-post', volunteerPost.id, 'edit']"
+            class="btn btn-primary edit-button"
+            *jhiHasAnyAuthority="'ROLE_ADMIN'"
+          >
+            <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
