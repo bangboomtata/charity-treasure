@@ -5,6 +5,7 @@ import { IApplication } from '../application.model';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { ApplicationStatus } from 'app/entities/enumerations/application-status.model';
 import { ApplicationService } from '../service/application.service';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-application-detail',
@@ -13,10 +14,43 @@ import { ApplicationService } from '../service/application.service';
 })
 export class ApplicationDetailComponent implements OnInit {
   application: IApplication | null = null;
+  shopId: number | null = null;
+  customerId: number | null = null;
 
-  constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, protected applicationService: ApplicationService) {}
+  constructor(
+    protected dataUtils: DataUtils,
+    protected activatedRoute: ActivatedRoute,
+    protected applicationService: ApplicationService,
+    protected accountService: AccountService
+  ) {}
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getShop().subscribe(shop => {
+          // Check if shop is not null or undefined
+          if (shop) {
+            // Print the shop's ID
+            console.log('Shop ID: ', shop.id);
+            this.shopId = shop.id;
+          } else {
+            console.log('Shop not found!!');
+          }
+        });
+
+        this.accountService.getCustomer().subscribe(customer => {
+          // Check if customer is not null or undefined
+          if (customer) {
+            // Print the customer's ID
+            console.log('Customer ID: ', customer.id);
+            this.customerId = customer.id;
+          } else {
+            console.log('Customer not found');
+          }
+        });
+      }
+    });
+
     this.activatedRoute.data.subscribe(({ application }) => {
       this.application = application;
     });

@@ -1,10 +1,10 @@
 <div class="big-container">
   <h2 id="page-heading" data-cy="ApplicationHeading">
-    <div class="big-title" *jhiHasAnyAuthority="'ROLE_ADMIN'">Applicants</div>
-    <div class="big-title" *jhiHasAnyAuthority="'ROLE_USER'">Your Applications</div>
+    <div class="big-title" *ngIf="shopId">Applicants</div>
+    <div class="big-title" *ngIf="customerId">Your Applications</div>
 
     <div class="d-flex justify-content-end create-refresh-box">
-      <select [(ngModel)]="selectedPost" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+      <select [(ngModel)]="selectedPost" *ngIf="shopId">
         <option value="ALL">ALL</option>
         <ng-container *ngFor="let volunteerPostOption of volunteerPostsList">
           <option [ngValue]="volunteerPostOption.id.toString()" *ngIf="checkPost(volunteerPostOption.shop?.id)">
@@ -18,7 +18,7 @@
         <span>Refresh list</span>
       </button>
 
-      <button
+      <!-- <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-application"
@@ -26,7 +26,7 @@
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Create a new Application </span>
-      </button>
+      </button> -->
     </div>
   </h2>
 
@@ -39,7 +39,7 @@
   </div>
 
   <!--admin view for list-->
-  <div class="admin-main-box" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+  <div class="admin-main-box" *ngIf="shopId">
     <div class="admin-table-box" id="entities" *ngIf="applications && applications.length > 0">
       <table class="table admin-table" aria-describedby="page-heading">
         <thead>
@@ -380,7 +380,7 @@
     </div> -->
   </div>
 
-  <ng-container *jhiHasAnyAuthority="'ROLE_USER'">
+  <ng-container *ngIf="customerId">
     <div class="user-main-box">
       <ng-container *ngFor="let application of applications; trackBy: trackId">
         <div class="application-container row" [routerLink]="['/application', application.id, 'view']">

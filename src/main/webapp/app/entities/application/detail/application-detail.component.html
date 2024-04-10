@@ -26,9 +26,11 @@
             <p class="detail-title-p">Application Status:</p>
           </div>
           <div>
-            <!-- {{ application.applicationStatus }} -->
+            <div *ngIf="customerId">
+              <!-- {{ application.applicationStatus }} -->
+            </div>
           </div>
-          <div class="row">
+          <div class="row" *ngIf="shopId">
             <div class="col">
               <button class="btn btn-warning" [class.selected]="isPending(application)" (click)="pendingApplication(application)">
                 Pending

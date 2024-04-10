@@ -26,6 +26,7 @@ import { ErrorComponent } from './layouts/error/error.component';
 
 // new import library
 import { ItemUploadSuccessComponent } from './item-upload-success/item-upload-success.component';
+import { GdprPolicyComponent } from './gdpr-policy/gdpr-policy.component';
 
 @NgModule({
   imports: [
@@ -45,7 +46,15 @@ import { ItemUploadSuccessComponent } from './item-upload-success/item-upload-su
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
   ],
-  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent, ItemUploadSuccessComponent],
+  declarations: [
+    MainComponent,
+    NavbarComponent,
+    ErrorComponent,
+    PageRibbonComponent,
+    FooterComponent,
+    ItemUploadSuccessComponent,
+    GdprPolicyComponent,
+  ],
   bootstrap: [MainComponent],
 })
 export class AppModule {
