@@ -150,8 +150,18 @@ export class ShopComponent implements OnInit {
     this.filterShops();
   }
 
+  //Preset unsed attributes to prevent the need of using a form to enter input
   protected fillComponentAttributesFromResponseBody(data: IShop[] | null): IShop[] {
-    return data ?? [];
+    const presetRating = 0;
+    const presetDistance = 0;
+    const presetDuration = 'PT0M';
+
+    return (data ?? []).map(shop => ({
+      ...shop,
+      rating: presetRating,
+      distance: presetDistance,
+      duration: presetDuration,
+    }));
   }
 
   protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
