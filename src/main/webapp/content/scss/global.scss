@@ -239,3 +239,49 @@ body {
 form {
   padding-bottom: 20px;
 }
+
+.create-entity-button {
+  background-color: #ff6961;
+  border: none;
+
+  &:hover {
+    background-color: #ff483f;
+  }
+}
+
+.refresh-button {
+  background-color: #000080;
+  border: none;
+
+  &:hover {
+    background-color: #000056;
+  }
+}
+
+.edit-button {
+  background-color: #000080;
+  border: none;
+
+  &:hover {
+    background-color: #000056;
+  }
+}
+
+.delete-button {
+  background-color: #ff6961;
+
+  &:hover {
+    background-color: #ff483f;
+  }
+}
+
+.create-refresh-box {
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+// Leaflet
+.leaflet-routing-container-hide .leaflet-routing-collapse-btn {
+  left: 2px !important;
+  top: 0px !important;
+}

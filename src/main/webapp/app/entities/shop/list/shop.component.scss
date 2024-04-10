@@ -6,7 +6,7 @@ $main-red: #ff392e;
 // USER ROLE
 // container
 .big-container {
-  width: 80%;
+  width: 85%;
   margin-left: auto;
   margin-right: auto;
   background-color: #fff;
@@ -215,25 +215,34 @@ hr {
   text-align: right;
 }
 
-.selected-shop-container .button-row {
+.selected-shop-container .button-row,
+.selected-shop-container .button-row2 {
   text-align: center;
 }
 
 .selected-shop-container input[type='button'] {
-  width: 40%;
-  height: 100%;
-  color: white;
+  height: 35px;
   font-weight: 500;
   border-style: none;
   border-radius: 10px;
   margin: 5px 10px;
 }
 
+.selected-shop-container .contact {
+  color: $main-red;
+  width: 87%;
+  background-color: $second-pink;
+}
+
 .selected-shop-container .navigate {
+  color: white;
+  width: 40%;
   background-color: $main-pink;
 }
 
 .selected-shop-container .back {
+  color: white;
+  width: 40%;
   background-color: $main-blue;
 }
 

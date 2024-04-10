@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import team.bham.domain.enumeration.GroupChatName;
 
 /**
  * A Chat.
@@ -29,9 +28,9 @@ public class Chat implements Serializable {
     @Column(name = "sender_login", nullable = false)
     private String senderLogin;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "group_chat")
-    private GroupChatName groupChat;
+    @NotNull
+    @Column(name = "receiver_login", nullable = false)
+    private String receiverLogin;
 
     @Column(name = "message")
     private String message;
@@ -75,17 +74,17 @@ public class Chat implements Serializable {
         this.senderLogin = senderLogin;
     }
 
-    public GroupChatName getGroupChat() {
-        return this.groupChat;
+    public String getReceiverLogin() {
+        return this.receiverLogin;
     }
 
-    public Chat groupChat(GroupChatName groupChat) {
-        this.setGroupChat(groupChat);
+    public Chat receiverLogin(String receiverLogin) {
+        this.setReceiverLogin(receiverLogin);
         return this;
     }
 
-    public void setGroupChat(GroupChatName groupChat) {
-        this.groupChat = groupChat;
+    public void setReceiverLogin(String receiverLogin) {
+        this.receiverLogin = receiverLogin;
     }
 
     public String getMessage() {
@@ -165,7 +164,7 @@ public class Chat implements Serializable {
         return "Chat{" +
             "id=" + getId() +
             ", senderLogin='" + getSenderLogin() + "'" +
-            ", groupChat='" + getGroupChat() + "'" +
+            ", receiverLogin='" + getReceiverLogin() + "'" +
             ", message='" + getMessage() + "'" +
             ", image='" + getImage() + "'" +
             ", imageContentType='" + getImageContentType() + "'" +

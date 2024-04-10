@@ -38,7 +38,7 @@ export const sampleWithFullData: IShop = {
   city: 'Nathanielhaven',
   postCode: '40694-2623',
   country: 'Switzerland',
-  creationDate: dayjs('2024-03-21'),
+  creationDate: dayjs('2024-04-04'),
   logo: '../fake-data/blob/hipster.png',
   logoContentType: 'unknown',
   rating: 2857,

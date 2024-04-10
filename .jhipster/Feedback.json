@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20240321141945",
+  "changelogDate": "20240404233951",
   "dto": "no",
   "embedded": false,
   "entityTableName": "feedback",

@@ -58,6 +58,17 @@ export class VolunteerPostService {
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
+  findById(id: number): Observable<IVolunteerPost | null> {
+    return this.http.get<IVolunteerPost>('api/volunteer-posts/' + id);
+    // console.log('FIND Post BY ID: ' + id);
+    // return this.getAllVolunteer().pipe(
+    //   map(volunteers => {
+    //     const matchingVolunteer = volunteers.find(volunteer => volunteer.id === id);
+    //     return matchingVolunteer ? matchingVolunteer : null;
+    //   })
+    // );
+  }
+
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http

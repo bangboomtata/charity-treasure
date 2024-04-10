@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20240321141947",
+  "changelogDate": "20240404233953",
   "dto": "no",
   "embedded": false,
   "entityTableName": "event",

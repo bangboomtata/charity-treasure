@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -10,7 +10,11 @@ import { ChatService } from '../service/chat.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { GroupChatName } from 'app/entities/enumerations/group-chat-name.model';
+import { HttpClient } from '@angular/common/http';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AccountService } from 'app/core/auth/account.service';
+import { SelectedShopService } from '../service/selected-shop.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'jhi-chat-update',
@@ -19,9 +23,12 @@ import { GroupChatName } from 'app/entities/enumerations/group-chat-name.model';
 export class ChatUpdateComponent implements OnInit {
   isSaving = false;
   chat: IChat | null = null;
-  groupChatNameValues = Object.keys(GroupChatName);
-
+  userLogin: string = '';
+  receiverLogin: string = '';
   editForm: ChatFormGroup = this.chatFormService.createChatFormGroup();
+  image: string | null = null;
+
+  @ViewChild('editFormRef', { static: false }) editFormReference!: NgForm;
 
   constructor(
     protected dataUtils: DataUtils,
@@ -29,14 +36,50 @@ export class ChatUpdateComponent implements OnInit {
     protected chatService: ChatService,
     protected chatFormService: ChatFormService,
     protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected http: HttpClient,
+    protected formBuilder: FormBuilder,
+    protected accountService: AccountService,
+    protected selectedShopService: SelectedShopService
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ chat }) => {
-      this.chat = chat;
-      if (chat) {
-        this.updateForm(chat);
+    // Retrieve current user's login
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        const currentUserLogin = account.login;
+        console.log('Current User Login:', currentUserLogin);
+
+        // Get the user ID based on the login
+        this.accountService.getUserIdByLogin(currentUserLogin).subscribe(userId => {
+          if (userId !== null) {
+            console.log('Current User ID:', userId);
+            // Set the senderLogin to the user's ID
+            this.editForm.patchValue({ senderLogin: userId.toString() });
+
+            // Now, after setting senderLogin, you can trigger the save action
+            //**************** this.save(); *******************************
+            this.save();
+          }
+        });
+      }
+    });
+
+    // Retrieve message content from query parameters
+    this.activatedRoute.queryParams.subscribe(params => {
+      const message = params['message'];
+      const receiverLogin = params['receiverLogin'];
+      const image = params['image']; // Retrieve image data from query parameters
+      if (message) {
+        this.editForm.patchValue({ message: message });
+      }
+      if (receiverLogin) {
+        this.editForm.patchValue({ receiverLogin: receiverLogin });
+      }
+      if (image) {
+        // Extract base64 data from the string
+        const base64Data = image.split(';base64,')[1];
+        this.editForm.patchValue({ image: base64Data });
       }
     });
   }

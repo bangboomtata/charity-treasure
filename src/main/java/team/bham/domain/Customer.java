@@ -38,7 +38,12 @@ public class Customer implements Serializable {
 
     @OneToMany(mappedBy = "customer")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "post", "customer" }, allowSetters = true)
+    // @JsonIgnoreProperties(value = { "customer" }, allowSetters = true)
+    private Set<CustomerEmails> emails = new HashSet<>();
+
+    @OneToMany(mappedBy = "customer")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    // @JsonIgnoreProperties(value = { "post", "customer" }, allowSetters = true)
     private Set<Application> apps = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
@@ -84,6 +89,37 @@ public class Customer implements Serializable {
 
     public Customer user(User user) {
         this.setUser(user);
+        return this;
+    }
+
+    public Set<CustomerEmails> getEmails() {
+        return this.emails;
+    }
+
+    public void setEmails(Set<CustomerEmails> customerEmails) {
+        if (this.emails != null) {
+            this.emails.forEach(i -> i.setCustomer(null));
+        }
+        if (customerEmails != null) {
+            customerEmails.forEach(i -> i.setCustomer(this));
+        }
+        this.emails = customerEmails;
+    }
+
+    public Customer emails(Set<CustomerEmails> customerEmails) {
+        this.setEmails(customerEmails);
+        return this;
+    }
+
+    public Customer addEmail(CustomerEmails customerEmails) {
+        this.emails.add(customerEmails);
+        customerEmails.setCustomer(this);
+        return this;
+    }
+
+    public Customer removeEmail(CustomerEmails customerEmails) {
+        this.emails.remove(customerEmails);
+        customerEmails.setCustomer(null);
         return this;
     }
 

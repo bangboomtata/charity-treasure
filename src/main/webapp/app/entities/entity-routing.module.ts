@@ -10,6 +10,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./customer/customer.module').then(m => m.CustomerModule),
       },
       {
+        path: 'customer-emails',
+        data: { pageTitle: 'CustomerEmails' },
+        loadChildren: () => import('./customer-emails/customer-emails.module').then(m => m.CustomerEmailsModule),
+      },
+      {
         path: 'chat',
         data: { pageTitle: 'Chats' },
         loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule),

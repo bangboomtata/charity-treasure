@@ -37,6 +37,32 @@ export class ShopComponent implements OnInit {
   predicate = 'id';
   ascending = true;
   selectedShop: IShop | null = null;
+  routingStarted: boolean = false;
+
+  // marker design
+  protected userMarkerIcon = L.icon({
+    iconUrl: this.userURL,
+    shadowUrl: this.shadowUrl,
+    iconSize: [53, 51],
+    iconAnchor: [12, 41],
+    popupAnchor: [15, -34],
+    tooltipAnchor: [16, -28],
+    shadowSize: [55, 55],
+    shadowAnchor: [5, 45],
+  });
+
+  protected shopMarkerIcon = L.icon({
+    iconUrl: this.iconUrl,
+    shadowUrl: this.shadowUrl,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    tooltipAnchor: [16, -28],
+    shadowSize: [41, 41],
+  });
+
+  protected userMarker: L.Marker | null = null;
+  protected shopMarker: L.Marker | null = null;
 
   constructor(
     protected shopService: ShopService,
@@ -124,8 +150,18 @@ export class ShopComponent implements OnInit {
     this.filterShops();
   }
 
+  //Preset unsed attributes to prevent the need of using a form to enter input
   protected fillComponentAttributesFromResponseBody(data: IShop[] | null): IShop[] {
-    return data ?? [];
+    const presetRating = 0;
+    const presetDistance = 0;
+    const presetDuration = 'PT0M';
+
+    return (data ?? []).map(shop => ({
+      ...shop,
+      rating: presetRating,
+      distance: presetDistance,
+      duration: presetDuration,
+    }));
   }
 
   protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
@@ -173,18 +209,29 @@ export class ShopComponent implements OnInit {
 
   protected goBack(): void {
     this.selectedShop = null; // Set selectedShop to null to go back to the non-selected state
+    this.routingStarted = false;
+
+    if (this.map) {
+      this.map.remove();
+      this.map = undefined;
+    }
+
+    // Initialize the map again
+    this.initMap();
   }
 
   //Initialize the map and setup real user location data
   protected initMap(): void {
     if (navigator.permissions) {
       navigator.permissions.query({ name: 'geolocation' }).then(permissionStatus => {
+        console.log(permissionStatus.state);
         if (permissionStatus.state === 'granted') {
           this.getUserLocationAndSetupMap();
         } else if (permissionStatus.state === 'prompt') {
           // The user hasn't decided yet, so you may want to show a message asking for permission
           // You can handle this case according to your UI/UX requirements
         } else {
+          console.log(permissionStatus.state);
           console.error('Geolocation permission denied.');
           // Handle permission denied scenario
         }
@@ -210,6 +257,12 @@ export class ShopComponent implements OnInit {
 
   // Set up the map with user's location
   protected setupMap(): void {
+    if (this.map) {
+      // If the map is already initialized, no need to initialize it again
+      console.warn('Map is already initialized.');
+      return;
+    }
+
     const tileLayerUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const tileLayer = L.tileLayer(tileLayerUrl, {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -227,24 +280,9 @@ export class ShopComponent implements OnInit {
           fullscreenControl: true,
           fullscreenControlOptions: {
             position: 'topleft',
-            content: '[--]',
           },
         }).setView(this.userLocation, 13);
-        const userMarker = L.marker(this.userLocation, {
-          icon: L.icon({
-            iconUrl: this.userURL,
-            shadowUrl: this.shadowUrl,
-            iconSize: [53, 51],
-            iconAnchor: [12, 41],
-            popupAnchor: [15, -34],
-            tooltipAnchor: [16, -28],
-            shadowSize: [55, 55],
-            shadowAnchor: [5, 45],
-          }),
-        })
-          .addTo(this.map)
-          .bindPopup('User Location')
-          .openPopup();
+        this.userMarker = L.marker(this.userLocation, { icon: this.userMarkerIcon }).addTo(this.map).bindPopup('User Location').openPopup();
       } else {
         console.error('User location is not available.');
       }
@@ -262,18 +300,19 @@ export class ShopComponent implements OnInit {
     }
   }
 
+  protected shopCoordinates: { [key: string]: L.LatLngTuple } = {};
+
   protected displayAllShopLocation(): void {
     if (!this.mapReady) {
       console.error('Map is not initialized for displaying shop locations.');
       return;
     }
 
-    if (!this.shops) {
+    if (!this.shops || this.shops.length === 0) {
       console.error('No shops available.');
       return;
     }
 
-    const map = this.map; // Store a reference to this.map in a local variable
     this.shops.forEach(shop => {
       const address = `${shop.street}, ${shop.city}, ${shop.postCode}, ${shop.country}`;
       const encodedAddress = encodeURIComponent(address);
@@ -284,24 +323,29 @@ export class ShopComponent implements OnInit {
             const latitude = parseFloat(firstResult.lat);
             const longitude = parseFloat(firstResult.lon);
 
-            //Define coordinates as LatLngTuple
+            // Define coordinates as LatLngTuple
             const coordinates: L.LatLngTuple = [latitude, longitude];
 
-            const shopMarker = L.marker(coordinates, {
-              icon: L.icon({
-                iconUrl: this.iconUrl,
-                shadowUrl: this.shadowUrl,
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                tooltipAnchor: [16, -28],
-                shadowSize: [41, 41],
-              }),
-            });
+            // Store coordinates for this shop
+            this.shopCoordinates[shop.id] = coordinates;
+
+            // Calculate distance and duration from user location to shop location
+            const distance = this.calculateDistance(this.userLocation![0], this.userLocation![1], latitude, longitude);
+            const duration = this.calculateDuration(this.userLocation![0], this.userLocation![1], latitude, longitude);
+            shop.distance = distance.value; // Assign the formatted distance value
+            shop.duration = duration;
+
+            // Create shopMarker with shopMarkerIcon
+            const shopMarker = L.marker(coordinates, { icon: this.shopMarkerIcon });
+
+            // Initialize shopMarker if it's not already initialized
+            if (!this.shopMarker) {
+              this.shopMarker = shopMarker;
+            }
 
             // Check if map is defined before adding marker
-            if (map) {
-              shopMarker.addTo(map);
+            if (this.map) {
+              shopMarker.addTo(this.map);
               shopMarker.bindPopup(`<b>${shop.shopName}</b><br>${shop.street}, ${shop.city}, ${shop.postCode}, ${shop.country}`);
               shopMarker.on('click', () => {
                 shopMarker.openPopup();
@@ -315,9 +359,108 @@ export class ShopComponent implements OnInit {
         },
         error: error => {
           console.error('Error fetching coordinates from Nominatim API:', error);
+          console.error(`Coordinates for shop ${shop.id} are not available.`);
+          // Handle error - you can log an error message and continue processing other shops
         },
       });
     });
+  }
+
+  protected degreesToRadians(degrees: number): number {
+    return degrees * (Math.PI / 180);
+  }
+
+  protected calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): { value: number } {
+    const a = 6378137; // semi-major axis of the WGS84 ellipsoid in meters
+    const f = 1 / 298.257223563; // flattening of the WGS84 ellipsoid
+    const b = (1 - f) * a; // semi-minor axis
+
+    const phi1 = this.degreesToRadians(lat1);
+    const phi2 = this.degreesToRadians(lat2);
+    const lambda1 = this.degreesToRadians(lon1);
+    const lambda2 = this.degreesToRadians(lon2);
+
+    const U1 = Math.atan((1 - f) * Math.tan(phi1));
+    const U2 = Math.atan((1 - f) * Math.tan(phi2));
+    const L = lambda2 - lambda1;
+
+    let lambda = L;
+    let lambdaPrev = 0;
+    let iterationLimit = 100;
+
+    let cosU1 = Math.cos(U1);
+    let cosU2 = Math.cos(U2);
+    let sinU1 = Math.sin(U1);
+    let sinU2 = Math.sin(U2);
+    let cosLambda;
+    let sinLambda;
+    let sinSigma;
+    let cosSigma;
+    let sigma;
+    let sinAlpha;
+    let cosSqAlpha;
+    let cos2SigmaM;
+    let C;
+
+    do {
+      sinLambda = Math.sin(lambda);
+      cosLambda = Math.cos(lambda);
+      sinSigma = Math.sqrt((cosU2 * sinLambda) ** 2 + (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) ** 2);
+      cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
+      sigma = Math.atan2(sinSigma, cosSigma);
+      sinAlpha = (cosU1 * cosU2 * sinLambda) / sinSigma;
+      cosSqAlpha = 1 - sinAlpha ** 2;
+      cos2SigmaM = cosSigma - (2 * sinU1 * sinU2) / cosSqAlpha;
+      C = (f / 16) * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));
+      lambdaPrev = lambda;
+      lambda = L + (1 - C) * f * sinAlpha * (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM ** 2)));
+    } while (Math.abs(lambda - lambdaPrev) > 1e-12 && --iterationLimit > 0);
+
+    if (iterationLimit === 0) {
+      console.error('Vincenty formula failed to converge');
+      return { value: NaN }; // Unable to compute distance
+    }
+
+    const uSq = (cosSqAlpha * (a ** 2 - b ** 2)) / b ** 2;
+    const A = 1 + (uSq / 16384) * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)));
+    const B = (uSq / 1024) * (256 + uSq * (-128 + uSq * (74 - 47 * uSq)));
+    const deltaSigma =
+      B *
+      sinSigma *
+      (cos2SigmaM +
+        (B / 4) * (cosSigma * (-1 + 2 * cos2SigmaM ** 2) - (B / 6) * cos2SigmaM * (-3 + 4 * sinSigma ** 2) * (-3 + 4 * cos2SigmaM ** 2)));
+
+    const s = b * A * (sigma - deltaSigma); // Distance in meters
+
+    const distanceInKm = s / 1000;
+
+    return { value: distanceInKm };
+  }
+
+  protected calculateDuration(lat1: number, lon1: number, lat2: number, lon2: number): string {
+    // Assuming you have a method calculateDistance already defined
+    const { value } = this.calculateDistance(lat1, lon1, lat2, lon2);
+
+    // Assuming an average driving speed of 30 km/h
+    const drivingSpeed = 30; // in km/h
+
+    let durationHours = 0;
+    durationHours = value / drivingSpeed;
+
+    const durationMinutes = Math.round(durationHours * 60);
+
+    if (durationMinutes >= 1440) {
+      // More than 24 hours
+      const days = Math.floor(durationMinutes / 1440);
+      const hours = Math.floor((durationMinutes % 1440) / 60);
+      return `${days} days ${hours} hours`;
+    } else if (durationMinutes >= 60) {
+      const hours = Math.floor(durationMinutes / 60);
+      const remainingMinutes = Math.round(durationMinutes % 60);
+      return `${hours} hours ${remainingMinutes} minutes`;
+    } else {
+      return `${Math.round(durationMinutes)} minutes`;
+    }
   }
 
   //When user press the map-container-rectangle it will direct user to the location
@@ -344,15 +487,7 @@ export class ShopComponent implements OnInit {
             this.displaySelectedShopDetails(shop);
             this.map.setView(coordinates, 14.5);
             const shopMarker = L.marker(coordinates, {
-              icon: L.icon({
-                iconUrl: this.iconUrl,
-                shadowUrl: this.shadowUrl,
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                tooltipAnchor: [16, -28],
-                shadowSize: [41, 41],
-              }),
+              icon: this.shopMarkerIcon,
             }).addTo(this.map);
             shopMarker.bindPopup(`<b>${shop.shopName}</b><br>${shop.street}, ${shop.city}, ${shop.postCode}, ${shop.country}`).openPopup();
           }
@@ -370,37 +505,137 @@ export class ShopComponent implements OnInit {
     this.selectedShop = selectedShop;
   }
 
-  // protected startRouting(): void {
-  //   if (this.selectedShop && this.userLocation && this.map) {
-  //     L.Routing.control({
-  //       waypoints: [
-  //         L.latLng(this.userLocation[0], this.userLocation[1]),
-  //         L.latLng(this.selectedShop.latitude, this.selectedShop.longitude)
-  //       ],
-  //       routeWhileDragging: true,
-  //       show: true,
-  //       createMarker: function(i, wp, nWps) {
-  //         if (i === 0) {
-  //           // User's location
-  //           return L.marker(wp.latLng, {
-  //             icon: L.icon({
-  //               iconUrl: 'path/to/user-location-icon.png', // Replace with your user location icon
-  //               iconSize: [32, 32],
-  //             })
-  //           });
-  //         } else {
-  //           // Shop's location
-  //           return L.marker(wp.latLng, {
-  //             icon: L.icon({
-  //               iconUrl: 'path/to/shop-icon.png', // Replace with your shop location icon
-  //               iconSize: [32, 32],
-  //             })
-  //           });
-  //         }
-  //       }
-  //     }).addTo(this.map);
-  //   }
-  // }
+  protected startRouting(): void {
+    if (!this.userLocation) {
+      console.error('User location is not available.');
+      return;
+    }
+
+    // Check if routing has already been started for the selected shop
+    if (this.routingStarted) {
+      console.error('Routing has already been started for the selected shop.');
+      return;
+    }
+
+    if (!this.selectedShop || !this.selectedShop.id) {
+      console.error('Selected shop information is incomplete.');
+      return;
+    }
+
+    // Check if coordinates for the selected shop exist in shopCoordinates
+    if (!this.shopCoordinates[this.selectedShop.id]) {
+      console.error('Coordinates for the selected shop are not available.');
+      return;
+    }
+
+    // Fetch the coordinates from shopCoordinates
+    const shopCoordinates: L.LatLngTuple = this.shopCoordinates[this.selectedShop.id];
+
+    // Call the routing method
+    this.routeUserToShop(this.userLocation, shopCoordinates);
+
+    // Set routingStarted flag to true
+    this.routingStarted = true;
+  }
+
+  protected routeUserToShop(
+    userLocation: L.LatLngTuple | null,
+    shopCoordinates: L.LatLngTuple,
+    displayRoute: boolean = true
+  ): { distance: number; duration: string } {
+    const result = { distance: 0, duration: '' };
+
+    // Check if map is defined before adding markers and routing
+    if (!this.map) {
+      console.error('Map is not initialized for routing.');
+      return result;
+    }
+
+    // Check if userLocation is available
+    if (!userLocation) {
+      console.error('User location is not available for routing.');
+      return result;
+    }
+
+    // Reuse existing markers for user's location and shop's location
+    if (!this.userMarker || !this.shopMarker) {
+      console.error('User marker or shop marker is not initialized.');
+      return result;
+    }
+
+    // Update the position of existing markers
+    this.userMarker.setLatLng(userLocation);
+    this.shopMarker.setLatLng(shopCoordinates);
+
+    const waypoints = [L.latLng(userLocation[0], userLocation[1]), L.latLng(shopCoordinates[0], shopCoordinates[1])];
+
+    const icons = [this.userMarkerIcon, this.shopMarkerIcon];
+
+    const markers = waypoints.map((waypoint, index) =>
+      L.marker(waypoint, {
+        icon: icons[index],
+        draggable: false, // Set draggable to false to prevent markers from being draggable
+      })
+    );
+
+    const createMarker = (i: number, wp: L.LatLng): L.Marker => markers[i];
+
+    const routingControlOptions = {
+      waypoints: waypoints,
+      createMarker: displayRoute ? createMarker : null, // Only create markers if displayRoute is true
+      show: displayRoute,
+      addWaypoints: false,
+      fitSelectedRoutes: true,
+      routeWhileDragging: false,
+      showAlternatives: false,
+      collapsible: true,
+    };
+
+    const routingControl = L.Routing.control(routingControlOptions).addTo(this.map);
+
+    routingControl.on('routeselected', (e: any) => {
+      const route = e.route;
+      result.distance = route.summary.totalDistance / 1000; // Distance in kilometers
+      const roundedDistance = result.distance < 1 ? (result.distance * 1000).toFixed() + ' meters' : result.distance.toFixed(2) + ' km';
+      const totalMinutes = route.summary.totalTime / 60; // Duration in minutes
+
+      if (totalMinutes >= 1440) {
+        // More than 24 hours
+        const days = Math.floor(totalMinutes / 1440);
+        const hours = Math.floor((totalMinutes % 1440) / 60);
+        result.duration = `${days} days ${hours} hours`;
+      } else if (totalMinutes >= 60) {
+        const hours = Math.floor(totalMinutes / 60);
+        const remainingMinutes = Math.round(totalMinutes % 60);
+        result.duration = `${hours} hours ${remainingMinutes} minutes`;
+      } else {
+        result.duration = `${Math.round(totalMinutes)} minutes`;
+      }
+
+      const distanceElements = document.querySelectorAll('.selected-shop-distance');
+      const durationElements = document.querySelectorAll('.selected-shop-duration');
+
+      // Loop through each distance element and update its inner text
+      distanceElements.forEach(element => {
+        if (result.distance !== null) {
+          (element as HTMLElement).innerText = `${roundedDistance}`;
+        } else {
+          (element as HTMLElement).innerText = 'Distance not available';
+        }
+      });
+
+      // Loop through each duration element and update its inner text
+      durationElements.forEach(element => {
+        if (result.duration !== null) {
+          (element as HTMLElement).innerText = `${result.duration}`;
+        } else {
+          (element as HTMLElement).innerText = 'Duration not available';
+        }
+      });
+    });
+
+    return result;
+  }
 
   //Sort By function to sort the arrangement of the map-container-rectangle to see which are the highest rating, nearest distance, shortest duration
   protected sortFilteredShops(): void {
@@ -410,17 +645,35 @@ export class ShopComponent implements OnInit {
 
     switch (this.selectedSortCriteria) {
       case 'highestRating':
-        // this.filteredShops = this.filteredShops?.sort((a, b) => (a.rating > b.rating ? -1 : 1));
+        // Sort by highest rating
+        this.filteredShops = this.filteredShops?.sort((a, b) => (b.rating || 0) - (a.rating || 0));
         break;
-      case 'nearestDistance':
-        // Implement sorting by distance
-        // You may need to calculate the distance from the universityCoordinates to each shop's location
-        // and then sort the shops accordingly
+      case 'shortestDisDur':
+        // Sort by shortest distance or duration
+        // This sorting depends on pre-calculated distance and duration properties on each shop
+        // You may need to adjust the property names based on your actual implementation
+        this.filteredShops = this.filteredShops?.sort((a, b) => {
+          // Sort by distance if available, otherwise sort by duration
+          const aDistance = a.distance || Number.MAX_VALUE;
+          const bDistance = b.distance || Number.MAX_VALUE;
+          const aDuration = a.duration ? parseFloat(a.duration) : Number.MAX_VALUE; // Convert duration to number if it exists
+          const bDuration = b.duration ? parseFloat(b.duration) : Number.MAX_VALUE; // Convert duration to number if it exists
+
+          // Compare distances first
+          if (aDistance !== bDistance) {
+            return aDistance - bDistance;
+          } else {
+            // If distances are equal, compare durations
+            return aDuration - bDuration;
+          }
+        });
         break;
-      case 'shortestDuration':
-        // Implement sorting by duration
-        // You may need additional information to calculate the duration to each shop
-        // and then sort the shops accordingly
+      case 'alphabeticalOrder':
+        // Sort alphabetically by shop name
+        this.filteredShops = this.filteredShops?.sort((a, b) => {
+          // Use localeCompare for case-insensitive alphabetical sorting
+          return (a.shopName || '').localeCompare(b.shopName || '');
+        });
         break;
       default:
         break;

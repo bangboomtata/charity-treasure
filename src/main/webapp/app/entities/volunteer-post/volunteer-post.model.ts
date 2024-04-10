@@ -25,7 +25,11 @@ export interface IVolunteerPost {
   morning?: boolean | null;
   afternoon?: boolean | null;
   evening?: boolean | null;
-  shop?: Pick<IShop, 'id'> | null;
+  shop?:
+    | (Pick<IShop, 'id'> & { shopName: string | null | undefined } & { logoContentType?: string | null | undefined } & {
+        logo: string | null | undefined;
+      })
+    | null;
 }
 
 export type NewVolunteerPost = Omit<IVolunteerPost, 'id'> & { id: null };

@@ -24,7 +24,7 @@ public class InterestedEvents implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "user", "apps", "interestedEvents" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "emails", "apps", "interestedEvents" }, allowSetters = true)
     private Customer user;
 
     @ManyToOne

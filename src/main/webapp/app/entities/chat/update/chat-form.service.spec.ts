@@ -21,7 +21,7 @@ describe('Chat Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             senderLogin: expect.any(Object),
-            groupChat: expect.any(Object),
+            receiverLogin: expect.any(Object),
             message: expect.any(Object),
             image: expect.any(Object),
             timestamp: expect.any(Object),
@@ -36,7 +36,7 @@ describe('Chat Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             senderLogin: expect.any(Object),
-            groupChat: expect.any(Object),
+            receiverLogin: expect.any(Object),
             message: expect.any(Object),
             image: expect.any(Object),
             timestamp: expect.any(Object),

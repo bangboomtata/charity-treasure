@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20240321141944",
+  "changelogDate": "20240404233950",
   "dto": "no",
   "embedded": false,
   "entityTableName": "reservation",

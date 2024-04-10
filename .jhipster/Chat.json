@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20240321141940",
+  "changelogDate": "20240404233946",
   "dto": "no",
   "embedded": false,
   "entityTableName": "chat",
@@ -11,9 +11,9 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "groupChat",
-      "fieldType": "GroupChatName",
-      "fieldValues": "BRITISHHEARTFOUNDATION,CANCERRESEARCHCENTER"
+      "fieldName": "receiverLogin",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "message",

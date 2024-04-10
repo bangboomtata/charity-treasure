@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm" #editFormRef="ngForm">
       <h2 id="jhi-chat-heading" data-cy="ChatCreateUpdateHeading">Create or edit a Chat</h2>
 
       <div>
@@ -8,7 +8,7 @@
 
         <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" />
         </div>
 
         <div class="row mb-3">
@@ -27,11 +27,15 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_groupChat">Group Chat</label>
-          <select class="form-control" name="groupChat" formControlName="groupChat" id="field_groupChat" data-cy="groupChat">
-            <option [ngValue]="null"></option>
-            <option *ngFor="let groupChatName of groupChatNameValues" [value]="groupChatName">groupChatName</option>
-          </select>
+          <label class="form-label" for="field_receiverLogin">Receiver Login</label>
+          <input id="field_receiverLogin" type="text" class="form-control" formControlName="receiverLogin" placeholder="Receiver Login" />
+          <div
+            *ngIf="
+              editForm.get('receiverLogin')!.invalid && (editForm.get('receiverLogin')!.dirty || editForm.get('receiverLogin')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('receiverLogin')?.errors?.required"> This field is required. </small>
+          </div>
         </div>
 
         <div class="row mb-3">

@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 import team.bham.IntegrationTest;
 import team.bham.domain.Chat;
-import team.bham.domain.enumeration.GroupChatName;
 import team.bham.repository.ChatRepository;
 
 /**
@@ -39,8 +38,8 @@ class ChatResourceIT {
     private static final String DEFAULT_SENDER_LOGIN = "AAAAAAAAAA";
     private static final String UPDATED_SENDER_LOGIN = "BBBBBBBBBB";
 
-    private static final GroupChatName DEFAULT_GROUP_CHAT = GroupChatName.BRITISHHEARTFOUNDATION;
-    private static final GroupChatName UPDATED_GROUP_CHAT = GroupChatName.CANCERRESEARCHCENTER;
+    private static final String DEFAULT_RECEIVER_LOGIN = "AAAAAAAAAA";
+    private static final String UPDATED_RECEIVER_LOGIN = "BBBBBBBBBB";
 
     private static final String DEFAULT_MESSAGE = "AAAAAAAAAA";
     private static final String UPDATED_MESSAGE = "BBBBBBBBBB";
@@ -79,7 +78,7 @@ class ChatResourceIT {
     public static Chat createEntity(EntityManager em) {
         Chat chat = new Chat()
             .senderLogin(DEFAULT_SENDER_LOGIN)
-            .groupChat(DEFAULT_GROUP_CHAT)
+            .receiverLogin(DEFAULT_RECEIVER_LOGIN)
             .message(DEFAULT_MESSAGE)
             .image(DEFAULT_IMAGE)
             .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE)
@@ -96,7 +95,7 @@ class ChatResourceIT {
     public static Chat createUpdatedEntity(EntityManager em) {
         Chat chat = new Chat()
             .senderLogin(UPDATED_SENDER_LOGIN)
-            .groupChat(UPDATED_GROUP_CHAT)
+            .receiverLogin(UPDATED_RECEIVER_LOGIN)
             .message(UPDATED_MESSAGE)
             .image(UPDATED_IMAGE)
             .imageContentType(UPDATED_IMAGE_CONTENT_TYPE)
@@ -123,7 +122,7 @@ class ChatResourceIT {
         assertThat(chatList).hasSize(databaseSizeBeforeCreate + 1);
         Chat testChat = chatList.get(chatList.size() - 1);
         assertThat(testChat.getSenderLogin()).isEqualTo(DEFAULT_SENDER_LOGIN);
-        assertThat(testChat.getGroupChat()).isEqualTo(DEFAULT_GROUP_CHAT);
+        assertThat(testChat.getReceiverLogin()).isEqualTo(DEFAULT_RECEIVER_LOGIN);
         assertThat(testChat.getMessage()).isEqualTo(DEFAULT_MESSAGE);
         assertThat(testChat.getImage()).isEqualTo(DEFAULT_IMAGE);
         assertThat(testChat.getImageContentType()).isEqualTo(DEFAULT_IMAGE_CONTENT_TYPE);
@@ -167,6 +166,23 @@ class ChatResourceIT {
 
     @Test
     @Transactional
+    void checkReceiverLoginIsRequired() throws Exception {
+        int databaseSizeBeforeTest = chatRepository.findAll().size();
+        // set the field null
+        chat.setReceiverLogin(null);
+
+        // Create the Chat, which fails.
+
+        restChatMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(chat)))
+            .andExpect(status().isBadRequest());
+
+        List<Chat> chatList = chatRepository.findAll();
+        assertThat(chatList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void checkTimestampIsRequired() throws Exception {
         int databaseSizeBeforeTest = chatRepository.findAll().size();
         // set the field null
@@ -195,7 +211,7 @@ class ChatResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(chat.getId().intValue())))
             .andExpect(jsonPath("$.[*].senderLogin").value(hasItem(DEFAULT_SENDER_LOGIN)))
-            .andExpect(jsonPath("$.[*].groupChat").value(hasItem(DEFAULT_GROUP_CHAT.toString())))
+            .andExpect(jsonPath("$.[*].receiverLogin").value(hasItem(DEFAULT_RECEIVER_LOGIN)))
             .andExpect(jsonPath("$.[*].message").value(hasItem(DEFAULT_MESSAGE)))
             .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))))
@@ -215,7 +231,7 @@ class ChatResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(chat.getId().intValue()))
             .andExpect(jsonPath("$.senderLogin").value(DEFAULT_SENDER_LOGIN))
-            .andExpect(jsonPath("$.groupChat").value(DEFAULT_GROUP_CHAT.toString()))
+            .andExpect(jsonPath("$.receiverLogin").value(DEFAULT_RECEIVER_LOGIN))
             .andExpect(jsonPath("$.message").value(DEFAULT_MESSAGE))
             .andExpect(jsonPath("$.imageContentType").value(DEFAULT_IMAGE_CONTENT_TYPE))
             .andExpect(jsonPath("$.image").value(Base64Utils.encodeToString(DEFAULT_IMAGE)))
@@ -243,7 +259,7 @@ class ChatResourceIT {
         em.detach(updatedChat);
         updatedChat
             .senderLogin(UPDATED_SENDER_LOGIN)
-            .groupChat(UPDATED_GROUP_CHAT)
+            .receiverLogin(UPDATED_RECEIVER_LOGIN)
             .message(UPDATED_MESSAGE)
             .image(UPDATED_IMAGE)
             .imageContentType(UPDATED_IMAGE_CONTENT_TYPE)
@@ -262,7 +278,7 @@ class ChatResourceIT {
         assertThat(chatList).hasSize(databaseSizeBeforeUpdate);
         Chat testChat = chatList.get(chatList.size() - 1);
         assertThat(testChat.getSenderLogin()).isEqualTo(UPDATED_SENDER_LOGIN);
-        assertThat(testChat.getGroupChat()).isEqualTo(UPDATED_GROUP_CHAT);
+        assertThat(testChat.getReceiverLogin()).isEqualTo(UPDATED_RECEIVER_LOGIN);
         assertThat(testChat.getMessage()).isEqualTo(UPDATED_MESSAGE);
         assertThat(testChat.getImage()).isEqualTo(UPDATED_IMAGE);
         assertThat(testChat.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
@@ -356,7 +372,7 @@ class ChatResourceIT {
         assertThat(chatList).hasSize(databaseSizeBeforeUpdate);
         Chat testChat = chatList.get(chatList.size() - 1);
         assertThat(testChat.getSenderLogin()).isEqualTo(UPDATED_SENDER_LOGIN);
-        assertThat(testChat.getGroupChat()).isEqualTo(DEFAULT_GROUP_CHAT);
+        assertThat(testChat.getReceiverLogin()).isEqualTo(DEFAULT_RECEIVER_LOGIN);
         assertThat(testChat.getMessage()).isEqualTo(UPDATED_MESSAGE);
         assertThat(testChat.getImage()).isEqualTo(UPDATED_IMAGE);
         assertThat(testChat.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
@@ -377,7 +393,7 @@ class ChatResourceIT {
 
         partialUpdatedChat
             .senderLogin(UPDATED_SENDER_LOGIN)
-            .groupChat(UPDATED_GROUP_CHAT)
+            .receiverLogin(UPDATED_RECEIVER_LOGIN)
             .message(UPDATED_MESSAGE)
             .image(UPDATED_IMAGE)
             .imageContentType(UPDATED_IMAGE_CONTENT_TYPE)
@@ -396,7 +412,7 @@ class ChatResourceIT {
         assertThat(chatList).hasSize(databaseSizeBeforeUpdate);
         Chat testChat = chatList.get(chatList.size() - 1);
         assertThat(testChat.getSenderLogin()).isEqualTo(UPDATED_SENDER_LOGIN);
-        assertThat(testChat.getGroupChat()).isEqualTo(UPDATED_GROUP_CHAT);
+        assertThat(testChat.getReceiverLogin()).isEqualTo(UPDATED_RECEIVER_LOGIN);
         assertThat(testChat.getMessage()).isEqualTo(UPDATED_MESSAGE);
         assertThat(testChat.getImage()).isEqualTo(UPDATED_IMAGE);
         assertThat(testChat.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);

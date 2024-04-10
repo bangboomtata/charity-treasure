@@ -14,8 +14,6 @@ import { ReservationDeleteDialogComponent } from '../delete/reservation-delete-d
 @Component({
   selector: 'jhi-reservation',
   templateUrl: './reservation.component.html',
-
-  styleUrls: ['./reservation.component.scss'],
 })
 export class ReservationComponent implements OnInit {
   reservations?: IReservation[];

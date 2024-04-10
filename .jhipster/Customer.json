@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20240321141939",
+  "changelogDate": "20240404233944",
   "dto": "no",
   "embedded": false,
   "entityTableName": "customer",
@@ -23,6 +23,12 @@
       "ownerSide": true,
       "relationshipName": "user",
       "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "customerEmails",
+      "otherEntityRelationshipName": "customer",
+      "relationshipName": "email",
+      "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "application",

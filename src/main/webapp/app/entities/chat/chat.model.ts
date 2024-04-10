@@ -1,14 +1,16 @@
 import dayjs from 'dayjs/esm';
-import { GroupChatName } from 'app/entities/enumerations/group-chat-name.model';
+import { ICustomer } from '../customer/customer.model';
+import { IShop } from '../shop/shop.model';
 
 export interface IChat {
   id: number;
   senderLogin?: string | null;
-  groupChat?: GroupChatName | null;
+  receiverLogin?: string | null;
   message?: string | null;
   image?: string | null;
   imageContentType?: string | null;
   timestamp?: dayjs.Dayjs | null;
+  shop?: IShop | null;
 }
 
 export type NewChat = Omit<IChat, 'id'> & { id: null };

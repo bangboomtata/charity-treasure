@@ -1,0 +1,94 @@
+$main-pink: #ff6961;
+$second-pink: #ffe7e7;
+$main-blue: #000080;
+
+.main-box {
+  max-height: 550px;
+  overflow-y: scroll; // Use "auto" to enable scrolling
+
+  &::-webkit-scrollbar {
+    width: 8px; // Adjust the width of the scrollbar as needed
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $main-pink; // Color of the scrollbar thumb
+    border-radius: 6px; // Adjust the border radius as needed
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: white; // Color of the scrollbar track
+    border-radius: 8px; // Adjust the border radius as needed
+  }
+}
+
+.image-container {
+  width: 200px;
+}
+
+.shop-img {
+  width: 200px;
+}
+
+.text-center button {
+  margin: 0 10px;
+  width: 150px;
+  border-radius: 50px;
+  border: none;
+}
+
+.edit-button {
+  background-color: $main-pink;
+}
+
+.back-button {
+  background-color: #000080;
+}
+
+p {
+  display: inline;
+  font-size: large;
+}
+
+ul {
+  font-size: large;
+}
+
+a {
+  display: inline-block;
+  color: #ff6961;
+}
+
+.detail-title-p {
+  font-weight: bold;
+  color: $main-pink;
+  max-width: 500px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  font-size: 25px;
+  margin: 0;
+}
+
+.detail-section-box {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  margin-bottom: 10px;
+
+  span {
+    font-weight: bold;
+  }
+}
+
+.btn-warning.selected {
+  border: 3px solid black;
+}
+
+.btn-success.selected {
+  border: 3px solid black;
+}
+
+.btn-danger.selected {
+  border: 3px solid black;
+}

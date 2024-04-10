@@ -15,7 +15,7 @@
           <label class="form-label" for="field_shopName">Shop Name</label>
           <input type="text" class="form-control" name="shopName" id="field_shopName" data-cy="shopName" formControlName="shopName" />
           <div *ngIf="editForm.get('shopName')!.invalid && (editForm.get('shopName')!.dirty || editForm.get('shopName')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('shopName')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('shopName')?.errors?.required"> Shop Name is required. </small>
           </div>
         </div>
 
@@ -30,7 +30,7 @@
             formControlName="contactNum"
           />
           <div *ngIf="editForm.get('contactNum')!.invalid && (editForm.get('contactNum')!.dirty || editForm.get('contactNum')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('contactNum')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('contactNum')?.errors?.required"> Contact Number is required. </small>
           </div>
         </div>
       </div>
@@ -38,7 +38,18 @@
       <div class="row mb-3">
         <div class="col">
           <label class="form-label" for="field_shopEmail">Shop Email</label>
-          <input type="text" class="form-control" name="shopEmail" id="field_shopEmail" data-cy="shopEmail" formControlName="shopEmail" />
+          <input
+            type="text"
+            class="form-control"
+            name="shopEmail"
+            id="field_shopEmail"
+            data-cy="shopEmail"
+            formControlName="shopEmail"
+            required=""
+          />
+          <div *ngIf="editForm.get('shopEmail')!.invalid && (editForm.get('shopEmail')!.dirty || editForm.get('shopEmail')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('shopEmail')?.errors?.required"> Email is required. </small>
+          </div>
         </div>
 
         <div class="col">
@@ -56,7 +67,7 @@
               editForm.get('charityShopId')!.invalid && (editForm.get('charityShopId')!.dirty || editForm.get('charityShopId')!.touched)
             "
           >
-            <small class="form-text text-danger" *ngIf="editForm.get('charityShopId')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('charityShopId')?.errors?.required"> Charity ID is required. </small>
           </div>
         </div>
       </div>
@@ -109,24 +120,52 @@
         <div class="col">
           <h3>Shop Address</h3>
           <label class="form-label" for="field_street">Street</label>
-          <input type="text" class="form-control" name="street" id="field_street" data-cy="street" formControlName="street" />
+          <input type="text" class="form-control" name="street" id="field_street" data-cy="street" formControlName="street" required="" />
+          <div *ngIf="editForm.get('street')!.invalid && (editForm.get('street')!.dirty || editForm.get('street')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('street')?.errors?.required"> Street is required. </small>
+          </div>
         </div>
       </div>
 
       <div class="row mb-3">
         <div class="col">
           <label class="form-label" for="field_city">City</label>
-          <input type="text" class="form-control" name="city" id="field_city" data-cy="city" formControlName="city" />
+          <input type="text" class="form-control" name="city" id="field_city" data-cy="city" formControlName="city" required="" />
+          <div *ngIf="editForm.get('city')!.invalid && (editForm.get('city')!.dirty || editForm.get('city')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('city')?.errors?.required"> City is required. </small>
+          </div>
         </div>
 
         <div class="col">
           <label class="form-label" for="field_postCode">Post Code</label>
-          <input type="text" class="form-control" name="postCode" id="field_postCode" data-cy="postCode" formControlName="postCode" />
+          <input
+            type="text"
+            class="form-control"
+            name="postCode"
+            id="field_postCode"
+            data-cy="postCode"
+            formControlName="postCode"
+            required=""
+          />
+          <div *ngIf="editForm.get('postCode')!.invalid && (editForm.get('postCode')!.dirty || editForm.get('postCode')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('postCode')?.errors?.required"> Post Code is required. </small>
+          </div>
         </div>
 
         <div class="col">
           <label class="form-label" for="field_country">Country</label>
-          <input type="text" class="form-control" name="country" id="field_country" data-cy="country" formControlName="country" />
+          <input
+            type="text"
+            class="form-control"
+            name="country"
+            id="field_country"
+            data-cy="country"
+            formControlName="country"
+            required=""
+          />
+          <div *ngIf="editForm.get('country')!.invalid && (editForm.get('country')!.dirty || editForm.get('country')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('country')?.errors?.required"> Country is required. </small>
+          </div>
         </div>
       </div>
 
@@ -180,22 +219,58 @@
         </div>
       </div>
 
-      <div class="row mb-3">
+      <!-- <div class="row mb-3">
         <div class="col">
           <label class="form-label" for="field_rating">Rating</label>
-          <input type="number" class="form-control" name="rating" id="field_rating" data-cy="rating" formControlName="rating" />
+          <input
+            type="number"
+            class="form-control"
+            name="rating"
+            id="field_rating"
+            data-cy="rating"
+            formControlName="rating"
+            required=""
+            placeholder="0"
+          />
+          <div *ngIf="editForm.get('rating')!.invalid && (editForm.get('rating')!.dirty || editForm.get('rating')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('rating')?.errors?.required"> Please type 0 </small>
+          </div>
         </div>
 
         <div class="col">
           <label class="form-label" for="field_distance">Distance</label>
-          <input type="number" class="form-control" name="distance" id="field_distance" data-cy="distance" formControlName="distance" />
+          <input
+            type="number"
+            class="form-control"
+            name="distance"
+            id="field_distance"
+            data-cy="distance"
+            formControlName="distance"
+            required=""
+            placeholder="0"
+          />
+          <div *ngIf="editForm.get('distance')!.invalid && (editForm.get('distance')!.dirty || editForm.get('distance')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('distance')?.errors?.required"> Please type 0 </small>
+          </div>
         </div>
 
         <div class="col">
           <label class="form-label" for="field_duration">Duration</label>
-          <input type="text" class="form-control" name="duration" id="field_duration" data-cy="duration" formControlName="duration" />
+          <input
+            type="text"
+            class="form-control"
+            name="duration"
+            id="field_duration"
+            data-cy="duration"
+            formControlName="duration"
+            required=""
+            placeholder="PT0M"
+          />
+          <div *ngIf="editForm.get('duration')!.invalid && (editForm.get('duration')!.dirty || editForm.get('duration')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('duration')?.errors?.required"> Please type PT0M </small>
+          </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="row mb-3">
         <div class="col">

@@ -1,0 +1,261 @@
+/**
+ * The VolunteerPost entity.
+ * @author A true hipster
+ */
+
+entity Customer
+{
+    status Status
+}
+
+entity CustomerEmails
+{
+    email String
+}
+
+enum Status
+{
+    ONLINE(Online)
+    OFFLINE(Offline)
+}
+
+entity Chat
+{
+    senderLogin String required //sent by which user?
+    receiverLogin String required
+    message String
+    image ImageBlob
+    timestamp ZonedDateTime required
+}
+
+entity Shop {
+    shopName String required
+    contactNum String required
+    shopEmail String
+    charityShopId String required
+    openHoursWeekdays String
+    openHoursWeekends String
+    openHoursHolidays String
+    street String
+    city String
+    postCode String
+    country String
+    creationDate LocalDate
+    logo ImageBlob
+    rating Double
+    distance Double
+    duration Duration
+}
+
+
+entity VolunteerPost {
+    postTitle String required
+    locationAddress String
+    contactNum String
+    email String
+    aboutUs TextBlob
+    aboutRole TextBlob
+    benefits TextBlob
+    img ImageBlob
+    activeStatus ActiveStatus
+    startDate LocalDate
+
+    //days required, like checkboxes...
+    monday Boolean
+    tuesday Boolean
+    wednesday Boolean
+    thursday Boolean
+    friday Boolean
+    saturday Boolean
+    sunday Boolean
+
+    //shifts required, like checkboxes...
+    morning Boolean
+    afternoon Boolean
+    evening Boolean
+}
+
+enum ActiveStatus
+{
+    ACTIVE(Active)
+    EXPIRED(Expired)
+}
+
+entity Application {
+    firstName String required
+    lastName String required
+    contactNum String required
+    email String
+    dateOfBirth LocalDate
+    commitmentDuration String
+    volunteerExperience String
+    relevantSkills TextBlob
+    motivation TextBlob
+    applicationDate LocalDate
+    applicationStatus ApplicationStatus
+
+    //days required, like checkboxes...
+    appliedMonday Boolean
+    appliedTuesday Boolean
+    appliedWednesday Boolean
+    appliedThursday Boolean
+    appliedFriday Boolean
+    appliedSaturday Boolean
+    appliedSunday Boolean
+
+    //shifts required, like checkboxes...
+    appliedMorning Boolean
+    appliedAfternoon Boolean
+    appliedEvening Boolean
+}
+
+enum ApplicationStatus {
+    PENDING,
+    ACCEPTED,
+    REJECTED
+}
+
+entity Reservation {
+    reservedTime ZonedDateTime required
+    reservedExpiry ZonedDateTime required
+    status ReservationStatus
+}
+
+enum ReservationStatus {
+    PENDING,
+    CONFIRMED,
+    COLLECTED,
+    CANCELLED
+}
+
+entity Feedback {
+    feedbackText TextBlob required
+    time ZonedDateTime
+}
+
+entity Item {
+    /* the user will see:
+        shownPrice, itemname, itemDescription, itemImage
+        gender, condition, baseCategory, subCategory
+    */
+    price BigDecimal required
+    // shownPrice calculated with price and saleAmount
+    saleFlag Boolean
+    saleAmount Integer min(10) max(90)
+    shownPrice String
+    saleEndTime ZonedDateTime
+    itemName String required
+    itemDescription String
+    itemAvailability Boolean
+    itemImage ImageBlob required
+    reserveFlag Boolean
+    // filtering
+    gender Gender
+    condition Condition required
+    itemType ItemType required
+    subCategory String required
+}
+
+enum Gender {
+    MALE, FEMALE, UNISEX
+}
+
+entity Event {
+    eventName String required
+    eventDate LocalDate required
+    eventDescription TextBlob required
+    eventAddress TextBlob required
+    eventLocation Location
+    eventCity String required
+    eventTime String
+    contactNumber String
+    eventEmail String
+    eventImage ImageBlob
+    eventEndDate LocalDate
+}
+
+entity InterestedEvents
+{}
+
+enum ItemType
+{
+    CLOTHING,
+    BOOK,
+    HOMEWARE,
+    ENTERTAINMENT,
+    TOY
+}
+
+enum Condition
+{
+    VERYGOOD,
+    GOOD,
+    SATISFACTORY
+}
+
+enum Location{
+    SCOTLAND (Scotland),
+    NORTHEAST (NorthEast),
+    NORTHWEST (NorthWest),
+    YORKSHIRE (Yorkshire),
+    EASTMIDLANDS (EastMidlands),
+    WESTMIDLANDS (WestMidlands),
+    EASTANGLIA (EastAnglia),
+    LONDON (London),
+    SOUTHEAST (SouthEast),
+    SOUTHWEST (SouthWest),
+    NORTHWALES (NorthWales),
+    SOUTHWALES (SouthWales),
+    IRELAND (Ireland)
+}
+
+// relationship OneToMany {
+//     VolunteerPost{days} to DaysRequired
+//     VolunteerPost{shifts} to ShiftRequired
+//     Application{days} to DaysRequired
+//     Application{shifts} to ShiftRequired
+// }
+
+/**
+ * One to one relationship.
+ */
+relationship OneToOne {
+
+    Reservation{item} to Item{reservedBy}
+    //Item{reservedBy} to Reservation
+
+    Shop{user} to User
+    //make bidirection relationship
+    // User to Shop{shopID}
+
+    Customer{user} to User
+    //make bidirecction relationship
+    // User to Customer{userID}
+
+}
+
+relationship OneToMany {
+    Shop{reservations} to Reservation{shop}
+    Customer{email} to CustomerEmails
+}
+
+relationship ManyToOne {
+    Application{post} to VolunteerPost{app}
+    Application{customer} to Customer{app}
+    Reservation{customer} to Customer
+    Feedback{customer} to Customer
+    InterestedEvents{user} to Customer{interestedEvents}
+
+    VolunteerPost{shop} to Shop{volunteerPost}
+    Item{shop} to Shop{item}
+    Event{shop} to Shop{event}
+    Feedback{shop} to Shop{feedback}
+
+    InterestedEvents{event} to Event{interestedEvents}
+}
+
+// pagination, future DTO for item
+paginate VolunteerPost, Chat with infinite-scroll
+
+paginate Reservation, Feedback, Item, Application, Event, InterestedEvents with pagination
+

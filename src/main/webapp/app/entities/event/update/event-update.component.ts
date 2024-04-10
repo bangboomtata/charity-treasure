@@ -18,7 +18,7 @@ import { AccountService } from '../../../core/auth/account.service';
 
 @Component({
   selector: 'jhi-event-update',
-  styleUrls: ['event-update.component.scss'],
+  styleUrls: ['./event-update.component.scss'],
   templateUrl: './event-update.component.html',
 })
 export class EventUpdateComponent implements OnInit {
@@ -98,10 +98,10 @@ export class EventUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
 
-    this,
-      this.editForm.patchValue({
-        shop: this.shop,
-      });
+    this.editForm.patchValue({
+      shop: this.shop,
+    });
+
     const event = this.eventFormService.getEvent(this.editForm);
     if (event.id !== null) {
       this.subscribeToSaveResponse(this.eventService.update(event));

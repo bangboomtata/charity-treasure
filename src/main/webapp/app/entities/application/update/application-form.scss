@@ -1,0 +1,92 @@
+$main-pink: #ff6961;
+$second-pink: #ffe7e7;
+$main-blue: #000080;
+
+.main-box {
+  padding: 20px;
+}
+
+.form-title-p {
+  font-weight: bold;
+  color: $main-pink;
+  font-size: 30px;
+  margin: 0;
+}
+
+textarea {
+  height: 100px;
+}
+
+hr {
+  width: 96%;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  color: $main-pink;
+}
+
+label {
+  width: calc(100% / 3);
+  color: $main-blue;
+  font-weight: bold;
+}
+
+input[type='checkbox'] {
+  margin-right: 10px; /* Adjust the value based on your preference */
+  border: black 2px solid;
+  border-radius: 3px;
+}
+
+.agree,
+.termCheckBox {
+  display: inline-block;
+}
+
+.col-md-4 p {
+  margin-bottom: 5px;
+  color: $main-pink;
+  font-weight: bold;
+}
+
+input[type='text'],
+input[type='email'],
+textarea,
+select {
+  background-color: $second-pink;
+  border: none;
+  border-radius: 10px;
+}
+
+.img-button {
+  background-color: $second-pink;
+}
+
+.text-center button {
+  margin: 0 10px;
+  width: 150px;
+  border-radius: 50px;
+  border: none;
+}
+
+.post-button {
+  background-color: $main-pink;
+}
+
+.form-label {
+  width: fit-content;
+}
+
+.post-button {
+  background-color: $main-pink;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid black;
+  z-index: 999;
+}

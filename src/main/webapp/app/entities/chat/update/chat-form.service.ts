@@ -32,7 +32,7 @@ type ChatFormDefaults = Pick<NewChat, 'id' | 'timestamp'>;
 type ChatFormGroupContent = {
   id: FormControl<ChatFormRawValue['id'] | NewChat['id']>;
   senderLogin: FormControl<ChatFormRawValue['senderLogin']>;
-  groupChat: FormControl<ChatFormRawValue['groupChat']>;
+  receiverLogin: FormControl<ChatFormRawValue['receiverLogin']>;
   message: FormControl<ChatFormRawValue['message']>;
   image: FormControl<ChatFormRawValue['image']>;
   imageContentType: FormControl<ChatFormRawValue['imageContentType']>;
@@ -59,7 +59,9 @@ export class ChatFormService {
       senderLogin: new FormControl(chatRawValue.senderLogin, {
         validators: [Validators.required],
       }),
-      groupChat: new FormControl(chatRawValue.groupChat),
+      receiverLogin: new FormControl(chatRawValue.receiverLogin, {
+        validators: [Validators.required],
+      }),
       message: new FormControl(chatRawValue.message),
       image: new FormControl(chatRawValue.image),
       imageContentType: new FormControl(chatRawValue.imageContentType),

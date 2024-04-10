@@ -1,38 +1,36 @@
 import dayjs from 'dayjs/esm';
 
-import { GroupChatName } from 'app/entities/enumerations/group-chat-name.model';
-
 import { IChat, NewChat } from './chat.model';
 
 export const sampleWithRequiredData: IChat = {
   id: 24892,
   senderLogin: 'Grocery',
-  timestamp: dayjs('2024-03-21T12:53'),
+  receiverLogin: 'Singapore',
+  timestamp: dayjs('2024-04-03T23:40'),
 };
 
 export const sampleWithPartialData: IChat = {
-  id: 99920,
-  senderLogin: 'Steel program Corporate',
-  groupChat: GroupChatName['CANCERRESEARCHCENTER'],
-  message: 'visionary tan Web',
-  image: '../fake-data/blob/hipster.png',
-  imageContentType: 'unknown',
-  timestamp: dayjs('2024-03-20T22:09'),
+  id: 24472,
+  senderLogin: 'Bike',
+  receiverLogin: 'Towels National complexity',
+  message: 'Web Dollar',
+  timestamp: dayjs('2024-04-04T22:03'),
 };
 
 export const sampleWithFullData: IChat = {
-  id: 99550,
-  senderLogin: 'Awesome orchid Concrete',
-  groupChat: GroupChatName['CANCERRESEARCHCENTER'],
-  message: 'enhance Junctions',
+  id: 55369,
+  senderLogin: 'emulation deposit',
+  receiverLogin: 'indigo Investor',
+  message: 'Investment',
   image: '../fake-data/blob/hipster.png',
   imageContentType: 'unknown',
-  timestamp: dayjs('2024-03-21T07:41'),
+  timestamp: dayjs('2024-04-04T11:48'),
 };
 
 export const sampleWithNewData: NewChat = {
-  senderLogin: 'up',
-  timestamp: dayjs('2024-03-21T11:09'),
+  senderLogin: 'Sharable',
+  receiverLogin: 'Wooden homogeneous Buckinghamshire',
+  timestamp: dayjs('2024-04-04T10:16'),
   id: null,
 };
 

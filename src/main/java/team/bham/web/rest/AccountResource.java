@@ -61,8 +61,12 @@ public class AccountResource {
         if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
-        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
-        mailService.sendActivationEmail(user);
+        if (managedUserVM.getShopRole() == true) {
+            User user = userService.registerShop(managedUserVM, managedUserVM.getPassword());
+        } else {
+            User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+            mailService.sendActivationEmail(user);
+        }
     }
 
     /**

@@ -40,7 +40,18 @@
                 "output": "/assets"
               }
             ],
-            "styles": ["src/main/webapp/content/scss/vendor.scss", "src/main/webapp/content/scss/global.scss"],
+            "styles": [
+              "src/main/webapp/content/scss/vendor.scss",
+              "src/main/webapp/content/scss/global.scss",
+              "node_modules/leaflet/dist/leaflet.css",
+              "node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.css",
+              "node_modules/leaflet.fullscreen/Control.FullScreen.css",
+              "node_modules/leaflet.locatecontrol/dist/L.Control.Locate.css",
+              "node_modules/leaflet.locatecontrol/dist/L.Control.Locate.mapbox.css",
+              "node_modules/leaflet.locatecontrol/dist/L.Control.Locate.mapbox.min.css",
+              "node_modules/leaflet.locatecontrol/dist/L.Control.Locate.min.css"
+            ],
+
             "scripts": []
           },
           "configurations": {

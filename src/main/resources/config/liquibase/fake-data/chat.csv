@@ -1,1 +1,1 @@
-id;sender_login;group_chat;message;image;image_content_type;timestamp
+id;sender_login;receiver_login;message;image;image_content_type;timestamp

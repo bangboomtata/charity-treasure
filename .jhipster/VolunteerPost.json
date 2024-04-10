@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20240321141942",
+  "changelogDate": "20240404233948",
   "dto": "no",
   "embedded": false,
   "entityTableName": "volunteer_post",

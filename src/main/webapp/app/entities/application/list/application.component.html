@@ -1,4 +1,514 @@
-<div>
+<div class="big-container">
+  <h2 id="page-heading" data-cy="ApplicationHeading">
+    <div class="big-title" *ngIf="shopId">Applicants</div>
+    <div class="big-title" *ngIf="customerId">Your Applications</div>
+
+    <div class="d-flex justify-content-end create-refresh-box">
+      <select [(ngModel)]="selectedPost" *ngIf="shopId">
+        <option value="ALL">ALL</option>
+        <ng-container *ngFor="let volunteerPostOption of volunteerPostsList">
+          <option [ngValue]="volunteerPostOption.id.toString()" *ngIf="checkPost(volunteerPostOption.shop?.id)">
+            {{ volunteerPostOption.postTitle }}
+          </option>
+        </ng-container>
+      </select>
+
+      <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <!-- <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-application"
+        [routerLink]="['/application/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Application </span>
+      </button> -->
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="applications?.length === 0">
+    <span>No Applications found</span>
+  </div>
+
+  <!--admin view for list-->
+  <div class="admin-main-box" *ngIf="shopId">
+    <div class="admin-table-box" id="entities" *ngIf="applications && applications.length > 0">
+      <table class="table admin-table" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" class="text-center" jhiSortBy="firstName">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>First Name</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <!-- <th scope="col" class="text-center" jhiSortBy="lastName">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Last Name</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th> -->
+            <th scope="col" class="text-center" jhiSortBy="email">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Email</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <!-- <th scope="col" class="text-center" jhiSortBy="dateOfBirth">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Date Of Birth</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="commitmentDuration">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Commitment Duration</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="volunteerExperience">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Volunteer Experience</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="relevantSkills">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Relevant Skills</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="motivation">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Motivation</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th> -->
+            <!-- <th scope="col" class="text-center" jhiSortBy="appliedMonday">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Applied Monday</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="appliedTuesday">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Applied Tuesday</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="appliedWednesday">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Applied Wednesday</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="appliedThursday">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Applied Thursday</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="appliedFriday">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Applied Friday</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="appliedSaturday">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Applied Saturday</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="appliedSunday">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Applied Sunday</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="appliedMorning">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Applied Morning</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="appliedAfternoon">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Applied Afternoon</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="appliedEvening">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Applied Evening</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th> -->
+            <th scope="col" class="text-center" jhiSortBy="post.id">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Post</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="contactNum">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Application Status</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <!-- <th scope="col" class="text-center" jhiSortBy="customer.id">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Username</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th> -->
+            <th scope="col" class="text-center">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Action</span>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="selectedPost == 'ALL'; else elseBlock">
+            <ng-container *ngFor="let application of applications; trackBy: trackId">
+              <tr
+                data-cy="entityTable"
+                *ngIf="application.post?.shop?.id == shopId"
+                [routerLink]="['/application', application.id, 'view']"
+                class="admin-tr"
+              >
+                <td class="text-center">{{ application.firstName }}</td>
+                <!-- <td class="text-center">{{ application.lastName }}</td> -->
+                <td class="text-center">{{ application.email }}</td>
+                <!-- <td>{{ application.dateOfBirth | formatMediumDate }}</td>
+              <td>{{ application.commitmentDuration }}</td>
+              <td>{{ application.volunteerExperience }}</td>
+              <td>{{ application.relevantSkills }}</td>
+              <td>{{ application.motivation }}</td> -->
+                <!-- <td>{{ application.appliedMonday }}</td>
+              <td>{{ application.appliedTuesday }}</td>
+              <td>{{ application.appliedWednesday }}</td>
+              <td>{{ application.appliedThursday }}</td>
+              <td>{{ application.appliedFriday }}</td>
+              <td>{{ application.appliedSaturday }}</td>
+              <td>{{ application.appliedSunday }}</td>
+              <td>{{ application.appliedMorning }}</td>
+              <td>{{ application.appliedAfternoon }}</td>
+              <td>{{ application.appliedEvening }}</td> -->
+                <td class="text-center">
+                  <div *ngIf="application.post">
+                    <a [routerLink]="['/volunteer-post', application.post.id, 'view']" (click)="$event.stopPropagation()">{{
+                      application.post.postTitle
+                    }}</a>
+                  </div>
+                </td>
+                <td class="text-center">{{ application.applicationStatus }}</td>
+                <!-- <td class="text-center">
+                  <div *ngIf="application.customer">
+                    <a [routerLink]="['/customer', application.customer.id, 'view']" (click)="$event.stopPropagation()">{{
+                      application.customer.user?.login
+                    }}</a>
+                  </div>
+                </td> -->
+                <td class="text-center">
+                  <div class="btn-group">
+                    <!-- <button
+                    type="submit"
+                    [routerLink]="['/application', application.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">View</span>
+                  </button>
+    
+                  <button
+                    type="submit"
+                    [routerLink]="['/application', application.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edit</span>
+                  </button> -->
+
+                    <!-- <button
+                      type="submit"
+                      (click)="delete($event, application)"
+                      class="btn btn-danger btn-sm delete-button"
+                      data-cy="entityDeleteButton"
+                    >
+                      <fa-icon icon="times"></fa-icon>
+                      <span class="d-none d-md-inline">Delete</span>
+                    </button> -->
+
+                    <button type="submit" (click)="pendingApplication($event, application)" class="btn btn-warning btn-sm">
+                      <span class="d-none d-md-inline">Pending</span>
+                    </button>
+
+                    <button type="submit" (click)="acceptApplication($event, application)" class="btn btn-success btn-sm">
+                      <span class="d-none d-md-inline">Accept</span>
+                    </button>
+
+                    <button type="submit" (click)="rejectApplication($event, application)" class="btn btn-danger btn-sm delete-button">
+                      <span class="d-none d-md-inline">Reject</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-container>
+
+          <ng-template #elseBlock>
+            <ng-container *ngFor="let application of applications; trackBy: trackId">
+              <tr
+                data-cy="entityTable"
+                *ngIf="application.post?.shop?.id == shopId && application.post?.id?.toString() == selectedPost"
+                [routerLink]="['/application', application.id, 'view']"
+                class="admin-tr"
+              >
+                <td class="text-center">{{ application.firstName }}</td>
+                <!-- <td class="text-center">{{ application.lastName }}</td> -->
+                <td class="text-center">{{ application.email }}</td>
+                <!-- <td>{{ application.dateOfBirth | formatMediumDate }}</td>
+            <td>{{ application.commitmentDuration }}</td>
+            <td>{{ application.volunteerExperience }}</td>
+            <td>{{ application.relevantSkills }}</td>
+            <td>{{ application.motivation }}</td> -->
+                <!-- <td>{{ application.appliedMonday }}</td>
+            <td>{{ application.appliedTuesday }}</td>
+            <td>{{ application.appliedWednesday }}</td>
+            <td>{{ application.appliedThursday }}</td>
+            <td>{{ application.appliedFriday }}</td>
+            <td>{{ application.appliedSaturday }}</td>
+            <td>{{ application.appliedSunday }}</td>
+            <td>{{ application.appliedMorning }}</td>
+            <td>{{ application.appliedAfternoon }}</td>
+            <td>{{ application.appliedEvening }}</td> -->
+                <td class="text-center">
+                  <div *ngIf="application.post">
+                    <a [routerLink]="['/volunteer-post', application.post.id, 'view']" (click)="$event.stopPropagation()">{{
+                      application.post.postTitle
+                    }}</a>
+                  </div>
+                </td>
+                <td class="text-center">{{ application.applicationStatus }}</td>
+                <!-- <td class="text-center">
+                <div *ngIf="application.customer">
+                  <a [routerLink]="['/customer', application.customer.id, 'view']" (click)="$event.stopPropagation()">{{
+                    application.customer.user?.login
+                  }}</a>
+                </div>
+              </td> -->
+                <td class="text-center">
+                  <div class="btn-group">
+                    <!-- <button
+                  type="submit"
+                  [routerLink]="['/application', application.id, 'view']"
+                  class="btn btn-info btn-sm"
+                  data-cy="entityDetailsButton"
+                >
+                  <fa-icon icon="eye"></fa-icon>
+                  <span class="d-none d-md-inline">View</span>
+                </button>
+  
+                <button
+                  type="submit"
+                  [routerLink]="['/application', application.id, 'edit']"
+                  class="btn btn-primary btn-sm"
+                  data-cy="entityEditButton"
+                >
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                  <span class="d-none d-md-inline">Edit</span>
+                </button> -->
+
+                    <!-- <button
+                    type="submit"
+                    (click)="delete($event, application)"
+                    class="btn btn-danger btn-sm delete-button"
+                    data-cy="entityDeleteButton"
+                  >
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Delete</span>
+                  </button> -->
+
+                    <button type="submit" (click)="pendingApplication($event, application)" class="btn btn-warning btn-sm">
+                      <span class="d-none d-md-inline">Pending</span>
+                    </button>
+
+                    <button type="submit" (click)="acceptApplication($event, application)" class="btn btn-success btn-sm">
+                      <span class="d-none d-md-inline">Accept</span>
+                    </button>
+
+                    <button type="submit" (click)="rejectApplication($event, application)" class="btn btn-danger btn-sm delete-button">
+                      <span class="d-none d-md-inline">Reject</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-template>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- <div *ngIf="applications && applications.length > 0">
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+  
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div> -->
+  </div>
+
+  <ng-container *ngIf="customerId">
+    <div class="user-main-box">
+      <ng-container *ngFor="let application of applications; trackBy: trackId">
+        <div class="application-container row" [routerLink]="['/application', application.id, 'view']">
+          <div class="col-auto img-col">
+            <div class="post-img-box">
+              <img [src]="'data:' + application.post?.imgContentType + ';base64,' + application.post?.img" class="post-img" />
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="row">
+              <p class="post-title">
+                Application For:
+                <span *ngIf="application.post">
+                  <a [routerLink]="['/volunteer-post', application.post.id, 'view']" (click)="$event.stopPropagation()">
+                    {{ application.post.postTitle }}
+                  </a>
+                </span>
+              </p>
+              <p><span>Application ID:</span> {{ application.id }}</p>
+              <p><span>Application Date:</span> {{ (application?.applicationDate?.toDate() | date: 'yyyy-MM-dd') || 'N/A' }}</p>
+              <p><span>Application Status:</span> {{ application.applicationStatus }}</p>
+              <p>
+                <span></span>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-auto ms-auto">
+            <div class="post-img-box d-flex justify-content-center align-items-center p-5">
+              <img src="\content\images\arrow_right.png" class="arrow-img" />
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- <div class="admin-table-box table-responsive table-entities" id="entities" *ngIf="applications && applications.length > 0">
+        <table class="table admin-table" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+              <th scope="col" class="text-center" jhiSortBy="id">
+                <div class="d-flex justify-content-center align-items-center">
+                  <span>ID</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </th>
+              <th scope="col" class="text-center" jhiSortBy="firstName">
+                <div class="d-flex justify-content-center align-items-center">
+                  <span>First Name</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </th>
+              <th scope="col" class="text-center" jhiSortBy="lastName">
+                <div class="d-flex justify-content-center align-items-center">
+                  <span>Last Name</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </th>
+              <th scope="col" class="text-center" jhiSortBy="contactNum">
+                <div class="d-flex justify-content-center align-items-center">
+                  <span>Contact Num</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </th>
+              <th scope="col" class="text-center" jhiSortBy="email">
+                <div class="d-flex justify-content-center align-items-center">
+                  <span>Email</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </th>
+              <th scope="col" class="text-center" jhiSortBy="post.id">
+                <div class="d-flex justify-content-center align-items-center">
+                  <span>Post</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let application of applications; trackBy: trackId">
+              <tr
+                data-cy="entityTable"
+                *ngIf="application.customer?.id == customerId"
+                [routerLink]="['/application', application.id, 'view']"
+                class="admin-tr"
+              >
+                <td class="text-center">
+                  {{ application.id }}
+                </td>
+                <td class="text-center">{{ application.firstName }}</td>
+                <td class="text-center">{{ application.lastName }}</td>
+                <td class="text-center">{{ application.contactNum }}</td>
+                <td class="text-center">{{ application.email }}</td>
+                <td class="text-center">
+                  <div *ngIf="application.post">
+                    <a [routerLink]="['/volunteer-post', application.post.id, 'view']" (click)="$event.stopPropagation()">{{
+                      application.post.postTitle
+                    }}</a>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div> -->
+
+      <!-- <div *ngIf="applications && applications.length > 0">
+        <div class="d-flex justify-content-center">
+          <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+        </div>
+    
+        <div class="d-flex justify-content-center">
+          <ngb-pagination
+            [collectionSize]="totalItems"
+            [page]="page"
+            [pageSize]="itemsPerPage"
+            [maxSize]="5"
+            [rotate]="true"
+            [boundaryLinks]="true"
+            (pageChange)="navigateToPage($event)"
+          ></ngb-pagination>
+        </div>
+      </div> -->
+    </div>
+  </ng-container>
+</div>
+
+<!-- <div>
   <h2 id="page-heading" data-cy="ApplicationHeading">
     <span>Applications</span>
 
@@ -265,4 +775,4 @@
       ></ngb-pagination>
     </div>
   </div>
-</div>
+</div> -->

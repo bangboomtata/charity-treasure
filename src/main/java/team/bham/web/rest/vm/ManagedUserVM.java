@@ -15,12 +15,22 @@ public class ManagedUserVM extends AdminUserDTO {
     @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
 
+    private Boolean shopRole;
+
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public Boolean getShopRole() {
+        return shopRole;
+    }
+
+    public void setShopRole(Boolean shopRole) {
+        this.shopRole = shopRole;
     }
 
     public void setPassword(String password) {

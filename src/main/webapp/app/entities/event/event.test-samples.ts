@@ -7,7 +7,7 @@ import { IEvent, NewEvent } from './event.model';
 export const sampleWithRequiredData: IEvent = {
   id: 63022,
   eventName: 'Cotton',
-  eventDate: dayjs('2024-03-21'),
+  eventDate: dayjs('2024-04-04'),
   eventDescription: '../fake-data/blob/hipster.txt',
   eventAddress: '../fake-data/blob/hipster.txt',
   eventCity: 'Games',
@@ -16,7 +16,7 @@ export const sampleWithRequiredData: IEvent = {
 export const sampleWithPartialData: IEvent = {
   id: 65385,
   eventName: 'teal Dollar',
-  eventDate: dayjs('2024-03-21'),
+  eventDate: dayjs('2024-04-04'),
   eventDescription: '../fake-data/blob/hipster.txt',
   eventAddress: '../fake-data/blob/hipster.txt',
   eventCity: 'generating Tuna coherent',
@@ -27,7 +27,7 @@ export const sampleWithPartialData: IEvent = {
 export const sampleWithFullData: IEvent = {
   id: 4466,
   eventName: 'open mint Locks',
-  eventDate: dayjs('2024-03-20'),
+  eventDate: dayjs('2024-04-04'),
   eventDescription: '../fake-data/blob/hipster.txt',
   eventAddress: '../fake-data/blob/hipster.txt',
   eventLocation: Location['SOUTHWEST'],
@@ -37,12 +37,12 @@ export const sampleWithFullData: IEvent = {
   eventEmail: 'Stravenue Virtual Louisiana',
   eventImage: '../fake-data/blob/hipster.png',
   eventImageContentType: 'unknown',
-  eventEndDate: dayjs('2024-03-20'),
+  eventEndDate: dayjs('2024-04-04'),
 };
 
 export const sampleWithNewData: NewEvent = {
   eventName: 'Money',
-  eventDate: dayjs('2024-03-21'),
+  eventDate: dayjs('2024-04-04'),
   eventDescription: '../fake-data/blob/hipster.txt',
   eventAddress: '../fake-data/blob/hipster.txt',
   eventCity: 'override neural',

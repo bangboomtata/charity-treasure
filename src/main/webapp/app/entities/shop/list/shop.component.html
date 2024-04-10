@@ -21,9 +21,9 @@
               <div class="selection">
                 <select name="sortBy" id="sortBy" [(ngModel)]="selectedSortCriteria" (change)="sortFilteredShops()">
                   <option value="sortBy" selected disabled>Sort By</option>
+                  <option value="alphabeticalOrder">Alphabetical Order</option>
                   <option value="highestRating">Highest Rating</option>
-                  <option value="nearestDistance">Nearest Distance</option>
-                  <option value="shortestDuration">Shortest Duration</option>
+                  <option value="shortestDisDur">Shortest Distance/Duration</option>
                 </select>
               </div>
             </div>
@@ -43,7 +43,7 @@
                         <p class="shop-name">{{ shop.shopName }}</p>
                       </div>
                       <div class="col">
-                        <p class="shop-distance">{{ shop.distance }}</p>
+                        <p class="shop-distance">{{ shop.distance | number: '1.2-2' }} km</p>
                       </div>
                     </div>
                     <hr />
@@ -86,7 +86,7 @@
                       <p class="selected-shop-name">{{ selectedShop.shopName }}</p>
                     </div>
                     <div class="col">
-                      <p class="selected-shop-distance">{{ selectedShop.distance }}</p>
+                      <p class="selected-shop-distance">{{ selectedShop.distance | number: '1.2-2' }} km</p>
                     </div>
                   </div>
                 </div>
@@ -142,9 +142,14 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row button-row">
+                  <div class="button-row">
                     <div class="col">
-                      <input type="button" value="Navigate" class="navigate" />
+                      <input type="button" value="Contact Us" class="contact" />
+                    </div>
+                  </div>
+                  <div class="button-row2">
+                    <div class="col">
+                      <input type="button" value="Navigate" class="navigate" (click)="startRouting()" />
                       <input type="button" value="Back" class="back" (click)="goBack()" />
                     </div>
                   </div>
@@ -161,6 +166,8 @@
     </div>
   </div>
 </div>
+
+<!-- ADMIN SIDE -->
 
 <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="admin-main-box">
   <h2 id="page-heading" data-cy="ShopHeading" class="big-title">

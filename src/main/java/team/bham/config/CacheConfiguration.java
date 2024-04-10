@@ -49,8 +49,10 @@ public class CacheConfiguration {
             createCache(cm, team.bham.domain.Authority.class.getName());
             createCache(cm, team.bham.domain.User.class.getName() + ".authorities");
             createCache(cm, team.bham.domain.Customer.class.getName());
+            createCache(cm, team.bham.domain.Customer.class.getName() + ".emails");
             createCache(cm, team.bham.domain.Customer.class.getName() + ".apps");
             createCache(cm, team.bham.domain.Customer.class.getName() + ".interestedEvents");
+            createCache(cm, team.bham.domain.CustomerEmails.class.getName());
             createCache(cm, team.bham.domain.Chat.class.getName());
             createCache(cm, team.bham.domain.Shop.class.getName());
             createCache(cm, team.bham.domain.Shop.class.getName() + ".reservations");

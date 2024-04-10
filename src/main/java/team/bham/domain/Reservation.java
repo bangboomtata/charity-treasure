@@ -44,7 +44,7 @@ public class Reservation implements Serializable {
     private Item item;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "user", "apps", "interestedEvents" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "emails", "apps", "interestedEvents" }, allowSetters = true)
     private Customer customer;
 
     @ManyToOne

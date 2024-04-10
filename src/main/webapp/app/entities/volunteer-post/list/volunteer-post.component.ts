@@ -5,6 +5,7 @@ import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IVolunteerPost } from '../volunteer-post.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
@@ -16,8 +17,11 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 @Component({
   selector: 'jhi-volunteer-post',
   templateUrl: './volunteer-post.component.html',
+  styleUrls: ['./volunteer.component.scss'],
 })
 export class VolunteerPostComponent implements OnInit {
+  shopID: number | null = null;
+  customerID: number | null = null;
   volunteerPosts?: IVolunteerPost[];
   isLoading = false;
 
@@ -30,14 +34,32 @@ export class VolunteerPostComponent implements OnInit {
   };
   page = 1;
 
+  selectedPost: IVolunteerPost | null = null;
+
+  selectPost(post: IVolunteerPost): void {
+    this.selectedPost = post;
+  }
+
+  isSelected(post: IVolunteerPost): boolean {
+    return this.selectedPost === post;
+  }
+
   constructor(
     protected volunteerPostService: VolunteerPostService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected parseLinks: ParseLinks,
     protected dataUtils: DataUtils,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected accountService: AccountService
   ) {}
+
+  scrollToElement(elementId: string): void {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 
   reset(): void {
     this.page = 1;
@@ -53,6 +75,31 @@ export class VolunteerPostComponent implements OnInit {
   trackId = (_index: number, item: IVolunteerPost): number => this.volunteerPostService.getVolunteerPostIdentifier(item);
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getShop().subscribe(shop => {
+          // Check if shop is not null or undefined
+          if (shop) {
+            // Print the shop's ID
+            console.log('Shop ID: ', shop.id);
+            this.shopID = shop.id;
+          } else {
+            console.log('Shop not found');
+          }
+        });
+      }
+
+      this.accountService.getCustomer().subscribe(customer => {
+        // Check if customer is not null or undefined
+        if (customer) {
+          // Print the customer's ID
+          console.log('Customer ID: ', customer.id);
+          this.customerID = customer.id;
+        } else {
+          console.log('Customer not found');
+        }
+      });
+    });
     this.load();
   }
 
@@ -64,7 +111,8 @@ export class VolunteerPostComponent implements OnInit {
     return this.dataUtils.openFile(base64String, contentType);
   }
 
-  delete(volunteerPost: IVolunteerPost): void {
+  delete(event: Event, volunteerPost: IVolunteerPost): void {
+    event.stopPropagation();
     const modalRef = this.modalService.open(VolunteerPostDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.volunteerPost = volunteerPost;
     // unsubscribe not needed because closed completes on modal close
@@ -116,15 +164,16 @@ export class VolunteerPostComponent implements OnInit {
   }
 
   protected fillComponentAttributesFromResponseBody(data: IVolunteerPost[] | null): IVolunteerPost[] {
-    const volunteerPostsNew = this.volunteerPosts ?? [];
-    if (data) {
-      for (const d of data) {
-        if (volunteerPostsNew.map(op => op.id).indexOf(d.id) === -1) {
-          volunteerPostsNew.push(d);
-        }
-      }
-    }
-    return volunteerPostsNew;
+    // const volunteerPostsNew = this.volunteerPosts ?? [];
+    // if (data) {
+    //   for (const d of data) {
+    //     if (volunteerPostsNew.map(op => op.id).indexOf(d.id) === -1) {
+    //       volunteerPostsNew.push(d);
+    //     }
+    //   }
+    // }
+    // return volunteerPostsNew;
+    return data ?? [];
   }
 
   protected fillComponentAttributesFromResponseHeader(headers: HttpHeaders): void {
@@ -169,5 +218,16 @@ export class VolunteerPostComponent implements OnInit {
     } else {
       return [predicate + ',' + ascendingQueryParam];
     }
+  }
+
+  protected editVolunteerPost(event: Event, volunteerPost: any) {
+    event.stopPropagation(); // Stop the click event from propagating
+    this.router.navigate(['/volunteer-post', volunteerPost.id, 'edit']);
+  }
+
+  protected applyVolunteer(volunteerPost: any) {
+    this.router.navigate(['/application', 'new'], {
+      queryParams: { volunteerPostId: volunteerPost.id, volunteerPostTitle: volunteerPost.postTitle },
+    });
   }
 }
