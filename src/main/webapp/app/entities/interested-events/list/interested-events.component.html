@@ -1,8 +1,8 @@
 <div class="interested-event-list-container">
-  <h2 id="page-heading" data-cy="InterestedEventsHeading" style="text-align: center; color: #000080">
+  <h2 id="page-heading" data-cy="InterestedEventsHeading" style="text-align: center">
     <span>INTERESTED EVENTS</span>
 
-    <hr style="background-color: #ff6961; border: 0; height: 4px; opacity: 1" />
+    <hr />
 
     <div class="d-flex justify-content-end" style="margin-bottom: 40px">
       <button class="button-from-interested-events-to-events" [routerLink]="['/event']">
@@ -117,9 +117,7 @@
         <div class="interested-event-info-box">
           <h2>
             <span
-              ><a style="color: #000080" [routerLink]="['/event', interestedEvents.event?.id, 'view']"
-                >{{ interestedEvents.event?.eventName }}
-              </a></span
+              ><a [routerLink]="['/event', interestedEvents.event?.id, 'view']">{{ interestedEvents.event?.eventName }} </a></span
             >
           </h2>
 

@@ -1,3 +1,8 @@
+$main-pink: #ff6961;
+$main-blue: #000080;
+$second-pink: #ffe7e7;
+$event-pink: #ffc9c9;
+
 .interested-event-list-container {
   background-color: white;
   width: 90%;
@@ -12,7 +17,7 @@
   padding-left: 20px;
   min-width: 1100px;
   max-width: 1100px;
-  background-color: #ffc9c9;
+  background-color: $event-pink;
 }
 
 .button-from-interested-events-to-events {
@@ -21,7 +26,7 @@
   left: 200px;
   font-size: 15px;
   border-radius: 20px;
-  background-color: #ffc9c9;
+  background-color: $event-pink;
   font-weight: bold;
   border: none;
   min-width: 50px;
@@ -29,7 +34,7 @@
 }
 
 .button-from-interested-events-to-events:hover {
-  background-color: #ff6961;
+  background-color: $main-pink;
   transition: 0.5s;
 }
 
@@ -40,7 +45,21 @@
   font-size: 15px;
   font-weight: bold;
   border-radius: 20px;
-  background-color: #ff6961;
+  background-color: $main-pink;
   border: none;
   height: 37px;
+}
+
+hr {
+  background-color: $main-pink;
+  border: 0;
+  height: 4px;
+  opacity: 1;
+}
+
+h2 {
+  color: $main-blue;
+  a {
+    color: $main-blue;
+  }
 }

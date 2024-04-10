@@ -91,18 +91,18 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="event">
-      <h2 data-cy="eventDetailsHeading" style="color: #000080; text-align: center">
+      <h2 data-cy="eventDetailsHeading" style="text-align: center">
         <span>EVENTS</span>
       </h2>
 
-      <hr style="background-color: #ff6961; border: 0; height: 4px; opacity: 1" />
+      <hr />
 
       <jhi-alert-error></jhi-alert-error>
 
       <jhi-alert></jhi-alert>
 
       <div class="event-details-cont">
-        <h2 style="color: #000080; text-align: center">
+        <h2 style="text-align: center">
           <span>{{ event.eventName }}</span>
 
           <button type="button" class="add-to-interested-events-entity" (click)="transferToInterested()">

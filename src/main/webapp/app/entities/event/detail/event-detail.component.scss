@@ -1,3 +1,8 @@
+$main-pink: #ff6961;
+$main-blue: #000080;
+$second-pink: #ffe7e7;
+$event-pink: #ffc9c9;
+
 .events-further-details > {
   dt {
     float: left;
@@ -11,7 +16,7 @@
 }
 
 .event-details-cont {
-  background-color: #ffc9c9;
+  background-color: $event-pink;
   min-width: 1000px;
   max-width: 1000px;
   //  min-height: 700px;
@@ -26,6 +31,18 @@
 }
 
 .add-to-interested-events-entity:hover {
-  background-color: #ff6961;
+  background-color: $main-pink;
   transition: 0.5s;
+}
+
+hr {
+  background-color: $main-pink;
+  border: 0;
+  height: 4px;
+  opacity: 1;
+}
+
+h2 {
+  color: $main-blue;
+  text-align: center;
 }

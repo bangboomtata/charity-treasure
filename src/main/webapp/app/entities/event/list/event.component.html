@@ -1,8 +1,8 @@
 <div class="event-list-page-container">
-  <h2 id="page-heading" data-cy="EventHeading" style="text-align: center; color: #000080">
+  <h2 id="page-heading" data-cy="EventHeading" style="text-align: center">
     <span>EVENTS</span>
 
-    <hr style="background-color: #ff6961; border: 0; height: 4px; opacity: 1" />
+    <hr />
 
     <div class="d-flex justify-content-end">
       <button class="events-reload-btn" (click)="load()" [disabled]="isLoading">
@@ -188,7 +188,7 @@
       <div class="event-info-box">
         <h2>
           <span
-            ><a style="color: #000080" [routerLink]="['/event', event.id, 'view']">{{ event.eventName }}</a></span
+            ><a [routerLink]="['/event', event.id, 'view']">{{ event.eventName }}</a></span
           >
         </h2>
 
