@@ -1,24 +1,25 @@
 <div>
-  <h2 id="page-heading" data-cy="ReservationHeading">
-    <span>Reservations</span>
+  <h2 id="page-heading" data-cy="ReservationHeading" class="text-center">RESERVATIONS</h2>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh list</span>
-      </button>
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+      <span>Refresh list</span>
+    </button>
 
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-reservation"
-        [routerLink]="['/reservation/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Reservation </span>
-      </button>
-    </div>
-  </h2>
+    <button
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-reservation"
+      [routerLink]="['/reservation/new']"
+    >
+      <fa-icon icon="plus"></fa-icon>
+      <span> </span>
+    </button>
+    <button class="btn btn-refresh me-2" (click)="load()" [disabled]="isLoading">
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+    </button>
+  </div>
 
   <jhi-alert-error></jhi-alert-error>
 
@@ -109,7 +110,7 @@
                 data-cy="entityDetailsButton"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
+                <!--              <span class="d-none d-md-inline">View</span>-->
               </button>
 
               <button
@@ -119,12 +120,12 @@
                 data-cy="entityEditButton"
               >
                 <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
+                <!--              <span class="d-none d-md-inline">Edit</span>-->
               </button>
 
               <button type="submit" (click)="delete(reservation)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
+                <!--              <span class="d-none d-md-inline">Delete</span>-->
               </button>
             </div>
           </td>
@@ -132,6 +133,13 @@
       </tbody>
     </table>
   </div>
+
+  <th scope="col">
+    <div class="d-flex">
+      <span>Customer Full Name</span>
+      <fa-icon class="p-1" icon="sort"></fa-icon>
+    </div>
+  </th>
 
   <div *ngIf="reservations && reservations.length > 0">
     <div class="d-flex justify-content-center">

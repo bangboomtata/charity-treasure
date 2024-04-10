@@ -45,7 +45,8 @@
                 </div>
 
                 <div class="button-box" *jhiHasAnyAuthority="'ROLE_USER'">
-                  <button>RESERVE NOW</button>
+                  <!-- Assuming `item.id` is the ID of the item to reserve -->
+                  <button [routerLink]="['/item', item.id, 'reservation', 'new']" class="btn-reserve">Reserve Now</button>
                 </div>
 
                 <button

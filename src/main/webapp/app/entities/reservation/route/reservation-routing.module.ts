@@ -8,6 +8,8 @@ import { ReservationUpdateComponent } from '../update/reservation-update.compone
 import { ReservationRoutingResolveService } from './reservation-routing-resolve.service';
 import { ASC } from 'app/config/navigation.constants';
 
+import { ReservationConfirmationComponent } from '../list/reservation-confirm.component';
+
 const reservationRoute: Routes = [
   {
     path: '',
@@ -39,6 +41,11 @@ const reservationRoute: Routes = [
     resolve: {
       reservation: ReservationRoutingResolveService,
     },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'confirmation',
+    component: ReservationConfirmationComponent,
     canActivate: [UserRouteAccessService],
   },
 ];

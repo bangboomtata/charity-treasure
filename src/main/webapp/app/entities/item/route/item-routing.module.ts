@@ -8,8 +8,17 @@ import { ItemUpdateComponent } from '../update/item-update.component';
 import { ItemRoutingResolveService } from './item-routing-resolve.service';
 import { ASC } from 'app/config/navigation.constants';
 import { SaleComponent } from '../sale/sale.component';
+import { ReservationUpdateComponent } from '../../reservation/update/reservation-update.component';
 
 const itemRoute: Routes = [
+  {
+    path: ':id/reservation/new',
+    component: ReservationUpdateComponent,
+    resolve: {
+      item: ItemRoutingResolveService,
+    },
+    canActivate: [UserRouteAccessService],
+  },
   {
     path: '',
     component: ItemComponent,

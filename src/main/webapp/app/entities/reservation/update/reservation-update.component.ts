@@ -15,9 +15,15 @@ import { IShop } from 'app/entities/shop/shop.model';
 import { ShopService } from 'app/entities/shop/service/shop.service';
 import { ReservationStatus } from 'app/entities/enumerations/reservation-status.model';
 
+//my imports
+import dayjs from 'dayjs';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'jhi-reservation-update',
   templateUrl: './reservation-update.component.html',
+  styleUrls: ['./reservation-form.component.scss'],
 })
 export class ReservationUpdateComponent implements OnInit {
   isSaving = false;
@@ -30,14 +36,26 @@ export class ReservationUpdateComponent implements OnInit {
 
   editForm: ReservationFormGroup = this.reservationFormService.createReservationFormGroup();
 
+  itemId: number | null = null;
+  itemName: string | null | undefined = null;
+  shopName: string | null | undefined = null;
+  itemImage: string | null | undefined = null;
+  itemImageContentType: string | null | undefined = null;
+
   constructor(
     protected reservationService: ReservationService,
     protected reservationFormService: ReservationFormService,
     protected itemService: ItemService,
     protected customerService: CustomerService,
     protected shopService: ShopService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected router: Router,
+
+    private http: HttpClient // HttpClient is used to fetch item details
   ) {}
+  navigateToConfirmation() {
+    this.router.navigate(['/reservation/confirmation']);
+  }
 
   compareItem = (o1: IItem | null, o2: IItem | null): boolean => this.itemService.compareItem(o1, o2);
 
@@ -46,13 +64,55 @@ export class ReservationUpdateComponent implements OnInit {
   compareShop = (o1: IShop | null, o2: IShop | null): boolean => this.shopService.compareShop(o1, o2);
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ reservation }) => {
-      this.reservation = reservation;
-      if (reservation) {
-        this.updateForm(reservation);
+    this.loadRelationshipsOptions();
+    this.activatedRoute.params.subscribe(params => {
+      this.itemId = +params['id']; // Convert to number
+      if (this.itemId) {
+        this.fetchItemDetails(this.itemId);
       }
+      this.activatedRoute.data.subscribe(({ reservation }) => {
+        this.reservation = reservation;
+        if (reservation) {
+          this.updateForm(reservation);
+        } else {
+          // New reservation - set default dates
+          this.setReservationDates();
+        }
+      });
+    });
+  }
 
-      this.loadRelationshipsOptions();
+  fetchItemDetails(itemId: number): void {
+    this.itemService.find(itemId).subscribe(
+      (itemResponse: HttpResponse<IItem>) => {
+        this.itemName = itemResponse.body?.itemName; // Make sure this matches the property in your IItem interface
+        // ... other code ...
+        this.shopName = itemResponse.body?.shop?.shopName;
+        this.itemImage = itemResponse.body?.itemImage;
+        this.itemImageContentType = itemResponse.body?.itemImageContentType;
+      },
+      error => {
+        console.error('Error fetching item details', error);
+      }
+    );
+  }
+
+  fetchShopDetails(shopId: number): void {
+    // Use your shop service or http client to fetch shop details
+    this.shopService.find(shopId).subscribe(
+      (shopResponse: HttpResponse<IShop>) => {
+        this.shopName = shopResponse.body?.shopName; // Update this based on your actual shop property
+      },
+      error => console.error('Error fetching shop details', error)
+    );
+  }
+
+  private setReservationDates(): void {
+    const currentDay = dayjs().format('YYYY-MM-DDTHH:mm');
+    const twoDaysLater = dayjs().add(2, 'day').format('YYYY-MM-DDTHH:mm');
+    this.editForm.patchValue({
+      reservedTime: currentDay,
+      reservedExpiry: twoDaysLater,
     });
   }
 
@@ -92,6 +152,8 @@ export class ReservationUpdateComponent implements OnInit {
   protected updateForm(reservation: IReservation): void {
     this.reservation = reservation;
     this.reservationFormService.resetForm(this.editForm, reservation);
+    // Now, add or update the form control for the customer's full name
+    // If the 'customerFullName' field is already part of the form, update its value
 
     this.itemsCollection = this.itemService.addItemToCollectionIfMissing<IItem>(this.itemsCollection, reservation.item);
     this.customersSharedCollection = this.customerService.addCustomerToCollectionIfMissing<ICustomer>(
@@ -99,6 +161,11 @@ export class ReservationUpdateComponent implements OnInit {
       reservation.customer
     );
     this.shopsSharedCollection = this.shopService.addShopToCollectionIfMissing<IShop>(this.shopsSharedCollection, reservation.shop);
+
+    if (!reservation.id) {
+      // New reservation - set default dates
+      this.setReservationDates();
+    }
   }
 
   protected loadRelationshipsOptions(): void {
