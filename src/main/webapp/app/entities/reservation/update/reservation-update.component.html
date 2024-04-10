@@ -18,13 +18,28 @@
   >
     <!-- Image container on the left -->
 
-    <div style="flex: 0.27; display: flex; align-items: center; justify-content: center; padding: 10px">
+    <div style="flex: 0.27; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px">
+      <!-- Item Image -->
       <img
         *ngIf="itemImage"
         [src]="'data:' + itemImageContentType + ';base64,' + itemImage"
         alt="Item Image"
-        style="max-width: 100%; border-radius: 20px"
+        style="max-width: 100%; border-radius: 20px; margin-bottom: 10px"
       />
+      <!-- Add a margin to separate image and price -->
+
+      <!-- Item Price -->
+      <div style="font-weight: bold; margin-top: 10px">
+        <!-- Style this div to match your design -->
+        <label class="form-label">Item Price:</label>
+        <div
+          id="field_price"
+          class="price-display"
+          style="background-color: white; font-weight: bold; border-radius: 20px; margin-bottom: 10px; text-align: center"
+        >
+          £{{ price ? price.toFixed(2) : '0.00' }}
+        </div>
+      </div>
     </div>
     <!-- Form container on the right -->
 
@@ -126,7 +141,7 @@
             class="btn btn-primary"
             (click)="navigateToConfirmation()"
           >
-            <fa-icon icon="save"></fa-icon>&nbsp;<span>Reserve</span>
+            <fa-icon icon="save"></fa-icon>&nbsp;<span>Reserve Now!</span>
           </button>
         </div>
       </form>

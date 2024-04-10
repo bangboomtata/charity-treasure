@@ -1,4 +1,4 @@
-<div>
+<div *jhiHasAnyAuthority="'ROLE_ADMIN'">
   <h2 id="page-heading" data-cy="ReservationHeading" class="text-center">RESERVATIONS</h2>
 
   <div class="d-flex justify-content-end">
@@ -158,4 +158,20 @@
       ></ngb-pagination>
     </div>
   </div>
+</div>
+
+<div *jhiHasAnyAuthority="'ROLE_USER'" style="background-color: #fcd9df; text-align: center">
+  <h1 id="userpage-heading" data-cy="ReservationHeading" class="text-center">RESERVATION</h1>
+  <h2 id="info-heading" data-cy="ReservationHeading" class="text-center">
+    You can reserve an item for 48 hours and pick it up from the shop
+  </h2>
+  <h3><i> Amazing right? </i></h3>
+  <h5>Click on the button below or go to "Item" to see what items we have available!</h5>
+  <button
+    style="background-color: white; font-weight: bold; border-radius: 50px; margin-bottom: 20px; text-align: center"
+    routerLink="/item"
+    class="btn-reserve"
+  >
+    Items
+  </button>
 </div>

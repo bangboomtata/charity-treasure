@@ -41,6 +41,8 @@ export class ReservationUpdateComponent implements OnInit {
   shopName: string | null | undefined = null;
   itemImage: string | null | undefined = null;
   itemImageContentType: string | null | undefined = null;
+  price: number | null | undefined = null;
+  itemAvailability: boolean | null | undefined = undefined;
 
   constructor(
     protected reservationService: ReservationService,
@@ -90,6 +92,12 @@ export class ReservationUpdateComponent implements OnInit {
         this.shopName = itemResponse.body?.shop?.shopName;
         this.itemImage = itemResponse.body?.itemImage;
         this.itemImageContentType = itemResponse.body?.itemImageContentType;
+        this.price = itemResponse.body?.price;
+        this.itemAvailability = itemResponse.body?.itemAvailability;
+
+        if (this.itemAvailability) {
+          // this.reserveItem(itemId);
+        }
       },
       error => {
         console.error('Error fetching item details', error);
