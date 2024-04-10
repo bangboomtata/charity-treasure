@@ -15,7 +15,7 @@ import { DataUtils } from 'app/core/util/data-util.service';
 @Component({
   selector: 'jhi-feedback',
   templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback-all.component.css'],
+  styleUrls: ['./feedback-all.component.scss'],
 })
 export class FeedbackComponent implements OnInit {
   feedbacks?: IFeedback[];

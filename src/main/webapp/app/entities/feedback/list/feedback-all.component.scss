@@ -1,0 +1,64 @@
+/* Set a white background for the main container */
+.table-responsive {
+  width: 70%; /* Set width to 70% */
+  margin: 0 auto; /* Centers the table horizontally */
+}
+
+//.reservation-form {
+//  background-color: white; /* Pink background */
+//  padding: 2rem;
+//  border-radius: 10px;
+//  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+//  width: 100%; /* Takes up 95% of the screen width */
+//  /*//margin: auto; !* Center the table on the page *!*/
+//  margin-top: 2rem; /* Adds some space on the top */
+//}
+
+/* Set rounded corners for table rows */
+.table tbody tr {
+  border-radius: 10px; /* Rounded corners */
+}
+
+.list-container {
+  background-color: #ffffff; /* White background */
+}
+
+/* Set a pink background for table rows */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #ffc0cb; /* Light pink background for odd rows */
+}
+
+/* Set a white background for even table rows */
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: #ffffff; /* White background for even rows */
+}
+.table-striped tbody tr:nth-of-type(even) .btn {
+  color: black;
+}
+
+.btn-primary,
+.btn-danger,
+.btn-sm {
+  color: black;
+  background-color: #ffc0cb;
+}
+
+/* Ensure icons have no box-shadow, outline, or border */
+.btn,
+.fa-icon {
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+  background-color: transparent !important; /* Ensure no background */
+}
+
+/* Set the color of the ID and Customer link to black and remove underline */
+.table a {
+  color: black !important; /* Ensure it overrides any other style */
+  text-decoration: none !important; /* Removes underline from links */
+}
+
+/* Set the color of the + icon to black */
+#create-entity .fa-icon {
+  color: black;
+}
