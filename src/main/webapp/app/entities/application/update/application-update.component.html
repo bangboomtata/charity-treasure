@@ -1,4 +1,437 @@
-<div class="d-flex justify-content-center">
+<div class="big-container">
+  <div>
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-application-heading" class="big-title" data-cy="ApplicationCreateUpdateHeading">Application For: {{ postTitle }}</h2>
+
+      <div class="main-box">
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3">
+          <p class="form-title-p">Personal Information</p>
+        </div>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <div class="col">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <label class="form-label" for="field_firstName">First Name</label>
+            <input type="text" class="form-control" name="firstName" id="field_firstName" data-cy="firstName" formControlName="firstName" />
+            <div *ngIf="editForm.get('firstName')!.invalid && (editForm.get('firstName')!.dirty || editForm.get('firstName')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('firstName')?.errors?.required"> This field is required. </small>
+            </div>
+          </div>
+
+          <div class="col">
+            <label class="form-label" for="field_lastName">Last Name</label>
+            <input type="text" class="form-control" name="lastName" id="field_lastName" data-cy="lastName" formControlName="lastName" />
+            <div *ngIf="editForm.get('lastName')!.invalid && (editForm.get('lastName')!.dirty || editForm.get('lastName')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('lastName')?.errors?.required"> This field is required. </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <label class="form-label" for="field_contactNum">Contact Num</label>
+            <input
+              type="text"
+              class="form-control"
+              name="contactNum"
+              id="field_contactNum"
+              data-cy="contactNum"
+              formControlName="contactNum"
+            />
+            <div *ngIf="editForm.get('contactNum')!.invalid && (editForm.get('contactNum')!.dirty || editForm.get('contactNum')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('contactNum')?.errors?.required"> This field is required. </small>
+            </div>
+            <!-- <small class="form-text text-danger" *ngIf="phoneControl.errors?.required">Phone number is required.</small>
+            <small class="form-text text-danger" *ngIf="phoneControl.errors?.pattern">Invalid phone number format. (Should be 10 digits)</small> -->
+          </div>
+
+          <div class="col">
+            <label class="form-label" for="field_email">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              id="field_email"
+              data-cy="email"
+              formControlName="email"
+              [formControl]="emailControl"
+              (input)="emailControl.updateValueAndValidity()"
+            />
+            <small class="form-text text-danger" *ngIf="emailControl.errors?.required">Email is required.</small>
+            <small class="form-text text-danger" *ngIf="emailControl.errors?.email">Invalid email format.</small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label" for="field_dateOfBirth">Date Of Birth</label>
+            <div class="input-group">
+              <input
+                id="field_dateOfBirth"
+                data-cy="dateOfBirth"
+                type="text"
+                class="form-control"
+                name="dateOfBirth"
+                ngbDatepicker
+                #dateOfBirthDp="ngbDatepicker"
+                formControlName="dateOfBirth"
+              />
+              <button type="button" class="btn btn-secondary" (click)="dateOfBirthDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="row mb-3">
+          <p class="form-title-p">Availability</p>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <div class="row">
+              <p>Days Available</p>
+            </div>
+
+            <div
+              class="row"
+              *ngIf="
+                !(
+                  isMondayNeeded ||
+                  isTuesdayNeeded ||
+                  isWednesdayNeeded ||
+                  isThursdayNeeded ||
+                  isFridayNeeded ||
+                  isSaturdayNeeded ||
+                  isSundayNeeded
+                )
+              "
+            >
+              <div class="col">
+                <small class="form-text text-danger">No Days Selected by Post</small>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="isMondayNeeded">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="appliedMonday"
+                  id="field_appliedMonday"
+                  data-cy="appliedMonday"
+                  formControlName="appliedMonday"
+                />
+                <label class="form-label" for="field_appliedMonday">Monday</label>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="isTuesdayNeeded">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="appliedTuesday"
+                  id="field_appliedTuesday"
+                  data-cy="appliedTuesday"
+                  formControlName="appliedTuesday"
+                />
+                <label class="form-label" for="field_appliedTuesday">Tuesday</label>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="isWednesdayNeeded">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="appliedWednesday"
+                  id="field_appliedWednesday"
+                  data-cy="appliedWednesday"
+                  formControlName="appliedWednesday"
+                />
+                <label class="form-label" for="field_appliedWednesday">Wednesday</label>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="isThursdayNeeded">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="appliedThursday"
+                  id="field_appliedThursday"
+                  data-cy="appliedThursday"
+                  formControlName="appliedThursday"
+                />
+                <label class="form-label" for="field_appliedThursday">Thursday</label>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="isFridayNeeded">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="appliedFriday"
+                  id="field_appliedFriday"
+                  data-cy="appliedFriday"
+                  formControlName="appliedFriday"
+                />
+                <label class="form-label" for="field_appliedFriday">Friday</label>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="isSaturdayNeeded">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="appliedSaturday"
+                  id="field_appliedSaturday"
+                  data-cy="appliedSaturday"
+                  formControlName="appliedSaturday"
+                />
+                <label class="form-label" for="field_appliedSaturday">Saturday</label>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="isSundayNeeded">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="appliedSunday"
+                  id="field_appliedSunday"
+                  data-cy="appliedSunday"
+                  formControlName="appliedSunday"
+                />
+                <label class="form-label" for="field_appliedSunday">Sunday</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="row">
+              <p>Shifts Required</p>
+            </div>
+
+            <div class="row" *ngIf="!(isMorningNeeded || isAfternoonNeeded || isEveningNeeded)">
+              <div class="col">
+                <small class="form-text text-danger">No Days Selected by Post</small>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="isMorningNeeded">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="appliedMorning"
+                  id="field_appliedMorning"
+                  data-cy="appliedMorning"
+                  formControlName="appliedMorning"
+                />
+                <label class="form-label" for="field_appliedMorning">Morning</label>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="isAfternoonNeeded">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="appliedAfternoon"
+                  id="field_appliedAfternoon"
+                  data-cy="appliedAfternoon"
+                  formControlName="appliedAfternoon"
+                />
+                <label class="form-label" for="field_appliedAfternoon">Afternoon</label>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="isSundayNeeded">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="appliedEvening"
+                  id="field_appliedEvening"
+                  data-cy="appliedEvening"
+                  formControlName="appliedEvening"
+                />
+                <label class="form-label" for="field_appliedEvening">Evening</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label" for="field_commitmentDuration">Commitment Duration</label>
+            <input
+              type="text"
+              class="form-control"
+              name="commitmentDuration"
+              id="field_commitmentDuration"
+              data-cy="commitmentDuration"
+              formControlName="commitmentDuration"
+            />
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+          <p class="form-title-p">Skills & Interests</p>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <label class="form-label" for="field_volunteerExperience">Volunteer Experience</label>
+            <textarea
+              class="form-control"
+              name="volunteerExperience"
+              id="field_volunteerExperience"
+              data-cy="volunteerExperience"
+              formControlName="volunteerExperience"
+            ></textarea>
+          </div>
+
+          <div class="col">
+            <label class="form-label" for="field_relevantSkills">Relevant Skills</label>
+            <textarea
+              class="form-control"
+              name="relevantSkills"
+              id="field_relevantSkills"
+              data-cy="relevantSkills"
+              formControlName="relevantSkills"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <label class="form-label" for="field_motivation">Motivation</label>
+            <textarea
+              class="form-control"
+              name="motivation"
+              id="field_motivation"
+              data-cy="motivation"
+              formControlName="motivation"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- <div class="row mb-3">
+          <label class="form-label" for="field_post">Post</label>
+          <select
+            class="form-control"
+            id="field_post"
+            data-cy="post"
+            name="post"
+            formControlName="post"
+            [compareWith]="compareVolunteerPost"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="volunteerPostOption" *ngFor="let volunteerPostOption of volunteerPostsSharedCollection">
+              {{ volunteerPostOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_customer">Customer</label>
+          <select
+            class="form-control"
+            id="field_customer"
+            data-cy="customer"
+            name="customer"
+            formControlName="customer"
+            [compareWith]="compareCustomer"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="customerOption" *ngFor="let customerOption of customersSharedCollection">{{ customerOption.id }}</option>
+          </select>
+        </div> -->
+
+        <!-- <div class="row mb-3">
+          <label class="form-label" for="field_applicationDate">Application Date</label>
+          <div class="input-group">
+            <input
+              id="field_applicationDate"
+              data-cy="applicationDate"
+              type="text"
+              class="form-control"
+              name="applicationDate"
+              ngbDatepicker
+              #applicationDateDp="ngbDatepicker"
+              formControlName="applicationDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="applicationDateDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_applicationStatus">Application Status</label>
+          <select
+            class="form-control"
+            name="applicationStatus"
+            formControlName="applicationStatus"
+            id="field_applicationStatus"
+            data-cy="applicationStatus"
+          >
+            <option [ngValue]="null"></option>
+            <option *ngFor="let applicationStatus of applicationStatusValues" [value]="applicationStatus">{{ applicationStatus }}</option>
+          </select>
+        </div> -->
+      </div>
+
+      <hr />
+      <br />
+
+      <div class="row">
+        <div class="col text-center">
+          <input type="checkbox" class="termsCheckbox" name="termsCheckbox" id="termsCheckbox" required (click)="clickedTerms()" />
+          <p class="agree">I agree to the <a routerLink="/gdpr-policy" target="_blank">Terms and Condition</a></p>
+          <div *ngIf="!termsAccepted">
+            <small class="form-text text-danger">You must agree to the Terms and Conditions.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col text-center">
+          <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+          </button>
+
+          <button
+            type="submit"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            [disabled]="editForm.invalid || isSaving || !termsAccepted"
+            class="btn btn-primary post-button"
+          >
+            <fa-icon icon="save"></fa-icon>&nbsp;<span>Submit</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-application-heading" data-cy="ApplicationCreateUpdateHeading">Create or edit a Application</h2>
@@ -315,4 +748,4 @@
       </div>
     </form>
   </div>
-</div>
+</div> -->

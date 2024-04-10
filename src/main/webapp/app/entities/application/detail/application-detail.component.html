@@ -1,4 +1,158 @@
-<div class="d-flex justify-content-center">
+<div class="big-container">
+  <div>
+    <div *ngIf="application">
+      <h2 data-cy="applicationDetailsHeading" class="big-title">
+        <span>Application ID: {{ application.id }}</span>
+      </h2>
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <div class="main-box">
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Application For:</p>
+          </div>
+          <div *ngIf="application.post">
+            <a [routerLink]="['/volunteer-post', application.post.id, 'view']">{{ application.post.postTitle }}</a>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Application Status:</p>
+          </div>
+          <div>
+            <!-- {{ application.applicationStatus }} -->
+          </div>
+          <div class="row">
+            <div class="col">
+              <button class="btn btn-warning" [class.selected]="isPending(application)" (click)="pendingApplication(application)">
+                Pending
+              </button>
+            </div>
+            <div class="col">
+              <button class="btn btn-success" [class.selected]="isAccepted(application)" (click)="acceptApplication(application)">
+                Accept
+              </button>
+            </div>
+            <div class="col">
+              <button class="btn btn-danger" [class.selected]="isRejected(application)" (click)="rejectApplication(application)">
+                Reject
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Personal Information:</p>
+          </div>
+          <div *ngIf="application.customer">
+            <p>
+              <span>Applicant ID:</span> <a [routerLink]="['/customer', application.customer.id, 'view']">{{ application.customer.id }}</a>
+            </p>
+          </div>
+          <div>
+            <p><span>First Name:</span> {{ application.firstName }}</p>
+          </div>
+          <div>
+            <p><span>Last Name:</span> {{ application.lastName }}</p>
+          </div>
+
+          <div>
+            <p><span>Contact Number:</span> {{ application.contactNum }}</p>
+          </div>
+          <div>
+            <p><span>Email:</span> {{ application.email }}</p>
+          </div>
+
+          <div>
+            <p><span>Date Of Birth:</span> {{ application.dateOfBirth | formatMediumDate }}</p>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Days Available:</p>
+          </div>
+          <ul>
+            <li *ngIf="application.appliedMonday">Monday</li>
+            <li *ngIf="application.appliedTuesday">Tuesday</li>
+            <li *ngIf="application.appliedWednesday">Wednesday</li>
+            <li *ngIf="application.appliedThursday">Thursday</li>
+            <li *ngIf="application.appliedFriday">Friday</li>
+            <li *ngIf="application.appliedSaturday">Saturday</li>
+            <li *ngIf="application.appliedSunday">Sunday</li>
+          </ul>
+        </div>
+
+        <hr />
+
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Shitfs Available:</p>
+          </div>
+          <ul>
+            <li *ngIf="application.appliedMorning">Morning</li>
+            <li *ngIf="application.appliedAfternoon">Afternoon</li>
+            <li *ngIf="application.appliedEvening">Evening</li>
+          </ul>
+        </div>
+
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Volunteer Experiences:</p>
+          </div>
+          <div>
+            <p>{{ application.volunteerExperience }}</p>
+          </div>
+        </div>
+
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Relevant Skills:</p>
+          </div>
+          <div>
+            <p>{{ application.relevantSkills }}</p>
+          </div>
+        </div>
+
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Motivation:</p>
+          </div>
+          <div>
+            <p>{{ application.motivation }}</p>
+          </div>
+        </div>
+
+        <hr />
+        <div class="text-center">
+          <button type="submit" (click)="previousState()" class="btn btn-info back-button" data-cy="entityDetailsBackButton">
+            <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+          </button>
+
+          <!-- <button type="button" [routerLink]="['/application', application.id, 'edit']" class="btn btn-primary edit-button">
+            <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+          </button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="application">
       <h2 data-cy="applicationDetailsHeading"><span>Application</span></h2>
@@ -121,4 +275,4 @@
       </button>
     </div>
   </div>
-</div>
+</div> -->
