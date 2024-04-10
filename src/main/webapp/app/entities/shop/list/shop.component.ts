@@ -14,6 +14,7 @@ import { ShopDeleteDialogComponent } from '../delete/shop-delete-dialog.componen
 import { DataUtils } from 'app/core/util/data-util.service';
 import { SortService } from 'app/shared/sort/sort.service';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
+import { UserDataService } from 'app/account/register/userData.service';
 
 @Component({
   selector: 'jhi-shop',
@@ -71,7 +72,8 @@ export class ShopComponent implements OnInit {
     protected sortService: SortService,
     protected dataUtils: DataUtils,
     protected modalService: NgbModal,
-    private http: HttpClient // Inject HttpClient
+    private http: HttpClient, // Inject HttpClient
+    private userDataService: UserDataService
   ) {}
 
   trackId = (_index: number, item: IShop): number => this.shopService.getShopIdentifier(item);
@@ -150,7 +152,7 @@ export class ShopComponent implements OnInit {
     this.filterShops();
   }
 
-  //Preset unsed attributes to prevent the need of using a form to enter input
+  //Preset unsed attributes to prevent the need of using a form to enter
   protected fillComponentAttributesFromResponseBody(data: IShop[] | null): IShop[] {
     const presetRating = 0;
     const presetDistance = 0;
@@ -257,6 +259,9 @@ export class ShopComponent implements OnInit {
 
   // Set up the map with user's location
   protected setupMap(): void {
+    const username = this.userDataService.getUsername();
+    console.log('Username:', username);
+
     if (this.map) {
       // If the map is already initialized, no need to initialize it again
       console.warn('Map is already initialized.');
@@ -282,7 +287,10 @@ export class ShopComponent implements OnInit {
             position: 'topleft',
           },
         }).setView(this.userLocation, 13);
-        this.userMarker = L.marker(this.userLocation, { icon: this.userMarkerIcon }).addTo(this.map).bindPopup('User Location').openPopup();
+        this.userMarker = L.marker(this.userLocation, { icon: this.userMarkerIcon })
+          .addTo(this.map)
+          .bindPopup(`${username}'s location`)
+          .openPopup();
       } else {
         console.error('User location is not available.');
       }

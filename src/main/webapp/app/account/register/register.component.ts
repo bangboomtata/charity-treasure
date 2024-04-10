@@ -12,6 +12,7 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/config/error.constants';
 import { RegisterService } from './register.service';
+import { UserDataService } from './userData.service';
 
 interface UUser {
   id: number;
@@ -103,22 +104,26 @@ export class RegisterComponent implements AfterViewInit {
 
   shopregisterForm = new FormGroup<ShopFormGroupContent>({
     shopName: new FormControl('', {
+      nonNullable: true,
       validators: [Validators.required],
     }),
     contactNum: new FormControl('', {
-      validators: [Validators.required],
+      nonNullable: true,
+      validators: [Validators.required, Validators.pattern('^[0-9+0]+$')],
     }),
     shopEmail: new FormControl('', {
-      validators: [Validators.required],
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email],
     }),
     charityShopId: new FormControl('', {
+      nonNullable: true,
       validators: [Validators.required],
     }),
-    openHoursWeekdays: new FormControl(''),
-    openHoursWeekends: new FormControl(''),
-    openHoursHolidays: new FormControl(''),
-    street: new FormControl(''),
-    city: new FormControl(''),
+    openHoursWeekdays: new FormControl('', { nonNullable: true }),
+    openHoursWeekends: new FormControl('', { nonNullable: true }),
+    openHoursHolidays: new FormControl('', { nonNullable: true }),
+    street: new FormControl('', { nonNullable: true }),
+    city: new FormControl('', { nonNullable: true }),
     postCode: new FormControl('', {
       validators: [Validators.required],
     }),
@@ -140,7 +145,8 @@ export class RegisterComponent implements AfterViewInit {
     private eventManager: EventManager,
     private elementRef: ElementRef,
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private UserDataService: UserDataService
   ) {}
 
   ngAfterViewInit(): void {
@@ -197,6 +203,7 @@ export class RegisterComponent implements AfterViewInit {
       this.registerService
         .save({ login, email, password, langKey: 'en', shopRole: false })
         .subscribe({ next: () => (this.success = true), error: response => this.processError(response) });
+      this.UserDataService.setUsername(login);
     } else if (this.selectedRole === 'shopkeeper') {
       const { login, email } = this.registerForm.getRawValue();
       this.registerService.save({ login, email, password, langKey: 'en', shopRole: true }).subscribe({
