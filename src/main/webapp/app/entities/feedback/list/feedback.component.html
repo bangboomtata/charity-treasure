@@ -1,24 +1,20 @@
-<div>
-  <h2 id="page-heading" data-cy="FeedbackHeading">
-    <span>Feedbacks</span>
+<div style="background-color: #f6e3e6">
+  <h2 id="page-heading" data-cy="FeedbackHeading" class="text-center">Feedbacks</h2>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh list</span>
-      </button>
+  <div class="d-flex justify-content-end">
+    <button
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-feedback"
+      [routerLink]="['/feedback/new']"
+    >
+      <fa-icon icon="plus"> </fa-icon>
+    </button>
 
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-feedback"
-        [routerLink]="['/feedback/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Feedback </span>
-      </button>
-    </div>
-  </h2>
+    <button class="btn btn-refresh me-2" (click)="load()" [disabled]="isLoading">
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+    </button>
+  </div>
 
   <jhi-alert-error></jhi-alert-error>
 
@@ -91,7 +87,6 @@
                 data-cy="entityDetailsButton"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
               </button>
 
               <button
@@ -101,12 +96,10 @@
                 data-cy="entityEditButton"
               >
                 <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
               </button>
 
               <button type="submit" (click)="delete(feedback)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
               </button>
             </div>
           </td>
