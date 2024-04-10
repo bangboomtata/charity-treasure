@@ -21,6 +21,7 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 })
 export class VolunteerPostComponent implements OnInit {
   shopID: number | null = null;
+  customerID: number | null = null;
   volunteerPosts?: IVolunteerPost[];
   isLoading = false;
 
@@ -87,6 +88,17 @@ export class VolunteerPostComponent implements OnInit {
           }
         });
       }
+
+      this.accountService.getCustomer().subscribe(customer => {
+        // Check if customer is not null or undefined
+        if (customer) {
+          // Print the customer's ID
+          console.log('Customer ID: ', customer.id);
+          this.customerID = customer.id;
+        } else {
+          console.log('Customer not found');
+        }
+      });
     });
     this.load();
   }

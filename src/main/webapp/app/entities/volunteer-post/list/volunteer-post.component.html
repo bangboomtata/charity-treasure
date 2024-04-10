@@ -2,7 +2,7 @@
   <h2 id="page-heading" data-cy="VolunteerPostHeading">
     <div class="big-title">Volunteer Posts</div>
 
-    <div class="d-flex justify-content-end create-refresh-box" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+    <div class="d-flex justify-content-end create-refresh-box" *ngIf="shopID">
       <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refresh list</span>
@@ -13,7 +13,6 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-entity-button"
         [routerLink]="['/volunteer-post/new']"
-        *jhiHasAnyAuthority="'ROLE_ADMIN'"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Create a new Volunteer Post </span>
@@ -29,7 +28,7 @@
     <span>No Volunteer Posts found</span>
   </div>
 
-  <div class="main-box" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+  <div class="main-box" *ngIf="shopID">
     <!--admin view for list-->
     <div class="admin-table-box table-entities">
       <table class="table admin-table" aria-describedby="page-heading">
@@ -189,7 +188,7 @@
     </div>
   </div>
 
-  <div class="user-main-box" *jhiHasAnyAuthority="'ROLE_USER'">
+  <div class="user-main-box" *ngIf="customerID">
     <!--user table view for list-->
     <div>
       <div class="table-entities volunteer-list" id="entities" *ngIf="volunteerPosts && volunteerPosts.length > 0">

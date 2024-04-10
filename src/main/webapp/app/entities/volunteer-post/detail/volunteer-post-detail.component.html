@@ -141,7 +141,7 @@
           </button>
 
           <button type="button" [routerLink]="['/volunteer-post', volunteerPost.id, 'edit']"
-            class="btn btn-primary edit-button" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+            class="btn btn-primary edit-button" *ngIf="shopID"
             <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
           </button>
         </div>
@@ -243,7 +243,7 @@
             type="button"
             [routerLink]="['/volunteer-post', volunteerPost.id, 'edit']"
             class="btn btn-primary edit-button"
-            *jhiHasAnyAuthority="'ROLE_ADMIN'"
+            *ngIf="shopID"
           >
             <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
           </button>
