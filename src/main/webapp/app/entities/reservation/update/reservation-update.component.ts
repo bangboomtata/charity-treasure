@@ -44,6 +44,7 @@ export class ReservationUpdateComponent implements OnInit {
   price: number | null | undefined = null;
   itemAvailability: boolean | null | undefined = undefined;
 
+  isModalVisible = false; // Controls the visibility of the modal
   constructor(
     protected reservationService: ReservationService,
     protected reservationFormService: ReservationFormService,
@@ -94,16 +95,57 @@ export class ReservationUpdateComponent implements OnInit {
         this.itemImageContentType = itemResponse.body?.itemImageContentType;
         this.price = itemResponse.body?.price;
         this.itemAvailability = itemResponse.body?.itemAvailability;
-
-        if (this.itemAvailability) {
-          // this.reserveItem(itemId);
-        }
       },
       error => {
         console.error('Error fetching item details', error);
       }
     );
   }
+
+  showModal(): void {
+    this.isModalVisible = true; // Show the modal
+  }
+
+  hideModal(): void {
+    this.isModalVisible = false; // Hide the modal
+  }
+
+  confirmReservation(): void {
+    // Place your reservation confirmation logic here
+    console.log('Reservation confirmed');
+    this.hideModal(); // Optionally close the modal after confirmation
+  }
+
+  // confirmReservation(): void {
+  //   // Assuming itemAvailability is part of your form data and you have a method to update it
+  //   this.editForm.patchValue({this.itemAvailability: false});
+  //   // Optionally, if itemAvailability needs to be updated via a service call, do that here
+  //   // Example: this.itemService.updateItemAvailability(itemId, false).subscribe();
+  //
+  //   // Trigger any additional actions needed after confirming, like closing the modal
+  //   this.hideModal();
+  // }
+
+  saveAndConfirm(): void {
+    if (this.editForm.valid && !this.isSaving) {
+      this.confirmReservation(); // This updates itemAvailability
+      this.save(); // Then, call save method to submit the reservation form
+    }
+  }
+
+  //
+  // prepareReservation(): void {
+  //   if (this.editForm.valid) {
+  //     // getReservation expects a FormGroup, not its value.
+  //     const reservationData = this.reservationFormService.getReservation(this.editForm);
+  //
+  //     if ('status' in reservationData) {
+  //       reservationData.status = ReservationStatus.PENDING;
+  //     }
+  //     this.save();
+  //   }
+  //
+  // }
 
   fetchShopDetails(shopId: number): void {
     // Use your shop service or http client to fetch shop details
@@ -136,6 +178,7 @@ export class ReservationUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.reservationService.create(reservation));
     }
+    reservation.status = ReservationStatus.CONFIRMED;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IReservation>>): void {

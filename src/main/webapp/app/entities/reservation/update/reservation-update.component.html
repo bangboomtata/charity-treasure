@@ -1,6 +1,6 @@
-<div style="text-align: center; font-weight: bold">
-  <h1 id="jhi-reservation-heading" data-cy="ReservationCreateUpdateHeading">Reserve</h1>
-  <p class="instructions">To reserve this item we would need some details from you!</p>
+<div style="text-align: center; font-weight: bold" class="modal-title big-title">
+  <h1 class="modal-title" id="jhi-reservation-heading" data-cy="ReservationCreateUpdateHeading">Reserve</h1>
+  <h4 class="instructions">To reserve this item we would need some details from you!</h4>
 </div>
 
 <div style="display: flex; justify-content: center; padding: 20px">
@@ -134,15 +134,66 @@
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
             <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
           </button>
-          <button
-            type="button"
-            id="save-entity"
-            data-cy="entityCreateSaveButton"
-            class="btn btn-primary"
-            (click)="navigateToConfirmation()"
-          >
+          <button type="button" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary" (click)="showModal()">
+            <!--            (click)="navigateToConfirmation()"-->
+            <!--          >-->
             <fa-icon icon="save"></fa-icon>&nbsp;<span>Reserve Now!</span>
           </button>
+
+          <!--          <button-->
+          <!--            type="submit"-->
+          <!--            id="saver-entity"-->
+          <!--            data-cy="entityCreateSaveButton"-->
+          <!--            [disabled]="editForm.invalid || isSaving"-->
+          <!--            class="btn btn-primary">-->
+          <!--&lt;!&ndash;            (click)="prepareReservation()"&ndash;&gt;-->
+          <!--&lt;!&ndash;          >&ndash;&gt;-->
+          <!--            <fa-icon icon="save"></fa-icon>&nbsp;<span>this saves the reservation so for pop up window!!!!</span>-->
+          <!--          </button>-->
+
+          <!-- Inline Confirmation Modal -->
+          <div
+            class="modal"
+            *ngIf="isModalVisible"
+            tabindex="-1"
+            role="dialog"
+            style="display: block; background-color: rgba(0, 0, 0, 0.5)"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header big-title">
+                  <h5 style="text-align: center; font-weight: bold"><b>Confirm Reservation</b></h5>
+                  <button type="button" class="close" (click)="hideModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>The item is reserved for only 48 hours!</p>
+                  <p>You have to go to the shop, the item belongs to, to purchase it.</p>
+                  <p>Are you sure you want to proceed with this reservation?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" (click)="hideModal()">Cancel</button>
+                  <!-- In your modal template, adjust the button as follows -->
+                  <button
+                    type="saveconfirm"
+                    id="saveconfirm-entity"
+                    data-cy="entityCreateSaveButton"
+                    [disabled]="editForm.invalid || isSaving"
+                    class="btn btn-primary"
+                    (click)="saveAndConfirm()"
+                  >
+                    <!--            (click)="prepareReservation()"-->
+                    <!--          >-->
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Confirm Reservation!</span>
+                  </button>
+                  <!--&lt;!&ndash;                  <button type="button" id="confirm-and-save" data-cy="confirmSaveButton" [disabled]="editForm.invalid || isSaving" class="btn btn-primary" (click)="saveAndConfirm()">&ndash;&gt;-->
+                  <!--                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Confirm and Save</span>-->
+                  <!--                  </button>-->
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </form>
     </div>
