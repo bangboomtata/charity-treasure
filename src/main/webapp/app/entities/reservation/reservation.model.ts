@@ -10,7 +10,7 @@ export interface IReservation {
   reservedExpiry?: dayjs.Dayjs | null;
   status?: ReservationStatus | null;
   item?: Pick<IItem, 'id'> | null;
-  customer?: Pick<ICustomer, 'id'> | null;
+  customer?: Pick<ICustomer, 'id' | 'customerName'> | null;
   shop?: Pick<IShop, 'id'> | null;
 }
 

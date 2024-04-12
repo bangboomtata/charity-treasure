@@ -9,6 +9,7 @@ import { Account } from 'app/core/auth/account.model';
 @Component({
   selector: 'jhi-home',
   templateUrl: './home.component.html',
+  styleUrls: ['home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;

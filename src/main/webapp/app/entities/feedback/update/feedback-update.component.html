@@ -1,10 +1,11 @@
-<div style="background-color: #fda6a0">
+<div>
   <div class="d-flex justify-content-center">
     <div class="col-8">
       <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-        <h2 id="jhi-feedback-heading" data-cy="FeedbackCreateUpdateHeading">Feedback</h2>
+        <h1 class="big-title" id="jhi-feedback-heading" data-cy="FeedbackCreateUpdateHeading">Feedback</h1>
 
         <div>
+          <br /><br />
           <jhi-alert-error></jhi-alert-error>
 
           <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
@@ -12,23 +13,25 @@
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
 
+          <!--          <div class="row mb-3">-->
+          <!--            <label class="form-label" for="field_customerName">Customer Name</label>-->
+          <!--            <input-->
+          <!--              type="text"-->
+          <!--              class="form-control"-->
+          <!--              id="field_customerName"-->
+          <!--              data-cy="customerName"-->
+          <!--              formControlName="customerName"-->
+          <!--              placeholder="Enter customer name"-->
+          <!--            />-->
+          <!--          </div>-->
           <div class="row mb-3">
-            <label class="form-label" for="field_customer">Name</label>
-            <select
-              class="form-control"
-              id="field_customer"
-              data-cy="customer"
-              name="customer"
-              formControlName="customer"
-              [compareWith]="compareCustomer"
-            >
-              <option [ngValue]="null"></option>
-              <option [ngValue]="customerOption" *ngFor="let customerOption of customersSharedCollection">{{ customerOption.id }}</option>
-            </select>
+            <label class="form-label fw-bold" for="field_customerName">Customer Name</label>
+            <input type="text" class="form-control" id="field_customerName" data-cy="customerName" formControlName="customerName" />
+            <small class="form-text text-danger" *ngIf="editForm.get('feedbackText')?.errors?.required"> This field is required. </small>
           </div>
 
           <div class="row mb-3">
-            <label class="form-label" for="field_feedbackText">Feedback Text</label>
+            <label class="form-label fw-bold" for="field_feedbackText">Feedback Text</label>
             <textarea
               class="form-control"
               name="feedbackText"
@@ -45,44 +48,79 @@
             </div>
           </div>
 
-          <div class="row mb-3">
-            <label class="form-label" for="field_time">Time</label>
-            <div class="d-flex">
-              <input
-                id="field_time"
-                data-cy="time"
-                type="datetime-local"
-                class="form-control"
-                name="time"
-                formControlName="time"
-                placeholder="YYYY-MM-DD HH:mm"
-              />
-            </div>
-          </div>
+          <!--          <div class="row mb-3">-->
+          <!--            <label class="form-label" for="field_time">Time</label>-->
+          <!--            <div class="d-flex">-->
+          <!--              <input-->
+          <!--                id="field_time"-->
+          <!--                data-cy="time"-->
+          <!--                type="datetime-local"-->
+          <!--                class="form-control"-->
+          <!--                name="time"-->
+          <!--                formControlName="time"-->
+          <!--                placeholder="YYYY-MM-DD HH:mm"-->
+          <!--              />-->
+          <!--            </div>-->
+          <!--          </div>-->
 
           <div class="row mb-3">
-            <label class="form-label" for="field_shop">Shop (not required) </label>
-            <select class="form-control" id="field_shop" data-cy="shop" name="shop" formControlName="shop" [compareWith]="compareShop">
-              <option [ngValue]="null"></option>
-              <option [ngValue]="shopOption" *ngFor="let shopOption of shopsSharedCollection">{{ shopOption.id }}</option>
-            </select>
+            <label class="form-label fw-bold" for="field_shopName">Shop Name (Not required unless the feedback is for the shop)</label>
+            <input type="text" class="form-control" id="field_shopName" data-cy="shopName" formControlName="shopName" />
           </div>
-        </div>
+          <div *ngIf="editForm.get('shopName')?.value" class="row mb-3">
+            <label class="form-label fw-bold" for="field_rating">Rating (From 5-1: 5:Best)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="field_rating"
+              data-cy="rating"
+              formControlName="rating"
+              placeholder="Enter rating"
+            />
+          </div>
 
-        <div>
-          <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
-          </button>
+          <!-- Shop rating input, shown only if shop name is entered -->
+          <!--          <div class="row mb-3">-->
+          <!--            <label class="form-label" for="field_shopName">Shop Name</label>-->
+          <!--            <input-->
+          <!--              type="text"-->
+          <!--              class="form-control"-->
+          <!--              id="field_shopName"-->
+          <!--              data-cy="shopName"-->
+          <!--              formControlName="shopName"-->
+          <!--              placeholder="Enter shop name"-->
+          <!--              (input)="checkShopName()"-->
+          <!--            />-->
+          <!--          </div>-->
 
-          <button
-            type="submit"
-            id="save-entity"
-            data-cy="entityCreateSaveButton"
-            [disabled]="editForm.invalid || isSaving"
-            class="btn btn-primary"
-          >
-            <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
-          </button>
+          <div>
+            <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondaryl" (click)="previousState()">
+              <fa-icon icon="ban"></fa-icon>&nbsp; <span>Cancel</span>
+            </button>
+            <button
+              type="submit"
+              id="save-entity"
+              data-cy="entityCreateSaveButton"
+              [disabled]="editForm.invalid || isSaving"
+              class="btn btn-primary"
+              [class.enabled]="editForm.valid && !isSaving"
+            >
+              <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+            </button>
+          </div>
+          <!--          <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">&ndash;&gt;-->
+          <!--            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>-->
+          <!--          </button>-->
+
+          <!--          <button-->
+          <!--            type="submit"-->
+          <!--            id="save-entity"-->
+          <!--            data-cy="entityCreateSaveButton"-->
+          <!--            [disabled]="editForm.invalid || isSaving"-->
+          <!--            class="btn btn-primary"-->
+          <!--          >-->
+          <!--            <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>-->
+          <!--          </button>-->
         </div>
       </form>
     </div>

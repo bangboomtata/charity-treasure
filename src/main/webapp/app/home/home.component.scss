@@ -1,0 +1,57 @@
+/* home.component.css */
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  //align-items: center;
+  height: 100vh;
+}
+
+.text-container {
+  margin-left: 5%; /* Adjust the spacing as needed */
+  color: red; /* Welcome text color */
+}
+
+.welcome-text {
+  margin-top: 100px;
+  font-size: 2rem; /* Adjust size as needed */
+  font-weight: bold;
+}
+
+.charity-title {
+  font-size: 5rem; /* Adjust size as needed */
+  font-weight: bold;
+  color: darkblue; /* Charity title text color */
+}
+
+.image-container {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.home-image {
+  max-width: 50%; /* Adjust width as needed */
+  max-height: 100%;
+  object-fit: cover; /* This will cover the area without stretching the image */
+}
+
+.toggle-buttons {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.btn-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #555; /* Adjust color to match your design */
+  font-size: 24px; /* Adjust size to match your design */
+  transition: color 0.3s;
+}
+
+.btn-toggle.active,
+.btn-toggle:hover {
+  color: #f0ad4e; /* Adjust color to match your design */
+}

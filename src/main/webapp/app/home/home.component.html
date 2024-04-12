@@ -1,50 +1,79 @@
-<div class="row">
-  <div class="col-md-9">
-    <h1 class="display-4"><span>Welcome, Java Hipster!</span> (Teamproject)</h1>
-
-    <p class="lead">This is your homepage</p>
-
-    <div [ngSwitch]="account !== null">
-      <div class="alert alert-success" *ngSwitchCase="true">
-        <span id="home-logged-message" *ngIf="account">You are logged in as user "{{ account.login }}".</span>
-      </div>
-
-      <div class="alert alert-warning" *ngSwitchCase="false">
-        <span>If you want to </span>
-        <a class="alert-link" (click)="login()">sign in</a
-        ><span
-          >, you can try the default accounts:<br />- Administrator (login="admin" and password="admin") <br />- User (login="user" and
-          password="user").</span
-        >
-      </div>
-
-      <div class="alert alert-warning" *ngSwitchCase="false">
-        <span>You don't have an account yet?</span>&nbsp;
-        <a class="alert-link" routerLink="account/register">Register a new account</a>
-      </div>
-    </div>
-
-    <p>If you have any question on JHipster:</p>
-
-    <ul>
-      <li><a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">JHipster homepage</a></li>
-      <li>
-        <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">JHipster on Stack Overflow</a>
-      </li>
-      <li>
-        <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer"
-          >JHipster bug tracker</a
-        >
-      </li>
-      <li>
-        <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">JHipster public chat room</a>
-      </li>
-      <li><a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">follow @jhipster on Twitter</a></li>
-    </ul>
-
-    <p>
-      <span>If you like JHipster, don't forget to give us a star on</span>
-      <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">GitHub</a>!
-    </p>
+<!-- home.component.html -->
+<div class="home-container">
+  <div class="text-container">
+    <h3 class="welcome-text">WELCOME TO</h3>
+    <h1 class="charity-title">CharityTreasures</h1>
+    <br />
+    <h5 style="color: black">
+      Bringing you and Charities together to lead a sustainable <br />
+      lifestyle and giving back to community! <br /><br />
+      Don't know where to find volunteering opportunities? <br />
+      Don't worry we've got you covered :)
+    </h5>
+  </div>
+  <div class="image-container">
+    <img src="src/main/webapp/app/home/home-page.jpg" class="home-image" />
   </div>
 </div>
+
+<div class="container-fluid">
+  <div class="toggle-buttons">
+    <button class="btn btn-toggle active" id="dayMode">
+      <i class="fas fa-sun"></i>
+    </button>
+    <button class="btn btn-toggle" id="nightMode">
+      <i class="fas fa-moon"></i>
+    </button>
+  </div>
+  <!-- Rest of your page content -->
+</div>
+
+<!--<head style="color: white">-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Charity Treasures</title>-->
+<!--  <style>-->
+<!--    .container {-->
+<!--      display: flex;-->
+<!--      align-items: center;-->
+<!--      justify-content: center;-->
+<!--      height: 100vh;-->
+<!--      font-family: Arial, sans-serif;-->
+<!--    }-->
+<!--    .text-section {-->
+<!--      flex: 1;-->
+<!--      text-align: left;-->
+<!--      color: black;-->
+<!--    }-->
+<!--    .image-section {-->
+<!--      flex: 1;-->
+<!--    }-->
+<!--    .title {-->
+<!--      font-size: 4em;-->
+<!--      font-weight: bold;-->
+
+<!--    }-->
+<!--    .sub-title {-->
+<!--      font-size: 2em;-->
+<!--      font-weight: bold;-->
+<!--      margin-top: 0.5em;-->
+<!--      color: red;-->
+<!--    }-->
+<!--    img {-->
+<!--      max-width: 100%;-->
+<!--      height: auto;-->
+<!--    }-->
+<!--  </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container " style="background-color: white">-->
+<!--  <div class="text-section">-->
+<!--    <div class="sub-title">WELCOME TO</div>-->
+<!--    <div class="title">CharityTreasures</div>-->
+<!--    &lt;!&ndash; Other content goes here &ndash;&gt;-->
+<!--  </div>-->
+<!--  <div class="image-section">-->
+<!--    <img src="/home-page.jpg" alt="Charity Treasures">-->
+<!--  </div>-->
+<!--</div>-->
+<!--</body>-->

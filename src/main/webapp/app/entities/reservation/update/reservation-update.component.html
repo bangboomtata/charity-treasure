@@ -1,5 +1,6 @@
-<div style="text-align: center; font-weight: bold" class="modal-title big-title">
-  <h1 class="modal-title" id="jhi-reservation-heading" data-cy="ReservationCreateUpdateHeading">Reserve</h1>
+<div style="text-align: center" class="big-title">
+  <h1 id="jhi-reservation-heading" data-cy="ReservationCreateUpdateHeading">Reserve</h1>
+  <br />
   <h4 class="instructions">To reserve this item we would need some details from you!</h4>
 </div>
 
@@ -63,9 +64,11 @@
                     id="customerFullName"
                     class="form-control"
                     formControlName="customerFullName"
+                    ngModel
                     required
-                    placeholder="Your Full Name"
+                    placeholderr="Your Full Name"
                   />
+                  <small class="form-text text-danger" *ngIf="editForm.get('Name')?.errors?.required"> This field is required. </small>
                 </td>
               </tr>
 
@@ -76,6 +79,7 @@
                 </td>
                 <td>
                   <input
+                    readonly
                     id="field_reservedTime"
                     data-cy="reservedTime"
                     type="datetime-local"
@@ -94,6 +98,7 @@
                 </td>
                 <td>
                   <input
+                    readonly
                     id="field_reservedExpiry"
                     data-cy="reservedExpiry"
                     type="datetime-local"
@@ -176,18 +181,21 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" (click)="hideModal()">Cancel</button>
                   <!-- In your modal template, adjust the button as follows -->
-                  <button
-                    type="saveconfirm"
-                    id="saveconfirm-entity"
-                    data-cy="entityCreateSaveButton"
-                    [disabled]="editForm.invalid || isSaving"
-                    class="btn btn-primary"
-                    (click)="saveAndConfirm()"
-                  >
-                    <!--            (click)="prepareReservation()"-->
-                    <!--          >-->
-                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Confirm Reservation!</span>
-                  </button>
+                  <!--                  <button-->
+                  <!--                    type="saveconfirm"-->
+                  <!--                    id="saveconfirm-entity"-->
+                  <!--                    data-cy="entityCreateSaveButton"-->
+                  <!--                    -->
+                  <!--                    class="btn btn-primary">-->
+                  <!--&lt;!&ndash;                    (click)="confirmReservation()"&ndash;&gt;-->
+                  <!--&lt;!&ndash;                  >&ndash;&gt;-->
+                  <!--                    &lt;!&ndash;            (click)="prepareReservation()"&ndash;&gt;-->
+                  <!--                    &lt;!&ndash;          >&ndash;&gt;-->
+                  <!--                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Confirm Resffgagervation!</span>-->
+                  <!--                  </button>-->
+                  <!-- Inside your component template -->
+                  <button type="button" class="btn btn-primary" (click)="confirmReservation()">Confirm Reservation!</button>
+
                   <!--&lt;!&ndash;                  <button type="button" id="confirm-and-save" data-cy="confirmSaveButton" [disabled]="editForm.invalid || isSaving" class="btn btn-primary" (click)="saveAndConfirm()">&ndash;&gt;-->
                   <!--                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Confirm and Save</span>-->
                   <!--                  </button>-->

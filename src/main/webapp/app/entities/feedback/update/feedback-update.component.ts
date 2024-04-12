@@ -22,6 +22,7 @@ import { ShopService } from 'app/entities/shop/service/shop.service';
 export class FeedbackUpdateComponent implements OnInit {
   isSaving = false;
   feedback: IFeedback | null = null;
+  showRating = false;
 
   customersSharedCollection: ICustomer[] = [];
   shopsSharedCollection: IShop[] = [];
@@ -51,6 +52,17 @@ export class FeedbackUpdateComponent implements OnInit {
 
       this.loadRelationshipsOptions();
     });
+  }
+
+  checkShopName(): void {
+    const shopName = this.editForm.get('shopName')?.value;
+    this.showRating = !!shopName;
+    const ratingControl = this.editForm.get('rating');
+    if (shopName) {
+      ratingControl?.enable();
+    } else {
+      ratingControl?.disable();
+    }
   }
 
   byteSize(base64String: string): string {

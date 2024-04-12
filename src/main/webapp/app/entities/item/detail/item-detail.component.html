@@ -45,7 +45,9 @@
                 </div>
 
                 <div class="button-box">
-                  <button [routerLink]="['/item', item.id, 'reservation', 'new']" class="btn-reserve">Reserve Now</button>
+                  <button [routerLink]="['/item', item.id, 'reservation', 'new']" class="btn-reserve" [disabled]="!item.itemAvailability">
+                    Reserve Now
+                  </button>
                 </div>
               </div>
             </div>
