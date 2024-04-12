@@ -1,6 +1,24 @@
 <!-- home.component.html -->
 <div class="home-container">
   <div class="text-container">
+    <!--    for darkmode-->
+    <input type="checkbox" class="checkbox" id="dark-mode-toggle" (change)="toggleDarkMode()" />
+    <label for="dark-mode-toggle" class="toggle-label"></label>
+
+    <!--toggle for font size-->
+    <!--    <input type="checkbox" class="checkbox" id="font-size-toggle" (change)="toggleFontSize()" />-->
+    <!--    <label for="font-size-toggle" class="font-size-label"></label>-->
+
+    <!-- Font size increase button -->
+
+    <!-- Slider for font size adjustment -->
+    <div class="font-slider-container">
+      <label for="font-size-slider">Font Size:</label>
+      <input type="range" id="font-size-slider" name="font-size" min="80" max="120" [(ngModel)]="fontSize" (input)="adjustFontSize()" />
+    </div>
+  </div>
+  <div class="text-container">
+    <br /><br />
     <h3 class="welcome-text">WELCOME TO</h3>
     <h1 class="charity-title">CharityTreasures</h1>
     <br />
@@ -12,68 +30,6 @@
     </h5>
   </div>
   <div class="image-container">
-    <img src="src/main/webapp/app/home/home-page.jpg" class="home-image" />
+    <img src="./../../../content/images/home-page.png" class="home-image" />
   </div>
 </div>
-
-<div class="container-fluid">
-  <div class="toggle-buttons">
-    <button class="btn btn-toggle active" id="dayMode">
-      <i class="fas fa-sun"></i>
-    </button>
-    <button class="btn btn-toggle" id="nightMode">
-      <i class="fas fa-moon"></i>
-    </button>
-  </div>
-  <!-- Rest of your page content -->
-</div>
-
-<!--<head style="color: white">-->
-<!--  <meta charset="UTF-8">-->
-<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--  <title>Charity Treasures</title>-->
-<!--  <style>-->
-<!--    .container {-->
-<!--      display: flex;-->
-<!--      align-items: center;-->
-<!--      justify-content: center;-->
-<!--      height: 100vh;-->
-<!--      font-family: Arial, sans-serif;-->
-<!--    }-->
-<!--    .text-section {-->
-<!--      flex: 1;-->
-<!--      text-align: left;-->
-<!--      color: black;-->
-<!--    }-->
-<!--    .image-section {-->
-<!--      flex: 1;-->
-<!--    }-->
-<!--    .title {-->
-<!--      font-size: 4em;-->
-<!--      font-weight: bold;-->
-
-<!--    }-->
-<!--    .sub-title {-->
-<!--      font-size: 2em;-->
-<!--      font-weight: bold;-->
-<!--      margin-top: 0.5em;-->
-<!--      color: red;-->
-<!--    }-->
-<!--    img {-->
-<!--      max-width: 100%;-->
-<!--      height: auto;-->
-<!--    }-->
-<!--  </style>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container " style="background-color: white">-->
-<!--  <div class="text-section">-->
-<!--    <div class="sub-title">WELCOME TO</div>-->
-<!--    <div class="title">CharityTreasures</div>-->
-<!--    &lt;!&ndash; Other content goes here &ndash;&gt;-->
-<!--  </div>-->
-<!--  <div class="image-section">-->
-<!--    <img src="/home-page.jpg" alt="Charity Treasures">-->
-<!--  </div>-->
-<!--</div>-->
-<!--</body>-->
