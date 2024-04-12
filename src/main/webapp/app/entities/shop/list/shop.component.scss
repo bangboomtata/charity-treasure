@@ -72,31 +72,21 @@ label:active:after {
   width: 40px;
 }
 
-label svg {
+label img {
   position: absolute;
   width: 19px;
   top: 5px;
   z-index: 1;
 }
 
-label svg.sun {
+label .sun {
   left: 6px;
-  fill: #fff;
   transition: 0.3s;
 }
 
-label svg.moon {
+label .moon {
   left: 53px;
-  fill: #7e7e7e;
   transition: 0.3s;
-}
-
-input:checked + label svg.sun path {
-  fill: #7e7e7e;
-}
-
-input:checked + label svg.moon path {
-  fill: #fff;
 }
 
 //Map
