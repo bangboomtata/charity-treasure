@@ -21,7 +21,7 @@ import { UserDataService } from 'app/account/register/userData.service';
 @Component({
   selector: 'jhi-shop',
   templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.scss'],
+  styleUrls: ['./shop.component.scss', './shop2.component.scss'],
 })
 export class ShopComponent implements OnInit {
   shops?: IShop[];
