@@ -86,12 +86,32 @@ export class ChatComponent implements OnInit {
       console.log('Customer:', customer);
     });
 
+    // Fetch all customers
     this.customerService.getAllCustomers().subscribe({
       next: (customers: ICustomer[]) => {
         this.customers = customers;
+        // if (this.checkCurrentUserInShopUserIds() && this.customers.length > 0 && this.customers[0].user?.id) {
+        //   this.getLoginAndSendMessage(this.customers[0].user?.id);
+        // }
       },
       error: (error: any) => {
         console.error('Error fetching customers:', error);
+        // Handle error as needed
+      },
+    });
+
+    // Fetch all shops
+    this.shopService.getAllShops().subscribe({
+      next: (shops: IShop[]) => {
+        this.shops = shops;
+
+        // if (!this.checkCurrentUserInShopUserIds()) {
+        //   const firstShop = this.shops[0];
+        //   this.setReceiverLoginAndSendMessage(firstShop.shopName || '', firstShop.user?.id || 0);
+        // }
+      },
+      error: (error: any) => {
+        console.error('Error fetching shops:', error);
         // Handle error as needed
       },
     });
@@ -107,17 +127,6 @@ export class ChatComponent implements OnInit {
         // Handle error as needed
       }
     );
-
-    // Fetch all shops
-    this.shopService.getAllShops().subscribe({
-      next: (shops: IShop[]) => {
-        this.shops = shops;
-      },
-      error: (error: any) => {
-        console.error('Error fetching shops:', error);
-        // Handle error as needed
-      },
-    });
 
     // Retrieve current user's login and set senderLogin
     this.accountService.identity().subscribe(account => {
@@ -205,21 +214,15 @@ export class ChatComponent implements OnInit {
     this.shopUserId = shopUserId;
   }
 
-  checkCurrentUserInShopUserIds(): void {
-    // Perform your logic to check if current user is in shop user IDs
+  checkCurrentUserInShopUserIds(): boolean {
     const isUserInShopUserIds = this.userIds.includes(this.currentUserId);
-
-    // Update the behavior subject with the result
     this.isCurrentUserInShopUserIds$.next(isUserInShopUserIds);
+    return isUserInShopUserIds;
   }
 
   getLoginByCustomerId(customerId: number): Observable<string | null> {
     // Adjust the URL according to your backend API endpoint
     return this.http.get<string | null>(`/api/users/login?customerId=${customerId}`);
-  }
-
-  isCurrentUserInShopUserIds(): boolean {
-    return this.userIds.includes(this.currentUserId);
   }
 
   hasMessages(): boolean {

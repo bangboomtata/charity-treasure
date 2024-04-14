@@ -30,6 +30,23 @@ export class ChatService {
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
+  //Show
+  showChatPerson: boolean = false;
+  showChatHistory: boolean = false;
+  showSendMessage: boolean = false;
+  receiverLogin: string = '';
+  shopName: string = '';
+  shopUserId: number = 0;
+
+  setReceiverLoginAndSendMessage(shopName: string, shopUserId: number): void {
+    this.showChatPerson = true;
+    this.showChatHistory = true;
+    this.showSendMessage = true;
+    this.shopName = shopName;
+    this.receiverLogin = shopUserId.toString();
+    this.shopUserId = shopUserId;
+  }
+
   create(chat: NewChat): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(chat);
     return this.http.post<RestChat>(this.resourceUrl, copy, { observe: 'response' }).pipe(map(res => this.convertResponseFromServer(res)));

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as L from 'leaflet';
 import 'leaflet.fullscreen';
 import 'leaflet.locatecontrol';
@@ -11,11 +11,11 @@ import { IShop } from '../shop.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, ShopService } from '../service/shop.service';
 import { ShopDeleteDialogComponent } from '../delete/shop-delete-dialog.component';
-import { PermissionComponent } from '../permission/permission.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { SortService } from 'app/shared/sort/sort.service';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { UserDataService } from 'app/account/register/userData.service';
+import { ChatService } from 'app/entities/chat/service/chat.service';
 
 @Component({
   selector: 'jhi-shop',
@@ -74,7 +74,8 @@ export class ShopComponent implements OnInit {
     protected dataUtils: DataUtils,
     protected modalService: NgbModal,
     private http: HttpClient, // Inject HttpClient
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
+    protected chatService: ChatService
   ) {}
 
   trackId = (_index: number, item: IShop): number => this.shopService.getShopIdentifier(item);
@@ -84,6 +85,19 @@ export class ShopComponent implements OnInit {
       this.initMap();
     }, 100); // Adjust the delay as needed
     this.load();
+  }
+
+  // contactUs(shopName: string, shopUserId: number): void {
+  //   this.router.navigate(['/chat']);
+  //   this.callSetReceiverLoginAndSendMessage(shopName, shopUserId)
+  // }
+
+  // callSetReceiverLoginAndSendMessage(shopName: string, shopUserId: number): void {
+  //   this.chatService.setReceiverLoginAndSendMessage(shopName, shopUserId);
+  // }
+
+  goToChat(): void {
+    this.router.navigate(['/chat/']);
   }
 
   byteSize(base64String: string): string {
@@ -223,15 +237,6 @@ export class ShopComponent implements OnInit {
     this.initMap();
   }
 
-  openPermissionModal(): void {
-    // Open the permission modal
-    const modalRef = this.modalService.open(PermissionComponent, { centered: true });
-    modalRef.componentInstance.permissionGranted.subscribe(() => {
-      // Subscribe to permissionGranted event
-      this.getUserLocationAndSetupMap(); // Trigger getUserLocationAndSetupMap method
-    });
-  }
-
   //Initialize the map and setup real user location data
   protected initMap(): void {
     if (navigator.permissions) {
@@ -240,8 +245,8 @@ export class ShopComponent implements OnInit {
         if (permissionStatus.state === 'granted') {
           this.getUserLocationAndSetupMap();
         } else if (permissionStatus.state === 'prompt') {
-          console.log('Geolocation permission is in the prompt state.');
-          this.openPermissionModal();
+          // The user hasn't decided yet, so you may want to show a message asking for permission
+          // You can handle this case according to your UI/UX requirements
         } else {
           console.log(permissionStatus.state);
           console.error('Geolocation permission denied.');
