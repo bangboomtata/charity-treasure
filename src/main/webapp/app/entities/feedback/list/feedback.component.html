@@ -1,6 +1,8 @@
-<div style="background-color: white">
-  <h2 id="page-heading" data-cy="FeedbackHeading" class="text-center">Feedbacks</h2>
-
+<div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+  <div style="text-align: center; font-weight: bolder" class="modal-title big-title">
+    <h1 id="page-heading" data-cy="ReservationHeading" class="text-center">All Feedbacks</h1>
+  </div>
+  <br />
   <div class="d-flex justify-content-end">
     <button
       id="jh-create-entity"
@@ -46,18 +48,18 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="customer.id">
-            <div class="d-flex">
-              <span>Customer</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="shop.id">
-            <div class="d-flex">
-              <span>Shop</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
+          <!--          <th scope="col" jhiSortBy="customer.id">-->
+          <!--            <div class="d-flex">-->
+          <!--              <span>Customer</span>-->
+          <!--              <fa-icon class="p-1" icon="sort"></fa-icon>-->
+          <!--            </div>-->
+          <!--          </th>-->
+          <!--          <th scope="col" jhiSortBy="shop.id">-->
+          <!--            <div class="d-flex">-->
+          <!--              <span>Shop</span>-->
+          <!--              <fa-icon class="p-1" icon="sort"></fa-icon>-->
+          <!--            </div>-->
+          <!--          </th>-->
           <th scope="col"></th>
         </tr>
       </thead>
@@ -68,16 +70,16 @@
           </td>
           <td>{{ feedback.feedbackText }}</td>
           <td>{{ feedback.time | formatMediumDatetime }}</td>
-          <td>
-            <div *ngIf="feedback.customer">
-              <a [routerLink]="['/customer', feedback.customer.id, 'view']">{{ feedback.customer.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="feedback.shop">
-              <a [routerLink]="['/shop', feedback.shop.id, 'view']">{{ feedback.shop.id }}</a>
-            </div>
-          </td>
+          <!--          <td>-->
+          <!--            <div *ngIf="feedback.customer">-->
+          <!--              <a [routerLink]="['/customer', feedback.customer.id, 'view']">{{ feedback.customer.id }}</a>-->
+          <!--            </div>-->
+          <!--          </td>-->
+          <!--          <td>-->
+          <!--            <div *ngIf="feedback.shop">-->
+          <!--              <a [routerLink]="['/shop', feedback.shop.id, 'view']">{{ feedback.shop.id }}</a>-->
+          <!--            </div>-->
+
           <td class="text-end">
             <div class="btn-group">
               <button
@@ -125,4 +127,18 @@
       ></ngb-pagination>
     </div>
   </div>
+</div>
+
+<div *jhiHasAnyAuthority="'ROLE_USER'" style="background-color: white">
+  <h1 style="text-align: center" class="big-title">Thank you for providing us with your feedback</h1>
+
+  <!--  <button *jhiHasAnyAuthority="'ROLE_USER'" [routerLink]="['/feedback/new']" class="btn btn-primary">-->
+  <!--    <button class="btn-continue" [routerLink]="['/feedback/new']">-->
+  <!--      Continue <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon>-->
+  <!--    </button>-->
+  <!--  </button>-->
+  <div class="centered-button-container">
+    <button class="big-blue-button" [routerLink]="['/feedback/new']">Continue</button>
+  </div>
+  <br /><br /><br /><br /><br /><br /><br /><br />
 </div>

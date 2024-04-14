@@ -130,6 +130,9 @@ export class EventComponent implements OnInit {
 
   filterByShop() {
     let y = (<HTMLSelectElement>document.getElementById('event_by_shop')).value;
+    if (y == 'all') {
+      this.filteredEvents = this.events;
+    }
     if (y == 'myEvents') {
       this.filteredEvents = this.events?.filter(event => event.shop?.id === this.shopId);
     }
@@ -140,8 +143,13 @@ export class EventComponent implements OnInit {
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
     this.events = dataFromBody;
 
-    this.filterLocation();
-    this.filterByShop();
+    if (this.isShop == false) {
+      this.filterLocation();
+    }
+
+    if (this.isShop == true) {
+      this.filterByShop();
+    }
   }
 
   protected fillComponentAttributesFromResponseBody(data: IEvent[] | null): IEvent[] {

@@ -6,6 +6,9 @@
 Navbar
 ========================================================================== */
 
+$main-pink: #ff6961;
+$second-pink: #ffe7e7;
+
 .navbar-version {
   font-size: 0.65em;
   color: $navbar-dark-color;
@@ -21,8 +24,8 @@ Navbar
   .dropdown-item.active,
   .dropdown-item.active:focus,
   .dropdown-item.active:hover {
-    background-color: #ffe7e7;
-    color: #ff6961;
+    background-color: $second-pink;
+    color: $main-pink;
   }
 
   a.nav-link {
@@ -38,7 +41,7 @@ Navbar
 
 .container-fluid {
   color: white;
-  background-color: #ff6961;
+  background-color: $main-pink;
   min-height: 80px;
   max-height: 80px;
 }
@@ -49,26 +52,26 @@ Navbar
 }
 
 .dropdown-menu {
-  background-color: #ff6961;
+  background-color: $main-pink;
 }
 
 .dropdown-item {
-  background-color: #ff6961;
+  background-color: $main-pink;
   color: white;
   font-weight: bold;
 }
 
 .dropdown-item:hover {
-  background-color: #ffe7e7;
-  color: #ff6961;
+  background-color: $second-pink;
+  color: $main-pink;
   font-weight: bold;
 }
 
 .nav-item:hover,
 .nav-item.active {
-  background-color: #ffe7e7;
+  background-color: $second-pink;
   .nav-text {
-    color: #ff6961;
+    color: $main-pink;
     font-weight: bold;
   }
 }

@@ -10,6 +10,7 @@ $main-red: #ff392e;
   margin-left: auto;
   margin-right: auto;
   background-color: #fff;
+  position: relative; /* Add this line */
 }
 
 .big-title {
@@ -21,6 +22,74 @@ $main-red: #ff392e;
   letter-spacing: 0.03em;
 }
 
+//Dark mode button
+label {
+  width: 80px;
+  height: 30px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: block;
+  background: #ebebeb;
+  border-radius: 15px;
+  box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4), inset 0px -5px 15px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+
+label:after {
+  content: '';
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 2.5px;
+  left: 4px;
+  background: linear-gradient(180deg, #ffcc89, #d8860b);
+  border-radius: 27px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+input[type='checkbox'] {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+input:checked + label {
+  background: #242424;
+}
+
+input:checked + label:after {
+  left: 75px;
+  transform: translateX(-100%);
+  background: linear-gradient(180deg, #777, #3a3a3a);
+}
+
+label + label:after {
+  transition: 0.3s;
+}
+
+label:active:after {
+  width: 40px;
+}
+
+label img {
+  position: absolute;
+  width: 19px;
+  top: 5px;
+  z-index: 1;
+}
+
+label .sun {
+  left: 6px;
+  transition: 0.3s;
+}
+
+label .moon {
+  left: 53px;
+  transition: 0.3s;
+}
+
+//Map
 .map-container {
   padding: 5px 20px;
   height: 100%;
@@ -250,68 +319,4 @@ hr {
 .map-container-rectangle {
   width: 100%;
   height: 100%;
-}
-
-// ADMIN ROLE
-.admin-main-box {
-  margin: auto;
-  height: 80vh;
-  overflow-y: scroll; // Use "auto" to enable scrolling
-
-  &::-webkit-scrollbar {
-    width: 8px; // Adjust the width of the scrollbar as needed
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: $main-pink; // Color of the scrollbar thumb
-    border-radius: 6px; // Adjust the border radius as needed
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: white; // Color of the scrollbar track
-    border-radius: 8px; // Adjust the border radius as needed
-  }
-}
-
-.admin-tr {
-  &:hover {
-    cursor: pointer; // Set cursor to pointer on hover
-    background-color: rgb(255, 241, 241); // Change the background color on hover
-  }
-}
-
-thead {
-  tr {
-    background-color: #ffe7e7;
-  }
-
-  th {
-    padding: auto;
-  }
-}
-
-table td {
-  padding: 5px 5px;
-  max-height: 100px;
-
-  a {
-    color: #ff6961;
-  }
-}
-
-.admin-table {
-  td {
-    padding: 5px 5px;
-  }
-
-  p {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-  }
-}
-
-th span {
-  color: $main-blue;
 }

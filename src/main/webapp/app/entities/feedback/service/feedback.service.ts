@@ -9,6 +9,8 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { createRequestOption } from 'app/core/request/request-util';
 import { IFeedback, NewFeedback } from '../feedback.model';
 
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 export type PartialUpdateFeedback = Partial<IFeedback> & Pick<IFeedback, 'id'>;
 
 type RestOf<T extends IFeedback | NewFeedback> = Omit<T, 'time'> & {

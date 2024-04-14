@@ -33,8 +33,11 @@ type FeedbackFormGroupContent = {
   id: FormControl<FeedbackFormRawValue['id'] | NewFeedback['id']>;
   feedbackText: FormControl<FeedbackFormRawValue['feedbackText']>;
   time: FormControl<FeedbackFormRawValue['time']>;
-  customer: FormControl<FeedbackFormRawValue['customer']>;
-  shop: FormControl<FeedbackFormRawValue['shop']>;
+  // customer: FormControl<FeedbackFormRawValue['customer']>;
+  customerName: FormControl<string | null | undefined>;
+  // shop: FormControl<FeedbackFormRawValue['shop']>;
+  shopName: FormControl<string | null | undefined>;
+  rating: FormControl<number | null>;
 };
 
 export type FeedbackFormGroup = FormGroup<FeedbackFormGroupContent>;
@@ -58,8 +61,11 @@ export class FeedbackFormService {
         validators: [Validators.required],
       }),
       time: new FormControl(feedbackRawValue.time),
-      customer: new FormControl(feedbackRawValue.customer),
-      shop: new FormControl(feedbackRawValue.shop),
+      customerName: new FormControl(feedback?.customer?.customerName, { validators: [Validators.required] }), // Adjust according to your model
+      shopName: new FormControl(feedback?.shop?.shopName),
+      rating: new FormControl(feedback?.rating ?? null),
+      // customer: new FormControl(feedbackRawValue.customer),
+      // shop: new FormControl(feedbackRawValue.shop),
     });
   }
 

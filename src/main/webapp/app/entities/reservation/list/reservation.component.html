@@ -1,6 +1,27 @@
-<div>
-  <h2 id="page-heading" data-cy="ReservationHeading" class="text-center">RESERVATIONS</h2>
+<div *jhiHasAnyAuthority="'ROLE_USER'" style="text-align: center">
+  <h1 data-cy="ReservationHeading" class="text-center big-title">RESERVATION</h1>
+  <br /><br />
+  <h2 id="info-heading" data-cy="ReservationHeading" class="text-center">
+    You can reserve an item for 48 hours and pick it up from the shop
+  </h2>
+  <br /><br />
+  <h3><i> Amazing right? </i></h3>
+  <br /><br />
+  <h5>Click on the button below or go to "Item" to see what items we have available!</h5>
+  <br /><br />
+  <button
+    style="background-color: white; font-weight: bold; border-radius: 50px; margin-bottom: 20px; text-align: center"
+    routerLink="/item"
+    class="btn-reserve"
+  >
+    Items
+  </button>
+</div>
 
+<div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+  <div style="text-align: center; font-weight: bolder" class="modal-title big-title">
+    <h1 id="page-heading" data-cy="ReservationHeading" class="text-center">All Reservations</h1>
+  </div>
   <div class="d-flex justify-content-end">
     <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
       <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
@@ -11,7 +32,7 @@
       id="jh-create-entity"
       data-cy="entityCreateButton"
       class="btn btn-primary jh-create-entity create-reservation"
-      [routerLink]="['/reservation/new']"
+      [routerLink]="['/item']"
     >
       <fa-icon icon="plus"></fa-icon>
       <span> </span>
@@ -57,24 +78,24 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="item.id">
-            <div class="d-flex">
-              <span>Item</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="customer.id">
-            <div class="d-flex">
-              <span>Customer</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="shop.id">
-            <div class="d-flex">
-              <span>Shop</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
+          <!--          <th scope="col" jhiSortBy="item.id">-->
+          <!--            <div class="d-flex">-->
+          <!--              <span>Item</span>-->
+          <!--              <fa-icon class="p-1" icon="sort"></fa-icon>-->
+          <!--            </div>-->
+          <!--          </th>-->
+          <!--          <th scope="col" jhiSortBy="customer.id">-->
+          <!--            <div class="d-flex">-->
+          <!--              <span>Customer</span>-->
+          <!--              <fa-icon class="p-1" icon="sort"></fa-icon>-->
+          <!--            </div>-->
+          <!--          </th>-->
+          <!--          <th scope="col" jhiSortBy="shop.id">-->
+          <!--            <div class="d-flex">-->
+          <!--              <span>Shop</span>-->
+          <!--              <fa-icon class="p-1" icon="sort"></fa-icon>-->
+          <!--            </div>-->
+          <!--          </th>-->
           <th scope="col"></th>
         </tr>
       </thead>
@@ -86,21 +107,24 @@
           <td>{{ reservation.reservedTime | formatMediumDatetime }}</td>
           <td>{{ reservation.reservedExpiry | formatMediumDatetime }}</td>
           <td>{{ reservation.status }}</td>
-          <td>
-            <div *ngIf="reservation.item">
-              <a [routerLink]="['/item', reservation.item.id, 'view']">{{ reservation.item.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="reservation.customer">
-              <a [routerLink]="['/customer', reservation.customer.id, 'view']">{{ reservation.customer.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="reservation.shop">
-              <a [routerLink]="['/shop', reservation.shop.id, 'view']">{{ reservation.shop.id }}</a>
-            </div>
-          </td>
+          <!--          <td>-->
+          <!--            <div *ngIf="reservation.item">-->
+
+          <!--                <a [routerLink]="['/item', reservation.item.id, 'view']">{{ reservation.item.id }}</a>-->
+          <!--           </div>-->
+          <!--          </td>-->
+
+          <!--          <td>-->
+          <!--            <div *ngIf="reservation.customer">-->
+          <!--              <a [routerLink]="['/customer', reservation.customer.id, 'view']">{{ reservation.customer.id }}</a>-->
+          <!--            </div>-->
+          <!--          </td>-->
+          <!--          <td>-->
+          <!--            <div *ngIf="reservation.shop">-->
+          <!--              <a [routerLink]="['/shop', reservation.shop.id, 'view']">{{ reservation.shop.id }}</a>-->
+          <!--            </div>-->
+          <!--          </td>-->
+
           <td class="text-end">
             <div class="btn-group">
               <button

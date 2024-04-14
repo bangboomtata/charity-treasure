@@ -42,6 +42,10 @@ export class FeedbackComponent implements OnInit {
     this.load();
   }
 
+  goToFeedback(): void {
+    this.router.navigate(['/feedback/new']);
+  }
+
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);
   }

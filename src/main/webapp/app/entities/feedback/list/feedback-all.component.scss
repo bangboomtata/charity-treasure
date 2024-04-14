@@ -62,3 +62,83 @@
 #create-entity .fa-icon {
   color: black;
 }
+.custom-save-button {
+  background-color: pink;
+  border-color: pink;
+}
+
+.custom-cancel-button {
+  background-color: blue;
+  border-color: blue;
+}
+
+.continue-button-container {
+  text-align: center; /* Center the button container */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); /* Center the button in the middle of the page */
+}
+
+.btn-transparent {
+  background-color: transparent; /* Transparent background */
+  border: none; /* No border */
+  color: #007bff; /* Bootstrap blue for text */
+  font-size: 1rem;
+  cursor: pointer;
+  outline: none; /* Remove focus outline */
+  padding: 0.5rem 1rem;
+  position: relative; /* Needed for absolute positioning of pseudo-elements */
+}
+
+.btn-transparent:hover {
+  color: #0056b3; /* Darker blue for hover state */
+}
+
+.btn-transparent:hover::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #007bff; /* Bootstrap blue */
+  position: absolute;
+  bottom: -5px; /* Position under the text */
+  left: 0;
+}
+
+.fa-arrow-right {
+  margin-left: 5px; /* Spacing between text and icon */
+}
+
+.centered-button-container {
+  //position: fixed; /* or absolute if you want it relative to a positioned parent */
+  //top: 50%;
+  //left: 50%;
+  //transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh; /* This will make it take the full viewport height */
+}
+
+.big-blue-button {
+  background-color: #007bff; /* Bootstrap primary blue */
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  padding: 20px 50px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  outline: none; /* Remove focus outline */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Optional: just to give some depth */
+}
+
+.big-blue-button:hover {
+  background-color: #0056b3; /* A darker blue for the hover state */
+}
+
+/* You can also add a transition for smooth color change */
+.big-blue-button {
+  transition: background-color 0.3s ease;
+}

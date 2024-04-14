@@ -32,7 +32,7 @@
         </button>
       </ng-container>
 
-      <ng-container *jhiHasAnyAuthority="'ROLE_USER'">
+      <ng-container *ngIf="isShop == false">
         <label class="location-dropdown-label">Location</label>
         <select class="location-dropdown-box" id="field_eventLocation_dropdown" onchange="filterLocation()">
           <option value="all">All</option>

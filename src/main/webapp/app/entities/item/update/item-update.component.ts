@@ -132,19 +132,12 @@ export class ItemUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
-    this.accountService.getShop().subscribe((shop: IShop | null) => {
-      if (shop !== null) {
-        this.editForm.patchValue({
-          shop: shop,
-        });
-        const item = this.itemFormService.getItem(this.editForm);
-        if (item.id !== null) {
-          this.subscribeToSaveResponse(this.itemService.update(item));
-        } else {
-          this.subscribeToSaveResponse(this.itemService.create(item));
-        }
-      }
-    });
+    const item = this.itemFormService.getItem(this.editForm);
+    if (item.id !== null) {
+      this.subscribeToSaveResponse(this.itemService.update(item));
+    } else {
+      this.subscribeToSaveResponse(this.itemService.create(item));
+    }
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IItem>>): void {

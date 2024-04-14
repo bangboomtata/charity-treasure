@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as L from 'leaflet';
@@ -20,7 +21,7 @@ import { ChatService } from 'app/entities/chat/service/chat.service';
 @Component({
   selector: 'jhi-shop',
   templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.scss'],
+  styleUrls: ['./shop.component.scss', './shop2.component.scss'],
 })
 export class ShopComponent implements OnInit {
   shops?: IShop[];
@@ -40,6 +41,7 @@ export class ShopComponent implements OnInit {
   ascending = true;
   selectedShop: IShop | null = null;
   routingStarted: boolean = false;
+  darkModeEnabled = false;
 
   // marker design
   protected userMarkerIcon = L.icon({
@@ -131,6 +133,17 @@ export class ShopComponent implements OnInit {
     }
   }
 
+  toggleDarkMode(): void {
+    const mapContainer = document.getElementById('map-container-rectangle');
+    if (mapContainer) {
+      this.darkModeEnabled = !this.darkModeEnabled;
+      if (this.darkModeEnabled) {
+        mapContainer.classList.add('dark-mode');
+      } else {
+        mapContainer.classList.remove('dark-mode');
+      }
+    }
+  }
   // Load all the shop location
   protected load(): void {
     this.loadFromBackendWithRouteInformations().subscribe({

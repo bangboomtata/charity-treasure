@@ -285,3 +285,16 @@ form {
   left: 2px !important;
   top: 0px !important;
 }
+
+.dark-mode .leaflet-layer,
+.dark-mode .leaflet-control-zoom-in,
+.dark-mode .leaflet-control-zoom-out,
+.dark-mode .leaflet-control-attribution,
+.dark-mode .leaflet-control-zoom-fullscreen,
+.dark-mode .leaflet-routing-container,
+.dark-mode .leaflet-popup-content-wrapper,
+.dark-mode .leaflet-popup-tip,
+.dark-mode .leaflet-marker-icon,
+.dark-mode .leaflet-interactive {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%) !important;
+}

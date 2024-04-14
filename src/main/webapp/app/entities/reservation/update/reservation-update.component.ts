@@ -41,7 +41,10 @@ export class ReservationUpdateComponent implements OnInit {
   shopName: string | null | undefined = null;
   itemImage: string | null | undefined = null;
   itemImageContentType: string | null | undefined = null;
+  price: number | null | undefined = null;
+  itemAvailability: boolean | null | undefined = undefined;
 
+  isModalVisible = false; // Controls the visibility of the modal
   constructor(
     protected reservationService: ReservationService,
     protected reservationFormService: ReservationFormService,
@@ -62,6 +65,50 @@ export class ReservationUpdateComponent implements OnInit {
   compareCustomer = (o1: ICustomer | null, o2: ICustomer | null): boolean => this.customerService.compareCustomer(o1, o2);
 
   compareShop = (o1: IShop | null, o2: IShop | null): boolean => this.shopService.compareShop(o1, o2);
+
+  // confirmReservation() {
+  //   // Assuming you have itemId and the new availability state ready
+  //   if (this.itemId != null) {
+  //     this.itemService.updateAvailability(this.itemId, false).subscribe({
+  //       next: () => {
+  //         console.log('Item availability updated successfully');
+  //         // Update your UI accordingly here
+  //       },
+  //       error: error => console.error('There was an error updating the item availability', error)
+  //     });
+  //   }
+  //   this.save();
+  // }
+  // Example component method
+  // Assuming itemId is the ID of the item to update
+  confirmReservation(): void {
+    if (this.itemId === null) {
+      console.error('Item ID is null');
+      return;
+    }
+
+    // Step 1: Fetch the Item
+    this.itemService.find(this.itemId).subscribe({
+      next: response => {
+        const item = response.body;
+        if (!item) {
+          console.error('Item not found');
+          return;
+        }
+
+        // Step 2: Modify the Item's Availability
+        item.itemAvailability = false;
+
+        // Step 3: Update the Item
+        this.itemService.update(item).subscribe({
+          next: () => console.log('Item updated successfully'),
+          error: error => console.error('Error updating item', error),
+        });
+      },
+      error: error => console.error('Error fetching item', error),
+    });
+    this.save();
+  }
 
   ngOnInit(): void {
     this.loadRelationshipsOptions();
@@ -90,6 +137,8 @@ export class ReservationUpdateComponent implements OnInit {
         this.shopName = itemResponse.body?.shop?.shopName;
         this.itemImage = itemResponse.body?.itemImage;
         this.itemImageContentType = itemResponse.body?.itemImageContentType;
+        this.price = itemResponse.body?.price;
+        this.itemAvailability = itemResponse.body?.itemAvailability;
       },
       error => {
         console.error('Error fetching item details', error);
@@ -97,15 +146,59 @@ export class ReservationUpdateComponent implements OnInit {
     );
   }
 
-  fetchShopDetails(shopId: number): void {
-    // Use your shop service or http client to fetch shop details
-    this.shopService.find(shopId).subscribe(
-      (shopResponse: HttpResponse<IShop>) => {
-        this.shopName = shopResponse.body?.shopName; // Update this based on your actual shop property
-      },
-      error => console.error('Error fetching shop details', error)
-    );
+  showModal(): void {
+    this.isModalVisible = true; // Show the modal
   }
+
+  hideModal(): void {
+    this.isModalVisible = false; // Hide the modal
+  }
+
+  // confirmReservation(): void {
+  //   // Place your reservation confirmation logic here
+  //   console.log('Reservation confirmed');
+  //   this.hideModal(); // Optionally close the modal after confirmation
+  // }
+
+  // confirmReservation(): void {
+  //   // Assuming itemAvailability is part of your form data and you have a method to update it
+  //   this.editForm.patchValue({this.itemAvailability: false});
+  //   // Optionally, if itemAvailability needs to be updated via a service call, do that here
+  //   // Example: this.itemService.updateItemAvailability(itemId, false).subscribe();
+  //
+  //   // Trigger any additional actions needed after confirming, like closing the modal
+  //   this.hideModal();
+  // }
+
+  // saveAndConfirm(): void {
+  //   if (this.editForm.valid && !this.isSaving) {
+  //     // this.confirmReservation(); // This updates itemAvailability
+  //     this.confirmReservation();
+  //     this.save();
+  //     // Then, call save method to submit the reservation form
+  //     // this.setItemAvailabilityFalse();
+  //
+  //   }
+  //   }
+
+  // private setItemAvailabilityFalse(): void {
+  //
+  //   if (this.itemId) {
+  //     this.itemService.updateItemAvailability(this.itemId, false).subscribe(() => {
+  //       console.log('Item availability updated to false');
+  //     });
+  //   }
+  // }
+
+  // fetchShopDetails(shopId: number): void {
+  //   // Use your shop service or http client to fetch shop details
+  //   this.shopService.find(shopId).subscribe(
+  //     (shopResponse: HttpResponse<IShop>) => {
+  //       this.shopName = shopResponse.body?.shopName; // Update this based on your actual shop property
+  //     },
+  //     error => console.error('Error fetching shop details', error)
+  //   );
+  // }
 
   private setReservationDates(): void {
     const currentDay = dayjs().format('YYYY-MM-DDTHH:mm');
@@ -122,7 +215,10 @@ export class ReservationUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
+
     const reservation = this.reservationFormService.getReservation(this.editForm);
+    reservation.status = ReservationStatus.CONFIRMED;
+
     if (reservation.id !== null) {
       this.subscribeToSaveResponse(this.reservationService.update(reservation));
     } else {
