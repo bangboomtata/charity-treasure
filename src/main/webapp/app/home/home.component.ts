@@ -30,16 +30,23 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   // dark mode
+  /*
   toggleDarkMode(): void {
-    const homeContainer = document.getElementById('home-container-rectangle');
+    const homeContainer = document.getElementById('home-container');
     if (homeContainer) {
       this.darkModeEnabled = !this.darkModeEnabled;
       if (this.darkModeEnabled) {
-        homeContainer.classList.add('dark-mode');
+        homeContainer.classList.add('main-dark-mode');
       } else {
-        homeContainer.classList.remove('dark-mode');
+        homeContainer.classList.remove('main-dark-mode');
       }
     }
+  }
+   */
+
+  darkMode() {
+    var element = document.body;
+    element.classList.toggle('main-dark-mode');
   }
 
   // toggle font size

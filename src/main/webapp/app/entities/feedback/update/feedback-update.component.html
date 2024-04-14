@@ -1,4 +1,4 @@
-<div>
+<div class="feedback-cont">
   <div class="d-flex justify-content-center">
     <div class="col-8">
       <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
@@ -94,7 +94,13 @@
           <!--          </div>-->
 
           <div>
-            <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondaryl" (click)="previousState()">
+            <button
+              type="button"
+              id="cancel-save"
+              data-cy="entityCreateCancelButton"
+              class="btn btn-secondaryl btn-cancel"
+              (click)="previousState()"
+            >
               <fa-icon icon="ban"></fa-icon>&nbsp; <span>Cancel</span>
             </button>
             <button
