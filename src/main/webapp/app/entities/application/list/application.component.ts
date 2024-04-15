@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, map, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IApplication } from '../application.model';
@@ -11,12 +11,21 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, ApplicationService } from '../service/application.service';
 import { ApplicationDeleteDialogComponent } from '../delete/application-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
+import { IVolunteerPost } from 'app/entities/volunteer-post/volunteer-post.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { VolunteerPostService } from 'app/entities/volunteer-post/service/volunteer-post.service';
+import { ApplicationStatus } from 'app/entities/enumerations/application-status.model';
 
 @Component({
   selector: 'jhi-application',
   templateUrl: './application.component.html',
+  styleUrls: ['./application.component.scss'],
 })
 export class ApplicationComponent implements OnInit {
+  selectedPost = 'ALL';
+  volunteerPostsList: IVolunteerPost[] = [];
+  shopId: number | null = null;
+  customerId: number | null = null;
   applications?: IApplication[];
   isLoading = false;
 
@@ -32,12 +41,40 @@ export class ApplicationComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected dataUtils: DataUtils,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected accountService: AccountService,
+    protected volunteerPostService: VolunteerPostService
   ) {}
 
   trackId = (_index: number, item: IApplication): number => this.applicationService.getApplicationIdentifier(item);
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getShop().subscribe(shop => {
+          // Check if shop is not null or undefined
+          if (shop) {
+            // Print the shop's ID
+            console.log('Shop ID: ', shop.id);
+            this.shopId = shop.id;
+          } else {
+            console.log('Shop not found!!');
+          }
+        });
+
+        this.accountService.getCustomer().subscribe(customer => {
+          // Check if customer is not null or undefined
+          if (customer) {
+            // Print the customer's ID
+            console.log('Customer ID: ', customer.id);
+            this.customerId = customer.id;
+          } else {
+            console.log('Customer not found');
+          }
+        });
+      }
+    });
+    this.loadRelationshipsOptions();
     this.load();
   }
 
@@ -49,7 +86,8 @@ export class ApplicationComponent implements OnInit {
     return this.dataUtils.openFile(base64String, contentType);
   }
 
-  delete(application: IApplication): void {
+  delete(event: Event, application: IApplication): void {
+    event.stopPropagation();
     const modalRef = this.modalService.open(ApplicationDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.application = application;
     // unsubscribe not needed because closed completes on modal close
@@ -141,5 +179,54 @@ export class ApplicationComponent implements OnInit {
     } else {
       return [predicate + ',' + ascendingQueryParam];
     }
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.volunteerPostService
+      .query()
+      .pipe(map((res: HttpResponse<IVolunteerPost[]>) => res.body ?? []))
+      .pipe(
+        map((volunteerPosts: IVolunteerPost[]) =>
+          this.volunteerPostService.addVolunteerPostToCollectionIfMissing<IVolunteerPost>(volunteerPosts)
+        )
+      )
+      .subscribe((volunteerPosts: IVolunteerPost[]) => (this.volunteerPostsList = volunteerPosts));
+  }
+
+  protected checkPost(id: number | undefined): boolean {
+    return id == this.shopId;
+  }
+
+  acceptApplication(event: Event, application: IApplication): void {
+    event.stopPropagation();
+    application.applicationStatus = ApplicationStatus.ACCEPTED;
+    this.applicationService.update(application).subscribe(
+      () => {},
+      error => {
+        console.log('Failed to update application status.');
+      }
+    );
+  }
+
+  rejectApplication(event: Event, application: IApplication): void {
+    event.stopPropagation();
+    application.applicationStatus = ApplicationStatus.REJECTED;
+    this.applicationService.update(application).subscribe(
+      () => {},
+      error => {
+        console.log('Failed to update application status.');
+      }
+    );
+  }
+
+  pendingApplication(event: Event, application: IApplication): void {
+    event.stopPropagation();
+    application.applicationStatus = ApplicationStatus.PENDING;
+    this.applicationService.update(application).subscribe(
+      () => {},
+      error => {
+        console.log('Failed to update application status.');
+      }
+    );
   }
 }

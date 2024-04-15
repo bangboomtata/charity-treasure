@@ -25,9 +25,9 @@ import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
 
 // new import library
-import 'leaflet/dist/leaflet.js';
-import 'leaflet.fullscreen';
 import { ItemUploadSuccessComponent } from './item-upload-success/item-upload-success.component';
+import { GdprPolicyComponent } from './gdpr-policy/gdpr-policy.component';
+import { ApplicationSuccessComponent } from './application-success/application-success.component';
 
 @NgModule({
   imports: [
@@ -47,7 +47,16 @@ import { ItemUploadSuccessComponent } from './item-upload-success/item-upload-su
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
   ],
-  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent, ItemUploadSuccessComponent],
+  declarations: [
+    MainComponent,
+    NavbarComponent,
+    ErrorComponent,
+    PageRibbonComponent,
+    FooterComponent,
+    ItemUploadSuccessComponent,
+    GdprPolicyComponent,
+    ApplicationSuccessComponent,
+  ],
   bootstrap: [MainComponent],
 })
 export class AppModule {

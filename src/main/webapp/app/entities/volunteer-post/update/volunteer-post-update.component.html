@@ -1,191 +1,313 @@
-<div class="d-flex justify-content-center">
-  <div class="col-8">
+<div class="big-container">
+  <div class="">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-volunteer-post-heading" data-cy="VolunteerPostCreateUpdateHeading">Create or edit a Volunteer Post</h2>
+      <h2 id="jhi-volunteer-post-heading" class="big-title" data-cy="VolunteerPostCreateUpdateHeading">Create or edit a Volunteer Post</h2>
 
-      <div>
+      <div class="main-box">
         <jhi-alert-error></jhi-alert-error>
 
+        <div class="row mb-3">
+          <p class="form-title-p">Volunteer Information</p>
+        </div>
         <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_postTitle">Post Title</label>
-          <input type="text" class="form-control" name="postTitle" id="field_postTitle" data-cy="postTitle" formControlName="postTitle" />
-          <div *ngIf="editForm.get('postTitle')!.invalid && (editForm.get('postTitle')!.dirty || editForm.get('postTitle')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('postTitle')?.errors?.required"> This field is required. </small>
+          <div class="col">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_locationAddress">Location Address</label>
-          <input
-            type="text"
-            class="form-control"
-            name="locationAddress"
-            id="field_locationAddress"
-            data-cy="locationAddress"
-            formControlName="locationAddress"
-          />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_contactNum">Contact Num</label>
-          <input
-            type="text"
-            class="form-control"
-            name="contactNum"
-            id="field_contactNum"
-            data-cy="contactNum"
-            formControlName="contactNum"
-          />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_email">Email</label>
-          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_aboutUs">About Us</label>
-          <textarea class="form-control" name="aboutUs" id="field_aboutUs" data-cy="aboutUs" formControlName="aboutUs"></textarea>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_aboutRole">About Role</label>
-          <textarea class="form-control" name="aboutRole" id="field_aboutRole" data-cy="aboutRole" formControlName="aboutRole"></textarea>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_benefits">Benefits</label>
-          <textarea class="form-control" name="benefits" id="field_benefits" data-cy="benefits" formControlName="benefits"></textarea>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_img">Img</label>
-          <div>
-            <img
-              [src]="'data:' + editForm.get('imgContentType')!.value + ';base64,' + editForm.get('img')!.value"
-              style="max-height: 100px"
-              *ngIf="editForm.get('img')!.value"
-              alt="volunteerPost image"
-            />
-            <div *ngIf="editForm.get('img')!.value" class="form-text text-danger clearfix">
-              <span class="pull-start">{{ editForm.get('imgContentType')!.value }}, {{ byteSize(editForm.get('img')!.value!) }}</span>
-              <button
-                type="button"
-                (click)="clearInputImage('img', 'imgContentType', 'file_img')"
-                class="btn btn-secondary btn-xs pull-end"
-              >
-                <fa-icon icon="times"></fa-icon>
-              </button>
+          <div class="col">
+            <label class="form-label" for="field_postTitle">Post Title</label>
+            <input type="text" class="form-control" name="postTitle" id="field_postTitle" data-cy="postTitle" formControlName="postTitle" />
+            <div *ngIf="editForm.get('postTitle')!.invalid && (editForm.get('postTitle')!.dirty || editForm.get('postTitle')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('postTitle')?.errors?.required"> This field is required. </small>
             </div>
-            <input type="file" id="file_img" data-cy="img" (change)="setFileData($event, 'img', true)" accept="image/*" />
           </div>
-          <input type="hidden" class="form-control" name="img" id="field_img" data-cy="img" formControlName="img" />
-          <input type="hidden" class="form-control" name="imgContentType" id="field_imgContentType" formControlName="imgContentType" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_activeStatus">Active Status</label>
-          <select class="form-control" name="activeStatus" formControlName="activeStatus" id="field_activeStatus" data-cy="activeStatus">
-            <option [ngValue]="null"></option>
-            <option *ngFor="let activeStatus of activeStatusValues" [value]="activeStatus">activeStatus</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_startDate">Start Date</label>
-          <div class="input-group">
+          <div class="col">
+            <label class="form-label" for="field_locationAddress">Location Address</label>
             <input
-              id="field_startDate"
-              data-cy="startDate"
               type="text"
               class="form-control"
-              name="startDate"
-              ngbDatepicker
-              #startDateDp="ngbDatepicker"
-              formControlName="startDate"
+              name="locationAddress"
+              id="field_locationAddress"
+              data-cy="locationAddress"
+              formControlName="locationAddress"
             />
-            <button type="button" class="btn btn-secondary" (click)="startDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
           </div>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_monday">Monday</label>
-          <input type="checkbox" class="form-check" name="monday" id="field_monday" data-cy="monday" formControlName="monday" />
+          <div class="col">
+            <label class="form-label" for="field_contactNum">Contact Number</label>
+            <input
+              type="text"
+              class="form-control"
+              name="contactNum"
+              id="field_contactNum"
+              data-cy="contactNum"
+              formControlName="contactNum"
+            />
+          </div>
+          <div class="col">
+            <label class="form-label" for="field_email">Email</label>
+            <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+          </div>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_tuesday">Tuesday</label>
-          <input type="checkbox" class="form-check" name="tuesday" id="field_tuesday" data-cy="tuesday" formControlName="tuesday" />
+          <div class="col">
+            <label class="form-label" for="field_aboutUs">About Us</label>
+            <textarea class="form-control" name="aboutUs" id="field_aboutUs" data-cy="aboutUs" formControlName="aboutUs"></textarea>
+          </div>
+          <div class="col">
+            <label class="form-label" for="field_aboutRole">About Role</label>
+            <textarea class="form-control" name="aboutRole" id="field_aboutRole" data-cy="aboutRole" formControlName="aboutRole"></textarea>
+          </div>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_wednesday">Wednesday</label>
-          <input type="checkbox" class="form-check" name="wednesday" id="field_wednesday" data-cy="wednesday" formControlName="wednesday" />
+          <div class="col">
+            <label class="form-label" for="field_benefits">Benefits</label>
+            <textarea class="form-control" name="benefits" id="field_benefits" data-cy="benefits" formControlName="benefits"></textarea>
+          </div>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_thursday">Thursday</label>
-          <input type="checkbox" class="form-check" name="thursday" id="field_thursday" data-cy="thursday" formControlName="thursday" />
+          <div>
+            <label class="form-label" for="field_img">Upload an Image for the Post</label>
+            <div>
+              <img
+                [src]="'data:' + editForm.get('imgContentType')!.value + ';base64,' + editForm.get('img')!.value"
+                style="max-height: 100px"
+                *ngIf="editForm.get('img')!.value"
+                alt="volunteerPost image"
+              />
+              <div *ngIf="editForm.get('img')!.value" class="form-text text-danger clearfix">
+                <span class="pull-start">{{ editForm.get('imgContentType')!.value }}, {{ byteSize(editForm.get('img')!.value!) }}</span>
+                <button
+                  type="button"
+                  (click)="clearInputImage('img', 'imgContentType', 'file_img')"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+              <input
+                type="file"
+                id="file_img"
+                class="img-button"
+                data-cy="img"
+                (change)="setFileData($event, 'img', true)"
+                accept="image/*"
+              />
+            </div>
+            <input type="hidden" class="form-control" name="img" id="field_img" data-cy="img" formControlName="img" />
+            <input type="hidden" class="form-control" name="imgContentType" id="field_imgContentType" formControlName="imgContentType" />
+          </div>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_friday">Friday</label>
-          <input type="checkbox" class="form-check" name="friday" id="field_friday" data-cy="friday" formControlName="friday" />
+          <div class="col">
+            <label class="form-label" for="field_activeStatus">Active Status</label>
+            <select class="form-control" name="activeStatus" formControlName="activeStatus" id="field_activeStatus" data-cy="activeStatus">
+              <option [ngValue]="null"></option>
+              <option *ngFor="let activeStatus of activeStatusValues" [value]="activeStatus">{{ activeStatus }}</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="form-label" for="field_startDate">Start Date</label>
+            <div class="input-group">
+              <input
+                id="field_startDate"
+                data-cy="startDate"
+                type="text"
+                class="form-control"
+                name="startDate"
+                ngbDatepicker
+                #startDateDp="ngbDatepicker"
+                formControlName="startDate"
+              />
+              <button type="button" class="btn btn-secondary" (click)="startDateDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="row mb-3">
+          <div class="col">
+            <label class="form-label" for="field_shop">Shop</label>
+            <select class="form-control" id="field_shop" data-cy="shop" name="shop" formControlName="shop">
+              <option [ngValue]="null"></option>
+              <option [ngValue]="shopOption" *ngFor="let shopOption of shopsSharedCollection" [selected]="shopOption.id === shopID">{{ shopOption.id }}</option>
+            </select>
+          </div>
+        </div> -->
+
+        <hr />
+
+        <div class="row mb-3">
+          <p class="form-title-p">Availability</p>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_saturday">Saturday</label>
-          <input type="checkbox" class="form-check" name="saturday" id="field_saturday" data-cy="saturday" formControlName="saturday" />
+          <div class="col-md-4">
+            <div class="row">
+              <p>Days Required</p>
+            </div>
+            <div class="row">
+              <div class="col">
+                <input type="checkbox" class="form-check-input" name="monday" id="field_monday" data-cy="monday" formControlName="monday" />
+                <label class="form-label" for="field_monday">Monday</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="tuesday"
+                  id="field_tuesday"
+                  data-cy="tuesday"
+                  formControlName="tuesday"
+                />
+                <label class="form-label" for="field_tuesday">Tuesday</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="wednesday"
+                  id="field_wednesday"
+                  data-cy="wednesday"
+                  formControlName="wednesday"
+                />
+                <label class="form-label" for="field_wednesday">Wednesday</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="thursday"
+                  id="field_thursday"
+                  data-cy="thursday"
+                  formControlName="thursday"
+                />
+                <label class="form-label" for="field_thursday">Thursday</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <input type="checkbox" class="form-check-input" name="friday" id="field_friday" data-cy="friday" formControlName="friday" />
+                <label class="form-label" for="field_friday">Friday</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="saturday"
+                  id="field_saturday"
+                  data-cy="saturday"
+                  formControlName="saturday"
+                />
+                <label class="form-label" for="field_saturday">Saturday</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <input type="checkbox" class="form-check-input" name="sunday" id="field_sunday" data-cy="sunday" formControlName="sunday" />
+                <label class="form-label" for="field_sunday">Sunday</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <p>Shifts Required</p>
+            </div>
+            <div class="row">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="morning"
+                  id="field_morning"
+                  data-cy="morning"
+                  formControlName="morning"
+                />
+                <label class="form-label" for="field_morning">Morning</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="afternoon"
+                  id="field_afternoon"
+                  data-cy="afternoon"
+                  formControlName="afternoon"
+                />
+                <label class="form-label" for="field_afternoon">Afternoon</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="evening"
+                  id="field_evening"
+                  data-cy="evening"
+                  formControlName="evening"
+                />
+                <label class="form-label" for="field_evening">Evening</label>
+              </div>
+            </div>
+          </div>
         </div>
+        <hr />
+        <br />
+        <div class="row">
+          <div class="col text-center">
+            <div>
+              <button
+                type="button"
+                id="cancel-save"
+                data-cy="entityCreateCancelButton"
+                class="btn btn-secondary back-button"
+                (click)="previousState()"
+              >
+                <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+              </button>
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_sunday">Sunday</label>
-          <input type="checkbox" class="form-check" name="sunday" id="field_sunday" data-cy="sunday" formControlName="sunday" />
+              <button
+                type="submit"
+                id="save-entity"
+                data-cy="entityCreateSaveButton"
+                [disabled]="editForm.invalid || isSaving"
+                class="btn btn-primary post-button"
+              >
+                <fa-icon icon="save"></fa-icon>&nbsp;<span>Post</span>
+              </button>
+            </div>
+          </div>
         </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_morning">Morning</label>
-          <input type="checkbox" class="form-check" name="morning" id="field_morning" data-cy="morning" formControlName="morning" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_afternoon">Afternoon</label>
-          <input type="checkbox" class="form-check" name="afternoon" id="field_afternoon" data-cy="afternoon" formControlName="afternoon" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_evening">Evening</label>
-          <input type="checkbox" class="form-check" name="evening" id="field_evening" data-cy="evening" formControlName="evening" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_shop">Shop</label>
-          <select class="form-control" id="field_shop" data-cy="shop" name="shop" formControlName="shop" [compareWith]="compareShop">
-            <option [ngValue]="null"></option>
-            <option [ngValue]="shopOption" *ngFor="let shopOption of shopsSharedCollection">{{ shopOption.id }}</option>
-          </select>
-        </div>
-      </div>
-
-      <div>
-        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
-        </button>
-
-        <button
-          type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
-        </button>
+        <br />
       </div>
     </form>
   </div>

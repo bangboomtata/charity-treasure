@@ -20,7 +20,7 @@ export const sampleWithRequiredData: IItem = {
 export const sampleWithPartialData: IItem = {
   id: 88804,
   price: 26180,
-  saleEndTime: dayjs('2024-04-04T17:53'),
+  saleEndTime: dayjs('2024-03-21T08:33'),
   itemName: 'next-generation',
   itemImage: '../fake-data/blob/hipster.png',
   itemImageContentType: 'unknown',
@@ -37,7 +37,7 @@ export const sampleWithFullData: IItem = {
   saleFlag: false,
   saleAmount: 79,
   shownPrice: 'Malaysian methodical',
-  saleEndTime: dayjs('2024-04-04T14:51'),
+  saleEndTime: dayjs('2024-03-21T05:31'),
   itemName: 'Riel Developer multi-state',
   itemDescription: 'bypassing Marketing',
   itemAvailability: true,

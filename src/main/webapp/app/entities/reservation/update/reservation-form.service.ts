@@ -36,7 +36,9 @@ type ReservationFormGroupContent = {
   reservedExpiry: FormControl<ReservationFormRawValue['reservedExpiry']>;
   status: FormControl<ReservationFormRawValue['status']>;
   item: FormControl<ReservationFormRawValue['item']>;
-  customer: FormControl<ReservationFormRawValue['customer']>;
+  // customer: FormControl<ReservationFormRawValue['customer']>;
+  customerName: FormControl<string | null | undefined>;
+
   shop: FormControl<ReservationFormRawValue['shop']>;
 };
 
@@ -65,7 +67,7 @@ export class ReservationFormService {
       }),
       status: new FormControl(reservationRawValue.status),
       item: new FormControl(reservationRawValue.item),
-      customer: new FormControl(reservationRawValue.customer),
+      customerName: new FormControl(reservationRawValue?.customer?.customerName, { validators: [Validators.required] }), // Adjust according to your model
       shop: new FormControl(reservationRawValue.shop),
     });
   }

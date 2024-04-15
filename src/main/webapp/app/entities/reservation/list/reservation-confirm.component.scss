@@ -1,0 +1,39 @@
+.confirmation-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: pink;
+}
+
+.confirmation-container {
+  width: 60%;
+  margin: 0 auto;
+  background-color: #ffffff; /* White background */
+  padding: 150px;
+  border-radius: 100px;
+}
+
+.confirmation-message h1 {
+  font-weight: bold;
+}
+
+.confirmation-message p {
+  margin-top: 20px;
+}
+
+.btn-primary,
+.btn-secondary {
+  background-color: lightpink;
+  color: black;
+  border: none;
+  padding: 0.5rem 2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  background-color: #ab8f8f; /* Lighter pink on hover */
+}

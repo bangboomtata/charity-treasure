@@ -1,24 +1,22 @@
-<div>
-  <h2 id="page-heading" data-cy="FeedbackHeading">
-    <span>Feedbacks</span>
+<div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="feedback-cont">
+  <div style="text-align: center; font-weight: bolder" class="modal-title big-title">
+    <h1 id="page-heading" data-cy="ReservationHeading" class="text-center">All Feedbacks</h1>
+  </div>
+  <br />
+  <div class="d-flex justify-content-end">
+    <button
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-feedback"
+      [routerLink]="['/feedback/new']"
+    >
+      <fa-icon icon="plus"> </fa-icon>
+    </button>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh list</span>
-      </button>
-
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-feedback"
-        [routerLink]="['/feedback/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Feedback </span>
-      </button>
-    </div>
-  </h2>
+    <button class="btn btn-refresh me-2" (click)="load()" [disabled]="isLoading">
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+    </button>
+  </div>
 
   <jhi-alert-error></jhi-alert-error>
 
@@ -50,18 +48,18 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="customer.id">
-            <div class="d-flex">
-              <span>Customer</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="shop.id">
-            <div class="d-flex">
-              <span>Shop</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
+          <!--          <th scope="col" jhiSortBy="customer.id">-->
+          <!--            <div class="d-flex">-->
+          <!--              <span>Customer</span>-->
+          <!--              <fa-icon class="p-1" icon="sort"></fa-icon>-->
+          <!--            </div>-->
+          <!--          </th>-->
+          <!--          <th scope="col" jhiSortBy="shop.id">-->
+          <!--            <div class="d-flex">-->
+          <!--              <span>Shop</span>-->
+          <!--              <fa-icon class="p-1" icon="sort"></fa-icon>-->
+          <!--            </div>-->
+          <!--          </th>-->
           <th scope="col"></th>
         </tr>
       </thead>
@@ -72,16 +70,16 @@
           </td>
           <td>{{ feedback.feedbackText }}</td>
           <td>{{ feedback.time | formatMediumDatetime }}</td>
-          <td>
-            <div *ngIf="feedback.customer">
-              <a [routerLink]="['/customer', feedback.customer.id, 'view']">{{ feedback.customer.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="feedback.shop">
-              <a [routerLink]="['/shop', feedback.shop.id, 'view']">{{ feedback.shop.id }}</a>
-            </div>
-          </td>
+          <!--          <td>-->
+          <!--            <div *ngIf="feedback.customer">-->
+          <!--              <a [routerLink]="['/customer', feedback.customer.id, 'view']">{{ feedback.customer.id }}</a>-->
+          <!--            </div>-->
+          <!--          </td>-->
+          <!--          <td>-->
+          <!--            <div *ngIf="feedback.shop">-->
+          <!--              <a [routerLink]="['/shop', feedback.shop.id, 'view']">{{ feedback.shop.id }}</a>-->
+          <!--            </div>-->
+
           <td class="text-end">
             <div class="btn-group">
               <button
@@ -91,7 +89,6 @@
                 data-cy="entityDetailsButton"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
               </button>
 
               <button
@@ -101,12 +98,10 @@
                 data-cy="entityEditButton"
               >
                 <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
               </button>
 
               <button type="submit" (click)="delete(feedback)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
               </button>
             </div>
           </td>
@@ -132,4 +127,18 @@
       ></ngb-pagination>
     </div>
   </div>
+</div>
+
+<div *jhiHasAnyAuthority="'ROLE_USER'" style="background-color: white" class="feedback-cont">
+  <h1 style="text-align: center" class="big-title">Thank you for providing us with your feedback</h1>
+
+  <!--  <button *jhiHasAnyAuthority="'ROLE_USER'" [routerLink]="['/feedback/new']" class="btn btn-primary">-->
+  <!--    <button class="btn-continue" [routerLink]="['/feedback/new']">-->
+  <!--      Continue <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon>-->
+  <!--    </button>-->
+  <!--  </button>-->
+  <div class="centered-button-container">
+    <button class="big-blue-button" [routerLink]="['/feedback/new']">Continue</button>
+  </div>
+  <br /><br /><br /><br /><br /><br /><br /><br />
 </div>

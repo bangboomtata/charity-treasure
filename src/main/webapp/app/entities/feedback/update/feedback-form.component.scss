@@ -1,0 +1,42 @@
+////.custom-save-button {
+////  background-color: pink;
+////  border-color: pink;
+////}
+////
+////.custom-cancel-button {
+////  background-color: blue;
+////  border-color: blue;
+////}
+//
+///* Styles for the buttons */
+//.btn-cancel {
+//  background-color: blue;
+//  color: white;
+//}
+//
+//.btn-save {
+//  background-color: lightpink; /* Default state when disabled */
+//  color: white;
+//}
+//
+//.btn-save.enabled {
+//  background-color: deeppink; /* Bright pink when form is valid and ready to submit */
+//  color: white;
+//}
+//
+
+.btn-primary,
+.btn-secondary {
+  background-color: lightpink;
+  color: black;
+  border: none;
+  padding: 0.5rem 2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  background-color: pink; /* Lighter pink on hover */
+}

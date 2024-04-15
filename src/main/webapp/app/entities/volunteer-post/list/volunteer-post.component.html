@@ -1,9 +1,9 @@
-<div>
+<div class="big-container">
   <h2 id="page-heading" data-cy="VolunteerPostHeading">
-    <span>Volunteer Posts</span>
+    <div class="big-title">Volunteer Posts</div>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+    <div class="d-flex justify-content-end create-refresh-box" *ngIf="shopID">
+      <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refresh list</span>
       </button>
@@ -11,7 +11,7 @@
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-volunteer-post"
+        class="btn btn-primary jh-create-entity create-entity-button"
         [routerLink]="['/volunteer-post/new']"
       >
         <fa-icon icon="plus"></fa-icon>
@@ -24,223 +24,309 @@
 
   <jhi-alert></jhi-alert>
 
-  <div class="alert alert-warning" id="no-result" *ngIf="volunteerPosts?.length === 0">
+  <div class="alert alert-warning warning-box" id="no-result" *ngIf="volunteerPosts?.length === 0">
     <span>No Volunteer Posts found</span>
   </div>
 
-  <div class="table-responsive table-entities" id="entities" *ngIf="volunteerPosts && volunteerPosts.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span>ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="postTitle">
-            <div class="d-flex">
-              <span>Post Title</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="locationAddress">
-            <div class="d-flex">
-              <span>Location Address</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="contactNum">
-            <div class="d-flex">
-              <span>Contact Num</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="email">
-            <div class="d-flex">
-              <span>Email</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="aboutUs">
-            <div class="d-flex">
-              <span>About Us</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="aboutRole">
-            <div class="d-flex">
-              <span>About Role</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="benefits">
-            <div class="d-flex">
-              <span>Benefits</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="img">
-            <div class="d-flex">
-              <span>Img</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="activeStatus">
-            <div class="d-flex">
-              <span>Active Status</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="startDate">
-            <div class="d-flex">
-              <span>Start Date</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="monday">
-            <div class="d-flex">
-              <span>Monday</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="tuesday">
-            <div class="d-flex">
-              <span>Tuesday</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="wednesday">
-            <div class="d-flex">
-              <span>Wednesday</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="thursday">
-            <div class="d-flex">
-              <span>Thursday</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="friday">
-            <div class="d-flex">
-              <span>Friday</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="saturday">
-            <div class="d-flex">
-              <span>Saturday</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="sunday">
-            <div class="d-flex">
-              <span>Sunday</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="morning">
-            <div class="d-flex">
-              <span>Morning</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="afternoon">
-            <div class="d-flex">
-              <span>Afternoon</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="evening">
-            <div class="d-flex">
-              <span>Evening</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="shop.id">
-            <div class="d-flex">
-              <span>Shop</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody
-        infinite-scroll
-        (scrolled)="loadPage(page + 1)"
-        [infiniteScrollDisabled]="page - 1 >= links['last']"
-        [infiniteScrollDistance]="0"
-      >
-        <tr *ngFor="let volunteerPost of volunteerPosts; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/volunteer-post', volunteerPost.id, 'view']">{{ volunteerPost.id }}</a>
-          </td>
-          <td>{{ volunteerPost.postTitle }}</td>
-          <td>{{ volunteerPost.locationAddress }}</td>
-          <td>{{ volunteerPost.contactNum }}</td>
-          <td>{{ volunteerPost.email }}</td>
-          <td>{{ volunteerPost.aboutUs }}</td>
-          <td>{{ volunteerPost.aboutRole }}</td>
-          <td>{{ volunteerPost.benefits }}</td>
-          <td>
-            <a *ngIf="volunteerPost.img" (click)="openFile(volunteerPost.img, volunteerPost.imgContentType)">
-              <img
-                [src]="'data:' + volunteerPost.imgContentType + ';base64,' + volunteerPost.img"
-                style="max-height: 30px"
-                alt="volunteerPost image"
-              />
-            </a>
-            <span *ngIf="volunteerPost.img">{{ volunteerPost.imgContentType }}, {{ byteSize(volunteerPost.img) }}</span>
-          </td>
-          <td>{{ volunteerPost.activeStatus }}</td>
-          <td>{{ volunteerPost.startDate | formatMediumDate }}</td>
-          <td>{{ volunteerPost.monday }}</td>
-          <td>{{ volunteerPost.tuesday }}</td>
-          <td>{{ volunteerPost.wednesday }}</td>
-          <td>{{ volunteerPost.thursday }}</td>
-          <td>{{ volunteerPost.friday }}</td>
-          <td>{{ volunteerPost.saturday }}</td>
-          <td>{{ volunteerPost.sunday }}</td>
-          <td>{{ volunteerPost.morning }}</td>
-          <td>{{ volunteerPost.afternoon }}</td>
-          <td>{{ volunteerPost.evening }}</td>
-          <td>
-            <div *ngIf="volunteerPost.shop">
-              <a [routerLink]="['/shop', volunteerPost.shop.id, 'view']">{{ volunteerPost.shop.id }}</a>
-            </div>
-          </td>
-          <td class="text-end">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/volunteer-post', volunteerPost.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
-              </button>
+  <div class="main-box" *ngIf="shopID">
+    <!--admin view for list-->
+    <div class="admin-table-box table-entities">
+      <table class="table admin-table" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" class="text-center" jhiSortBy="img">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                  <span>Img</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="postTitle">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                  <span>Post Title</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <!-- <th scope="class="text-center" col" jhiSortBy="locationAddress">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                <span>Location Address</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="contactNum">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                <span>Contact Num</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="email">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                <span>Email</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="aboutUs">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                <span>About Us</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="aboutRole">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                <span>About Role</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="benefits">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                <span>Benefits</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th> -->
+            <th scope="col" class="text-center" jhiSortBy="activeStatus">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                  <span>Active Status</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="shop.id">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                  <span>Shop</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="shop.id">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                  <span>Action</span>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let volunteerPost of volunteerPosts; trackBy: trackId">
+            <tr
+              data-cy="entityTable"
+              class="admin-tr"
+              [routerLink]="['/volunteer-post', volunteerPost.id, 'view']"
+              *ngIf="volunteerPost.shop?.id === shopID"
+            >
+              <td class="text-center">
+                <a *ngIf="volunteerPost.img" (click)="openFile(volunteerPost.img, volunteerPost.imgContentType); $event.stopPropagation()">
+                  <img [src]="'data:' + volunteerPost.imgContentType + ';base64,' + volunteerPost.img" alt="volunteerPost image" />
+                </a>
+              </td>
+              <td class="w-20 text-center">
+                <p class="admin-table-title">{{ volunteerPost.postTitle }}</p>
+              </td>
+              <!-- <td class="text-center">{{ volunteerPost.locationAddress }}</td>
+              <td class="text-center">{{ volunteerPost.contactNum }}</td>
+              <td class="text-center">{{ volunteerPost.email }}</td>
+              <td class="text-center">{{ volunteerPost.aboutUs }}</td>
+              <td class="text-center">{{ volunteerPost.aboutRole }}</td>
+              <td class="text-center">{{ volunteerPost.benefits }}</td> -->
+              <td class="text-center">{{ volunteerPost.activeStatus }}</td>
+              <td class="text-center">
+                <div *ngIf="volunteerPost.shop">
+                  <a [routerLink]="['/shop', volunteerPost.shop.id, 'view']" (click)="$event.stopPropagation()">{{
+                    volunteerPost.shop.shopName
+                  }}</a>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="btn-group">
+                  <!-- <button type="submit" [routerLink]="['/volunteer-post', volunteerPost.id, 'view']"
+                    class="btn btn-info btn-sm view-button" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">View</span>
+                  </button> -->
 
-              <button
-                type="submit"
-                [routerLink]="['/volunteer-post', volunteerPost.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
-              </button>
+                  <button
+                    type="submit"
+                    (click)="editVolunteerPost($event, volunteerPost)"
+                    class="btn btn-primary btn-sm edit-button"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edit</span>
+                  </button>
+                  <button
+                    type="submit"
+                    (click)="delete($event, volunteerPost)"
+                    class="btn btn-danger btn-sm delete-button"
+                    data-cy="entityDeleteButton"
+                  >
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-              <button type="submit" (click)="delete(volunteerPost)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
-              </button>
+  <div class="user-main-box" *ngIf="customerID">
+    <!--user table view for list-->
+    <div>
+      <div class="table-entities volunteer-list" id="entities" *ngIf="volunteerPosts && volunteerPosts.length > 0">
+        <table class="table" aria-describedby="page-heading">
+          <tbody
+            infinite-scroll
+            (scrolled)="loadPage(page + 1)"
+            [infiniteScrollDisabled]="page - 1 >= links['last']"
+            [infiniteScrollDistance]="0"
+          >
+            <ng-container *ngFor="let volunteerPost of volunteerPosts; trackBy: trackId">
+              <tr
+                *ngIf="volunteerPost.activeStatus?.toString() == 'ACTIVE'"
+                data-cy="entityTable"
+                (click)="selectPost(volunteerPost)"
+                [class.selected]="isSelected(volunteerPost)"
+                class="user-tr"
+              >
+                <td class="img-td">
+                  <div *ngIf="volunteerPost.img" class="volunteer-image-container">
+                    <img [src]="'data:' + volunteerPost.imgContentType + ';base64,' + volunteerPost.img" class="volunteer-image" />
+                  </div>
+                </td>
+                <td class="inside">
+                  <div class="volunteer-title">
+                    <p id="title-p">{{ volunteerPost.postTitle }}</p>
+                  </div>
+                  <div>
+                    <p>Location: {{ volunteerPost.locationAddress }}</p>
+                  </div>
+                  <div *ngIf="volunteerPost.shop">
+                    <p>By: {{ volunteerPost.shop.shopName }}</p>
+                  </div>
+                  <div>
+                    <p>Start Date: {{ (volunteerPost.startDate?.toDate() | date: 'yyyy-MM-dd') || 'N/A' }}</p>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <!--user viewing detail of volunteer when selected post-->
+      <div class="volunteer-detail" *ngIf="selectedPost">
+        <div class="detail-img-container">
+          <img [src]="'data:' + selectedPost.imgContentType + ';base64,' + selectedPost.img" class="volunteer-image" />
+        </div>
+        <div class="first-row">
+          <div class="detail-profile-img-box">
+            <img [src]="'data:' + selectedPost.shop?.logoContentType + ';base64,' + selectedPost.shop?.logo" class="profile-pic" />
+          </div>
+          <div class="basic-info-box">
+            <div class="volunteer-title detail-title-box">
+              <p class="detail-title-p">{{ selectedPost.postTitle }}</p>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <div>
+              <p>Location: {{ selectedPost.locationAddress }}</p>
+            </div>
+            <div *ngIf="selectedPost.shop">
+              <p>
+                By: <a [routerLink]="['/shop', selectedPost.shop.id, 'view']">{{ selectedPost.shop.shopName }}</a>
+              </p>
+            </div>
+            <div>
+              <p>Start Date: {{ (selectedPost.startDate?.toDate() | date: 'yyyy-MM-dd') || 'N/A' }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="buttons-box">
+          <button (click)="applyVolunteer(selectedPost)">I'm Interested</button>
+          <button (click)="scrollToElement('contact-section')">Contact Us</button>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Active Status:</p>
+          </div>
+          <p>{{ selectedPost.activeStatus }}</p>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">About Us:</p>
+          </div>
+          <p>{{ selectedPost.aboutUs }}</p>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">About the Role:</p>
+          </div>
+          <p>{{ selectedPost.aboutRole }}</p>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Benefits:</p>
+          </div>
+          <p>{{ selectedPost.benefits }}</p>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Days Required:</p>
+          </div>
+          <ul>
+            <li *ngIf="selectedPost.monday">Monday</li>
+            <li *ngIf="selectedPost.tuesday">Tuesday</li>
+            <li *ngIf="selectedPost.wednesday">Wednesday</li>
+            <li *ngIf="selectedPost.thursday">Thursday</li>
+            <li *ngIf="selectedPost.friday">Friday</li>
+            <li *ngIf="selectedPost.saturday">Saturday</li>
+            <li *ngIf="selectedPost.sunday">Sunday</li>
+          </ul>
+        </div>
+        <hr />
+        <div class="detail-section-box">
+          <div>
+            <p class="detail-title-p">Shifts Required:</p>
+          </div>
+          <ul>
+            <li *ngIf="selectedPost.morning">Morning</li>
+            <li *ngIf="selectedPost.afternoon">Afternoon</li>
+            <li *ngIf="selectedPost.evening">Evening</li>
+          </ul>
+        </div>
+        <hr />
+        <section id="contact-section">
+          <div class="detail-section-box">
+            <div>
+              <p class="detail-title-p">Our Contacts:</p>
+            </div>
+            <p>E-mail: {{ selectedPost.email }}</p>
+            <p>Contact Number: {{ selectedPost.contactNum }}</p>
+          </div>
+        </section>
+        <hr />
+      </div>
+    </div>
   </div>
 </div>

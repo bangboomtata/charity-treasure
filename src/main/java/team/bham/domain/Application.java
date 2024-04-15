@@ -99,11 +99,11 @@ public class Application implements Serializable {
     private Boolean appliedEvening;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "shop", "apps" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "apps" }, allowSetters = true)
     private VolunteerPost post;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "user", "emails", "apps", "interestedEvents" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "apps", "interestedEvents" }, allowSetters = true)
     private Customer customer;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

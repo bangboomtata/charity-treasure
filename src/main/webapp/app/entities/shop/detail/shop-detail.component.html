@@ -13,14 +13,15 @@
         <div class="col">
           <h3 class="shop-name">{{ shop.shopName }}</h3>
         </div>
-        <div class="row">
-          <div class="col-8">
-            <p><span class="small-title">Creation Date: </span>{{ shop.creationDate | formatMediumDate }}</p>
-          </div>
-          <div class="col">
-            <p class="shop-id"><span class="small-title">ID: </span>{{ shop.id }}</p>
-          </div>
-        </div>
+        <button class="subscribe-btn">Subscribe to {{ shop.shopName }}</button>
+        <!--        <div class="row">-->
+        <!--          <div class="col-8">-->
+        <!--            <p><span class="small-title">Creation Date: </span>{{ shop.creationDate | formatMediumDate }}</p>-->
+        <!--          </div>-->
+        <!--          <div class="col">-->
+        <!--            <p class="shop-id"><span class="small-title">ID: </span>{{ shop.id }}</p>-->
+        <!--          </div>-->
+        <!--        </div>-->
         <div class="row">
           <div *ngIf="shop.logo" class="shop-logo">
             <a (click)="openFile(shop.logo, shop.logoContentType)">
@@ -30,12 +31,12 @@
         </div>
         <div class="row">
           <div class="col">
-            <div class="row">
-              <div class="col-4 small-title"><p>Charity Shop ID:</p></div>
-              <div class="col">
-                <p>{{ shop.charityShopId }}</p>
-              </div>
-            </div>
+            <!--            <div class="row">-->
+            <!--              <div class="col-4 small-title"><p>Charity Shop ID:</p></div>-->
+            <!--              <div class="col">-->
+            <!--                <p>{{ shop.charityShopId }}</p>-->
+            <!--              </div>-->
+            <!--            </div>-->
             <div class="row">
               <div class="col-4 small-title"><p>Email:</p></div>
               <div class="col">
@@ -114,9 +115,9 @@
               </div>
             </div>
           </div>
-          <div class="row shop-userID">
-            <p>User: {{ shop.user?.id }}</p>
-          </div>
+          <!--          <div class="row shop-userID">-->
+          <!--            <p>User: {{ shop.user?.id }}</p>-->
+          <!--          </div>-->
         </div>
       </div>
 

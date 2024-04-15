@@ -240,8 +240,327 @@ form {
   padding-bottom: 20px;
 }
 
+.create-entity-button {
+  background-color: #ff6961;
+  border: none;
+
+  &:hover {
+    background-color: #ff483f;
+  }
+}
+
+.refresh-button {
+  background-color: #000080;
+  border: none;
+
+  &:hover {
+    background-color: #000056;
+  }
+}
+
+.edit-button {
+  background-color: #000080;
+  border: none;
+
+  &:hover {
+    background-color: #000056;
+  }
+}
+
+.delete-button {
+  background-color: #ff6961;
+
+  &:hover {
+    background-color: #ff483f;
+  }
+}
+
+.create-refresh-box {
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
 // Leaflet
 .leaflet-routing-container-hide .leaflet-routing-collapse-btn {
   left: 2px !important;
   top: 0px !important;
+}
+
+.dark-mode .leaflet-layer,
+.dark-mode .leaflet-control-zoom-in,
+.dark-mode .leaflet-control-zoom-out,
+.dark-mode .leaflet-control-attribution,
+.dark-mode .leaflet-control-zoom-fullscreen,
+.dark-mode .leaflet-routing-container,
+.dark-mode .leaflet-popup-content-wrapper,
+.dark-mode .leaflet-popup-tip,
+.dark-mode .leaflet-marker-icon,
+.dark-mode .leaflet-interactive {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%) !important;
+}
+
+$main-dark: #121212;
+$secondary-dark: #404040;
+$third-dark: #3a3b3c;
+$text-dark: #e4e6eb;
+
+.main-dark-mode {
+  .jh-card {
+    background-color: $main-dark;
+  }
+  color: #404040 !important;
+  h2 {
+    color: $text-dark !important;
+  }
+
+  //events page
+  .event-list-page-container {
+    background-color: $main-dark !important;
+    h2 {
+      color: $text-dark !important;
+    }
+    .event-info-box {
+      background-color: $third-dark !important;
+      color: $text-dark !important;
+      a {
+        color: $text-dark !important;
+      }
+      box-shadow: 0 4px 8px #ff6961 !important;
+    }
+    .button-to-interested-events {
+      background-color: $third-dark !important;
+      color: $text-dark;
+    }
+    .events-reload-btn {
+      background-color: $secondary-dark;
+      color: $text-dark;
+    }
+    .location-dropdown-box {
+      background-color: $third-dark !important;
+    }
+    .events-by-shop-dropdown {
+      background-color: $text-dark !important;
+    }
+  }
+  //event detail
+  .event-detail-cont {
+    background-color: $main-dark;
+  }
+  .event-details-cont {
+    background-color: $third-dark !important;
+    color: $text-dark !important;
+  }
+  //event-form
+  .event-update-cont {
+    background-color: $main-dark;
+    input[type='text'],
+    select,
+    textarea {
+      background-color: $text-dark !important;
+    }
+    label {
+      color: #ff6961 !important;
+    }
+  }
+
+  //interested-events
+  .interested-event-list-container {
+    background-color: $main-dark !important;
+
+    h2 {
+      color: $text-dark !important;
+    }
+
+    .interested-event-info-box {
+      background-color: $third-dark !important;
+      a {
+        color: $text-dark !important;
+      }
+      box-shadow: 0 4px 8px #ff6961 !important;
+    }
+
+    .button-from-interested-events-to-events {
+      background-color: $secondary-dark !important;
+      color: $text-dark !important;
+    }
+
+    .interested-events-reload {
+      background-color: $third-dark !important;
+      color: $text-dark !important;
+    }
+  }
+  .big-title {
+    color: $text-dark !important;
+  }
+  .big-container {
+    background-color: $main-dark !important;
+    color: $text-dark !important;
+
+    td {
+      color: $main-dark !important;
+      background-color: $text-dark;
+      border-color: $secondary-dark !important;
+    }
+
+    th {
+      background-color: $secondary-dark !important;
+      color: $text-dark !important;
+
+      span {
+        color: $text-dark !important;
+      }
+    }
+
+    .edit-button {
+      background-color: $secondary-dark !important;
+      color: $text-dark !important;
+    }
+
+    .refresh-button {
+      background-color: $secondary-dark !important;
+      color: $text-dark !important;
+      border: none;
+    }
+
+    label {
+      color: #ff6961 !important;
+    }
+
+    .application-container {
+      background: $third-dark !important;
+      p {
+        color: $text-dark !important;
+      }
+    }
+
+    input[type='text'],
+    input[type='number'],
+    textarea,
+    select {
+      background-color: $third-dark !important;
+      color: $text-dark !important;
+    }
+
+    //item page
+    div.productCard {
+      background-color: $third-dark !important;
+      &:hover {
+        background: radial-gradient(circle, $main-dark 50%, transparent 50%) !important;
+      }
+    }
+    .card-name {
+      color: $text-dark !important;
+    }
+    .item-price {
+      color: $text-dark !important;
+    }
+
+    .shop-list-container {
+      background-color: $third-dark !important;
+    }
+    .selected-shop-container {
+      background-color: $third-dark !important;
+    }
+    input[type='file'] {
+      background-color: $third-dark !important;
+    }
+    h3 {
+      color: $text-dark !important;
+    }
+  }
+
+  .admin-main-box {
+    background-color: $main-dark;
+    td {
+      background-color: $third-dark;
+      color: $text-dark !important;
+    }
+  }
+
+  .reservation-cont {
+    background-color: $main-dark !important;
+    h3 {
+      color: $text-dark !important;
+    }
+    h5 {
+      color: $text-dark !important;
+    }
+    .create-reservation {
+      color: $text-dark !important;
+    }
+    span {
+      color: $text-dark;
+    }
+    .table-responsive {
+      background-color: #ffc9c9 !important;
+      span {
+        color: $main-dark;
+      }
+    }
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: $third-dark !important; /* Light pink background for odd rows */
+      td {
+        color: $text-dark !important;
+      }
+    }
+  }
+
+  .feedback-cont {
+    background-color: $main-dark !important;
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: #ffc0cb; /* Light pink background for odd rows */
+    }
+    .table-striped tbody tr:nth-of-type(even) {
+      background-color: $third-dark !important; /* White background for even rows */
+      color: $text-dark !important;
+    }
+    th {
+      background-color: $third-dark !important;
+      color: $text-dark !important;
+    }
+    .create-feedback {
+      color: $text-dark !important;
+    }
+    input[type='text'],
+    textarea {
+      background-color: $third-dark !important;
+      color: $text-dark !important;
+    }
+    label {
+      color: $text-dark !important;
+    }
+    .btn-cancel {
+      color: $text-dark;
+    }
+  }
+  .leftBox {
+    background-color: $third-dark !important;
+  }
+  .rightBox {
+    background-color: $third-dark !important;
+  }
+  .customer-cont {
+    th {
+      background-color: #ffc9c9 !important;
+      span {
+        color: $main-dark !important;
+      }
+    }
+    td {
+      background-color: $third-dark !important;
+      color: $text-dark !important;
+    }
+    span {
+      color: $text-dark !important;
+    }
+    label {
+      color: $text-dark !important;
+    }
+  }
+
+  .home-container {
+    h5 {
+      color: $text-dark !important;
+    }
+  }
 }

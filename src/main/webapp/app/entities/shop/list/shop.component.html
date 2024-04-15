@@ -2,6 +2,11 @@
 <div *jhiHasAnyAuthority="'ROLE_USER'">
   <div class="big-container">
     <h2 class="big-title">SHOPS NEAR ME</h2>
+    <input type="checkbox" name="toggle-darkmode" id="toggle-darkmode" (change)="toggleDarkMode()" />
+    <label for="toggle-darkmode">
+      <img src="../../../../content/images/icon-sun.png" class="sun" alt="sun" />
+      <img src="../../../../content/images/icon-moon.png" class="moon" alt="moon" />
+    </label>
     <div class="map-container">
       <div class="row">
         <!-- Search Box -->
@@ -21,9 +26,9 @@
               <div class="selection">
                 <select name="sortBy" id="sortBy" [(ngModel)]="selectedSortCriteria" (change)="sortFilteredShops()">
                   <option value="sortBy" selected disabled>Sort By</option>
+                  <option value="alphabeticalOrder">Alphabetical Order</option>
                   <option value="highestRating">Highest Rating</option>
-                  <option value="nearestDistance">Nearest Distance</option>
-                  <option value="shortestDuration">Shortest Duration</option>
+                  <option value="shortestDisDur">Shortest Distance/Duration</option>
                 </select>
               </div>
             </div>
@@ -39,16 +44,16 @@
                     class="shop-list-container"
                   >
                     <div class="row shop-title">
-                      <div class="col-9">
+                      <div class="col-8">
                         <p class="shop-name">{{ shop.shopName }}</p>
                       </div>
                       <div class="col">
-                        <p class="shop-distance">{{ shop.distance }}</p>
+                        <p class="shop-distance">{{ shop.distance | number: '1.2-2' }} km</p>
                       </div>
                     </div>
                     <hr />
                     <div class="row shop-info">
-                      <div class="col-8">
+                      <div class="col-6">
                         <p class="shop-rating">{{ shop.rating }}</p>
                       </div>
                       <div class="col">
@@ -82,17 +87,17 @@
                 </div>
                 <div class="selected-shop-title">
                   <div class="row">
-                    <div class="col-9">
+                    <div class="col-8">
                       <p class="selected-shop-name">{{ selectedShop.shopName }}</p>
                     </div>
                     <div class="col">
-                      <p class="selected-shop-distance">{{ selectedShop.distance }}</p>
+                      <p class="selected-shop-distance">{{ selectedShop.distance | number: '1.2-2' }} km</p>
                     </div>
                   </div>
                 </div>
                 <hr class="selected-hr" />
                 <div class="row shop-info">
-                  <div class="col-9">
+                  <div class="col-6">
                     <p class="selected-shop-rating">{{ selectedShop.rating }}</p>
                   </div>
                   <div class="col">
@@ -144,7 +149,7 @@
                   </div>
                   <div class="button-row">
                     <div class="col">
-                      <input type="button" value="Contact Us" class="contact" />
+                      <input type="button" value="Contact Us" class="contact" (click)="goToChat()" />
                     </div>
                   </div>
                   <div class="button-row2">

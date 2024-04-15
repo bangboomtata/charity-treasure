@@ -13,12 +13,14 @@ import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { IShop } from 'app/entities/shop/shop.model';
 import { ShopService } from 'app/entities/shop/service/shop.service';
 import { ActiveStatus } from 'app/entities/enumerations/active-status.model';
-
+import { AccountService } from 'app/core/auth/account.service';
 @Component({
   selector: 'jhi-volunteer-post-update',
   templateUrl: './volunteer-post-update.component.html',
+  styleUrls: ['volunteer-form.scss'],
 })
 export class VolunteerPostUpdateComponent implements OnInit {
+  shopID: number | null = null;
   isSaving = false;
   volunteerPost: IVolunteerPost | null = null;
   activeStatusValues = Object.keys(ActiveStatus);
@@ -34,12 +36,41 @@ export class VolunteerPostUpdateComponent implements OnInit {
     protected volunteerPostFormService: VolunteerPostFormService,
     protected shopService: ShopService,
     protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected accountService: AccountService
   ) {}
 
   compareShop = (o1: IShop | null, o2: IShop | null): boolean => this.shopService.compareShop(o1, o2);
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        //get shop based on user id
+        this.accountService.getShop().subscribe(shop => {
+          if (shop) {
+            this.shopID = shop.id;
+            console.log('Shop ID: ', shop.id);
+
+            const castedShop = shop
+              ? {
+                  id: shop.id,
+                  shopName: shop.shopName,
+                  logoContentType: shop.logoContentType,
+                  logo: shop.logo,
+                }
+              : null;
+
+            //set default value of shop
+            this.editForm.patchValue({
+              shop: castedShop,
+            });
+          } else {
+            console.log('Shop not found');
+          }
+        });
+      }
+    });
+
     this.activatedRoute.data.subscribe(({ volunteerPost }) => {
       this.volunteerPost = volunteerPost;
       if (volunteerPost) {

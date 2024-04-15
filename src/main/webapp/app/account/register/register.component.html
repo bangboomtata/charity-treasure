@@ -321,7 +321,7 @@
               "
             >
               <small class="form-text text-danger" *ngIf="shopregisterForm.get('shopName')?.errors?.required">
-                This field is required.
+                Shop Name is required.
               </small>
             </div>
           </div>
@@ -343,7 +343,7 @@
               "
             >
               <small class="form-text text-danger" *ngIf="shopregisterForm.get('contactNum')?.errors?.required">
-                This field is required.
+                Contact Number is required.
               </small>
             </div>
           </div>
@@ -367,7 +367,7 @@
               "
             >
               <small class="form-text text-danger" *ngIf="shopregisterForm.get('charityShopId')?.errors?.required">
-                This field is required.
+                Shop ID is required.
               </small>
             </div>
           </div>
@@ -382,7 +382,18 @@
               data-cy="openHoursWeekdays"
               formControlName="openHoursWeekdays"
               placeholder="10am - 5pm"
+              required=""
             />
+            <div
+              *ngIf="
+                shopregisterForm.get('openHoursWeekdays')!.invalid &&
+                (shopregisterForm.get('openHoursWeekdays')!.dirty || shopregisterForm.get('openHoursWeekdays')!.touched)
+              "
+            >
+              <small class="form-text text-danger" *ngIf="shopregisterForm.get('openHoursWeekdays')?.errors?.required">
+                Open Hours (Weekdays) is required.
+              </small>
+            </div>
           </div>
 
           <div class="mb-3">
@@ -395,7 +406,18 @@
               data-cy="openHoursWeekends"
               formControlName="openHoursWeekends"
               placeholder="11am - 4pm"
+              required=""
             />
+            <div
+              *ngIf="
+                shopregisterForm.get('openHoursWeekends')!.invalid &&
+                (shopregisterForm.get('openHoursWeekends')!.dirty || shopregisterForm.get('openHoursWeekends')!.touched)
+              "
+            >
+              <small class="form-text text-danger" *ngIf="shopregisterForm.get('openHoursWeekends')?.errors?.required">
+                Open Hours (Weekends) is required.
+              </small>
+            </div>
           </div>
 
           <div class="mb-3">
@@ -408,23 +430,76 @@
               data-cy="openHoursHolidays"
               formControlName="openHoursHolidays"
               placeholder="CLOSED"
+              required=""
             />
+            <div
+              *ngIf="
+                shopregisterForm.get('openHoursHolidays')!.invalid &&
+                (shopregisterForm.get('openHoursHolidays')!.dirty || shopregisterForm.get('openHoursHolidays')!.touched)
+              "
+            >
+              <small class="form-text text-danger" *ngIf="shopregisterForm.get('openHoursHolidays')?.errors?.required">
+                Open Hours (Public Holidays) is required.
+              </small>
+            </div>
           </div>
 
           <div class="mb-3">
             <label class="form-label" for="field_street">Street</label>
-            <input type="text" class="form-control input" name="street" id="field_street" data-cy="street" formControlName="street" />
+            <input
+              type="text"
+              class="form-control input"
+              name="street"
+              id="field_street"
+              data-cy="street"
+              formControlName="street"
+              required=""
+            />
+            <div
+              *ngIf="
+                shopregisterForm.get('street')!.invalid &&
+                (shopregisterForm.get('street')!.dirty || shopregisterForm.get('street')!.touched)
+              "
+            >
+              <small class="form-text text-danger" *ngIf="shopregisterForm.get('street')?.errors?.required"> Street is required. </small>
+            </div>
           </div>
 
           <div class="mb-3">
             <div class="col">
               <label class="form-label" for="field_city">City</label>
-              <input type="text" class="form-control" name="city" id="field_city" data-cy="city" formControlName="city" />
+              <input type="text" class="form-control" name="city" id="field_city" data-cy="city" formControlName="city" required="" />
+              <div
+                *ngIf="
+                  shopregisterForm.get('city')!.invalid && (shopregisterForm.get('city')!.dirty || shopregisterForm.get('city')!.touched)
+                "
+              >
+                <small class="form-text text-danger" *ngIf="shopregisterForm.get('city')?.errors?.required"> City is required. </small>
+              </div>
             </div>
+
             <div class="row-divider"></div>
             <div class="col">
               <label class="form-label" for="field_postCode">Post Code</label>
-              <input type="text" class="form-control" name="postCode" id="field_postCode" data-cy="postCode" formControlName="postCode" />
+              <input
+                type="text"
+                class="form-control"
+                name="postCode"
+                id="field_postCode"
+                data-cy="postCode"
+                formControlName="postCode"
+                required=""
+              />
+              <div
+                *ngIf="
+                  shopregisterForm.get('postCode')!.invalid &&
+                  (shopregisterForm.get('postCode')!.dirty || shopregisterForm.get('postCode')!.touched)
+                "
+              >
+                <small class="form-text text-danger" *ngIf="shopregisterForm.get('postCode')?.errors?.required">
+                  Post Code is required.
+                </small>
+              </div>
             </div>
 
             <!-- country is defaulted here -->

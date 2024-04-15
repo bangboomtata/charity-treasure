@@ -26,8 +26,8 @@ export interface IApplication {
   appliedMorning?: boolean | null;
   appliedAfternoon?: boolean | null;
   appliedEvening?: boolean | null;
-  post?: Pick<IVolunteerPost, 'id'> | null;
-  customer?: Pick<ICustomer, 'id'> | null;
+  post?: IVolunteerPost | null;
+  customer?: Pick<ICustomer, 'id' | 'user'> | null;
 }
 
 export type NewApplication = Omit<IApplication, 'id'> & { id: null };

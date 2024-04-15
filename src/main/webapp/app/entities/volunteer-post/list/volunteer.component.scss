@@ -1,0 +1,295 @@
+//colors
+$main-pink: #ff6961;
+$main-blue: #000080;
+$second-pink: #ffe7e7;
+
+.main-box {
+  margin: 0 auto;
+  height: 365px;
+  padding: 0;
+  overflow-y: scroll; // Use "auto" to enable scrolling
+
+  &::-webkit-scrollbar {
+    width: 8px; // Adjust the width of the scrollbar as needed
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $main-pink; // Color of the scrollbar thumb
+    border-radius: 6px; // Adjust the border radius as needed
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: white; // Color of the scrollbar track
+    border-radius: 8px; // Adjust the border radius as needed
+  }
+}
+
+.user-main-box {
+  margin: 0 auto;
+  height: 460px;
+}
+
+.volunteer-list {
+  height: 460px;
+  width: 40%;
+  float: left;
+  border-right: $main-pink solid 5px;
+
+  overflow-y: scroll; // Use "auto" to enable scrolling
+
+  &::-webkit-scrollbar {
+    width: 0px; // Adjust the width of the scrollbar as needed
+  }
+}
+
+.volunteer-detail {
+  height: 460px;
+  width: 60%;
+  float: right;
+  overflow-y: scroll; // Use "auto" to enable scrolling
+
+  &::-webkit-scrollbar {
+    width: 8px; // Adjust the width of the scrollbar as needed
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $main-pink; // Color of the scrollbar thumb
+    border-radius: 6px; // Adjust the border radius as needed
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: white; // Color of the scrollbar track
+    border-radius: 8px; // Adjust the border radius as needed
+  }
+}
+
+.table-responsive {
+  &::-webkit-scrollbar {
+    width: 8px; // Adjust the width of the scrollbar as needed
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $main-pink; // Color of the scrollbar thumb
+    border-radius: 6px; // Adjust the border radius as needed
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: white; // Color of the scrollbar track
+    border-radius: 8px; // Adjust the border radius as needed
+  }
+}
+
+.volunteer-title {
+  text-align: left;
+  height: 30px;
+  margin: 0;
+}
+
+.warning-box {
+  background-color: #ff6961;
+}
+
+td div p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  margin: 0;
+}
+
+#title-p {
+  color: $main-pink;
+  font-weight: bold;
+  max-width: 200px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  font-size: large;
+}
+
+table {
+  .user-tr {
+    border: solid 1px lightgrey;
+    height: 100px;
+    transition: background-color 0.3s; // Add smooth transition for hover effect
+
+    &:hover {
+      cursor: pointer; // Set cursor to pointer on hover
+      background-color: rgb(255, 241, 241); // Change the background color on hover
+    }
+
+    &.selected {
+      background-color: rgb(255, 221, 219); // Change the background color for selected rows
+    }
+  }
+
+  .admin-tr {
+    transition: background-color 0.5s ease;
+    &:hover {
+      cursor: pointer; // Set cursor to pointer on hover
+      background-color: rgb(255, 241, 241); // Change the background color on hover
+    }
+  }
+}
+
+thead {
+  tr {
+    background-color: #ffe7e7;
+  }
+}
+
+th span {
+  color: $main-blue;
+}
+
+table td {
+  padding: 0;
+  max-height: 100px;
+
+  a {
+    color: #ff6961;
+  }
+}
+
+// .admin-table-box {
+//   height: 365px;
+// }
+
+.admin-table {
+  td {
+    padding: 5px 5px;
+
+    img {
+      max-height: 150px;
+      width: 150px;
+    }
+  }
+
+  p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+  }
+}
+
+.inside div {
+  padding-left: 10px;
+}
+
+.img-td {
+  width: 100px;
+}
+
+.volunteer-image-container {
+  height: 100px;
+  width: 100px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.volunteer-image {
+  width: 100%; /* Make the image take up 100% of the container width */
+  height: auto; /* Maintain the aspect ratio of the image */
+  display: block; /* Remove default inline spacing */
+  margin: 0; /* Remove default margin */
+}
+
+.detail-img-container {
+  width: 100%;
+  height: 230px;
+  overflow: hidden;
+}
+
+.profile-pic {
+  // position: sticky;
+  top: 0px;
+  right: 0px;
+  transform: translate(0px, -15%);
+  border-radius: 50%;
+  width: 90%;
+  max-width: 150px;
+  max-height: 150px;
+  //width: 150px; // Adjust the width of the circular image
+  //height: 150px; // Adjust the height of the circular image
+  min-width: 20px;
+  border: white 5px solid;
+  object-fit: cover;
+}
+
+.first-row {
+  display: flex;
+  width: 100%;
+}
+
+.detail-profile-img-box {
+  width: 200px;
+  float: left;
+  height: 140px;
+  text-align: right;
+}
+
+.basic-info-box {
+  width: 70%;
+  height: 140px;
+  margin-left: auto;
+  padding: 10px;
+
+  p {
+    margin: 0;
+  }
+}
+
+.detail-title-box {
+  margin-bottom: 5px;
+}
+
+.buttons-box {
+  margin-bottom: 10px;
+  padding-left: 20px;
+  display: flex;
+}
+
+.buttons-box button {
+  padding: 5px 15px;
+  margin-right: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: $main-pink;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.detail-title-p {
+  font-weight: bold;
+  color: $main-pink;
+  max-width: 200px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  font-size: 25px;
+  margin: 0;
+}
+
+.volunteer-detail hr {
+  width: 96%;
+  margin: 0 auto;
+  color: $main-pink;
+}
+
+.detail-section-box {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.detail-section-box p,
+.detail-section-box ul {
+  margin: 0;
+}

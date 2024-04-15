@@ -1,50 +1,39 @@
-<div class="row">
-  <div class="col-md-9">
-    <h1 class="display-4"><span>Welcome, Java Hipster!</span> (Teamproject)</h1>
+<!-- home.component.html -->
+<div class="home-container">
+  <div class="text-container">
+    <!--    for darkmode-->
+    <!--
+    <input type="checkbox" class="checkbox" id="dark-mode-toggle" (change)="toggleDarkMode()" />
+    <label for="dark-mode-toggle" class="toggle-label"></label>
+    -->
 
-    <p class="lead">This is your homepage</p>
+    <input type="button" id="dark-mode-id" class="dark-mode-btn" value="Dark Mode ON/OFF" (click)="darkMode()" />
 
-    <div [ngSwitch]="account !== null">
-      <div class="alert alert-success" *ngSwitchCase="true">
-        <span id="home-logged-message" *ngIf="account">You are logged in as user "{{ account.login }}".</span>
-      </div>
+    <!--toggle for font size-->
+    <!--    <input type="checkbox" class="checkbox" id="font-size-toggle" (change)="toggleFontSize()" />-->
+    <!--    <label for="font-size-toggle" class="font-size-label"></label>-->
 
-      <div class="alert alert-warning" *ngSwitchCase="false">
-        <span>If you want to </span>
-        <a class="alert-link" (click)="login()">sign in</a
-        ><span
-          >, you can try the default accounts:<br />- Administrator (login="admin" and password="admin") <br />- User (login="user" and
-          password="user").</span
-        >
-      </div>
+    <!-- Font size increase button -->
 
-      <div class="alert alert-warning" *ngSwitchCase="false">
-        <span>You don't have an account yet?</span>&nbsp;
-        <a class="alert-link" routerLink="account/register">Register a new account</a>
-      </div>
+    <!-- Slider for font size adjustment -->
+    <div class="font-slider-container">
+      <label for="font-size-slider">Font Size:</label>
+      <input type="range" id="font-size-slider" name="font-size" min="80" max="120" [(ngModel)]="fontSize" (input)="adjustFontSize()" />
     </div>
-
-    <p>If you have any question on JHipster:</p>
-
-    <ul>
-      <li><a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">JHipster homepage</a></li>
-      <li>
-        <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">JHipster on Stack Overflow</a>
-      </li>
-      <li>
-        <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer"
-          >JHipster bug tracker</a
-        >
-      </li>
-      <li>
-        <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">JHipster public chat room</a>
-      </li>
-      <li><a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">follow @jhipster on Twitter</a></li>
-    </ul>
-
-    <p>
-      <span>If you like JHipster, don't forget to give us a star on</span>
-      <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">GitHub</a>!
-    </p>
+  </div>
+  <div class="text-container">
+    <br /><br />
+    <h3 class="welcome-text">WELCOME TO</h3>
+    <h1 class="charity-title">CharityTreasures</h1>
+    <br />
+    <h5 style="color: black">
+      Bringing you and Charities together to lead a sustainable <br />
+      lifestyle and giving back to community! <br /><br />
+      Don't know where to find volunteering opportunities? <br />
+      Don't worry we've got you covered :)
+    </h5>
+  </div>
+  <div class="image-container">
+    <img src="./../../../content/images/home-page.png" class="home-image" />
   </div>
 </div>

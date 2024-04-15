@@ -1,11 +1,16 @@
+$main-pink: #ff6961;
+$main-blue: #000080;
+$second-pink: #ffe7e7;
+$event-pink: #ffc9c9;
+
 input[type='text'],
 select,
 textarea {
-  background-color: #ffe7e7;
+  background-color: $second-pink;
 }
 
 label {
-  color: #000080;
+  color: $main-blue;
   font-weight: bold;
 }
 
@@ -26,3 +31,13 @@ label {
 }
 
  */
+hr {
+  background-color: $main-pink;
+  border: 0;
+  height: 4px;
+  opacity: 1;
+}
+
+h2 {
+  color: $main-blue;
+}

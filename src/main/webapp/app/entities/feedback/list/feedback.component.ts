@@ -15,6 +15,7 @@ import { DataUtils } from 'app/core/util/data-util.service';
 @Component({
   selector: 'jhi-feedback',
   templateUrl: './feedback.component.html',
+  styleUrls: ['./feedback-all.component.scss'],
 })
 export class FeedbackComponent implements OnInit {
   feedbacks?: IFeedback[];
@@ -39,6 +40,10 @@ export class FeedbackComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
+  }
+
+  goToFeedback(): void {
+    this.router.navigate(['/feedback/new']);
   }
 
   byteSize(base64String: string): string {

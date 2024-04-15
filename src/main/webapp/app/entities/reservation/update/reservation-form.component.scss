@@ -1,0 +1,82 @@
+.reservation-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+.table-responsive {
+  width: 100%;
+  margin: 0 auto;
+  background-color: black; /* White background */
+  padding: 20px;
+  /*border-radius: 10px;*/
+}
+.reservation-form {
+  background-color: white; /* Pink background */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Takes up 95% of the screen width */
+  /*//margin: auto; !* Center the table on the page *!*/
+  margin-top: 2rem; /* Adds some space on the top */
+}
+
+/* If you need to ensure that the form container doesn't exceed a certain width */
+.reservation-form-container {
+  max-width: 1200px; /* Maximum width can be set according to your design requirements */
+  margin: auto; /* This will center the div if it's less than 100% width */
+}
+
+/* Fullscreen container */
+.container-fullscreen {
+  width: 100%; /* Ensures the container takes full width */
+}
+
+.reservation-form h2 {
+  text-align: center;
+  color: #333; /* Dark text for better readability */
+}
+
+.instructions {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form-field {
+  margin-bottom: 1rem;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc; /* Light grey border */
+  border-radius: 5px;
+}
+
+.form-actions {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.btn-primary,
+.btn-secondary {
+  background-color: lightpink;
+  color: black;
+  border: none;
+  padding: 0.5rem 2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  background-color: grey; /* Lighter pink on hover */
+}
+
+/* Additional responsive adjustments can be made if necessary */

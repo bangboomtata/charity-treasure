@@ -1,10 +1,10 @@
 <div class="interested-event-list-container">
-  <h2 id="page-heading" data-cy="InterestedEventsHeading" style="text-align: center; color: #000080">
+  <h2 id="page-heading" data-cy="InterestedEventsHeading" style="text-align: center">
     <span>INTERESTED EVENTS</span>
 
-    <hr style="background-color: #ff6961; border: 0; height: 4px; opacity: 1" />
+    <hr />
 
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end" style="margin-bottom: 40px">
       <button class="button-from-interested-events-to-events" [routerLink]="['/event']">
         <span>All Events</span>
       </button>
@@ -14,6 +14,7 @@
         <span>Interested Events</span>
       </button>
 
+      <!--
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
@@ -23,6 +24,7 @@
         <fa-icon icon="plus"></fa-icon>
         <span> Create a new Interested Events </span>
       </button>
+      -->
     </div>
   </h2>
 
@@ -110,46 +112,46 @@
   -->
 
   <div class="table-responsive table-entities" id="entities" *ngIf="interestedEvents && interestedEvents.length > 0">
-    <div class="col-4" *ngFor="let interestedEvents of interestedEvents; trackBy: trackId">
-      <div class="interested-event-info-box">
-        <h2>
-          <span
-            ><a style="color: #000080" [routerLink]="['/event', interestedEvents.event?.id, 'view']"
-              >{{ interestedEvents.event?.eventName }}
-            </a></span
-          >
-        </h2>
-
-        <div class="text-end">
-          <div class="btn-group">
-            <button
-              type="submit"
-              [routerLink]="['/interested-events', interestedEvents.id, 'view']"
-              class="btn btn-info btn-sm"
-              data-cy="entityDetailsButton"
+    <ng-container *ngFor="let interestedEvents of interestedEvents; trackBy: trackId">
+      <div class="col-4" *ngIf="interestedEvents.user?.id == customerId">
+        <div class="interested-event-info-box">
+          <h2>
+            <span
+              ><a [routerLink]="['/event', interestedEvents.event?.id, 'view']">{{ interestedEvents.event?.eventName }} </a></span
             >
-              <fa-icon icon="eye"></fa-icon>
-              <span class="d-none d-md-inline">View</span>
-            </button>
+          </h2>
 
-            <button
-              type="submit"
-              [routerLink]="['/interested-events', interestedEvents.id, 'edit']"
-              class="btn btn-primary btn-sm"
-              data-cy="entityEditButton"
-            >
-              <fa-icon icon="pencil-alt"></fa-icon>
-              <span class="d-none d-md-inline">Edit</span>
-            </button>
+          <div class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/interested-events', interestedEvents.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
 
-            <button type="submit" (click)="delete(interestedEvents)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-              <fa-icon icon="times"></fa-icon>
-              <span class="d-none d-md-inline">Delete</span>
-            </button>
+              <button
+                type="submit"
+                [routerLink]="['/interested-events', interestedEvents.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(interestedEvents)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ng-container>
   </div>
 
   <div *ngIf="interestedEvents && interestedEvents.length > 0">

@@ -5,9 +5,16 @@ import { ReservationDetailComponent } from './detail/reservation-detail.componen
 import { ReservationUpdateComponent } from './update/reservation-update.component';
 import { ReservationDeleteDialogComponent } from './delete/reservation-delete-dialog.component';
 import { ReservationRoutingModule } from './route/reservation-routing.module';
+import { ReservationConfirmationComponent } from './list/reservation-confirm.component';
 
 @NgModule({
   imports: [SharedModule, ReservationRoutingModule],
-  declarations: [ReservationComponent, ReservationDetailComponent, ReservationUpdateComponent, ReservationDeleteDialogComponent],
+  declarations: [
+    ReservationComponent,
+    ReservationDetailComponent,
+    ReservationUpdateComponent,
+    ReservationDeleteDialogComponent,
+    ReservationConfirmationComponent,
+  ],
 })
 export class ReservationModule {}

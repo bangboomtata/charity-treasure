@@ -1,0 +1,30 @@
+<div style="background-color: #fcd9df">
+  <div class="confirmation-page">
+    <div class="confirmation-container">
+      <div class="headings"></div>
+
+      <!--    <h2 *ngIf="showMessage">{{ headingMessage }}</h2>-->
+      <h2 *ngIf="showMessage">{{ initialMessage }}</h2>
+      <b
+        ><p *ngIf="showMessage">{{ secondaryMessage }}</p></b
+      >
+
+      <h2 *ngIf="!showMessage">{{ thirdMessage }}</h2>
+      <p>
+        <b><i> Items can only be reserved for 48 hours!</i></b>
+      </p>
+      <p>Please come to the store to collect your items.</p>
+      <h2 *ngIf="!showMessage">{{ feedbackAsk }}</h2>
+      <div *ngIf="showFeedbackButtons">
+        <div class="d-flex justify-content-between mt-3">
+          <button type="button" id="go-home" data-cy="entityHome" class="btn btn-secondary" routerLink="/item">
+            <span>Some other time</span>
+          </button>
+          <button type="button" id="feedback-entity" data-cy="feedback" class="btn btn-primary" routerLink="/feedback/new">
+            <span>Sure</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

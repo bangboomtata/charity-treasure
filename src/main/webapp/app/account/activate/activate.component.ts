@@ -16,7 +16,9 @@ export class ActivateComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.pipe(mergeMap(params => this.activateService.get(params.key))).subscribe({
-      next: () => (this.success = true),
+      next: () => {
+        this.success = true;
+      },
       error: () => (this.error = true),
     });
   }

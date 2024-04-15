@@ -1,101 +1,111 @@
 <main class="content">
-  <div class="container">
-    <h1 class="h3 mb-3">Messages</h1>
-
-    <!--Entire Chat-->
-    <div class="card">
-      <div class="row g-0">
-        <div class="contactList col-12 col-lg-5 col-xl-3 border-right">
+  <!--Entire Chat-->
+  <div class="card">
+    <div class="row g-0">
+      <div class="leftBox col-12 col-lg-5 col-xl-3">
+        <div class="leftInnerBox">
           <div class="searchBarBox d-none d-md-block">
             <div class="d-flex align-items-center">
-              <div class="flex-grow-1 px-4">
-                <input type="text" class="form-control my-3" placeholder="Search..." />
-              </div>
+              <input type="text" class="form-control my-3 searchBarInput" placeholder="Search..." />
             </div>
           </div>
 
           <!-- Customer's Contact List-->
           <ng-container *ngIf="!(isCurrentUserInShopUserIds$ | async)">
-            <div *ngFor="let shop of shops">
-              <button
-                class="shopUsers"
-                style="z-index: 1000"
-                (click)="setReceiverLoginAndSendMessage(shop?.shopName || '', shop?.user?.id || 0)"
-              >
-                <a class="list-group-item list-group-item-action border-0 my-3">
-                  <div class="d-flex align-items-center justify-content-start px-4">
-                    <img src="../../../../content/images/user2.png" class="rounded-circle" width="40" height="40" />
-                    <div id="userShopName" class="userShopName px-2">
-                      {{ shop?.shopName }}
+            <div class="contactList">
+              <div *ngFor="let shop of shops">
+                <button
+                  class="shopUsers"
+                  style="z-index: 1000"
+                  (click)="setReceiverLoginAndSendMessage(shop?.shopName || '', shop?.user?.id || 0)"
+                >
+                  <a class="list-group-item list-group-item-action my-3">
+                    <div class="d-flex align-items-center justify-content-start px-4">
+                      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" width="40" height="40" />
+                      <div id="userShopName" class="userShopName px-2">
+                        {{ shop?.shopName }}
+                      </div>
                     </div>
-                  </div>
-                </a>
-              </button>
+                  </a>
+                </button>
+              </div>
             </div>
           </ng-container>
 
           <!-- Shop User's Contact List-->
           <ng-container *ngIf="isCurrentUserInShopUserIds$ | async as isCurrentUserInShopUserIds">
-            <div *ngFor="let customer of customers">
-              <button
-                class="shopUsers"
-                style="z-index: 1000"
-                (click)="getLoginAndSendMessage(customer?.user?.id ?? 0)"
-                *ngIf="isCurrentUserInShopUserIds"
-              >
-                <a class="list-group-item list-group-item-action border-0 my-3">
-                  <div class="d-flex align-items-center justify-content-start px-4">
-                    <img src="../../../../content/images/user2.png" class="rounded-circle" width="40" height="40" />
-                    <div id="userShopName" class="userShopName px-2">
-                      {{ customer.user?.login }}
+            <div class="contactList">
+              <div *ngFor="let customer of customers">
+                <button
+                  class="shopUsers"
+                  style="z-index: 1000"
+                  (click)="getLoginAndSendMessage(customer?.user?.id ?? 0)"
+                  *ngIf="isCurrentUserInShopUserIds"
+                >
+                  <a class="list-group-item list-group-item-action border-0 my-3">
+                    <div class="d-flex align-items-center justify-content-start px-4">
+                      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" width="40" height="40" />
+                      <div id="userShopName" class="userShopName px-2">
+                        {{ customer.user?.login }}
+                      </div>
                     </div>
-                  </div>
-                </a>
-              </button>
+                  </a>
+                </button>
+              </div>
             </div>
           </ng-container>
         </div>
+      </div>
 
-        <!-- Chat History -->
-        <div class="col-12 col-lg-7 col-xl-9">
-          <div class="chatName py-2 border-bottom d-none d-lg-block mb-3">
-            <div *ngIf="showChatPerson" class="d-flex align-items-center py-1 px-4">
-              <div class="position-relative">
-                <img src="../../../../content/images/user2.png" class="rounded-circle" width="40" height="40" />
-              </div>
-              <div class="flex-grow-1 pl-3">
-                <strong>{{ shopName }}</strong>
-              </div>
-              <div></div>
+      <!-- Chat History -->
+      <div class="rightBox col-12 col-lg-7 col-xl-9">
+        <div class="chatName py-2 d-none d-lg-block mb-3">
+          <div *ngIf="showChatPerson" class="d-flex align-items-center py-1 px-4">
+            <div class="position-relative">
+              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" width="40" height="40" />
             </div>
+            <div class="flex-grow-1 pl-3">
+              <strong class="chatBoxName">{{ shopName }}</strong>
+            </div>
+            <div></div>
           </div>
+        </div>
 
-          <div class="position-relative scrollable">
-            <ng-container *ngIf="showChatHistory">
-              <!--If no message between currentUser and selected user-->
-              <div *ngIf="!hasMessages()" class="no-messages">
-                <span class="sayHi">Say hi to {{ shopName }}</span>
-              </div>
-              <!--If there are messages between currentUser and selected User-->
-              <div *ngIf="hasMessages()" class="chat-messages py-3 px-4">
-                <div class="chat-messages py-3 px-4">
-                  <div class="chat-message" *ngFor="let chat of chats; trackBy: trackId">
-                    <div
-                      *ngIf="
-                        (chat.senderLogin == currentUserId.toString() && chat.receiverLogin == shopUserId.toString()) ||
-                        (chat.senderLogin == shopUserId.toString() && chat.receiverLogin == currentUserId.toString())
-                      "
-                      class="chat-message d-flex align-items-start pb-4"
-                      [ngClass]="{
-                        'justify-content-start': chat.senderLogin != currentUserId.toString(),
-                        'justify-content-end': chat.senderLogin == currentUserId.toString()
-                      }"
-                    >
-                      <img src="../../../../content/images/user2.png" class="rounded-circle mr-3 mb-2" width="40" height="40" />
-                      <div class="messageContainer">
-                        <div class="messageBubble">
+        <div class="scrollBarContainer">
+          <div class="scrollBar">
+            <div class="chatContainer position-relative">
+              <ng-container *ngIf="showChatHistory">
+                <!--If no message between currentUser and selected user-->
+                <div *ngIf="!hasMessages()" class="no-messages">
+                  <span class="sayHi">Say hi to {{ shopName }}</span>
+                </div>
+                <!--If there are messages between currentUser and selected User-->
+                <div *ngIf="hasMessages()" class="chat-messages py-3 px-4">
+                  <div class="chat-messages py-3 px-4">
+                    <div class="chat-message" *ngFor="let chat of chats; trackBy: trackId">
+                      <div
+                        *ngIf="
+                          (chat.senderLogin == currentUserId.toString() && chat.receiverLogin == shopUserId.toString()) ||
+                          (chat.senderLogin == shopUserId.toString() && chat.receiverLogin == currentUserId.toString())
+                        "
+                        class="chat-message d-flex align-items-start pb-4"
+                        [ngClass]="{
+                          'justify-content-start': chat.senderLogin != currentUserId.toString(),
+                          'justify-content-end': chat.senderLogin == currentUserId.toString()
+                        }"
+                      >
+                        <ng-container *ngIf="chat.senderLogin != currentUserId.toString()">
+                          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" width="40" height="40" />
+                        </ng-container>
+                        <div
+                          class="messageBubble"
+                          [ngClass]="{
+                            leftMessageBubble: chat.senderLogin != currentUserId.toString(),
+                            rightMessageBubble: chat.senderLogin == currentUserId.toString()
+                          }"
+                        >
                           <div class="messageContent">
-                            <div *ngIf="chat.image">
+                            <div class="imageContainer" *ngIf="chat.image">
                               <img
                                 [src]="'data:' + chat.imageContentType + ';base64,' + chat.image"
                                 class="chat-image"
@@ -112,17 +122,17 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </ng-container>
+              </ng-container>
+            </div>
           </div>
         </div>
 
         <!--Send Message-->
-        <div *ngIf="showSendMessage" class="flex-grow-0 py-3 px-4 border-top">
+        <div *ngIf="showSendMessage" class="flex-grow-0 py-3 px-4">
           <div class="input-group">
             <!--Attach Document-->
             <input type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none" #fileInput />
-            <button (click)="fileInput.click()">
+            <button id="addImgButton" (click)="fileInput.click()">
               <img src="../../../../content/images/plus.svg" height="30px" width="30px" />
             </button>
             <!-- Display Selected Image -->
@@ -130,8 +140,10 @@
               <img [src]="selectedImageData" style="max-height: 50px; z-index: 1000" />
             </div>
             <!--Text-->
-            <input id="messageInput" type="text" class="form-control" placeholder="Type your message" />
-            <button class="btn btn-primary" (click)="sendMessageAndNavigate()">Send</button>
+            <input id="messageInput" type="text" class="form-control" autocomplete="off" placeholder="Type your message" />
+            <button id="sendButton" class="sendButton" (click)="sendMessageAndNavigate()">
+              <img class="sendIcon" src="../../../../content/images/send.png" />
+            </button>
           </div>
         </div>
       </div>
@@ -139,8 +151,8 @@
   </div>
 </main>
 
-<!--Default-->
-<div>
+<!--Default Jgipster Chat-->
+<!-- <div>
   <h2 id="page-heading" data-cy="ChatHeading">
     <span>Chats</span>
 
@@ -255,4 +267,4 @@
       </tbody>
     </table>
   </div>
-</div>
+</div> -->

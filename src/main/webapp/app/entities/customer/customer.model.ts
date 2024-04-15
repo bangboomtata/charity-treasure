@@ -5,6 +5,7 @@ export interface ICustomer {
   id: number;
   status?: Status | null;
   user?: IUser | null;
+  customerName?: string | null;
 }
 
 export type NewCustomer = Omit<ICustomer, 'id'> & { id: null };

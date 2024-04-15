@@ -36,6 +36,7 @@ export class EventComponent implements OnInit {
   filteredEvents?: IEvent[];
 
   shopId: number | null = null;
+  isShop: Boolean = false;
 
   constructor(
     protected eventService: EventService,
@@ -54,6 +55,7 @@ export class EventComponent implements OnInit {
         this.accountService.getShop().subscribe(shop => {
           if (shop) {
             this.shopId = shop.id;
+            this.isShop = true;
           }
         });
       }
@@ -119,7 +121,7 @@ export class EventComponent implements OnInit {
 
   filterLocation() {
     let x = (<HTMLSelectElement>document.getElementById('field_eventLocation_dropdown')).value;
-    if (!x) {
+    if (x == 'all') {
       this.filteredEvents = this.events;
     } else {
       this.filteredEvents = this.events?.filter(e => e.eventLocation === x);
@@ -128,6 +130,9 @@ export class EventComponent implements OnInit {
 
   filterByShop() {
     let y = (<HTMLSelectElement>document.getElementById('event_by_shop')).value;
+    if (y == 'all') {
+      this.filteredEvents = this.events;
+    }
     if (y == 'myEvents') {
       this.filteredEvents = this.events?.filter(event => event.shop?.id === this.shopId);
     }
@@ -138,8 +143,13 @@ export class EventComponent implements OnInit {
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
     this.events = dataFromBody;
 
-    this.filterLocation();
-    this.filterByShop();
+    if (this.isShop == false) {
+      this.filterLocation();
+    }
+
+    if (this.isShop == true) {
+      this.filterByShop();
+    }
   }
 
   protected fillComponentAttributesFromResponseBody(data: IEvent[] | null): IEvent[] {
