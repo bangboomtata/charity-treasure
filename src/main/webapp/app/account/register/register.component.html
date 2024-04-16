@@ -1,8 +1,16 @@
 <h1 id="jhi-item-heading" class="form-title-p text-center" data-cy="RegistrationHeading">Registration</h1>
 
-<div class="selection-overlay" *ngIf="!selectedRole">
-  <img src="content/images/user.png" alt="Customer" (click)="selectRole('customer')" />
-  <img src="content/images/charityUser.png" alt="Shopkeeper" (click)="selectRole('shopkeeper')" />
+<div class="selection-overlay">
+  <div class="role-container">
+    <div class="image-container">
+      <img src="content/images/user.png" alt="Customer" (click)="selectRole('customer')" />
+      <div class="label">Customer</div>
+    </div>
+    <div class="image-container">
+      <img src="content/images/charityUser.png" alt="Shopkeeper" (click)="selectRole('shopkeeper')" />
+      <div class="label">Shopkeeper</div>
+    </div>
+  </div>
 </div>
 
 <div [class.blurred]="!selectedRole">
