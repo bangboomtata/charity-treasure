@@ -66,6 +66,10 @@ $main-blue: #000080;
   box-sizing: border-box;
 }
 
+.form-label-username {
+  vertical-align: bottom;
+}
+
 .input {
   max-width: 400px;
 }
@@ -74,6 +78,7 @@ $main-blue: #000080;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 50px;
 }
 
 .change-role-btn {

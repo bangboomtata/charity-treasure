@@ -37,13 +37,12 @@
         <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm" *ngIf="!success">
           <div class="mb-3">
             <div class="label-button-container">
-              <label class="form-label" for="login">Username</label>
+              <label class="form-label-username" for="login">Username</label>
               <button *ngIf="selectedRole" (click)="changeRole()" class="change-role-btn">Change Role</button>
             </div>
-
             <input
               type="text"
-              class="form-control input"
+              class="form-control"
               id="login"
               name="login"
               placeholder="Your username"
@@ -185,7 +184,7 @@
         <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm" *ngIf="!success && !shopSubmitted">
           <div class="mb-3">
             <div class="label-button-container">
-              <label class="form-label" for="login">Username</label>
+              <label class="form-label-username" for="login">Username</label>
               <button *ngIf="selectedRole" (click)="changeRole()" class="change-role-btn">Change Role</button>
             </div>
 
