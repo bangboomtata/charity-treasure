@@ -30,6 +30,7 @@ export class EventDetailComponent implements OnInit {
   isSaving = false;
 
   customer: ICustomer | null = null;
+  isCustomer: Boolean = false;
 
   constructor(
     protected dataUtils: DataUtils,
@@ -50,6 +51,7 @@ export class EventDetailComponent implements OnInit {
         this.accountService.getCustomer().subscribe(customer => {
           if (customer) {
             this.customer = customer;
+            this.isCustomer = true;
           }
         });
       }

@@ -105,10 +105,12 @@
         <h2 style="text-align: center">
           <span>{{ event.eventName }}</span>
 
-          <button type="button" class="add-to-interested-events-entity" (click)="transferToInterested()">
-            <fa-icon icon="plus"></fa-icon>
-            <span>I'm Interested!</span>
-          </button>
+          <ng-container *ngIf="isCustomer == true">
+            <button type="button" class="add-to-interested-events-entity" (click)="transferToInterested()">
+              <fa-icon icon="plus"></fa-icon>
+              <span>I'm Interested!</span>
+            </button>
+          </ng-container>
         </h2>
 
         <dl class="events-further-details">
