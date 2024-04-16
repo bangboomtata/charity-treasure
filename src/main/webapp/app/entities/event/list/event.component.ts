@@ -37,6 +37,7 @@ export class EventComponent implements OnInit {
 
   shopId: number | null = null;
   isShop: Boolean = false;
+  isCustomer: Boolean = false;
 
   constructor(
     protected eventService: EventService,
@@ -56,6 +57,12 @@ export class EventComponent implements OnInit {
           if (shop) {
             this.shopId = shop.id;
             this.isShop = true;
+          }
+        });
+
+        this.accountService.getCustomer().subscribe(customer => {
+          if (customer) {
+            this.isCustomer = true;
           }
         });
       }
