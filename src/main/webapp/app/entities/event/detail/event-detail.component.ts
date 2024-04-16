@@ -16,6 +16,7 @@ import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../core/auth/account.service';
 import { ICustomer } from '../../customer/customer.model';
 import { Router } from '@angular/router';
+import { IShop } from '../../shop/shop.model';
 
 @Component({
   selector: 'jhi-event-detail',
@@ -31,6 +32,7 @@ export class EventDetailComponent implements OnInit {
 
   customer: ICustomer | null = null;
   isCustomer: Boolean = false;
+  shopId: number | null = null;
 
   constructor(
     protected dataUtils: DataUtils,
@@ -48,6 +50,12 @@ export class EventDetailComponent implements OnInit {
 
     this.accountService.identity().subscribe(account => {
       if (account) {
+        this.accountService.getShop().subscribe(shop => {
+          if (shop) {
+            this.shopId = shop.id;
+          }
+        });
+
         this.accountService.getCustomer().subscribe(customer => {
           if (customer) {
             this.customer = customer;
