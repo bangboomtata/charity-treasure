@@ -80,8 +80,6 @@
             />
 
             <div *ngIf="registerForm.get('email')!.invalid && (registerForm.get('email')!.dirty || registerForm.get('email')!.touched)">
-              <small class="form-text text-danger" *ngIf="registerForm.get('email')?.errors?.required"> Your email is required. </small>
-
               <small class="form-text text-danger" *ngIf="registerForm.get('email')?.errors?.invalid"> Your email is invalid. </small>
 
               <small class="form-text text-danger" *ngIf="registerForm.get('email')?.errors?.minlength">
@@ -230,8 +228,6 @@
             />
 
             <div *ngIf="registerForm.get('email')!.invalid && (registerForm.get('email')!.dirty || registerForm.get('email')!.touched)">
-              <small class="form-text text-danger" *ngIf="registerForm.get('email')?.errors?.required"> Your email is required. </small>
-
               <small class="form-text text-danger" *ngIf="registerForm.get('email')?.errors?.invalid"> Your email is invalid. </small>
 
               <small class="form-text text-danger" *ngIf="registerForm.get('email')?.errors?.minlength">
