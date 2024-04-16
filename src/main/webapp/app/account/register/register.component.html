@@ -1,8 +1,16 @@
 <h1 id="jhi-item-heading" class="form-title-p text-center" data-cy="RegistrationHeading">Registration</h1>
 
 <div class="selection-overlay" *ngIf="!selectedRole">
-  <img src="content/images/user.png" alt="Customer" (click)="selectRole('customer')" />
-  <img src="content/images/charityUser.png" alt="Shopkeeper" (click)="selectRole('shopkeeper')" />
+  <div class="role-container">
+    <div class="image-container">
+      <img src="content/images/user.png" alt="Customer" (click)="selectRole('customer')" />
+      <div class="label">Customer</div>
+    </div>
+    <div class="image-container">
+      <img src="content/images/charityUser.png" alt="Shopkeeper" (click)="selectRole('shopkeeper')" />
+      <div class="label">Shopkeeper</div>
+    </div>
+  </div>
 </div>
 
 <div [class.blurred]="!selectedRole">
@@ -12,10 +20,6 @@
   <div *ngIf="selectedRole === 'customer'">
     <div class="d-flex justify-content-center">
       <div class="col-md-8">
-        <div class="alert alert-success" *ngIf="success">
-          <strong>Registration saved!</strong> Please check your email for confirmation.
-        </div>
-
         <div class="alert alert-danger" *ngIf="error"><strong>Registration failed!</strong> Please try again later.</div>
 
         <div class="alert alert-danger" *ngIf="errorUserExists">
@@ -33,13 +37,12 @@
         <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm" *ngIf="!success">
           <div class="mb-3">
             <div class="label-button-container">
-              <label class="form-label" for="login">Username</label>
+              <label class="form-label-username" for="login">Username</label>
               <button *ngIf="selectedRole" (click)="changeRole()" class="change-role-btn">Change Role</button>
             </div>
-
             <input
               type="text"
-              class="form-control input"
+              class="form-control"
               id="login"
               name="login"
               placeholder="Your username"
@@ -76,8 +79,6 @@
             />
 
             <div *ngIf="registerForm.get('email')!.invalid && (registerForm.get('email')!.dirty || registerForm.get('email')!.touched)">
-              <small class="form-text text-danger" *ngIf="registerForm.get('email')?.errors?.required"> Your email is required. </small>
-
               <small class="form-text text-danger" *ngIf="registerForm.get('email')?.errors?.invalid"> Your email is invalid. </small>
 
               <small class="form-text text-danger" *ngIf="registerForm.get('email')?.errors?.minlength">
@@ -183,7 +184,7 @@
         <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm" *ngIf="!success && !shopSubmitted">
           <div class="mb-3">
             <div class="label-button-container">
-              <label class="form-label" for="login">Username</label>
+              <label class="form-label-username" for="login">Username</label>
               <button *ngIf="selectedRole" (click)="changeRole()" class="change-role-btn">Change Role</button>
             </div>
 
@@ -226,8 +227,6 @@
             />
 
             <div *ngIf="registerForm.get('email')!.invalid && (registerForm.get('email')!.dirty || registerForm.get('email')!.touched)">
-              <small class="form-text text-danger" *ngIf="registerForm.get('email')?.errors?.required"> Your email is required. </small>
-
               <small class="form-text text-danger" *ngIf="registerForm.get('email')?.errors?.invalid"> Your email is invalid. </small>
 
               <small class="form-text text-danger" *ngIf="registerForm.get('email')?.errors?.minlength">
