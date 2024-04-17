@@ -13,6 +13,9 @@ import { ItemDeleteDialogComponent } from '../delete/item-delete-dialog.componen
 import { DataUtils } from 'app/core/util/data-util.service';
 import { AccountService } from 'app/core/auth/account.service';
 import dayjs from 'dayjs/esm';
+import { ItemType } from 'app/entities/enumerations/item-type.model';
+import { subCategoryOptions } from '../item.model';
+import { Gender } from 'app/entities/enumerations/gender.model';
 
 @Component({
   selector: 'jhi-item',
@@ -21,10 +24,15 @@ import dayjs from 'dayjs/esm';
 })
 export class ItemComponent implements OnInit {
   currentShopId: number | null = null;
-  customerId: number | null = null;
   selectedCategory = 'ALL';
   items?: IItem[];
+  currentSubCategories: string[] = [];
   isLoading = false;
+  selectedOptions: string[] = [];
+  isShop: boolean = false;
+
+  genderValues = Object.values(Gender);
+  itemTypeValues = Object.values(ItemType);
 
   predicate = 'id';
   ascending = true;
@@ -44,27 +52,67 @@ export class ItemComponent implements OnInit {
 
   trackId = (_index: number, item: IItem): number => this.itemService.getItemIdentifier(item);
 
+  updateSelectedOptions(option: string) {
+    // If option is already selected, remove it; otherwise, add it
+    if (this.selectedOptions.includes(option)) {
+      this.selectedOptions = this.selectedOptions.filter(item => item !== option);
+    } else {
+      this.selectedOptions.push(option);
+    }
+  }
+
+  shouldDisplayItem(item: IItem): boolean {
+    // Check if any options are selected
+    if (this.selectedOptions.length === 0) {
+      return true; // If no options are selected, display all items
+    }
+
+    // Check if the current item matches any of the selected options
+    if (item && item.itemType && item.gender && item.subCategory) {
+      // Ensure that item properties are strings before comparison
+      const itemTypeString = item.itemType.toString();
+      const genderString = item.gender.toString();
+      const subCategoryString = item.subCategory.toString();
+
+      // Check if any selected option matches the current item
+      if (
+        this.selectedOptions.includes(itemTypeString) ||
+        this.selectedOptions.includes(genderString) ||
+        this.selectedOptions.includes(subCategoryString)
+      ) {
+        return true; // If any selected option matches the current item, display it
+      }
+    }
+
+    return false; // If none of the selected options match the current item, do not display it
+  }
+
+  updateSubCategoryOptions(item: ItemType, gender: Gender | null): string[] | undefined {
+    if (item === ItemType.CLOTHING && gender) {
+      return subCategoryOptions[item][gender] || [];
+    } else if (item && !(item in subCategoryOptions)) {
+      return [];
+    } else {
+      return (subCategoryOptions[item] as string[]) || [];
+    }
+  }
+
+  isClothing(itemType: ItemType) {
+    console.log(itemType + ':' + itemType === ItemType.CLOTHING);
+    return itemType === ItemType.CLOTHING;
+  }
+
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.accountService.getShop().subscribe(shop => {
           if (shop) {
+            this.isShop = true;
             console.log('Shop ID: ', shop.id);
             this.currentShopId = shop.id;
           }
         });
       }
-
-      this.accountService.getCustomer().subscribe(customer => {
-        // Check if customer is not null or undefined
-        if (customer) {
-          // Print the customer's ID
-          console.log('Customer ID: ', customer.id);
-          this.customerId = customer.id;
-        } else {
-          console.log('Customer not found');
-        }
-      });
     });
     this.load();
   }
@@ -77,7 +125,8 @@ export class ItemComponent implements OnInit {
     return this.dataUtils.openFile(base64String, contentType);
   }
 
-  delete(item: IItem): void {
+  delete(event: Event, item: IItem): void {
+    event.stopPropagation();
     const modalRef = this.modalService.open(ItemDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.item = item;
     // unsubscribe not needed because closed completes on modal close
@@ -129,6 +178,12 @@ export class ItemComponent implements OnInit {
 
   navigateToPage(page = this.page): void {
     this.handleNavigation(page, this.predicate, this.ascending);
+  }
+
+  protected edit(event: Event, item: any) {
+    event.stopPropagation();
+    console.log('Cancelled');
+    this.router.navigate(['/item', item.id, 'edit']);
   }
 
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {

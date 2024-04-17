@@ -1,7 +1,7 @@
 <!-- if role is shopkeeper, not implemented yet -->
 <div class="big-container">
   <h2 id="page-heading" data-cy="ItemHeading" class="big-title">Items</h2>
-  <div class="d-flex justify-content-end create-refresh-box">
+  <div class="d-flex create-refresh-box">
     <select name="filter" id="filter" [(ngModel)]="selectedCategory">
       <option value="ALL" selected>ALL</option>
       <option value="CLOTHING">CLOTHING</option>
@@ -18,9 +18,9 @@
     <button
       id="jh-create-entity"
       data-cy="entityCreateButton"
-      class="btn btn-primary jh-create-entity create-item create-entity-button"
+      class="btn btn-primary justify-content-end jh-create-entity create-item create-entity-button"
       [routerLink]="['/item/new']"
-      *jhiHasAnyAuthority="'ROLE_ADMIN'"
+      *ngIf="isShop"
     >
       <!-- shouldn't have role admin for this -->
       <fa-icon icon="plus"></fa-icon>
@@ -190,8 +190,12 @@
                         <fa-icon icon="pencil-alt"></fa-icon>
                         <span class="d-none d-md-inline">Edit</span>
                       </button>
+                      <button type="submit" (click)="edit($event, item)" class="btn btn-primary btn-sm edit-btn" data-cy="entityEditButton">
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                        <span class="d-none d-md-inline">Edit</span>
+                      </button>
 
-                      <button type="submit" (click)="delete(item)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                      <button type="submit" (click)="delete($event, item)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                         <fa-icon icon="times"></fa-icon>
                         <span class="d-none d-md-inline">Delete</span>
                       </button>
@@ -256,7 +260,7 @@
                         <span class="d-none d-md-inline">Edit</span>
                       </button>
 
-                      <button type="submit" (click)="delete(item)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                      <button type="submit" (click)="delete($event, item)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                         <fa-icon icon="times"></fa-icon>
                         <span class="d-none d-md-inline">Delete</span>
                       </button>
@@ -270,7 +274,8 @@
       </div>
     </div>
 
-    <div class="productDisplay" *ngIf="customerId">
+    <!-- items should be displayed to everyone including shops -->
+    <div class="productDisplay">
       <div class="rowContainer">
         <!-- Loop through items and create product cards -->
         <ng-container *ngIf="selectedCategory != 'ALL'; else elseBlock">
