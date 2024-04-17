@@ -1,40 +1,42 @@
 <!-- if role is shopkeeper, not implemented yet -->
 <div class="big-container">
-  <h2 id="page-heading" data-cy="ItemHeading" class="big-title">Items</h2>
-  <div class="d-flex create-refresh-box">
-    <select name="filter" id="filter" [(ngModel)]="selectedCategory">
-      <option value="ALL" selected>ALL</option>
-      <option value="CLOTHING">CLOTHING</option>
-      <option value="BOOK">BOOK</option>
-      <option value="HOMEWARE">HOMEWARE</option>
-      <option value="ENTERTAINMENT">ENTERTAINMENT</option>
-      <option value="TOY">TOY</option>
-    </select>
-    <!-- <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading" *jhiHasAnyAuthority="'ROLE_ADMIN'">
-      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-      <span>Refresh list</span>
-    </button> -->
+  <!--  <h2 id="page-heading" data-cy="ItemHeading" class="big-title">Items</h2>-->
+  <div class="rowContainer">
+    <div class="d-flex create-refresh-box">
+      <select name="filter" id="filter" [(ngModel)]="selectedCategory">
+        <option value="ALL" selected>ALL</option>
+        <option value="CLOTHING">CLOTHING</option>
+        <option value="BOOK">BOOK</option>
+        <option value="HOMEWARE">HOMEWARE</option>
+        <option value="ENTERTAINMENT">ENTERTAINMENT</option>
+        <option value="TOY">TOY</option>
+      </select>
+      <!-- <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button> -->
 
-    <button
-      id="jh-create-entity"
-      data-cy="entityCreateButton"
-      class="btn btn-primary justify-content-end jh-create-entity create-item create-entity-button"
-      [routerLink]="['/item/new']"
-      *ngIf="isShop"
-    >
-      <!-- shouldn't have role admin for this -->
-      <fa-icon icon="plus"></fa-icon>
-      <span> Create a new Item </span>
-    </button>
-  </div>
-  <div class="row-divider"></div>
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary justify-content-end jh-create-entity create-item create-entity-button"
+        [routerLink]="['/item/new']"
+        *ngIf="isShop"
+      >
+        <!-- shouldn't have role admin for this -->
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Item </span>
+      </button>
+    </div>
+    <div class="row-divider"></div>
 
-  <!--  <jhi-alert-error></jhi-alert-error>-->
+    <!--  <jhi-alert-error></jhi-alert-error>-->
 
-  <!--  <jhi-alert></jhi-alert>-->
+    <!--  <jhi-alert></jhi-alert>-->
 
-  <div class="alert alert-warning" id="no-result" *ngIf="items?.length === 0">
-    <span>No Items found</span>
+    <div class="alert alert-warning" id="no-result" *ngIf="items?.length === 0">
+      <span>No Items found</span>
+    </div>
   </div>
 
   <div class="main-box">
