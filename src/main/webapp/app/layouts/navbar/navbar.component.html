@@ -18,7 +18,7 @@
     >
       <fa-icon icon="bars"></fa-icon>
     </a>
-    <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
+    <div class="navbar-collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
@@ -30,7 +30,7 @@
         </li>
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
 
-        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="item">
             <span class="nav-text">Items</span>
           </a>
@@ -440,6 +440,40 @@
             </li>
           </ul>
         </li>
+
+        <li
+          *ngSwitchCase="true"
+          ngbDropdown
+          class="nav-item dropdown pointer"
+          display="dynamic"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="accessibility">
+            <span class="nav-text">Accessibility</span>
+          </a>
+
+          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="accessibility">
+            <li>
+              <button class="dropdown-item" (click)="fontSizeService.increaseFont($event)">
+                <span>+ Font Size</span>
+              </button>
+            </li>
+
+            <li>
+              <button class="dropdown-item" (click)="fontSizeService.decreaseFont($event)">
+                <span>- Font Size</span>
+              </button>
+            </li>
+
+            <li>
+              <button class="dropdown-item" (click)="darkMode()">
+                <span>Dark Mode On/Off</span>
+              </button>
+            </li>
+          </ul>
+        </li>
+
         <li
           ngbDropdown
           class="nav-item dropdown pointer"

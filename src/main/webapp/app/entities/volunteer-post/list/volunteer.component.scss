@@ -105,7 +105,7 @@ td div p {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
-  font-size: large;
+  font-size: 25;
 }
 
 table {
@@ -231,7 +231,7 @@ table td {
 }
 
 .basic-info-box {
-  width: 70%;
+  width: 60%;
   height: 140px;
   margin-left: auto;
   padding: 10px;
@@ -267,12 +267,11 @@ table td {
 .detail-title-p {
   font-weight: bold;
   color: $main-pink;
-  max-width: 200px;
+  max-width: 400px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
-  font-size: 25px;
   margin: 0;
 }
 

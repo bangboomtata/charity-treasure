@@ -21,6 +21,7 @@ import dayjs from 'dayjs/esm';
 })
 export class ItemComponent implements OnInit {
   currentShopId: number | null = null;
+  customerId: number | null = null;
   selectedCategory = 'ALL';
   items?: IItem[];
   isLoading = false;
@@ -53,6 +54,17 @@ export class ItemComponent implements OnInit {
           }
         });
       }
+
+      this.accountService.getCustomer().subscribe(customer => {
+        // Check if customer is not null or undefined
+        if (customer) {
+          // Print the customer's ID
+          console.log('Customer ID: ', customer.id);
+          this.customerId = customer.id;
+        } else {
+          console.log('Customer not found');
+        }
+      });
     });
     this.load();
   }

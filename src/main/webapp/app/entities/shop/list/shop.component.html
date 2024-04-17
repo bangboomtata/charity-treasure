@@ -175,9 +175,7 @@
 <!-- ADMIN SIDE -->
 
 <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="admin-main-box">
-  <h2 id="page-heading" data-cy="ShopHeading" class="big-title">
-    <span>Shops</span>
-  </h2>
+  <h2 id="page-heading" data-cy="ShopHeading" class="big-title">Shops</h2>
   <div class="d-flex justify-content-end">
     <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
       <fa-icon icon="sync" [spin]="isLoading"></fa-icon>

@@ -63,6 +63,31 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   adjustFontSize() {
     document.body.style.fontSize = `${this.fontSize}%`;
+
+    const h1Elements = document.querySelectorAll('h1');
+    h1Elements.forEach(element => {
+      element.style.fontSize = `${80 * (this.fontSize / 100)}px`;
+    });
+
+    const h3Elements = document.querySelectorAll('h3');
+    h3Elements.forEach(element => {
+      element.style.fontSize = `${32 * (this.fontSize / 100)}px`;
+    });
+
+    const h5Elements = document.querySelectorAll('h5');
+    h5Elements.forEach(element => {
+      element.style.fontSize = `${20 * (this.fontSize / 100)}px`;
+    });
+
+    const span = document.querySelectorAll('span');
+    span.forEach(element => {
+      element.style.fontSize = `${16 * (this.fontSize / 100)}px`;
+    });
+
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+      button.style.fontSize = `${16 * (this.fontSize / 100)}px`;
+    });
   }
 
   login(): void {

@@ -7,6 +7,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
+import { FontSizeService } from '../../font-size/font-size.service';
 
 @Component({
   selector: 'jhi-navbar',
@@ -20,12 +21,14 @@ export class NavbarComponent implements OnInit {
   version = '';
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
+  fontSize = 100;
 
   constructor(
     private loginService: LoginService,
     private accountService: AccountService,
     private profileService: ProfileService,
-    private router: Router
+    private router: Router,
+    public fontSizeService: FontSizeService
   ) {
     if (VERSION) {
       this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
@@ -42,6 +45,26 @@ export class NavbarComponent implements OnInit {
     this.accountService.getAuthenticationState().subscribe(account => {
       this.account = account;
     });
+
+    // const increaseButton = document.getElementById('increase-btn');
+    // const decreaseButton = document.getElementById('decrease-btn');
+
+    // if (increaseButton && decreaseButton) {
+    //   increaseButton.addEventListener('click', (event) => {
+    //     event.preventDefault(); // Prevent default behavior of the button
+    //     this.adjustFontSize(10); // Increase font size
+    //   });
+
+    //   decreaseButton.addEventListener('click', (event) => {
+    //     event.preventDefault(); // Prevent default behavior of the button
+    //     this.adjustFontSize(-10); // Decrease font size
+    //   });
+    // }
+  }
+
+  darkMode() {
+    var element = document.body;
+    element.classList.toggle('main-dark-mode');
   }
 
   collapseNavbar(): void {

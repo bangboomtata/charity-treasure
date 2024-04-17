@@ -1,24 +1,24 @@
 <div class="big-container">
   <h2 id="page-heading" data-cy="VolunteerPostHeading">
     <div class="big-title">Volunteer Posts</div>
-
-    <div class="d-flex justify-content-end create-refresh-box" *ngIf="shopID">
-      <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh list</span>
-      </button>
-
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-entity-button"
-        [routerLink]="['/volunteer-post/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Volunteer Post </span>
-      </button>
-    </div>
   </h2>
+
+  <div class="d-flex justify-content-end create-refresh-box" *ngIf="shopID">
+    <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading">
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+      <span>Refresh list</span>
+    </button>
+
+    <button
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-entity-button"
+      [routerLink]="['/volunteer-post/new']"
+    >
+      <fa-icon icon="plus"></fa-icon>
+      <span> Create a new Volunteer Post </span>
+    </button>
+  </div>
 
   <jhi-alert-error></jhi-alert-error>
 
@@ -214,7 +214,7 @@
                 </td>
                 <td class="inside">
                   <div class="volunteer-title">
-                    <p id="title-p">{{ volunteerPost.postTitle }}</p>
+                    <h4 id="title-p">{{ volunteerPost.postTitle }}</h4>
                   </div>
                   <div>
                     <p>Location: {{ volunteerPost.locationAddress }}</p>
@@ -242,7 +242,7 @@
           </div>
           <div class="basic-info-box">
             <div class="volunteer-title detail-title-box">
-              <p class="detail-title-p">{{ selectedPost.postTitle }}</p>
+              <h4 class="detail-title-p">{{ selectedPost.postTitle }}</h4>
             </div>
             <div>
               <p>Location: {{ selectedPost.locationAddress }}</p>
@@ -264,35 +264,35 @@
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Active Status:</p>
+            <h4 class="detail-title-p">Active Status:</h4>
           </div>
           <p>{{ selectedPost.activeStatus }}</p>
         </div>
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">About Us:</p>
+            <h4 class="detail-title-p">About Us:</h4>
           </div>
           <p>{{ selectedPost.aboutUs }}</p>
         </div>
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">About the Role:</p>
+            <h4 class="detail-title-p">About the Role:</h4>
           </div>
           <p>{{ selectedPost.aboutRole }}</p>
         </div>
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Benefits:</p>
+            <h4 class="detail-title-p">Benefits:</h4>
           </div>
           <p>{{ selectedPost.benefits }}</p>
         </div>
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Days Required:</p>
+            <h4 class="detail-title-p">Days Required:</h4>
           </div>
           <ul>
             <li *ngIf="selectedPost.monday">Monday</li>
@@ -307,7 +307,7 @@
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Shifts Required:</p>
+            <h4 class="detail-title-p">Shifts Required:</h4>
           </div>
           <ul>
             <li *ngIf="selectedPost.morning">Morning</li>
@@ -319,7 +319,7 @@
         <section id="contact-section">
           <div class="detail-section-box">
             <div>
-              <p class="detail-title-p">Our Contacts:</p>
+              <h4 class="detail-title-p">Our Contacts:</h4>
             </div>
             <p>E-mail: {{ selectedPost.email }}</p>
             <p>Contact Number: {{ selectedPost.contactNum }}</p>

@@ -28,6 +28,7 @@ import { ErrorComponent } from './layouts/error/error.component';
 import { ItemUploadSuccessComponent } from './item-upload-success/item-upload-success.component';
 import { GdprPolicyComponent } from './gdpr-policy/gdpr-policy.component';
 import { ApplicationSuccessComponent } from './application-success/application-success.component';
+import { FontSizeComponent } from './font-size/font-size.component';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import { ApplicationSuccessComponent } from './application-success/application-s
     ItemUploadSuccessComponent,
     GdprPolicyComponent,
     ApplicationSuccessComponent,
+    FontSizeComponent,
   ],
   bootstrap: [MainComponent],
 })

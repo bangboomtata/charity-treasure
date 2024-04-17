@@ -1,8 +1,6 @@
 <!-- if role is shopkeeper, not implemented yet -->
 <div class="big-container">
-  <h2 id="page-heading" data-cy="ItemHeading" class="big-title">
-    <span>Items</span>
-  </h2>
+  <h2 id="page-heading" data-cy="ItemHeading" class="big-title">Items</h2>
   <div class="d-flex justify-content-end create-refresh-box">
     <select name="filter" id="filter" [(ngModel)]="selectedCategory">
       <option value="ALL" selected>ALL</option>
@@ -12,10 +10,10 @@
       <option value="ENTERTAINMENT">ENTERTAINMENT</option>
       <option value="TOY">TOY</option>
     </select>
-    <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+    <!-- <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading" *jhiHasAnyAuthority="'ROLE_ADMIN'">
       <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
       <span>Refresh list</span>
-    </button>
+    </button> -->
 
     <button
       id="jh-create-entity"
@@ -272,7 +270,7 @@
       </div>
     </div>
 
-    <div class="productDisplay" *jhiHasAnyAuthority="'ROLE_USER'">
+    <div class="productDisplay" *ngIf="customerId">
       <div class="rowContainer">
         <!-- Loop through items and create product cards -->
         <ng-container *ngIf="selectedCategory != 'ALL'; else elseBlock">

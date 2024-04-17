@@ -91,9 +91,7 @@
 <div class="d-flex justify-content-center event-detail-cont">
   <div class="col-8">
     <div *ngIf="event">
-      <h2 data-cy="eventDetailsHeading" style="text-align: center">
-        <span>EVENTS</span>
-      </h2>
+      <h2 data-cy="eventDetailsHeading" style="text-align: center">EVENTS</h2>
 
       <hr />
 
@@ -103,7 +101,7 @@
 
       <div class="event-details-cont">
         <h2 style="text-align: center">
-          <span>{{ event.eventName }}</span>
+          {{ event.eventName }}
 
           <button type="button" class="add-to-interested-events-entity" (click)="transferToInterested()">
             <fa-icon icon="plus"></fa-icon>
