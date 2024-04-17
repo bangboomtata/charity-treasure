@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { IItem } from '../item.model';
 import { DataUtils } from 'app/core/util/data-util.service';
+import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'jhi-item-detail',
@@ -19,35 +21,38 @@ export class ItemDetailComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ item }) => {
       this.item = item;
-      if (this.getShopID() === true) {
-        this.editable = true;
-      }
-      if (this.isShop() === true) {
-        this.Shop = false;
-      }
-    });
-  }
-
-  isShop(): boolean {
-    this.accountService.getShop().subscribe(shop => {
-      if (shop !== null) {
-        return true;
-      }
-      return false;
-    });
-    return false;
-  }
-
-  getShopID(): boolean {
-    this.accountService.getShop().subscribe(shop => {
-      if (shop !== null) {
-        if (this.item !== null && shop === this.item.shop) {
-          return true;
+      this.getShopID().subscribe(isEditable => {
+        if (isEditable) {
+          this.editable = true;
+        } else {
+          this.editable = false;
         }
-      }
-      return false;
+      });
+      this.isShop().subscribe(isShop => {
+        if (isShop) {
+          this.Shop = true;
+        } else {
+          this.Shop = false;
+        }
+      });
+      console.log(this.editable);
     });
-    return false;
+  }
+
+  isShop(): Observable<boolean> {
+    return this.accountService.getShop().pipe(map(shop => shop !== null));
+  }
+
+  getShopID(): Observable<boolean> {
+    if (!this.item || !this.item.shop) {
+      return of(false);
+    }
+    const itemId = this.item.shop.id!;
+    return this.accountService.getShop().pipe(
+      map(shop => {
+        return shop !== null && shop.id === itemId;
+      })
+    );
   }
 
   byteSize(base64String: string): string {

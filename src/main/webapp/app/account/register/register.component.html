@@ -309,7 +309,7 @@
         <form name="shopForm" role="form" (ngSubmit)="shopRegister()" [formGroup]="shopregisterForm" *ngIf="shopSubmitted && success">
           <div class="mb-3">
             <div class="label-button-container">
-              <label class="form-label" for="field_shopName">Shop Name</label>
+              <label class="form-label-username" for="field_shopName">Shop Name</label>
               <button *ngIf="selectedRole" (click)="changeRole()" class="change-role-btn">Change Role</button>
             </div>
             <input type="text" class="form-control input" id="field_shopName" data-cy="shopName" formControlName="shopName" />
@@ -329,7 +329,7 @@
             <label class="form-label" for="field_contactNum">Contact Number</label>
             <input
               type="text"
-              class="form-control input"
+              class="form-control"
               name="contactNum"
               id="field_contactNum"
               data-cy="contactNum"
@@ -353,7 +353,7 @@
             <label class="form-label" for="field_charityShopId">Charity Shop ID</label>
             <input
               type="text"
-              class="form-control input"
+              class="form-control"
               name="charityShopId"
               id="field_charityShopId"
               data-cy="charityShopId"
@@ -375,7 +375,7 @@
             <label class="form-label" for="field_openHoursWeekdays">Open Hours Weekdays</label>
             <input
               type="text"
-              class="form-control input"
+              class="form-control"
               name="openHoursWeekdays"
               id="field_openHoursWeekdays"
               data-cy="openHoursWeekdays"
@@ -399,7 +399,7 @@
             <label class="form-label" for="field_openHoursWeekends">Open Hours Weekends</label>
             <input
               type="text"
-              class="form-control input"
+              class="form-control"
               name="openHoursWeekends"
               id="field_openHoursWeekends"
               data-cy="openHoursWeekends"
@@ -423,7 +423,7 @@
             <label class="form-label" for="field_openHoursHolidays">Open Hours Holidays</label>
             <input
               type="text"
-              class="form-control input"
+              class="form-control"
               name="openHoursHolidays"
               id="field_openHoursHolidays"
               data-cy="openHoursHolidays"
@@ -445,15 +445,7 @@
 
           <div class="mb-3">
             <label class="form-label" for="field_street">Street</label>
-            <input
-              type="text"
-              class="form-control input"
-              name="street"
-              id="field_street"
-              data-cy="street"
-              formControlName="street"
-              required=""
-            />
+            <input type="text" class="form-control" name="street" id="field_street" data-cy="street" formControlName="street" required="" />
             <div
               *ngIf="
                 shopregisterForm.get('street')!.invalid &&
