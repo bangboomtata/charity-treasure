@@ -77,6 +77,7 @@ export class RegisterComponent implements AfterViewInit {
   success = false;
   selectedRole: 'customer' | 'shopkeeper' | null = null;
   shopSubmitted = false;
+  submitted = false;
 
   registerForm = new FormGroup({
     login: new FormControl('', {
@@ -89,8 +90,7 @@ export class RegisterComponent implements AfterViewInit {
       ],
     }),
     email: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email],
+      validators: [Validators.minLength(5), Validators.maxLength(254), Validators.email],
     }),
     password: new FormControl('', {
       nonNullable: true,
@@ -200,9 +200,13 @@ export class RegisterComponent implements AfterViewInit {
       this.doNotMatch = true;
     } else if (this.selectedRole === 'customer') {
       const { login, email } = this.registerForm.getRawValue();
-      this.registerService
-        .save({ login, email, password, langKey: 'en', shopRole: false })
-        .subscribe({ next: () => (this.success = true), error: response => this.processError(response) });
+      this.registerService.save({ login, email, password, langKey: 'en', shopRole: false }).subscribe({
+        next: () => {
+          this.success = true;
+          this.router.navigate(['/login']);
+        },
+        error: response => this.processError(response),
+      });
       this.UserDataService.setUsername(login);
     } else if (this.selectedRole === 'shopkeeper') {
       const { login, email } = this.registerForm.getRawValue();

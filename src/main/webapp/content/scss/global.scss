@@ -364,7 +364,8 @@ $text-dark: #e4e6eb;
     input[type='text'],
     select,
     textarea {
-      background-color: $text-dark !important;
+      background-color: $third-dark !important;
+      color: $text-dark !important;
     }
     label {
       color: #ff6961 !important;

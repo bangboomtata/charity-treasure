@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as L from 'leaflet';
@@ -17,6 +16,7 @@ import { SortService } from 'app/shared/sort/sort.service';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { UserDataService } from 'app/account/register/userData.service';
 import { ChatService } from 'app/entities/chat/service/chat.service';
+import { FeedbackService } from 'app/entities/feedback/service/feedback.service';
 
 @Component({
   selector: 'jhi-shop',
@@ -77,26 +77,19 @@ export class ShopComponent implements OnInit {
     protected modalService: NgbModal,
     private http: HttpClient, // Inject HttpClient
     private userDataService: UserDataService,
-    protected chatService: ChatService
+    protected chatService: ChatService,
+    private feedbackService: FeedbackService
   ) {}
 
   trackId = (_index: number, item: IShop): number => this.shopService.getShopIdentifier(item);
 
   ngOnInit(): void {
+    this.loadAverageRating();
     setTimeout(() => {
       this.initMap();
     }, 100); // Adjust the delay as needed
     this.load();
   }
-
-  // contactUs(shopName: string, shopUserId: number): void {
-  //   this.router.navigate(['/chat']);
-  //   this.callSetReceiverLoginAndSendMessage(shopName, shopUserId)
-  // }
-
-  // callSetReceiverLoginAndSendMessage(shopName: string, shopUserId: number): void {
-  //   this.chatService.setReceiverLoginAndSendMessage(shopName, shopUserId);
-  // }
 
   goToChat(): void {
     this.router.navigate(['/chat/']);
@@ -245,9 +238,21 @@ export class ShopComponent implements OnInit {
       this.map.remove();
       this.map = undefined;
     }
-
     // Initialize the map again
     this.initMap();
+  }
+
+  protected rating: number = 0;
+
+  protected loadAverageRating(): void {
+    this.feedbackService.calculateAverageRating().subscribe(
+      rating => {
+        this.rating = rating;
+      },
+      error => {
+        console.error('Failed to load average rating:', error);
+      }
+    );
   }
 
   //Initialize the map and setup real user location data

@@ -3,9 +3,9 @@
     <div *ngIf="item">
       <h2 data-cy="itemDetailsHeading" class="big-title"><span>Item</span></h2>
 
-      <jhi-alert-error></jhi-alert-error>
+      <!--      <jhi-alert-error></jhi-alert-error>-->
 
-      <jhi-alert></jhi-alert>
+      <!--      <jhi-alert></jhi-alert>-->
       <div class="main-box">
         <ng-container *jhiHasAnyAuthority="'ROLE_USER'">
           <div class="row">
@@ -44,11 +44,20 @@
                   </ng-container>
                 </div>
 
-                <div class="button-box">
+                <div class="button-box" *ngIf="!Shop">
                   <button [routerLink]="['/item', item.id, 'reservation', 'new']" class="btn-reserve" [disabled]="!item.itemAvailability">
                     Reserve Now
                   </button>
                 </div>
+                <button
+                  type="button"
+                  [routerLink]="['/item', item.id, 'edit']"
+                  class="btn btn-primary edit-button"
+                  *ngIf="editable === true"
+                >
+                  <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+                </button>
+                <!--                <div>{{ item.shop.id }}</div>-->
               </div>
             </div>
           </div>

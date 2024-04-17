@@ -123,4 +123,14 @@ export class FeedbackService {
       body: res.body ? res.body.map(item => this.convertDateFromServer(item)) : null,
     });
   }
+
+  calculateAverageRating(): Observable<number> {
+    return this.http.get<IFeedback[]>('/api/feedback').pipe(
+      map(feedbacks => {
+        const validFeedbacks = feedbacks.filter(feedback => feedback.rating != null);
+        const totalRating = validFeedbacks.reduce((acc, feedback) => acc + feedback.rating!, 0);
+        return validFeedbacks.length > 0 ? totalRating / validFeedbacks.length : 0;
+      })
+    );
+  }
 }

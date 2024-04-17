@@ -103,10 +103,12 @@
         <h2 style="text-align: center">
           {{ event.eventName }}
 
-          <button type="button" class="add-to-interested-events-entity" (click)="transferToInterested()">
-            <fa-icon icon="plus"></fa-icon>
-            <span>I'm Interested!</span>
-          </button>
+          <ng-container *ngIf="isCustomer == true">
+            <button type="button" class="add-to-interested-events-entity" (click)="transferToInterested()">
+              <fa-icon icon="plus"></fa-icon>
+              <span>I'm Interested!</span>
+            </button>
+          </ng-container>
         </h2>
 
         <dl class="events-further-details">
@@ -206,9 +208,11 @@
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
       </button>
 
-      <button type="button" [routerLink]="['/event', event.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-      </button>
+      <ng-container *ngIf="event.shop?.id == shopId">
+        <button type="button" [routerLink]="['/event', event.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        </button>
+      </ng-container>
     </div>
   </div>
 </div>

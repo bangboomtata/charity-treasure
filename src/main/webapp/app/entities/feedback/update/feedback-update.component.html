@@ -65,8 +65,11 @@
 
           <div class="row mb-3">
             <label class="form-label fw-bold" for="field_shopName">Shop Name (Not required unless the feedback is for the shop)</label>
-            <input type="text" class="form-control" id="field_shopName" data-cy="shopName" formControlName="shopName" />
+            <select class="form-select" id="field_shopName" data-cy="shopName" formControlName="shopName">
+              <option *ngFor="let shop of shopsSharedCollection" [value]="shop.id">{{ shop.shopName }}</option>
+            </select>
           </div>
+
           <div *ngIf="editForm.get('shopName')?.value" class="row mb-3">
             <label class="form-label fw-bold" for="field_rating">Rating (From 5-1: 5:Best)</label>
             <input
