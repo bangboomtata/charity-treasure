@@ -11,7 +11,7 @@ $event-pink: #ffc9c9;
     clear: both;
   }
   dd {
-    padding-bottom: 10px;
+    padding-bottom: 5px;
   }
 }
 
@@ -28,6 +28,7 @@ $event-pink: #ffc9c9;
   border-radius: 9px;
   font-size: 20px;
   margin-left: 30px;
+  background-color: $event-pink;
 }
 
 .add-to-interested-events-entity:hover {
@@ -35,14 +36,19 @@ $event-pink: #ffc9c9;
   transition: 0.5s;
 }
 
-hr {
-  background-color: $main-pink;
-  border: 0;
-  height: 4px;
-  opacity: 1;
-}
-
 h2 {
   color: $main-blue;
   text-align: center;
+  hr {
+    background-color: $main-pink;
+    border: 0;
+    height: 4px;
+    opacity: 1;
+  }
+}
+
+.sub-header-class {
+  color: $main-pink;
+  font-size: 40px;
+  font-weight: bold;
 }

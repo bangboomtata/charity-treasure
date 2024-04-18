@@ -91,15 +91,16 @@
 <div class="d-flex justify-content-center event-detail-cont">
   <div class="col-8">
     <div *ngIf="event">
-      <h2 data-cy="eventDetailsHeading" style="text-align: center">EVENTS</h2>
-
-      <hr />
+      <h2 data-cy="eventDetailsHeading" style="text-align: center">
+        EVENTS
+        <hr />
+      </h2>
 
       <jhi-alert-error></jhi-alert-error>
 
       <jhi-alert></jhi-alert>
 
-      <div class="event-details-cont">
+      <div>
         <h2 style="text-align: center">
           {{ event.eventName }}
 
@@ -110,6 +111,10 @@
             </button>
           </ng-container>
         </h2>
+
+        <div>
+          <p class="sub-header-class">When?</p>
+        </div>
 
         <dl class="events-further-details">
           <!--
@@ -123,45 +128,64 @@
             <span>{{ event.eventName }}</span>
           </dd>
           -->
-
-          <dt><span>Event Date: &nbsp; </span></dt>
+          <dt><span>Date: &nbsp; </span></dt>
           <dd>
             <span> {{ event.eventDate | formatMediumDate }}</span>
           </dd>
 
           <div class="event-end-date-div" *ngIf="event.eventEndDate">
-            <dt><span>Event End Date</span></dt>
+            <dt><span>End Date</span></dt>
             <dd>
               <span>{{ event.eventEndDate | formatMediumDate }}</span>
             </dd>
           </div>
 
-          <dt><span>Event Time: &nbsp; </span></dt>
+          <dt><span>Time of event: &nbsp; </span></dt>
           <dd>
             <span> {{ event.eventTime }}</span>
           </dd>
+        </dl>
+        <hr />
 
-          <dt><span>Event Location: &nbsp; </span></dt>
+        <div>
+          <p class="sub-header-class">Location</p>
+        </div>
+
+        <dl class="events-further-details">
+          <dt><span>General Location: &nbsp; </span></dt>
           <dd>
             <span> {{ event.eventLocation }}</span>
           </dd>
 
-          <dt><span>Event City: &nbsp; </span></dt>
+          <dt><span>City: &nbsp; </span></dt>
           <dd>
             <span> {{ event.eventCity }}</span>
           </dd>
 
-          <dt><span>Event Address: &nbsp; </span></dt>
+          <dt><span>Address: &nbsp; </span></dt>
           <dd>
             <span> {{ event.eventAddress }}</span>
           </dd>
+        </dl>
+        <hr />
 
-          <dt><span>Event Description: &nbsp; </span></dt>
+        <div>
+          <p class="sub-header-class">Event Description</p>
+        </div>
+
+        <dl class="events-further-details">
           <dd>
             <span> {{ event.eventDescription }}</span>
           </dd>
+        </dl>
+        <hr />
 
-          <dt><span>Contact Number: &nbsp; </span></dt>
+        <div>
+          <p class="sub-header-class">Contact Details</p>
+        </div>
+
+        <dl class="events-further-details">
+          <dt><span>Phone: &nbsp; </span></dt>
           <dd>
             <span> {{ event.contactNumber }}</span>
           </dd>
@@ -170,8 +194,6 @@
           <dd>
             <span> {{ event.eventEmail }}</span>
           </dd>
-
-          <!--        <dt><span>Event Image: &nbsp; </span></dt> -->
 
           <dt><span>Shop: &nbsp; </span></dt>
           <dd>
@@ -192,15 +214,6 @@
               <!--  {{ event.eventImageContentType }}, {{ byteSize(event.eventImage) }} -->
             </div>
           </dd>
-
-          <!--
-          <dt><span>Shop: &nbsp; </span></dt>
-          <dd>
-            <div *ngIf="event.shop">
-              <a [routerLink]="['/shop', event.shop.id, 'view']">{{ event.shop.id }}</a>
-            </div>
-          </dd>
-          -->
         </dl>
       </div>
 

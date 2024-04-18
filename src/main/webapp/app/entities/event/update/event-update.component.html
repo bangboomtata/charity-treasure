@@ -1,12 +1,17 @@
 <div class="d-flex justify-content-center event-update-cont">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-event-heading" data-cy="EventCreateUpdateHeading" style="text-align: center">Create or edit an Event</h2>
-
-      <hr />
+      <h2 id="jhi-event-heading" data-cy="EventCreateUpdateHeading" style="text-align: center">
+        Create or edit an Event
+        <hr />
+      </h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
+
+        <div>
+          <p class="sub-header-class">Event details</p>
+        </div>
 
         <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" for="field_id">ID</label>
@@ -21,8 +26,13 @@
           </div>
         </div>
 
+        <hr />
+        <div>
+          <p class="smaller-sub-heading">Date and Time</p>
+        </div>
+
         <div class="form-text-box-1">
-          <label class="form-label" for="field_eventDate">Event Date</label>
+          <label class="form-label" for="field_eventDate">Date of Event</label>
           <div class="input-group">
             <input
               id="field_eventDate"
@@ -42,7 +52,7 @@
         </div>
 
         <div class="form-text-box-1">
-          <label class="form-label" for="field_eventEndDate">Event End Date (If event runs for more than 1 day)</label>
+          <label class="form-label" for="field_eventEndDate">End Date (If event runs for more than 1 day)</label>
           <div class="input-group">
             <input
               id="field_eventEndDate"
@@ -61,7 +71,17 @@
         </div>
 
         <div class="form-text-box-1">
-          <label class="form-label" for="field_eventLocation">Event Location (General location, select from option)</label>
+          <label class="form-label" for="field_eventTime">Time of Event</label>
+          <input type="text" class="form-control" name="eventTime" id="field_eventTime" data-cy="eventTime" formControlName="eventTime" />
+        </div>
+
+        <hr />
+        <div>
+          <p class="smaller-sub-heading">Location</p>
+        </div>
+
+        <div class="form-text-box-1">
+          <label class="form-label" for="field_eventLocation">Location (General location, select from options)</label>
           <select
             class="form-control"
             name="eventLocation"
@@ -75,7 +95,7 @@
         </div>
 
         <div class="form-text-box-1">
-          <label class="form-label" for="field_eventCity">Event City</label>
+          <label class="form-label" for="field_eventCity">City</label>
           <input type="text" class="form-control" name="eventCity" id="field_eventCity" data-cy="eventCity" formControlName="eventCity" />
           <div *ngIf="editForm.get('eventCity')!.invalid && (editForm.get('eventCity')!.dirty || editForm.get('eventCity')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('eventCity')?.errors?.required"> This field is required. </small>
@@ -83,7 +103,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_eventAddress">Event Address</label>
+          <label class="form-label" for="field_eventAddress">Address</label>
           <textarea
             class="form-control"
             name="eventAddress"
@@ -98,13 +118,13 @@
           </div>
         </div>
 
-        <div class="form-text-box-1">
-          <label class="form-label" for="field_eventTime">Event Time</label>
-          <input type="text" class="form-control" name="eventTime" id="field_eventTime" data-cy="eventTime" formControlName="eventTime" />
+        <hr />
+        <div>
+          <p class="smaller-sub-heading">Event Description</p>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_eventDescription">Event Description</label>
+          <label class="form-label" for="field_eventDescription">Description</label>
           <textarea
             class="form-control"
             name="eventDescription"
@@ -122,30 +142,6 @@
               This field is required.
             </small>
           </div>
-        </div>
-
-        <div class="form-text-box-1">
-          <label class="form-label" for="field_contactNumber">Contact Number</label>
-          <input
-            type="text"
-            class="form-control"
-            name="contactNumber"
-            id="field_contactNumber"
-            data-cy="contactNumber"
-            formControlName="contactNumber"
-          />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_eventEmail">Event Email</label>
-          <input
-            type="text"
-            class="form-control"
-            name="eventEmail"
-            id="field_eventEmail"
-            data-cy="eventEmail"
-            formControlName="eventEmail"
-          />
         </div>
 
         <div class="row mb-3">
@@ -191,6 +187,35 @@
             name="eventImageContentType"
             id="field_eventImageContentType"
             formControlName="eventImageContentType"
+          />
+        </div>
+
+        <hr />
+        <div>
+          <p class="smaller-sub-heading">Contact Details</p>
+        </div>
+
+        <div class="form-text-box-1">
+          <label class="form-label" for="field_contactNumber">Contact Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="contactNumber"
+            id="field_contactNumber"
+            data-cy="contactNumber"
+            formControlName="contactNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventEmail">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            name="eventEmail"
+            id="field_eventEmail"
+            data-cy="eventEmail"
+            formControlName="eventEmail"
           />
         </div>
 

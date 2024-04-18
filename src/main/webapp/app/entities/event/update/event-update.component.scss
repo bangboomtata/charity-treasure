@@ -31,13 +31,25 @@ label {
 }
 
  */
-hr {
-  background-color: $main-pink;
-  border: 0;
-  height: 4px;
-  opacity: 1;
-}
 
 h2 {
   color: $main-blue;
+  hr {
+    background-color: $main-pink;
+    border: 0;
+    height: 4px;
+    opacity: 1;
+  }
+}
+
+.sub-header-class {
+  color: $main-pink;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.smaller-sub-heading {
+  color: $main-pink;
+  font-size: 30px;
+  font-weight: bold;
 }
