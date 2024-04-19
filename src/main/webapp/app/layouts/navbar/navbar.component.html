@@ -175,6 +175,7 @@
           </ul>
         </li>
 
+        <!--
         <li
           *ngSwitchCase="true"
           ngbDropdown
@@ -212,6 +213,13 @@
               </a>
             </li>
           </ul>
+        </li>
+        -->
+
+        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="event">
+            <span class="nav-text">Events</span>
+          </a>
         </li>
 
         <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
