@@ -241,7 +241,7 @@ body {
 }
 
 .main-box {
-  padding: 20px;
+  margin-top: 10px !important;
 }
 
 form {
@@ -558,7 +558,9 @@ $text-dark: #e4e6eb;
       color: $text-dark !important;
     }
     input[type='text'],
-    textarea {
+    textarea,
+    select,
+    input[type='number'] {
       background-color: $third-dark !important;
       color: $text-dark !important;
     }
@@ -630,5 +632,21 @@ $text-dark: #e4e6eb;
         color: $main-dark !important;
       }
     }
+  }
+}
+
+.delete-form {
+  border-radius: 20px;
+  padding-bottom: 0 !important;
+  background-color: $second-pink;
+
+  .modal-title {
+    font-weight: bold;
+    color: $main-blue;
+  }
+
+  .modal-header,
+  .modal-body {
+    border-bottom: $main-pink 4px solid;
   }
 }

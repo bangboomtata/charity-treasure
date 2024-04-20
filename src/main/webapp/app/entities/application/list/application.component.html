@@ -2,37 +2,39 @@
   <h2 id="page-heading" data-cy="ApplicationHeading">
     <div class="big-title" *ngIf="shopId">Applicants</div>
     <div class="big-title" *ngIf="customerId">Your Applications</div>
-
-    <div class="d-flex justify-content-end create-refresh-box">
-      <select [(ngModel)]="selectedPost" *ngIf="shopId">
-        <option value="ALL">ALL</option>
-        <ng-container *ngFor="let volunteerPostOption of volunteerPostsList">
-          <option [ngValue]="volunteerPostOption.id.toString()" *ngIf="checkPost(volunteerPostOption.shop?.id)">
-            {{ volunteerPostOption.postTitle }}
-          </option>
-        </ng-container>
-      </select>
-
-      <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh list</span>
-      </button>
-
-      <!-- <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-application"
-        [routerLink]="['/application/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Application </span>
-      </button> -->
-    </div>
   </h2>
 
-  <jhi-alert-error></jhi-alert-error>
+  <div class="d-flex justify-content-end create-refresh-box">
+    <select [(ngModel)]="selectedPost" *ngIf="shopId">
+      <option value="ALL">ALL</option>
+      <ng-container *ngFor="let volunteerPostOption of volunteerPostsList">
+        <option [ngValue]="volunteerPostOption.id.toString()" *ngIf="checkPost(volunteerPostOption.shop?.id)">
+          {{ volunteerPostOption.postTitle }}
+        </option>
+      </ng-container>
+    </select>
 
-  <jhi-alert></jhi-alert>
+    <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading">
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+      <span>Refresh list</span>
+    </button>
+
+    <!-- <button
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-application"
+      [routerLink]="['/application/new']"
+    >
+      <fa-icon icon="plus"></fa-icon>
+      <span> Create a new Application </span>
+    </button> -->
+  </div>
+
+  <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+  </div>
 
   <div class="alert alert-warning" id="no-result" *ngIf="applications?.length === 0">
     <span>No Applications found</span>

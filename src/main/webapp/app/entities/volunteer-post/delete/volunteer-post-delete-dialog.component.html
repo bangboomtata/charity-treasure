@@ -1,22 +1,27 @@
-<form *ngIf="volunteerPost" name="deleteForm" (ngSubmit)="confirmDelete(volunteerPost.id!)">
-  <div class="modal-header">
-    <h4 class="modal-title" data-cy="volunteerPostDeleteDialogHeading">Confirm delete operation</h4>
+<form *ngIf="volunteerPost" class="delete-form" name="deleteForm" (ngSubmit)="confirmDelete(volunteerPost.id!)">
+  <div>
+    <div class="modal-header">
+      <h4 class="modal-title" data-cy="volunteerPostDeleteDialogHeading">Confirm delete operation</h4>
 
-    <button type="button" class="btn-close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>
-  </div>
+      <button type="button" class="btn-close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>
+    </div>
 
-  <div class="modal-body">
-    <jhi-alert-error></jhi-alert-error>
-    <p id="jhi-delete-volunteerPost-heading">Are you sure you want to delete Volunteer Post {{ volunteerPost.id }}?</p>
-  </div>
+    <div class="modal-body">
+      <jhi-alert-error></jhi-alert-error>
+      <p id="jhi-delete-volunteerPost-heading">
+        Are you sure you want to delete Volunteer Post {{ volunteerPost.postTitle }}? All the applications for this post will also be
+        deleted.
+      </p>
+    </div>
 
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
-      <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
-    </button>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+        <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+      </button>
 
-    <button id="jhi-confirm-delete-volunteerPost" data-cy="entityConfirmDeleteButton" type="submit" class="btn btn-danger">
-      <fa-icon icon="times"></fa-icon>&nbsp;<span>Delete</span>
-    </button>
+      <button id="jhi-confirm-delete-volunteerPost" data-cy="entityConfirmDeleteButton" type="submit" class="btn btn-danger">
+        <fa-icon icon="times"></fa-icon>&nbsp;<span>Delete</span>
+      </button>
+    </div>
   </div>
 </form>

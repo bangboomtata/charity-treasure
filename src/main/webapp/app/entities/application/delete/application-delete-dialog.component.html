@@ -1,4 +1,4 @@
-<form *ngIf="application" name="deleteForm" (ngSubmit)="confirmDelete(application.id!)">
+<form *ngIf="application" name="deleteForm" (ngSubmit)="confirmDelete(application.id!)" class="delete-form">
   <div class="modal-header">
     <h4 class="modal-title" data-cy="applicationDeleteDialogHeading">Confirm delete operation</h4>
 

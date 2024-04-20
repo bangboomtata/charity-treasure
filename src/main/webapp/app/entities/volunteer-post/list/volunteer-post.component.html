@@ -20,9 +20,11 @@
     </button>
   </div>
 
-  <jhi-alert-error></jhi-alert-error>
+  <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+    <jhi-alert-error></jhi-alert-error>
 
-  <jhi-alert></jhi-alert>
+    <jhi-alert></jhi-alert>
+  </div>
 
   <div class="alert alert-warning warning-box" id="no-result" *ngIf="volunteerPosts?.length === 0">
     <span>No Volunteer Posts found</span>

@@ -4,7 +4,9 @@
       <h2 id="jhi-volunteer-post-heading" class="big-title" data-cy="VolunteerPostCreateUpdateHeading">Create or edit a Volunteer Post</h2>
 
       <div class="main-box">
-        <jhi-alert-error></jhi-alert-error>
+        <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+          <jhi-alert-error></jhi-alert-error>
+        </div>
 
         <div class="row mb-3">
           <p class="form-title-p">Volunteer Information</p>
@@ -114,6 +116,13 @@
               <option [ngValue]="null"></option>
               <option *ngFor="let activeStatus of activeStatusValues" [value]="activeStatus">{{ activeStatus }}</option>
             </select>
+            <div
+              *ngIf="
+                editForm.get('activeStatus')!.invalid && (editForm.get('activeStatus')!.dirty || editForm.get('activeStatus')!.touched)
+              "
+            >
+              <small class="form-text text-danger" *ngIf="editForm.get('activeStatus')?.errors?.required"> This field is required. </small>
+            </div>
           </div>
           <div class="col">
             <label class="form-label" for="field_startDate">Start Date</label>
