@@ -30,19 +30,23 @@
                   <p>
                     <span>Item Availability: </span>
                     <ng-container *ngIf="item.itemAvailability">
-                      <span style="color: green">AVAILABLE</span>
+                      <span style="color: green">available</span>
                     </ng-container>
                     <ng-container *ngIf="!item.itemAvailability">
-                      <span style="color: red">NOT AVAILABLE</span>
+                      <span style="color: red">unavailable</span>
                     </ng-container>
                   </p>
-                  <p><span>CONDITION: </span>{{ item.condition }}</p>
-                  <p><span>ITEM TYPE: </span>{{ item.itemType }}</p>
-                  <p><span>ITEM SUB CATEGORY: </span>{{ item.subCategory }}</p>
+                  <p><span>Condition: </span>{{ item.condition }}</p>
+                  <p><span>Item Type: </span>{{ item.itemType }}</p>
+                  <p><span>Sub Category: </span>{{ item.subCategory }}</p>
                   <ng-container *ngIf="item.itemType?.toString() == 'CLOTHING'">
-                    <p><span>GENDER: </span>{{ item.gender }}</p>
+                    <p><span>Gender: </span>{{ item.gender }}</p>
+                  </ng-container>
+                  <ng-container *ngIf="item.itemDescription !== null">
+                    <p>{{ item.itemDescription }}</p>
                   </ng-container>
                 </div>
+                <div class="row-divider"></div>
 
                 <div class="button-box" *ngIf="!Shop">
                   <button [routerLink]="['/item', item.id, 'reservation', 'new']" class="btn-reserve" [disabled]="!item.itemAvailability">
@@ -80,13 +84,6 @@
             </div>
           </ng-container>
           <hr />
-
-          <div class="row">
-            <div class="col">
-              <p class="small-title"><span>About the Item: </span></p>
-              <p>{{ item.itemDescription }}</p>
-            </div>
-          </div>
         </ng-container>
 
         <dl class="row-md jh-entity-details" *jhiHasAnyAuthority="'ROLE_ADMIN'">

@@ -31,7 +31,7 @@ export class ItemUpdateComponent implements OnInit {
   genderValues = Object.values(Gender);
   conditionValues = Object.keys(Condition);
   itemTypeValues = Object.values(ItemType);
-
+  successful = false;
   shopsSharedCollection: IShop[] = [];
 
   currentSubCategories: string[] = [];
@@ -148,7 +148,7 @@ export class ItemUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.router.navigate(['/item-upload-success']);
+    this.successful = true;
   }
 
   protected onSaveError(): void {

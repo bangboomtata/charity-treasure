@@ -75,7 +75,7 @@ export class ShopComponent implements OnInit {
     protected sortService: SortService,
     protected dataUtils: DataUtils,
     protected modalService: NgbModal,
-    private http: HttpClient, // Inject HttpClient
+    private http: HttpClient,
     private userDataService: UserDataService,
     protected chatService: ChatService,
     private feedbackService: FeedbackService
@@ -87,8 +87,33 @@ export class ShopComponent implements OnInit {
     this.loadAverageRating();
     setTimeout(() => {
       this.initMap();
-    }, 100); // Adjust the delay as needed
+    }, 100);
     this.load();
+
+    this.activatedRoute.queryParams.subscribe(params => {
+      const shopName = params['shopName'];
+      if (shopName) {
+        this.shopService.getShopByName(shopName).subscribe(
+          (shop: IShop | null) => {
+            if (shop) {
+              // Shop found, do something with it
+              console.log('Shop found:', shop);
+              this.displaySelectedShopDetails(shop);
+            } else {
+              // Shop not found
+              console.error('Shop not found for name:', shopName);
+            }
+          },
+          error => {
+            console.error('Error fetching shop:', error);
+          }
+        );
+      }
+    });
+  }
+
+  protected displaySelectedShopDetails(selectedShop: IShop): void {
+    this.selectedShop = selectedShop;
   }
 
   goToChat(): void {
@@ -540,10 +565,6 @@ export class ShopComponent implements OnInit {
         console.error('Error fetching coordinates from Nominatim API:', error);
       },
     });
-  }
-
-  protected displaySelectedShopDetails(selectedShop: IShop): void {
-    this.selectedShop = selectedShop;
   }
 
   protected startRouting(): void {

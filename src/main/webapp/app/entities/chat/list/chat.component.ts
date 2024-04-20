@@ -185,6 +185,10 @@ export class ChatComponent implements OnInit {
     }
   }
 
+  redirectToShop(shopName: string): void {
+    this.router.navigate(['/shop'], { queryParams: { shopName: shopName } });
+  }
+
   getLoginAndSendMessage(customerId: number) {
     if (customerId !== undefined) {
       this.accountService.getLoginByUserId(customerId).subscribe(
@@ -218,11 +222,6 @@ export class ChatComponent implements OnInit {
     const isUserInShopUserIds = this.userIds.includes(this.currentUserId);
     this.isCurrentUserInShopUserIds$.next(isUserInShopUserIds);
     return isUserInShopUserIds;
-  }
-
-  getLoginByCustomerId(customerId: number): Observable<string | null> {
-    // Adjust the URL according to your backend API endpoint
-    return this.http.get<string | null>(`/api/users/login?customerId=${customerId}`);
   }
 
   hasMessages(): boolean {

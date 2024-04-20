@@ -48,6 +48,15 @@ export class ShopService {
     );
   }
 
+  getShopByName(shopName: string): Observable<IShop | null> {
+    return this.getAllShops().pipe(
+      map(shops => {
+        const foundShop = shops.find(shop => shop.shopName === shopName);
+        return foundShop || null;
+      })
+    );
+  }
+
   create(shop: NewShop): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(shop);
     return this.http.post<RestShop>(this.resourceUrl, copy, { observe: 'response' }).pipe(map(res => this.convertResponseFromServer(res)));
