@@ -5,9 +5,11 @@
         <span>Application ID: {{ application.id }}</span>
       </h2>
 
-      <jhi-alert-error></jhi-alert-error>
+      <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <jhi-alert-error></jhi-alert-error>
 
-      <jhi-alert></jhi-alert>
+        <jhi-alert></jhi-alert>
+      </div>
 
       <div class="main-box">
         <div class="detail-section-box">
