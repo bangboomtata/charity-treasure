@@ -73,7 +73,7 @@ export class VolunteerPostFormService {
       benefits: new FormControl(volunteerPostRawValue.benefits),
       img: new FormControl(volunteerPostRawValue.img),
       imgContentType: new FormControl(volunteerPostRawValue.imgContentType),
-      activeStatus: new FormControl(volunteerPostRawValue.activeStatus),
+      activeStatus: new FormControl(volunteerPostRawValue.activeStatus, Validators.required),
       startDate: new FormControl(volunteerPostRawValue.startDate),
       monday: new FormControl(volunteerPostRawValue.monday),
       tuesday: new FormControl(volunteerPostRawValue.tuesday),

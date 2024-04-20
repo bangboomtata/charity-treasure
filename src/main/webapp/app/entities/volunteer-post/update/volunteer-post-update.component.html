@@ -114,6 +114,13 @@
               <option [ngValue]="null"></option>
               <option *ngFor="let activeStatus of activeStatusValues" [value]="activeStatus">{{ activeStatus }}</option>
             </select>
+            <div
+              *ngIf="
+                editForm.get('activeStatus')!.invalid && (editForm.get('activeStatus')!.dirty || editForm.get('activeStatus')!.touched)
+              "
+            >
+              <small class="form-text text-danger" *ngIf="editForm.get('activeStatus')?.errors?.required"> This field is required. </small>
+            </div>
           </div>
           <div class="col">
             <label class="form-label" for="field_startDate">Start Date</label>
