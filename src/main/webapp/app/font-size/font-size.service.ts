@@ -47,7 +47,7 @@ export class FontSizeService {
 
     const h2Elements = document.querySelectorAll('h2');
     h2Elements.forEach(element => {
-      element.style.fontSize = `${38 * (this.getFontSize() / 100)}px`;
+      element.style.fontSize = `${40 * (this.getFontSize() / 100)}px`;
     });
 
     const h3Elements = document.querySelectorAll('h3');
@@ -73,6 +73,15 @@ export class FontSizeService {
     const buttons = document.querySelectorAll('button');
     buttons.forEach(button => {
       button.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    });
+
+    const navbarTitle = document.querySelectorAll('.navbar-title') as NodeListOf<HTMLElement>;
+    navbarTitle.forEach(title => {
+      title.style.fontSize = `${20 * (this.getFontSize() / 100)}px`;
+    });
+    const navbarVersion = document.querySelectorAll('.navbar-version') as NodeListOf<HTMLElement>;
+    navbarVersion.forEach(title => {
+      title.style.fontSize = `${13 * (this.getFontSize() / 100)}px`;
     });
   }
 }
