@@ -7,6 +7,7 @@ import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-login',
+  styleUrls: ['./login.component.scss'],
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit, AfterViewInit {
@@ -23,8 +24,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   constructor(private accountService: AccountService, private loginService: LoginService, private router: Router) {}
 
+  selectedPhoto: string | null = null;
+
+  selectPhoto(photoName: string): void {
+    this.selectedPhoto = this.selectedPhoto === photoName ? null : photoName;
+  }
+
   ngOnInit(): void {
-    // if already authenticated then navigate to home page
+    // if already authenticated then we should navigate to item view page
     this.accountService.identity().subscribe(() => {
       if (this.accountService.isAuthenticated()) {
         this.router.navigate(['']);
@@ -41,7 +48,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       next: () => {
         this.authenticationError = false;
         if (!this.router.getCurrentNavigation()) {
-          // There were no routing during login (eg from navigationToStoredUrl)
+          // There were no routing during login (e.g. from navigationToStoredUrl)
           this.router.navigate(['']);
         }
       },
