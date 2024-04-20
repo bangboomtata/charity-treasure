@@ -321,6 +321,33 @@ $text-dark: #e4e6eb;
     color: $text-dark !important;
   }
 
+  //chat page
+  .chatCard {
+    // background-color: $main-dark !important;
+    background-color: white !important;
+    margin-top: 0;
+  }
+
+  .leftBox {
+    border-radius: 30px 0 0 30px;
+    background-color: black;
+    padding: 20px;
+  }
+
+  .rightBox {
+    border-radius: 0 30px 30px 0;
+    background-color: black;
+    height: 100%;
+  }
+
+  .cusChatBoxName,
+  .chatBoxName {
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    border: none;
+    margin-left: 10px;
+  }
+
   //events page
   .event-list-page-container {
     background-color: $main-dark !important;

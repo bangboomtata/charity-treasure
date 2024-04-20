@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.bham.config.Constants;
 import team.bham.domain.Authority;
+import team.bham.domain.Customer;
 import team.bham.domain.User;
 import team.bham.repository.AuthorityRepository;
+import team.bham.repository.CustomerRepository;
 import team.bham.repository.UserRepository;
 import team.bham.security.AuthoritiesConstants;
 import team.bham.security.SecurityUtils;
@@ -35,6 +37,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final CustomerRepository customerRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
@@ -45,12 +49,14 @@ public class UserService {
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
+        CacheManager cacheManager,
+        CustomerRepository customerRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.customerRepository = customerRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -129,7 +135,10 @@ public class UserService {
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
+        Customer newCustomer = new Customer();
         userRepository.save(newUser);
+        newCustomer.setUser(newUser);
+        customerRepository.save(newCustomer);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -217,8 +226,12 @@ public class UserService {
             user.setAuthorities(authorities);
         }
         userRepository.save(user);
+        //        Customer newCustomer = new Customer();
+        //        newCustomer.setUser(user);
+        //        customerRespository.save(newCustomer);
         this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
+        log.debug("What does this do?");
         return user;
     }
 
