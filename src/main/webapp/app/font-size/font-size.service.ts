@@ -9,8 +9,8 @@ export class FontSizeService {
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        // Call adjustFontSize() whenever navigation starts
-        this.adjustFontSize();
+        // Call adjustFontSize() whenever navigation starts, slight delay to wait for everything to load first
+        setTimeout(() => this.adjustFontSize(), 400);
       }
     });
   }
