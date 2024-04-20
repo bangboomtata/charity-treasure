@@ -573,3 +573,19 @@ $text-dark: #e4e6eb;
     }
   }
 }
+
+.delete-form {
+  border-radius: 20px;
+  padding-bottom: 0 !important;
+  background-color: $second-pink;
+
+  .modal-title {
+    font-weight: bold;
+    color: $main-blue;
+  }
+
+  .modal-header,
+  .modal-body {
+    border-bottom: $main-pink 4px solid;
+  }
+}

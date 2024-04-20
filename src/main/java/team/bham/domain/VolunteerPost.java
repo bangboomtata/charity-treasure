@@ -105,7 +105,7 @@ public class VolunteerPost implements Serializable {
     @JsonIgnoreProperties(value = { "user", "reservations", "volunteerPosts", "items", "events", "feedbacks" }, allowSetters = true)
     private Shop shop;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", orphanRemoval = true)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "post", "customer" }, allowSetters = true)
     private Set<Application> apps = new HashSet<>();
