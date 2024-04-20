@@ -531,7 +531,9 @@ $text-dark: #e4e6eb;
       color: $text-dark !important;
     }
     input[type='text'],
-    textarea {
+    textarea,
+    select,
+    input[type='number'] {
       background-color: $third-dark !important;
       color: $text-dark !important;
     }
