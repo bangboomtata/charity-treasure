@@ -7,6 +7,6 @@ import team.bham.domain.Customer;
 /**
  * Spring Data JPA repository for the Customer entity.
  */
-@SuppressWarnings("unused")
+
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {}
