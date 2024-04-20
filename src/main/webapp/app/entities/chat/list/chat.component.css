@@ -10,13 +10,22 @@ main {
   overflow-y: auto; /* Enable vertical scrolling */
 }
 
+h2 {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  margin-top: 20px;
+}
+
 .card {
-  border-radius: 20px;
-  /* background-color: rgba(255,231,231, 0); */
-  background-color: #ffe7e7;
+  position: relative;
+  z-index: 1;
+  border-radius: 40px;
+  background-color: rgb(255, 231, 231);
   border: none;
   width: 65vw;
   padding: 20px 0 0 30px;
+  margin-top: 50px;
 }
 
 /* Chat Contact List */
@@ -68,6 +77,18 @@ main {
 
 .chatBoxName {
   margin-left: 10px;
+  border: none;
+  background-color: rgb(255, 255, 255, 0);
+}
+
+.cusChatBoxName {
+  margin-left: 10px;
+  border: none;
+  background-color: rgb(255, 255, 255, 0);
+}
+
+.cusChatBoxName:hover {
+  text-decoration: underline;
 }
 
 /* Scroll Bar */
@@ -109,6 +130,8 @@ main {
   background-color: rgb(255, 255, 184);
   padding: 10px;
   border-radius: 15px;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .messageBubble {
@@ -124,7 +147,8 @@ main {
 }
 
 .rightMessageBubble {
-  background-color: #ff6961;
+  /* background-color: #ff6961; */
+  background-color: rgb(255, 105, 97);
 }
 
 .messageContent {
