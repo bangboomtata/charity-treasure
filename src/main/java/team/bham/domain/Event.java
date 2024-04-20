@@ -78,7 +78,7 @@ public class Event implements Serializable {
     @JsonIgnoreProperties(value = { "user", "reservations", "volunteerPosts", "items", "events", "feedbacks" }, allowSetters = true)
     private Shop shop;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", orphanRemoval = true)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "user", "event" }, allowSetters = true)
     private Set<InterestedEvents> interestedEvents = new HashSet<>();

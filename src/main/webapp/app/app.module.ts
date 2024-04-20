@@ -25,7 +25,6 @@ import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
 
 // new import library
-import { ItemUploadSuccessComponent } from './item-upload-success/item-upload-success.component';
 import { GdprPolicyComponent } from './gdpr-policy/gdpr-policy.component';
 import { ApplicationSuccessComponent } from './application-success/application-success.component';
 import { FontSizeComponent } from './font-size/font-size.component';
@@ -54,7 +53,6 @@ import { FontSizeComponent } from './font-size/font-size.component';
     ErrorComponent,
     PageRibbonComponent,
     FooterComponent,
-    ItemUploadSuccessComponent,
     GdprPolicyComponent,
     ApplicationSuccessComponent,
     FontSizeComponent,

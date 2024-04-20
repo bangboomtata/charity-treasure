@@ -2,6 +2,30 @@ $main-pink: #ff6961;
 $second-pink: #ffe7e7;
 $main-blue: #000080;
 
+.success-img {
+  margin-top: 2%;
+  width: 25%;
+}
+
+.big-subtitle {
+  font-weight: bold;
+  color: $main-pink;
+  text-align: center;
+  margin-top: 10px;
+}
+
+//.text-center button {
+//  margin-top: 20px;
+//  width: 150px;
+//  height: 50px;
+//  border-radius: 50px;
+//  border: none;
+//  background-color: $main-pink;
+//  font-weight: bold;
+//  color: white;
+//  font-size: 25px;
+//}
+
 .main-box {
   height: 530px;
   overflow-y: scroll;
@@ -47,6 +71,12 @@ input[type='checkbox'] {
   margin-right: 10px; /* Adjust the value based on your preference */
   border: black 2px solid;
   border-radius: 3px;
+}
+
+.big-container-success {
+  width: auto;
+  margin-left: 100px;
+  margin-right: 100px;
 }
 
 .col-md-4 p {

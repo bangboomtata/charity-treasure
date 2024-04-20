@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ItemUploadSuccessComponent } from './item-upload-success/item-upload-success.component';
 import { GdprPolicyComponent } from './gdpr-policy/gdpr-policy.component';
 import { ApplicationSuccessComponent } from './application-success/application-success.component';
 
@@ -30,10 +29,6 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
         {
           path: 'login',
           loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
-        },
-        {
-          path: 'item-upload-success',
-          component: ItemUploadSuccessComponent,
         },
         {
           path: 'application-success',
