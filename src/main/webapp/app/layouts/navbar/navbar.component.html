@@ -48,6 +48,12 @@
           </a>
         </li>
 
+        <li *ngIf="isShop" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="item/sale">
+            <span class="nav-text">Create Sale</span>
+          </a>
+        </li>
+
         <!--
         <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="shop">
