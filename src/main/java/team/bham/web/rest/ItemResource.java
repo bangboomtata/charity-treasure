@@ -49,8 +49,11 @@ public class ItemResource {
 
     private final ItemRepository itemRepository;
 
-    public ItemResource(ItemRepository itemRepository) {
+    private final MailService mailService;
+
+    public ItemResource(ItemRepository itemRepository, MailService mailService) {
         this.itemRepository = itemRepository;
+        this.mailService = mailService;
     }
 
     /**
@@ -145,6 +148,7 @@ public class ItemResource {
                 itemRepository.save(item);
             }
         }
+        if (sale.getEmailA()) {}
         return ResponseEntity.ok().body(true);
     }
 
