@@ -17,7 +17,6 @@ import { SortService } from 'app/shared/sort/sort.service';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { UserDataService } from 'app/account/register/userData.service';
 import { ChatService } from 'app/entities/chat/service/chat.service';
-import { FeedbackService } from 'app/entities/feedback/service/feedback.service';
 
 @Component({
   selector: 'jhi-shop',
@@ -78,8 +77,7 @@ export class ShopComponent implements OnInit {
     protected modalService: NgbModal,
     private http: HttpClient,
     private userDataService: UserDataService,
-    protected chatService: ChatService,
-    private feedbackService: FeedbackService
+    protected chatService: ChatService
   ) {}
 
   trackId = (_index: number, item: IShop): number => this.shopService.getShopIdentifier(item);

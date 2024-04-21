@@ -107,14 +107,14 @@ $main-blue: #000080;
   height: 5px;
 }
 
-// .rowContainer {
-// display: flex;
-// flex-direction: row;
-// justify-content: flex-start;
-// flex-wrap: wrap;
-// max-width: 1000px;
-// margin: 0 auto;
-// }
+.rowContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
+}
 
 .productCard {
   background-color: white;
