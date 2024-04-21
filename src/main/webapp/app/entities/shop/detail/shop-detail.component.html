@@ -1,19 +1,47 @@
+<!-- The Modal -->
+<div id="myModal" class="modal" *ngIf="showModal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" (click)="closeSubscribe()">&times;</span>
+    <p>Subscribing will let you receive emails about this charity shop's sales</p>
+
+    <div class="button-container">
+      <button (click)="subscribeFeature()" class="continue-button modalbutton">Subscribe</button>
+      <p *ngIf="subscribeSuccess">Success!</p>
+    </div>
+  </div>
+</div>
+
+<div id="myunsubModal" class="modal" *ngIf="showunsub">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" (click)="closeSubscribe()">&times;</span>
+    <p>Are you sure you want to unsubscribe?</p>
+
+    <div class="button-container">
+      <button (click)="unsub()" class="continue-button modalbutton">Unsubscribe</button>
+      <p *ngIf="deletedSuccessfully">Deleted Successfully!</p>
+    </div>
+  </div>
+</div>
+
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="shop">
-      <h2 data-cy="shopDetailsHeading"><span>Shop</span></h2>
+      <h2 data-cy="shopDetailsHeading">Shop</h2>
 
       <hr />
 
-      <jhi-alert-error></jhi-alert-error>
+      <!--      <jhi-alert-error></jhi-alert-error>-->
 
-      <jhi-alert></jhi-alert>
+      <!--      <jhi-alert></jhi-alert>-->
 
       <div class="row">
         <div class="col">
           <h3 class="shop-name">{{ shop.shopName }}</h3>
         </div>
-        <button class="subscribe-btn">Subscribe to {{ shop.shopName }}</button>
+        <button class="subscribe-btn" (click)="showSubscribe()" *ngIf="!alreadySub">Subscribe to {{ shop.shopName }}</button>
+        <button class="subscribe-btn" (click)="showUn()" *ngIf="alreadySub">Unsubscribe</button>
         <!--        <div class="row">-->
         <!--          <div class="col-8">-->
         <!--            <p><span class="small-title">Creation Date: </span>{{ shop.creationDate | formatMediumDate }}</p>-->
@@ -95,34 +123,34 @@
                 <p>{{ shop.openHoursHolidays }}</p>
               </div>
             </div>
-            <div class="row small-title2"><p>Details</p></div>
-            <div class="row">
-              <div class="col small-title"><p>Rating:</p></div>
-              <div class="col">
-                <p>{{ shop.rating }}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col small-title"><p>Duration:</p></div>
-              <div class="col">
-                <p>{{ shop.duration }}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col small-title"><p>Distance:</p></div>
-              <div class="col">
-                <p>{{ shop.distance }}</p>
-              </div>
-            </div>
+            <!--            <div class="row small-title2"><p>Details</p></div>-->
+            <!--            <div class="row">-->
+            <!--              <div class="col small-title"><p>Rating:</p></div>-->
+            <!--              <div class="col">-->
+            <!--                <p>{{ shop.rating }}</p>-->
+            <!--              </div>-->
+            <!--            </div>-->
+            <!--            <div class="row">-->
+            <!--              <div class="col small-title"><p>Duration:</p></div>-->
+            <!--              <div class="col">-->
+            <!--                <p>{{ shop.duration }}</p>-->
+            <!--              </div>-->
+            <!--            </div>-->
+            <!--            <div class="row">-->
+            <!--              <div class="col small-title"><p>Distance:</p></div>-->
+            <!--              <div class="col">-->
+            <!--                <p>{{ shop.distance }}</p>-->
+            <!--              </div>-->
+            <!--            </div>-->
+            <!--          </div>-->
+            <!--          <div class="row shop-userID">-->
+            <!--            <p>User: {{ shop.user?.id }}</p>-->
+            <!--          </div>-->
           </div>
-          <!--          <div class="row shop-userID">-->
-          <!--            <p>User: {{ shop.user?.id }}</p>-->
-          <!--          </div>-->
         </div>
-      </div>
 
-      <!-- Original template -->
-      <!-- <dl class="row-md jh-entity-details">
+        <!-- Original template -->
+        <!-- <dl class="row-md jh-entity-details">
         <dt><span>ID</span></dt>
         <dd>
           <span>{{ shop.id }}</span>
@@ -201,14 +229,15 @@
           <span>{{ shop.user?.id }}</span>
         </dd>
       </dl> -->
-      <div class="rol btn-row">
-        <button type="submit" (click)="previousState()" class="btn btn-info btn-back" data-cy="entityDetailsBackButton">
-          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-        </button>
+        <div class="rol btn-row">
+          <button type="submit" (click)="previousState()" class="btn btn-info btn-back" data-cy="entityDetailsBackButton">
+            <fa-icon icon="arrow-left"></fa-icon>Back
+          </button>
 
-        <button type="button" [routerLink]="['/shop', shop.id, 'edit']" class="btn btn-primary btn-edit">
-          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-        </button>
+          <button type="button" [routerLink]="['/shop', shop.id, 'edit']" class="btn btn-primary btn-edit">
+            <fa-icon icon="pencil-alt"></fa-icon>Edit
+          </button>
+        </div>
       </div>
     </div>
   </div>

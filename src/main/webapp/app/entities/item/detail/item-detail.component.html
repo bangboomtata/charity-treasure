@@ -1,7 +1,7 @@
 <div class="big-container">
   <div>
     <div *ngIf="item">
-      <h2 data-cy="itemDetailsHeading" class="big-title"><span>Item</span></h2>
+      <h2 data-cy="itemDetailsHeading" class="big-title">Item</h2>
 
       <!--      <jhi-alert-error></jhi-alert-error>-->
 
@@ -20,9 +20,7 @@
               <div class="item-detail-box">
                 <div>
                   <p class="item-name">{{ item.itemName?.toString() }}</p>
-                  <p class="item-price">
-                    <span> £{{ item.price?.toFixed(2) }}</span>
-                  </p>
+                  <p class="item-price">£{{ item.price?.toFixed(2) }}</p>
                 </div>
 
                 <hr />
@@ -45,22 +43,23 @@
                   <ng-container *ngIf="item.itemDescription !== null">
                     <p>{{ item.itemDescription }}</p>
                   </ng-container>
+
+                  <div class="button-box" *ngIf="!Shop">
+                    <button [routerLink]="['/item', item.id, 'reservation', 'new']" class="btn-reserve" [disabled]="!item.itemAvailability">
+                      Reserve Now
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    [routerLink]="['/item', item.id, 'edit']"
+                    class="btn btn-primary edit-button"
+                    *ngIf="editable === true"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+                  </button>
+                  <div class="row-divider"></div>
                 </div>
                 <div class="row-divider"></div>
-
-                <div class="button-box" *ngIf="!Shop">
-                  <button [routerLink]="['/item', item.id, 'reservation', 'new']" class="btn-reserve" [disabled]="!item.itemAvailability">
-                    Reserve Now
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  [routerLink]="['/item', item.id, 'edit']"
-                  class="btn btn-primary edit-button"
-                  *ngIf="editable === true"
-                >
-                  <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-                </button>
                 <!--                <div>{{ item.shop.id }}</div>-->
               </div>
             </div>

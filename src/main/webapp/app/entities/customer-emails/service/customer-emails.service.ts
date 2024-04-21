@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -41,6 +42,22 @@ export class CustomerEmailsService {
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<ICustomerEmails[]>(this.resourceUrl, { params: options, observe: 'response' });
+  }
+
+  ifEmailExists(email: string): Observable<ICustomerEmails[]> {
+    return this.http.get<ICustomerEmails[]>(`${this.resourceUrl}/email/${email}`).pipe(
+      catchError(error => {
+        return throwError(() => new Error('Error fetching customers by email'));
+      })
+    );
+  }
+
+  getIdByEmail(email: string): Observable<number[]> {
+    return this.http.get<number[]>(`${this.resourceUrl}/email/delete/${email}`).pipe(
+      catchError(error => {
+        return throwError(() => new Error('Error fetching customer IDs by email'));
+      })
+    );
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
