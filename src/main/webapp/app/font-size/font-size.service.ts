@@ -65,6 +65,26 @@ export class FontSizeService {
       element.style.fontSize = `${20 * (this.getFontSize() / 100)}px`;
     });
 
+    const pElements = document.querySelectorAll('p');
+    pElements.forEach(element => {
+      element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    });
+
+    const aElements = document.querySelectorAll('a');
+    aElements.forEach(element => {
+      element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    });
+
+    const divElements = document.querySelectorAll('div');
+    divElements.forEach(element => {
+      element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    });
+
+    const liElements = document.querySelectorAll('li');
+    liElements.forEach(element => {
+      element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    });
+
     const span = document.querySelectorAll('span');
     span.forEach(element => {
       element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
