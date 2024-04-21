@@ -88,11 +88,13 @@ export class ShopDetailComponent implements OnInit {
       this.customerEmailsService.getIdByEmail(this.shop.shopEmail).subscribe({
         next: response => {
           if (response.length > 1) {
-            // Handle the case where multiple IDs are returned
             console.log('Multiple customer IDs found, need user input or additional handling');
           } else if (response.length === 1) {
             this.customerEmailsService.delete(response[0]).subscribe({
-              next: () => (this.deletedSuccessfully = true),
+              next: () => {
+                this.deletedSuccessfully = true;
+                this.alreadySub = false;
+              },
               error: err => console.error('Error during deletion:', err),
             });
           } else {
@@ -105,6 +107,7 @@ export class ShopDetailComponent implements OnInit {
   }
 
   subscribeFeature() {
+    this.deletedSuccessfully = false;
     if (this.customer) {
       this.accountService.getCustomer().subscribe(customer => {
         if (customer && this.shop !== null) {
