@@ -40,6 +40,8 @@ type ReservationFormGroupContent = {
   customerName: FormControl<string | null | undefined>;
 
   shop: FormControl<ReservationFormRawValue['shop']>;
+
+  [key: string]: FormControl<any>;
 };
 
 export type ReservationFormGroup = FormGroup<ReservationFormGroupContent>;
@@ -67,7 +69,10 @@ export class ReservationFormService {
       }),
       status: new FormControl(reservationRawValue.status),
       item: new FormControl(reservationRawValue.item),
-      customerName: new FormControl(reservationRawValue?.customer?.customerName, { validators: [Validators.required] }), // Adjust according to your model
+
+      // In your ReservationFormService or wherever the form group is initialized:
+      customerName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+
       shop: new FormControl(reservationRawValue.shop),
     });
   }

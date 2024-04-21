@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center reservation-cont">
   <div class="col-8">
     <div *ngIf="reservation">
       <h2 data-cy="reservationDetailsHeading"><span>Reservation</span></h2>
@@ -35,9 +35,12 @@
         <dt><span>Customer</span></dt>
         <dd>
           <div *ngIf="reservation.customer">
+            <!--            <a [routerLink]="['/customer', reservation.customer.customerName, 'view']">{{ reservation.customer.customerName }}</a>-->
+
             <a [routerLink]="['/customer', reservation.customer.id, 'view']">{{ reservation.customer.id }}</a>
           </div>
         </dd>
+
         <dt><span>Shop</span></dt>
         <dd>
           <div *ngIf="reservation.shop">
