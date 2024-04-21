@@ -129,6 +129,9 @@ $main-blue: #000080;
   box-sizing: border-box;
 
   &:hover {
+    background: radial-gradient(circle, $second-pink 50%, transparent 50%);
+    background-size: 500%;
+    background-position: center;
     border-color: $main-pink;
     box-shadow: 0 4px 8px $main-pink;
     cursor: pointer;

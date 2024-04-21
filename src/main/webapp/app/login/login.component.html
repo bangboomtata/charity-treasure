@@ -20,7 +20,7 @@
             <div class="userSelectionBox">
               <div class="box" [class.selected]="selectedPhoto === 'user'" (click)="selectPhoto('user')">
                 <img src="/content/images/user.png" class="photo" alt="User" />
-                <p>User</p>
+                <p>Customer</p>
               </div>
               <div class="box" [class.selected]="selectedPhoto === 'charityUser'" (click)="selectPhoto('charityUser')">
                 <img src="/content/images/charityUser.png" class="photo" alt="charityUser" />
@@ -52,7 +52,7 @@
                 <strong>Failed to sign in!</strong> Please check your credentials and try again.
               </div>
               <button type="submit" class="loginButton" data-cy="loginUser">Login</button>
-              <button type="submit" class="loginGuestButton" data-cy="Guest">Login as Guest</button>
+              <button class="loginGuestButton" (click)="guest()" data-cy="Guest">Continue as Guest</button>
             </form>
             <p class="noAccount">Don't have an account? <a routerLink="/account/register" class="signUp"> Sign Up</a></p>
           </div>
