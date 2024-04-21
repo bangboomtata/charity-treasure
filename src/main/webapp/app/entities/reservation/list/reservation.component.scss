@@ -1,14 +1,19 @@
+$main-pink: #ff6961;
+$second-pink: #ffe7e7;
+$main-blue: #000080;
+$white: white;
+
 /* Ensures the outer table is centered and has a white background */
 .table-responsive {
   width: 80%;
   margin: 0 auto;
-  background-color: #ffffff; /* White background */
+  background-color: $white; /* White background */
   padding: 20px;
   border-radius: 10px;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: #fcd9df; /* Light pink background for odd rows */
+  background-color: $second-pink; /* Light pink background for odd rows */
 }
 /* Styles for the nested table to differentiate it */
 .nested-table {
@@ -48,4 +53,49 @@
 /* Optionally, style the nested table's rows for zebra striping */
 .nested-table tbody tr:nth-child(odd) {
   background-color: #eee;
+}
+
+.text-center button {
+  margin: 0 10px;
+  width: 150px;
+  border-radius: 50px;
+  border: none;
+}
+
+.btn-primary,
+.btn-secondary {
+  background-color: lightpink;
+  color: black;
+  border: none;
+  padding: 0.5rem 2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  background-color: grey;
+}
+
+.centered {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.blue-button {
+  padding: 20px 40px;
+  font-size: 20px;
+  background-color: $main-blue;
+  color: $white;
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.blue-button:hover {
+  background-color: slategray;
 }

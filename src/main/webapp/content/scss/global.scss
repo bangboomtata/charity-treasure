@@ -372,17 +372,19 @@ $text-dark: #e4e6eb;
     }
     .location-dropdown-box {
       background-color: $third-dark !important;
+      color: $text-dark !important;
     }
     .events-by-shop-dropdown {
-      background-color: $text-dark !important;
+      background-color: $third-dark !important;
+      color: $text-dark !important;
     }
   }
   //event detail
   .event-detail-cont {
     background-color: $main-dark;
   }
-  .event-details-cont {
-    background-color: $third-dark !important;
+
+  .events-further-details {
     color: $text-dark !important;
   }
   //event-form
@@ -480,15 +482,25 @@ $text-dark: #e4e6eb;
     //item page
     div.productCard {
       background-color: $third-dark !important;
-      &:hover {
-        background: radial-gradient(circle, $main-dark 50%, transparent 50%) !important;
-      }
+      box-shadow: 0 4px 8px #ff6961 !important;
     }
     .card-name {
       color: $text-dark !important;
     }
     .item-price {
       color: $text-dark !important;
+    }
+    .filter-box {
+      background-color: $secondary-dark !important;
+      label {
+        color: #ff6961 !important;
+      }
+    }
+    .filter-title {
+      color: $text-dark !important;
+    }
+    .main-box {
+      background-color: $main-dark !important;
     }
 
     .shop-list-container {
@@ -631,6 +643,23 @@ $text-dark: #e4e6eb;
       .nav-text {
         color: $main-dark !important;
       }
+    }
+  }
+  .gdpr-container {
+    background-color: $secondary-dark !important;
+    h1 {
+      color: #ff6961;
+    }
+    li,
+    p {
+      color: $text-dark !important;
+    }
+  }
+
+  //home page
+  .home-container {
+    h1 {
+      color: #ff6961 !important;
     }
   }
 }
