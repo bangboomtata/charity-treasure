@@ -90,6 +90,11 @@ export class FontSizeService {
       element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
     });
 
+    const input = document.querySelectorAll('input');
+    input.forEach(element => {
+      element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    });
+
     const buttons = document.querySelectorAll('button');
     buttons.forEach(button => {
       button.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
