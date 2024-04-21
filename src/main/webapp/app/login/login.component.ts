@@ -43,6 +43,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.username.nativeElement.focus();
   }
 
+  guest() {
+    this.router.navigate(['']);
+  }
+
   login(): void {
     this.loginService.login(this.loginForm.getRawValue()).subscribe({
       next: () => {
