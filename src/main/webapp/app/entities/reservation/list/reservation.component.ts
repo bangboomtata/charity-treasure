@@ -11,6 +11,10 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, ReservationService } from '../service/reservation.service';
 import { ReservationDeleteDialogComponent } from '../delete/reservation-delete-dialog.component';
 
+import { AccountService } from '../../../core/auth/account.service';
+import { ICustomer } from '../../customer/customer.model';
+import { IShop } from '../../shop/shop.model';
+
 @Component({
   selector: 'jhi-reservation',
   templateUrl: './reservation.component.html',
@@ -28,16 +32,42 @@ export class ReservationComponent implements OnInit {
   totalItems = 0;
   page = 1;
 
+  customerId: number | null = null;
+  isCustomer: Boolean = false;
+
+  //shopId: number | null = null;
+  shopId1: number | null = null;
+  isShop: Boolean = false;
+
   constructor(
     protected reservationService: ReservationService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected accountService: AccountService
   ) {}
 
   trackId = (_index: number, item: IReservation): number => this.reservationService.getReservationIdentifier(item);
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getShop().subscribe(shop => {
+          if (shop) {
+            this.shopId1 = shop.id;
+            this.isShop = true;
+          }
+        });
+
+        this.accountService.getCustomer().subscribe(customer => {
+          if (customer) {
+            this.isCustomer = true;
+            this.customerId = customer.id;
+          }
+        });
+      }
+    });
+
     this.load();
   }
 
