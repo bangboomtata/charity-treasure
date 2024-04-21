@@ -481,6 +481,12 @@ $text-dark: #e4e6eb;
     }
 
     //item page
+    .shop-details {
+      &:hover {
+        background-color: $third-dark;
+        cursor: pointer;
+      }
+    }
     div.productCard {
       background-color: $third-dark !important;
       box-shadow: 0 4px 8px #ff6961 !important;

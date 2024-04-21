@@ -89,5 +89,18 @@ export class FontSizeService {
     cardTitle.forEach(title => {
       title.style.fontSize = `${1.3 * (this.getFontSize() / 100)}rem`;
     });
+
+    //item detail image
+    const imgContainer = document.querySelectorAll('.img-container') as NodeListOf<HTMLElement>;
+    imgContainer.forEach(title => {
+      title.style.width = `${300 * (this.getFontSize() / 100)}px`;
+      title.style.height = `${300 * (this.getFontSize() / 100)}px`;
+    });
+
+    //item detail shop name
+    const shopName = document.querySelectorAll('.shop-name') as NodeListOf<HTMLElement>;
+    shopName.forEach(title => {
+      title.style.fontSize = `${25 * (this.getFontSize() / 100)}px`;
+    });
   }
 }

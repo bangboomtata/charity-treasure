@@ -34,11 +34,19 @@
                       <span style="color: red">unavailable</span>
                     </ng-container>
                   </p>
-                  <p><span>Condition: </span>{{ item.condition }}</p>
-                  <p><span>Item Type: </span>{{ item.itemType }}</p>
-                  <p><span>Sub Category: </span>{{ item.subCategory }}</p>
+                  <p>
+                    <span>Condition: {{ item.condition }}</span>
+                  </p>
+                  <p>
+                    <span>Item Type: {{ item.itemType }}</span>
+                  </p>
+                  <p>
+                    <span>Sub Category: {{ item.subCategory }}</span>
+                  </p>
                   <ng-container *ngIf="item.itemType?.toString() == 'CLOTHING'">
-                    <p><span>Gender: </span>{{ item.gender }}</p>
+                    <p>
+                      <span>Gender: {{ item.gender }}</span>
+                    </p>
                   </ng-container>
                   <ng-container *ngIf="item.itemDescription !== null">
                     <p>{{ item.itemDescription }}</p>
@@ -76,7 +84,7 @@
               </div>
               <div class="col">
                 <p class="shop-name">
-                  <span>{{ item.shop.shopName?.toString() }}</span>
+                  {{ item.shop.shopName?.toString() }}
                 </p>
                 <p><span>RATING: </span>{{ item.shop.rating }}</p>
               </div>
