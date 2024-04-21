@@ -180,6 +180,10 @@
           >
             <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
           </button>
+
+          <button type="button" [routerLink]="['/item', item.id, 'edit']" class="btn btn-primary edit-button" *ngIf="Shop">
+            <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+          </button>
         </div>
       </div>
     </div>
