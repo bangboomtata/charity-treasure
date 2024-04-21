@@ -19,6 +19,7 @@ import { ReservationStatus } from 'app/entities/enumerations/reservation-status.
 import dayjs from 'dayjs';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'jhi-reservation-update',
@@ -113,6 +114,14 @@ export class ReservationUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.editForm.statusChanges.subscribe(status => {
+      console.log('Form valid?', this.editForm.valid);
+      console.log('Errors:', this.editForm.errors);
+      Object.keys(this.editForm.controls).forEach(key => {
+        console.log(key, this.editForm.controls[key].errors);
+      });
+    });
+
     this.loadRelationshipsOptions();
     this.activatedRoute.params.subscribe(params => {
       this.itemId = +params['id']; // Convert to number
@@ -121,21 +130,37 @@ export class ReservationUpdateComponent implements OnInit {
       }
       this.activatedRoute.data.subscribe(({ reservation }) => {
         this.reservation = reservation;
+
         if (reservation) {
           this.updateForm(reservation);
+          this.createForm(reservation);
         } else {
           // New reservation - set default dates
           this.setReservationDates();
+          this.createForm();
         }
       });
     });
   }
 
+  createForm(reservation?: IReservation): void {
+    if (reservation) {
+      this.editForm = this.reservationFormService.createReservationFormGroup(reservation);
+    } else {
+      // Create a new form for a new reservation
+      this.editForm = this.reservationFormService.createReservationFormGroup();
+    }
+
+    // Add validators if necessary
+    this.editForm.get('customerFullName')?.setValidators([Validators.required, Validators.minLength(2)]);
+    this.editForm.get('customerFullName')?.updateValueAndValidity();
+  }
+
   fetchItemDetails(itemId: number): void {
     this.itemService.find(itemId).subscribe(
       (itemResponse: HttpResponse<IItem>) => {
-        this.itemName = itemResponse.body?.itemName; // Make sure this matches the property in your IItem interface
-        // ... other code ...
+        this.itemName = itemResponse.body?.itemName;
+
         this.shopName = itemResponse.body?.shop?.shopName;
         this.itemImage = itemResponse.body?.itemImage;
         this.itemImageContentType = itemResponse.body?.itemImageContentType;
