@@ -21,6 +21,7 @@ body {
 
 .container-fluid {
   margin: 0;
+  padding: 0;
 }
 
 a:hover {
@@ -49,9 +50,9 @@ Generic styles
 /* other generic styles */
 
 .jh-card {
-  padding: 1.5%;
+  padding: 0;
   margin: 0;
-  border: none;
+  border-radius: 0;
 }
 
 .error {
@@ -480,9 +481,21 @@ $text-dark: #e4e6eb;
     }
 
     //item page
+    .shop-details {
+      &:hover {
+        background-color: $third-dark;
+        cursor: pointer;
+      }
+    }
     div.productCard {
       background-color: $third-dark !important;
       box-shadow: 0 4px 8px #ff6961 !important;
+
+      &:hover {
+        background: radial-gradient(circle, $secondary-dark 50%, transparent 50%);
+        background-size: 500%;
+        background-position: center;
+      }
     }
     .card-name {
       color: $text-dark !important;

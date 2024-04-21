@@ -106,7 +106,7 @@ img {
 }
 
 p {
-  font-size: 17px;
+  font-size: 16px;
   margin: 0;
 }
 
@@ -147,4 +147,8 @@ hr {
     background-color: $second-pink;
     cursor: pointer;
   }
+}
+
+.btn-reserve {
+  opacity: 0.5;
 }

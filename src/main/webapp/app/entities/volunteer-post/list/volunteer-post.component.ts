@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IVolunteerPost } from '../volunteer-post.model';
 import { AccountService } from 'app/core/auth/account.service';
+import { FontSizeService } from 'app/font-size/font-size.service';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
@@ -36,14 +37,6 @@ export class VolunteerPostComponent implements OnInit {
 
   selectedPost: IVolunteerPost | null = null;
 
-  selectPost(post: IVolunteerPost): void {
-    this.selectedPost = post;
-  }
-
-  isSelected(post: IVolunteerPost): boolean {
-    return this.selectedPost === post;
-  }
-
   constructor(
     protected volunteerPostService: VolunteerPostService,
     protected activatedRoute: ActivatedRoute,
@@ -51,8 +44,18 @@ export class VolunteerPostComponent implements OnInit {
     protected parseLinks: ParseLinks,
     protected dataUtils: DataUtils,
     protected modalService: NgbModal,
-    protected accountService: AccountService
+    protected accountService: AccountService,
+    protected fontSizeService: FontSizeService
   ) {}
+
+  selectPost(post: IVolunteerPost): void {
+    this.fontSizeService.adjustFontSize();
+    this.selectedPost = post;
+  }
+
+  isSelected(post: IVolunteerPost): boolean {
+    return this.selectedPost === post;
+  }
 
   scrollToElement(elementId: string): void {
     const element = document.getElementById(elementId);
@@ -73,6 +76,11 @@ export class VolunteerPostComponent implements OnInit {
   }
 
   trackId = (_index: number, item: IVolunteerPost): number => this.volunteerPostService.getVolunteerPostIdentifier(item);
+
+  ngAfterViewChecked() {
+    // Call the font adjustment function after view checked
+    this.fontSizeService.adjustFontSize();
+  }
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
