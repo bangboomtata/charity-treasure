@@ -161,6 +161,28 @@ public class CustomerEmailsResource {
         return ResponseUtil.wrapOrNotFound(customerEmails);
     }
 
+    @GetMapping("/customer-emails/email/{email}")
+    public ResponseEntity<List<CustomerEmails>> getEmail(@PathVariable String email) {
+        log.debug("Finding if email is in customer emails");
+        List<CustomerEmails> customerEmails = customerEmailsRepository.findOneByEmailIgnoreCase(email);
+        if (!customerEmails.isEmpty()) {
+            return ResponseEntity.ok(customerEmails);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/customer-emails/email/delete/{email}")
+    public ResponseEntity<?> getIdByEmail(@PathVariable String email) {
+        log.debug("Getting ID by email");
+        List<Long> customerIds = customerEmailsRepository.findIdsByEmail(email);
+        if (!customerIds.isEmpty()) {
+            return ResponseEntity.ok(customerIds);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     /**
      * {@code DELETE  /customer-emails/:id} : delete the "id" customerEmails.
      *

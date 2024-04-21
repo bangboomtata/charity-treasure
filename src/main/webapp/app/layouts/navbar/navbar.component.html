@@ -38,7 +38,7 @@
 
         <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="reservation">
-            <span class="nav-text">Reserved</span>
+            <span class="nav-text">Reserve</span>
           </a>
         </li>
 
@@ -222,19 +222,64 @@
           </a>
         </li>
 
-        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="feedback">
+        <li
+          *ngSwitchCase="true"
+          ngbDropdown
+          class="nav-item dropdown pointer"
+          display="dynamic"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="feedback">
             <span class="nav-text">Feedback</span>
+          </a>
+
+          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="feedback">
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="../../feedback/new"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <span>Feedback Form</span>
+              </a>
+            </li>
+            <li>
+              <a
+                *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                class="dropdown-item"
+                routerLink="feedback"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <span>All Feedbacks</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!--        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">-->
+        <!--          <a class="nav-link" routerLink="feedback">-->
+        <!--            <span class="nav-text">Feedback</span>-->
+        <!--          </a>-->
+        <!--        </li>-->
+
+        <!--        <li *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">-->
+        <!--          <a class="nav-link" routerLink="feedback">-->
+        <!--            <span class="nav-text">Feedback</span>-->
+        <!--          </a>-->
+        <!--        </li>-->
+
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="gdpr-policy">
+            <span class="nav-text">GDPR</span>
           </a>
         </li>
 
         <li *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="feedback">
-            <span class="nav-text">Feedback</span>
-          </a>
-        </li>
-
-        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="customer">
             <span class="nav-text">Customer</span>
           </a>

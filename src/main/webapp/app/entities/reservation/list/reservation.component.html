@@ -7,20 +7,20 @@
   <br /><br />
   <h3><i> Amazing right? </i></h3>
   <br /><br />
-  <h5>Click on the button below or go to "Item" to see what items we have available!</h5>
+  <h5>Click on the button below or go to "Items" to see what items we have available!</h5>
+  <br />
+  <br />
+  <div class="centered-button-container">
+    <button class="blue-button" [routerLink]="['/item']"><b> Check Items </b></button>
+  </div>
   <br /><br />
-  <button
-    style="background-color: white; font-weight: bold; border-radius: 50px; margin-bottom: 20px; text-align: center"
-    routerLink="/item"
-    class="btn-reserve"
-  >
-    Items
-  </button>
+  <br />
+  <br />
 </div>
 
 <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="reservation-cont">
-  <div style="text-align: center; font-weight: bolder" class="modal-title big-title">
-    <h1 id="page-heading" data-cy="ReservationHeading" class="text-center">All Reservations</h1>
+  <div style="text-align: center; font-weight: bolder" class="modal-title">
+    <h2 id="page-heading" data-cy="ReservationHeading" class="text-center big-title">All Reservations</h2>
   </div>
   <div class="d-flex justify-content-end">
     <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -158,12 +158,12 @@
     </table>
   </div>
 
-  <th scope="col">
-    <div class="d-flex">
-      <span>Customer Full Name</span>
-      <fa-icon class="p-1" icon="sort"></fa-icon>
-    </div>
-  </th>
+  <!--  <th scope="col">-->
+  <!--    <div class="d-flex">-->
+  <!--      <span>Customer Full Name</span>-->
+  <!--      <fa-icon class="p-1" icon="sort"></fa-icon>-->
+  <!--    </div>-->
+  <!--  </th>-->
 
   <div *ngIf="reservations && reservations.length > 0">
     <div class="d-flex justify-content-center">

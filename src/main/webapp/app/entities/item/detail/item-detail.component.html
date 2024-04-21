@@ -20,9 +20,7 @@
               <div class="item-detail-box">
                 <div>
                   <p class="item-name">{{ item.itemName?.toString() }}</p>
-                  <p class="item-price">
-                    <span> £{{ item.price?.toFixed(2) }}</span>
-                  </p>
+                  <p class="item-price">£{{ item.price?.toFixed(2) }}</p>
                 </div>
 
                 <hr />
@@ -45,22 +43,23 @@
                   <ng-container *ngIf="item.itemDescription !== null">
                     <p>{{ item.itemDescription }}</p>
                   </ng-container>
+
+                  <div class="button-box" *ngIf="!Shop">
+                    <button [routerLink]="['/item', item.id, 'reservation', 'new']" class="btn-reserve" [disabled]="!item.itemAvailability">
+                      Reserve Now
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    [routerLink]="['/item', item.id, 'edit']"
+                    class="btn btn-primary edit-button"
+                    *ngIf="editable === true"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+                  </button>
+                  <div class="row-divider"></div>
                 </div>
                 <div class="row-divider"></div>
-
-                <div class="button-box" *ngIf="!Shop">
-                  <button [routerLink]="['/item', item.id, 'reservation', 'new']" class="btn-reserve" [disabled]="!item.itemAvailability">
-                    Reserve Now
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  [routerLink]="['/item', item.id, 'edit']"
-                  class="btn btn-primary edit-button"
-                  *ngIf="editable === true"
-                >
-                  <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-                </button>
                 <!--                <div>{{ item.shop.id }}</div>-->
               </div>
             </div>
@@ -86,7 +85,7 @@
           <hr />
         </ng-container>
 
-        <dl class="row-md jh-entity-details" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <!-- <dl class="row-md jh-entity-details" *jhiHasAnyAuthority="'ROLE_ADMIN'">
           <dt><span>ID</span></dt>
           <dd>
             <span>{{ item.id }}</span>
@@ -158,7 +157,7 @@
               <a [routerLink]="['/shop', item.shop.id, 'view']">{{ item.shop.id }}</a>
             </div>
           </dd>
-        </dl>
+        </dl> -->
 
         <div class="text-center">
           <button type="submit" (click)="previousState()" class="btn btn-info back-button" data-cy="entityDetailsBackButton">

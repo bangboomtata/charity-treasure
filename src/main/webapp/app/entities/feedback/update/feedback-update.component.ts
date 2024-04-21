@@ -15,14 +15,18 @@ import { CustomerService } from 'app/entities/customer/service/customer.service'
 import { IShop } from 'app/entities/shop/shop.model';
 import { ShopService } from 'app/entities/shop/service/shop.service';
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'jhi-feedback-update',
   templateUrl: './feedback-update.component.html',
+  styleUrls: ['feedback-form.component.scss'],
 })
 export class FeedbackUpdateComponent implements OnInit {
   isSaving = false;
   feedback: IFeedback | null = null;
   showRating = false;
+  showPopup = false;
 
   customersSharedCollection: ICustomer[] = [];
   shopsSharedCollection: IShop[] = [];
@@ -36,7 +40,9 @@ export class FeedbackUpdateComponent implements OnInit {
     protected feedbackFormService: FeedbackFormService,
     protected customerService: CustomerService,
     protected shopService: ShopService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+
+    private router: Router
   ) {}
 
   compareCustomer = (o1: ICustomer | null, o2: ICustomer | null): boolean => this.customerService.compareCustomer(o1, o2);
@@ -102,7 +108,16 @@ export class FeedbackUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    this.showThankYouPopup();
+  }
+
+  private showThankYouPopup(): void {
+    // This can be an alert, a modal, or a simple div in your HTML that you make visible
+    // alert('Thank you for your feedback!');
+    this.showPopup = true;
+    setTimeout(() => {
+      this.router.navigate(['/']); // navigate to home after 5 seconds
+    }, 2500);
   }
 
   protected onSaveError(): void {

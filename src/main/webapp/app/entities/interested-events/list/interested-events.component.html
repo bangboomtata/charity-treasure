@@ -116,9 +116,7 @@
       <div class="col-4" *ngIf="interestedEvents.user?.id == customerId">
         <div class="interested-event-info-box">
           <h2>
-            <span
-              ><a [routerLink]="['/event', interestedEvents.event?.id, 'view']">{{ interestedEvents.event?.eventName }} </a></span
-            >
+            <a [routerLink]="['/event', interestedEvents.event?.id, 'view']">{{ interestedEvents.event?.eventName }} </a>
           </h2>
 
           <div class="text-end">

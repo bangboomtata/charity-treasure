@@ -63,6 +63,10 @@ $second-pink: #ffe7e7;
   background-color: $main-pink;
 }
 
+.navbar-nav .dropdown:hover .dropdown-menu {
+  display: block;
+}
+
 .dropdown-item {
   background-color: $main-pink;
   color: white;

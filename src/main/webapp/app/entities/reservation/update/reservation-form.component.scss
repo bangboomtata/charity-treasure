@@ -1,3 +1,8 @@
+$main-pink: #ff6961;
+$second-pink: #ffe7e7;
+$main-blue: #000080;
+$white: white;
+
 .reservation-wrapper {
   display: flex;
   justify-content: center;
@@ -65,18 +70,85 @@
 
 .btn-primary,
 .btn-secondary {
-  background-color: lightpink;
-  color: black;
+  color: $white;
   border: none;
   padding: 0.5rem 2rem;
   border-radius: 50px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin: auto;
+}
+
+.btn-secondary {
+  background-color: $main-blue;
+}
+
+.btn-primary {
+  background-color: $main-pink;
 }
 
 .btn-primary:hover,
 .btn-secondary:hover {
-  background-color: grey; /* Lighter pink on hover */
+  background-color: grey;
 }
 
-/* Additional responsive adjustments can be made if necessary */
+//.text-center button {
+//  margin: 0 10px;
+//  width: 150px;
+//  border-radius: 50px;
+//  border: none;
+//}
+
+.home_page,
+.feedback_page {
+  color: $white; /* White text color */
+  border: none;
+  padding: 1rem 2rem; /* Increase padding for bigger buttons */
+  border-radius: 30px; /* Oval shape */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem; /* Adjust the font size as needed */
+  margin: auto; /* Add some space between the buttons */
+}
+
+.home_page {
+  background-color: $main-blue;
+}
+
+.feedback_page {
+  background-color: $main-pink;
+}
+
+.home_page:hover {
+  background-color: darkslategrey; /* Lighter pink on hover */
+}
+.feedback_page:hover {
+  background-color: #f53a32;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); /* Darker semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; /* Ensures it's above everything else */
+}
+
+.popup-box {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Smooth shadow for 3D effect */
+  padding: 190px;
+  width: auto; /* Adjust width as necessary */
+}
+
+.popup-content {
+  font-size: 24px; /* Large readable text */
+  text-align: center;
+  color: #333; /* Darker text for better readability */
+}

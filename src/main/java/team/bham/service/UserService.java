@@ -16,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import team.bham.config.Constants;
 import team.bham.domain.Authority;
 import team.bham.domain.Customer;
+import team.bham.domain.CustomerEmails;
 import team.bham.domain.User;
 import team.bham.repository.AuthorityRepository;
+import team.bham.repository.CustomerEmailsRepository;
 import team.bham.repository.CustomerRepository;
 import team.bham.repository.UserRepository;
 import team.bham.security.AuthoritiesConstants;
@@ -39,6 +41,8 @@ public class UserService {
 
     private final CustomerRepository customerRepository;
 
+    private final CustomerEmailsRepository customerEmailsRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
@@ -50,13 +54,15 @@ public class UserService {
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
         CacheManager cacheManager,
-        CustomerRepository customerRepository
+        CustomerRepository customerRepository,
+        CustomerEmailsRepository customerEmailsRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
         this.customerRepository = customerRepository;
+        this.customerEmailsRepository = customerEmailsRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -139,6 +145,9 @@ public class UserService {
         userRepository.save(newUser);
         newCustomer.setUser(newUser);
         customerRepository.save(newCustomer);
+        CustomerEmails newCustomerEmails = new CustomerEmails();
+        newCustomerEmails.setCustomer(newCustomer);
+        customerEmailsRepository.save(newCustomerEmails);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
