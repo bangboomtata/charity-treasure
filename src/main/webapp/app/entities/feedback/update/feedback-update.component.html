@@ -25,13 +25,13 @@
           <!--            />-->
           <!--          </div>-->
           <div class="row mb-3">
-            <label class="form-label fw-bold" for="field_customerName">Customer Name</label>
+            <label class="form-label" for="field_customerName">Customer Name</label>
             <input type="text" class="form-control" id="field_customerName" data-cy="customerName" formControlName="customerName" />
             <small class="form-text text-danger" *ngIf="editForm.get('feedbackText')?.errors?.required"> This field is required. </small>
           </div>
 
           <div class="row mb-3">
-            <label class="form-label fw-bold" for="field_feedbackText">Feedback Text</label>
+            <label class="form-label" for="field_feedbackText">Feedback Text</label>
             <textarea
               class="form-control"
               name="feedbackText"
@@ -64,14 +64,14 @@
           <!--          </div>-->
 
           <div class="row mb-3">
-            <label class="form-label fw-bold" for="field_shopName">Shop Name (Not required unless the feedback is for the shop)</label>
+            <label class="form-label" for="field_shopName">Shop Name (Not required unless the feedback is for the shop)</label>
             <select class="form-select" id="field_shopName" data-cy="shopName" formControlName="shopName">
               <option *ngFor="let shop of shopsSharedCollection" [value]="shop.id">{{ shop.shopName }}</option>
             </select>
           </div>
 
           <div *ngIf="editForm.get('shopName')?.value" class="row mb-3">
-            <label class="form-label fw-bold" for="field_rating">Rating (From 5-1: 5:Best)</label>
+            <label class="form-label" for="field_rating">Rating (From 5-1: 5:Best)</label>
             <input
               type="number"
               class="form-control"
@@ -95,43 +95,48 @@
           <!--              (input)="checkShopName()"-->
           <!--            />-->
           <!--          </div>-->
+        </div>
+        <div class="col text-center">
+          <br />
+          <button
+            type="button"
+            id="cancel-save"
+            data-cy="entityCreateCancelButton"
+            class="btn btn-secondary cancelling-button"
+            (click)="previousState()"
+          >
+            <fa-icon icon="ban"></fa-icon>&nbsp; <span>Cancel</span>
+          </button>
 
-          <div>
-            <button
-              type="button"
-              id="cancel-save"
-              data-cy="entityCreateCancelButton"
-              class="btn btn-secondaryl btn-cancel"
-              (click)="previousState()"
-            >
-              <fa-icon icon="ban"></fa-icon>&nbsp; <span>Cancel</span>
-            </button>
-            <button
-              type="submit"
-              id="save-entity"
-              data-cy="entityCreateSaveButton"
-              [disabled]="editForm.invalid || isSaving"
-              class="btn btn-primary"
-              [class.enabled]="editForm.valid && !isSaving"
-            >
-              <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
-            </button>
-          </div>
-          <!--          <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">&ndash;&gt;-->
-          <!--            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>-->
-          <!--          </button>-->
-
-          <!--          <button-->
-          <!--            type="submit"-->
-          <!--            id="save-entity"-->
-          <!--            data-cy="entityCreateSaveButton"-->
-          <!--            [disabled]="editForm.invalid || isSaving"-->
-          <!--            class="btn btn-primary"-->
-          <!--          >-->
-          <!--            <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>-->
-          <!--          </button>-->
+          <button
+            type="submit"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            [disabled]="editForm.invalid || isSaving"
+            class="btn btn-primary save-button"
+            [class.enabled]="editForm.valid && !isSaving"
+          >
+            <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+          </button>
         </div>
       </form>
     </div>
+  </div>
+
+  <div *ngIf="showPopup" class="popup-overlay">
+    <div class="popup-box">
+      <div class="popup-content">
+        <h2 class="big-title">
+          Thank you for your feedback! <br />
+          <br />
+          Have a lovely day!
+          <br />
+          <br />
+        </h2>
+      </div>
+    </div>
+    <br /><br />
+    <br /><br />
+    <br />
   </div>
 </div>
