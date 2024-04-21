@@ -484,6 +484,12 @@ $text-dark: #e4e6eb;
     div.productCard {
       background-color: $third-dark !important;
       box-shadow: 0 4px 8px #ff6961 !important;
+
+      &:hover {
+        background: radial-gradient(circle, $secondary-dark 50%, transparent 50%);
+        background-size: 500%;
+        background-position: center;
+      }
     }
     .card-name {
       color: $text-dark !important;

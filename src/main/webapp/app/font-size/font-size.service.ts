@@ -83,5 +83,11 @@ export class FontSizeService {
     navbarVersion.forEach(title => {
       title.style.fontSize = `${13 * (this.getFontSize() / 100)}px`;
     });
+
+    //item product card name
+    const cardTitle = document.querySelectorAll('.card-name') as NodeListOf<HTMLElement>;
+    cardTitle.forEach(title => {
+      title.style.fontSize = `${1.3 * (this.getFontSize() / 100)}rem`;
+    });
   }
 }
