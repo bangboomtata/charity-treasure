@@ -15,7 +15,20 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import team.bham.domain.User;
+import team.bham.domain.enumeration.Gender;
+import team.bham.domain.enumeration.ItemType;
 import tech.jhipster.config.JHipsterProperties;
+
+//import dayjs from 'dayjs/esm';
+
+//export interface Sale {
+//    message: string;
+//    saleAmount: number;
+//    itemType: ItemType;
+//    saleEndTime: dayjs.Dayjs;
+//    gender: Gender
+//    subCategory: List<String>;
+//}
 
 /**
  * Service for sending emails.
@@ -109,4 +122,5 @@ public class MailService {
         log.debug("Sending password reset email to '{}'", user.getEmail());
         sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title");
     }
+    //    public void mailSubscribers(Sale sale)
 }

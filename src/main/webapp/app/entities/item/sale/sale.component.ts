@@ -14,6 +14,7 @@ import { ShopService } from 'app/entities/shop/service/shop.service';
 import { ItemType } from 'app/entities/enumerations/item-type.model';
 import { Gender } from 'app/entities/enumerations/gender.model';
 import { ItemService } from 'app/entities/item/service/item.service';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-sale',
@@ -26,6 +27,7 @@ export class SaleComponent implements OnInit {
   genderValues = Object.values(Gender);
   itemTypeValues = Object.values(ItemType);
   shopsSharedCollection: IShop[] = [];
+  shop: IShop | null = null;
 
   currentSubCategories: string[] = [];
   // selectedSubcategories: {[key: string]: string[]} = {};
@@ -38,7 +40,8 @@ export class SaleComponent implements OnInit {
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute,
     protected itemService: ItemService,
-    protected router: Router
+    protected router: Router,
+    protected accountService: AccountService
   ) {}
 
   shouldShowGender(itemType: string | null | undefined): boolean {
@@ -65,6 +68,11 @@ export class SaleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.accountService.getShop().subscribe(shop => {
+      if (shop !== null) {
+        this.shop = shop;
+      }
+    });
     this.editForm.get('itemType')!.valueChanges.subscribe(() => {
       this.updateSubCategoryOptions();
     });
@@ -85,9 +93,7 @@ export class SaleComponent implements OnInit {
     const selectedSub: String[] = [];
     const subCategoryFormArray = this.editForm.get('subCategory') as FormArray;
     subCategoryFormArray.controls.forEach((control, index) => {
-      // Check if the control value is true (i.e., the checkbox is selected)
       if (control.value === true) {
-        // Add the corresponding subCategory from currentSubCategories to the selected list
         selectedSub.push(this.currentSubCategories[index]);
       }
     });
@@ -104,7 +110,10 @@ export class SaleComponent implements OnInit {
     const submissionData = {
       ...rawFormValue,
       subCategory: selectedSubCategories,
+      shop: this.shop,
     };
+    // @ts-ignore
+    console.log('the shop id is ', submissionData.shop.shopName);
     const saleData: SSale = this.prepareDataForSubmission(submissionData);
     this.subscribeToSaveResponse(this.itemService.createSale(saleData));
   }
