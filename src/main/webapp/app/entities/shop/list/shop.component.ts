@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as L from 'leaflet';
 import 'leaflet.fullscreen';
 import 'leaflet.locatecontrol';
@@ -11,6 +11,7 @@ import { IShop } from '../shop.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, ShopService } from '../service/shop.service';
 import { ShopDeleteDialogComponent } from '../delete/shop-delete-dialog.component';
+import { PermissionComponent } from '../permission/permission.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { SortService } from 'app/shared/sort/sort.service';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
@@ -84,7 +85,7 @@ export class ShopComponent implements OnInit {
   trackId = (_index: number, item: IShop): number => this.shopService.getShopIdentifier(item);
 
   ngOnInit(): void {
-    this.loadAverageRating();
+    // this.loadAverageRating();
     setTimeout(() => {
       this.initMap();
     }, 100);
@@ -267,18 +268,18 @@ export class ShopComponent implements OnInit {
     this.initMap();
   }
 
-  protected rating: number = 0;
+  // protected rating: number = 0;
 
-  protected loadAverageRating(): void {
-    this.feedbackService.calculateAverageRating().subscribe(
-      rating => {
-        this.rating = rating;
-      },
-      error => {
-        console.error('Failed to load average rating:', error);
-      }
-    );
-  }
+  // protected loadAverageRating(): void {
+  //   this.feedbackService.calculateAverageRating().subscribe(
+  //     rating => {
+  //       this.rating = rating;
+  //     },
+  //     error => {
+  //       console.error('Failed to load average rating:', error);
+  //     }
+  //   );
+  // }
 
   //Initialize the map and setup real user location data
   protected initMap(): void {
@@ -288,8 +289,8 @@ export class ShopComponent implements OnInit {
         if (permissionStatus.state === 'granted') {
           this.getUserLocationAndSetupMap();
         } else if (permissionStatus.state === 'prompt') {
-          // The user hasn't decided yet, so you may want to show a message asking for permission
-          // You can handle this case according to your UI/UX requirements
+          console.log('Geolocation permission is in the prompt state.');
+          this.openPermissionModal();
         } else {
           console.log(permissionStatus.state);
           console.error('Geolocation permission denied.');
@@ -300,6 +301,15 @@ export class ShopComponent implements OnInit {
       console.error('Geolocation permissions API is not supported.');
       // Handle unsupported browser
     }
+  }
+
+  openPermissionModal(): void {
+    // Open the permission modal
+    const modalRef = this.modalService.open(PermissionComponent, { centered: true });
+    modalRef.componentInstance.permissionGranted.subscribe(() => {
+      // Subscribe to permissionGranted event
+      this.getUserLocationAndSetupMap(); // Trigger getUserLocationAndSetupMap method
+    });
   }
 
   protected getUserLocationAndSetupMap(): void {
