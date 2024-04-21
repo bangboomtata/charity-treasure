@@ -1,42 +1,66 @@
-////.custom-save-button {
-////  background-color: pink;
-////  border-color: pink;
-////}
-////
-////.custom-cancel-button {
-////  background-color: blue;
-////  border-color: blue;
-////}
-//
-///* Styles for the buttons */
-//.btn-cancel {
-//  background-color: blue;
-//  color: white;
-//}
-//
-//.btn-save {
-//  background-color: lightpink; /* Default state when disabled */
-//  color: white;
-//}
-//
-//.btn-save.enabled {
-//  background-color: deeppink; /* Bright pink when form is valid and ready to submit */
-//  color: white;
-//}
-//
+$main-pink: #ff6961;
+$second-pink: #ffe7e7;
+$main-blue: #000080;
 
-.btn-primary,
-.btn-secondary {
-  background-color: lightpink;
-  color: black;
-  border: none;
-  padding: 0.5rem 2rem;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+label {
+  color: $main-blue;
+  font-weight: bold;
 }
 
-.btn-primary:hover,
-.btn-secondary:hover {
-  background-color: pink; /* Lighter pink on hover */
+input[type='text'],
+textarea,
+input[type='number'],
+select {
+  background-color: $second-pink;
+  border: none;
+  border-radius: 10px;
+}
+
+.text-center button {
+  margin: 0 10px;
+  width: 150px;
+  border-radius: 50px;
+  border: none;
+}
+
+.cancelling-button {
+  background-color: $main-blue;
+}
+
+.save-button {
+  background-color: $main-pink;
+}
+
+.cancelling-button:hover {
+  background-color: darkslategrey; /* Lighter pink on hover */
+}
+.save-button:hover {
+  background-color: #f53a32;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); /* Darker semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; /* Ensures it's above everything else */
+}
+
+.popup-box {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Smooth shadow for 3D effect */
+  padding: 40px;
+  width: auto; /* Adjust width as necessary */
+}
+
+.popup-content {
+  font-size: 24px; /* Large readable text */
+  text-align: center;
+  color: #333; /* Darker text for better readability */
 }
