@@ -45,26 +45,8 @@ export type SubCategoryOptions = {
 
 export const subCategoryOptions: SubCategoryOptions = {
   [ItemType.CLOTHING]: {
-    [Gender.MALE]: [
-      'Coats & Jackets',
-      'Hoodies & Sweatshirts',
-      'Jeans & Trousers',
-      'Knitwear',
-      'Shirts & Tops',
-      'Suits & Sets',
-      'Accessories',
-    ],
-    [Gender.FEMALE]: [
-      'Coats & Jackets',
-      'Dresses',
-      'Hoodies & Sweatshirts',
-      'Jeans',
-      'Jumpsuits & Playsuits',
-      'Knitwear',
-      'Shirts & Blouses',
-      'Skirts',
-      'Trousers and Leggings',
-    ],
+    [Gender.MALE]: ['Jeans & Trousers', 'Shirts & Tops', 'Suits & Sets', 'Accessories'],
+    [Gender.FEMALE]: ['Dresses', 'Jeans', 'Jumpsuits & Playsuits', 'Shirts & Blouses', 'Skirts', 'Trousers and Leggings'],
     [Gender.UNISEX]: ['Accessories', 'Coats & Jackets', 'Hoodies & Sweatshirts', 'Jumpsuits & Dungarees', 'Knitwear', 'Shoes & Boots'],
   },
   [ItemType.TOY]: ['Board Games', 'Dolls & Soft Toys', 'Jigsaws', 'Models', 'Action Figures'],
