@@ -9,6 +9,10 @@ Navbar
 $main-pink: #ff6961;
 $second-pink: #ffe7e7;
 
+.navbar-brand {
+  margin-left: 10px;
+}
+
 .navbar-version {
   font-size: 0.65em;
   color: $navbar-dark-color;
