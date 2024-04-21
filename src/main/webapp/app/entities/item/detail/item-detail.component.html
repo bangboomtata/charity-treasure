@@ -7,7 +7,7 @@
 
       <!--      <jhi-alert></jhi-alert>-->
       <div class="main-box">
-        <ng-container *jhiHasAnyAuthority="'ROLE_USER'">
+        <ng-container>
           <div class="row">
             <div class="col-auto">
               <div class="img-container" *ngIf="item.itemImage">
@@ -178,6 +178,10 @@
             class="btn btn-primary edit-button"
             *jhiHasAnyAuthority="'ROLE_ADMIN'"
           >
+            <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+          </button>
+
+          <button type="button" [routerLink]="['/item', item.id, 'edit']" class="btn btn-primary edit-button" *ngIf="Shop">
             <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
           </button>
         </div>

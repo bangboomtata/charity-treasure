@@ -12,7 +12,7 @@ $main-blue: #000080;
 .filter-box {
   float: left;
   width: 20%;
-  height: 440px;
+  height: 700px;
   overflow-y: scroll;
   background-color: $second-pink;
   padding: 1%;
@@ -69,7 +69,7 @@ $main-blue: #000080;
 .main-box {
   float: right;
   width: 80%;
-  height: 440px;
+  height: 700px;
   background-color: white;
   padding: 0;
 
@@ -107,14 +107,14 @@ $main-blue: #000080;
   height: 5px;
 }
 
-.rowContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  max-width: 1000px;
-  margin: 0 auto;
-}
+// .rowContainer {
+// display: flex;
+// flex-direction: row;
+// justify-content: flex-start;
+// flex-wrap: wrap;
+// max-width: 1000px;
+// margin: 0 auto;
+// }
 
 .productCard {
   background-color: white;
