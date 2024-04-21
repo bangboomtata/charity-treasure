@@ -35,6 +35,7 @@ export class ReservationUpdateComponent implements OnInit {
   shopsSharedCollection: IShop[] = [];
 
   editForm: ReservationFormGroup = this.reservationFormService.createReservationFormGroup();
+  showPopup = false;
 
   itemId: number | null = null;
   itemName: string | null | undefined = null;
@@ -53,9 +54,9 @@ export class ReservationUpdateComponent implements OnInit {
     protected shopService: ShopService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-
     private http: HttpClient // HttpClient is used to fetch item details
   ) {}
+
   navigateToConfirmation() {
     this.router.navigate(['/reservation/confirmation']);
   }
@@ -107,6 +108,7 @@ export class ReservationUpdateComponent implements OnInit {
       },
       error: error => console.error('Error fetching item', error),
     });
+    this.hideModal();
     this.save();
   }
 
@@ -234,7 +236,16 @@ export class ReservationUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    this.showThankYouPopup();
+  }
+
+  private showThankYouPopup(): void {
+    // This can be an alert, a modal, or a simple div in your HTML that you make visible
+    // alert('Thank you for your feedback!');
+    this.showPopup = true;
+    // setTimeout(() => {
+    //   this.router.navigate(["/"]); // navigate to home after 5 seconds
+    // }, 2500);
   }
 
   protected onSaveError(): void {

@@ -68,7 +68,7 @@
                     required
                     placeholderr="Your Full Name"
                   />
-                  <small class="form-text text-danger" *ngIf="editForm.get('Name')?.errors?.required"> This field is required. </small>
+                  <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
                 </td>
               </tr>
 
@@ -180,20 +180,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" (click)="hideModal()">Cancel</button>
-                  <!-- In your modal template, adjust the button as follows -->
-                  <!--                  <button-->
-                  <!--                    type="saveconfirm"-->
-                  <!--                    id="saveconfirm-entity"-->
-                  <!--                    data-cy="entityCreateSaveButton"-->
-                  <!--                    -->
-                  <!--                    class="btn btn-primary">-->
-                  <!--&lt;!&ndash;                    (click)="confirmReservation()"&ndash;&gt;-->
-                  <!--&lt;!&ndash;                  >&ndash;&gt;-->
-                  <!--                    &lt;!&ndash;            (click)="prepareReservation()"&ndash;&gt;-->
-                  <!--                    &lt;!&ndash;          >&ndash;&gt;-->
-                  <!--                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Confirm Resffgagervation!</span>-->
-                  <!--                  </button>-->
-                  <!-- Inside your component template -->
+
                   <button type="button" class="btn btn-primary" (click)="confirmReservation()">Confirm Reservation!</button>
 
                   <!--&lt;!&ndash;                  <button type="button" id="confirm-and-save" data-cy="confirmSaveButton" [disabled]="editForm.invalid || isSaving" class="btn btn-primary" (click)="saveAndConfirm()">&ndash;&gt;-->
@@ -206,6 +193,25 @@
         </div>
       </form>
     </div>
+  </div>
+  <div *ngIf="showPopup" class="popup-overlay">
+    <div class="popup-box">
+      <div class="popup-content">
+        <h2 class="big-title">Reservation Confirmed!</h2>
+        <br />
+        <br />
+        <h3>Would you like to give us feedback?</h3>
+        <br />
+        <br />
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary home_page" routerLink="/">Not Today</button>
+          <button type="button" class="btn btn-primary feedback_page" routerLink="/feedback/new">Sure!</button>
+        </div>
+      </div>
+    </div>
+    <br /><br />
+    <br /><br />
+    <br />
   </div>
 </div>
 <!--</div>-->
