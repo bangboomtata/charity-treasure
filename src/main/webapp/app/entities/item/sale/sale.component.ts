@@ -27,7 +27,7 @@ export class SaleComponent implements OnInit {
   genderValues = Object.values(Gender);
   itemTypeValues = Object.values(ItemType);
   shopsSharedCollection: IShop[] = [];
-  shop: IShop | null = null;
+  shop!: IShop;
 
   currentSubCategories: string[] = [];
   // selectedSubcategories: {[key: string]: string[]} = {};
@@ -112,9 +112,9 @@ export class SaleComponent implements OnInit {
       subCategory: selectedSubCategories,
       shop: this.shop,
     };
-    // @ts-ignore
-    console.log('the shop id is ', submissionData.shop.shopName);
+    console.log('the shopname is ', this.shop.shopName);
     const saleData: SSale = this.prepareDataForSubmission(submissionData);
+    console.log('sale data ', saleData);
     this.subscribeToSaveResponse(this.itemService.createSale(saleData));
   }
 
