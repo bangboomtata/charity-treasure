@@ -15,6 +15,7 @@ export class ItemDetailComponent implements OnInit {
   item: IItem | null = null;
   editable: boolean = false;
   Shop: boolean = true;
+  currentCustomerId: number | null = null;
 
   constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, private accountService: AccountService) {}
 
@@ -36,6 +37,14 @@ export class ItemDetailComponent implements OnInit {
         }
       });
       console.log(this.editable);
+    });
+
+    this.accountService.getCustomer().subscribe(customer => {
+      if (customer) {
+        console.log('Customer ID: ' + customer.id);
+        this.currentCustomerId = customer.id;
+        this.editable = false;
+      }
     });
   }
 

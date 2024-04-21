@@ -132,5 +132,10 @@ export class FontSizeService {
     shopName.forEach(title => {
       title.style.fontSize = `${25 * (this.getFontSize() / 100)}px`;
     });
+
+    const shopSname = document.querySelectorAll('.shop-sname') as NodeListOf<HTMLElement>;
+    shopSname.forEach(title => {
+      title.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    });
   }
 }

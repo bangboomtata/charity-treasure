@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
   fontSize = 100;
+  isShop = false;
 
   constructor(
     private loginService: LoginService,
@@ -44,6 +45,11 @@ export class NavbarComponent implements OnInit {
 
     this.accountService.getAuthenticationState().subscribe(account => {
       this.account = account;
+      this.accountService.getShop().subscribe(account => {
+        if (account !== null) {
+          this.isShop = true;
+        }
+      });
     });
 
     // const increaseButton = document.getElementById('increase-btn');
