@@ -65,20 +65,20 @@ export class FontSizeService {
       element.style.fontSize = `${20 * (this.getFontSize() / 100)}px`;
     });
 
-    const pElements = document.querySelectorAll('p');
-    pElements.forEach(element => {
-      element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
-    });
+    // const pElements = document.querySelectorAll('p');
+    // pElements.forEach(element => {
+    //   element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    // });
 
-    const aElements = document.querySelectorAll('a');
-    aElements.forEach(element => {
-      element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
-    });
+    // const aElements = document.querySelectorAll('a');
+    // aElements.forEach(element => {
+    //   element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    // });
 
-    const divElements = document.querySelectorAll('div');
-    divElements.forEach(element => {
-      element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
-    });
+    // const divElements = document.querySelectorAll('div');
+    // divElements.forEach(element => {
+    //   element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    // });
 
     const liElements = document.querySelectorAll('li');
     liElements.forEach(element => {
@@ -107,6 +107,11 @@ export class FontSizeService {
     const navbarVersion = document.querySelectorAll('.navbar-version') as NodeListOf<HTMLElement>;
     navbarVersion.forEach(title => {
       title.style.fontSize = `${13 * (this.getFontSize() / 100)}px`;
+    });
+
+    const gdprDetail = document.querySelectorAll('.gdpr-detail') as NodeListOf<HTMLElement>;
+    gdprDetail.forEach(title => {
+      title.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
     });
 
     //item product card name
