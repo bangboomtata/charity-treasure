@@ -85,7 +85,7 @@
           <hr />
         </ng-container>
 
-        <dl class="row-md jh-entity-details" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <!-- <dl class="row-md jh-entity-details" *jhiHasAnyAuthority="'ROLE_ADMIN'">
           <dt><span>ID</span></dt>
           <dd>
             <span>{{ item.id }}</span>
@@ -157,7 +157,7 @@
               <a [routerLink]="['/shop', item.shop.id, 'view']">{{ item.shop.id }}</a>
             </div>
           </dd>
-        </dl>
+        </dl> -->
 
         <div class="text-center">
           <button type="submit" (click)="previousState()" class="btn btn-info back-button" data-cy="entityDetailsBackButton">

@@ -3,14 +3,14 @@
   <!--  <h2 id="page-heading" data-cy="ItemHeading" class="big-title">Items</h2>-->
   <div class="rowContainer">
     <div class="d-flex create-refresh-box">
-      <select name="filter" id="filter" [(ngModel)]="selectedCategory">
+      <!-- <select name="filter" id="filter" [(ngModel)]="selectedCategory">
         <option value="ALL" selected>ALL</option>
         <option value="CLOTHING">CLOTHING</option>
         <option value="BOOK">BOOK</option>
         <option value="HOMEWARE">HOMEWARE</option>
         <option value="ENTERTAINMENT">ENTERTAINMENT</option>
         <option value="TOY">TOY</option>
-      </select>
+      </select> -->
       <!-- <button class="btn btn-info me-2 refresh-button" (click)="load()" [disabled]="isLoading" *jhiHasAnyAuthority="'ROLE_ADMIN'">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refresh list</span>
@@ -39,15 +39,64 @@
     </div>
   </div>
 
+  <div class="filter-box">
+    <p class="filter-title">Filter Search</p>
+    <hr />
+    <ul class="list-unstyled" *ngFor="let itemType of itemTypeValues">
+      <li>
+        <input
+          type="checkbox"
+          (change)="updateSelectedOptions(itemType.toString())"
+          [id]="itemType.toString()"
+          [name]="itemType.toString()"
+        />
+        <label [for]="itemType.toString()">{{ itemType }}</label>
+      </li>
+      <div *ngIf="isClothing(itemType); else notClothing">
+        <ul class="subcat list-unstyled" *ngFor="let gender of genderValues">
+          <li>
+            <input type="checkbox" (change)="updateSelectedOptions(gender.toString())" [id]="gender" [name]="gender" />
+            <label [for]="gender">{{ gender }}</label>
+          </li>
+          <ul class="subsubcat list-unstyled">
+            <li *ngFor="let subcat of updateSubCategoryOptions(itemType, gender)">
+              <input type="checkbox" (change)="updateSelectedOptions(subcat.toString())" [id]="subcat" [name]="subcat" />
+              <label [for]="subcat">{{ subcat }}</label>
+            </li>
+          </ul>
+        </ul>
+      </div>
+      <ng-template #notClothing>
+        <ul class="subcat list-unstyled">
+          <li *ngFor="let subcat of updateSubCategoryOptions(itemType, null)">
+            <input type="checkbox" (change)="updateSelectedOptions(itemType.toString())" [id]="subcat" [name]="subcat" />
+            <label [for]="subcat">{{ subcat }}</label>
+          </li>
+        </ul>
+      </ng-template>
+    </ul>
+  </div>
   <div class="main-box">
     <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
       <div class="table-responsive table-entities" id="entities" *ngIf="items && items.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
           <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-              <th scope="col" jhiSortBy="id">
+              <!-- <th scope="col" jhiSortBy="id">
                 <div class="d-flex">
                   <span>ID</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </th> -->
+              <th scope="col" class="text-center align-middle" jhiSortBy="itemImage">
+                <div>
+                  <span>Item Image</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </th>
+              <th scope="col" class="text-center align-middle" jhiSortBy="itemName">
+                <div class="d-flex">
+                  <span>Item Name</span>
                   <fa-icon class="p-1" icon="sort"></fa-icon>
                 </div>
               </th>
@@ -278,7 +327,7 @@
     </div>
 
     <!-- items should be displayed to everyone including shops -->
-    <div class="productDisplay">
+    <div class="productDisplay" *jhiHasAnyAuthority="'ROLE_USER'">
       <div class="rowContainer">
         <!-- Loop through items and create product cards -->
         <ng-container *ngIf="selectedCategory != 'ALL'; else elseBlock">
