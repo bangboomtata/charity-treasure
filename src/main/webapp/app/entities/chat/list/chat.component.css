@@ -57,10 +57,7 @@ main {
 .contactList {
   height: 80%;
   width: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.37);
-  backdrop-filter: blur(9px);
-  border-radius: 10px;
+  border-radius: 10px 0 0 10px;
 }
 
 .searchBarBox {
@@ -101,14 +98,17 @@ main {
   display: flex;
   column-gap: 10px;
   height: 100%;
-  width: 90%;
-  background-color: black;
+  width: 98%;
 }
 
 .contactListScrollBar {
   height: 95%;
   width: 100%;
   overflow: auto;
+  border-radius: 10px 0 0 10px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(9px);
 }
 
 .contactListScrollBar::-webkit-scrollbar {
