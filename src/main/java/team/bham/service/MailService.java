@@ -125,16 +125,16 @@ public class MailService {
         String content = buildSaleEmailContent(sale, shopName);
 
         // Send email
-        sendEmail(userEmail, subject, content, false, true);
+        sendEmail(userEmail, subject, content, true, true);
     }
 
     private String buildSaleEmailContent(SaleDTO sale, String shopName) {
         String content = String.format(
             "Hi there!\n\n" +
             "There is a new sale nearby at %s:\n" +
-            "- Sale Amount: $%d\n" +
-            "- Duration: %d days and %d hours\n" +
-            "- Message: %s\n\n",
+            "The Sale Amount is %d%%\n" +
+            "The sale has a duration of %d days and %d hours.\n" +
+            " shops message: %s\n\n",
             shopName,
             sale.getSaleAmount(),
             sale.getTimeDays() != null ? sale.getTimeDays() : 0, // Ensure null safety

@@ -61,14 +61,19 @@
           <label class="form-label" for="saleAmount">Sale Amount</label>
           <div class="row mb-2">
             <div class="col">
-              <input
-                type="number"
-                class="form-control"
-                name="saleAmount"
-                id="saleAmount"
-                data-cy="saleAmount"
-                formControlName="saleAmount"
-              />
+              <div class="input-container">
+                <input
+                  type="number"
+                  class="form-control"
+                  name="saleAmount"
+                  id="saleAmount"
+                  placeholder="Enter "
+                  data-cy="saleAmount"
+                  formControlName="saleAmount"
+                />
+                <span class="percentage-symbol">%</span>
+              </div>
+
               <div
                 *ngIf="editForm.get('saleAmount')!.invalid && (editForm.get('saleAmount')!.dirty || editForm.get('saleAmount')!.touched)"
               >
