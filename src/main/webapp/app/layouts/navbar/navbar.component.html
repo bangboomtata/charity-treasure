@@ -63,7 +63,7 @@
         -->
 
         <li
-          *ngSwitchCase="true"
+          *ngIf="!isShop"
           ngbDropdown
           class="nav-item dropdown pointer"
           display="dynamic"
@@ -100,6 +100,12 @@
               </a>
             </li>
           </ul>
+        </li>
+
+        <li *ngIf="isShop" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" [routerLink]="['/shop', Shop?.id, 'view']">
+            <span class="nav-text">Shop Profile</span>
+          </a>
         </li>
 
         <!--
