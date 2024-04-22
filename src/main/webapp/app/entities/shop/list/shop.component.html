@@ -362,6 +362,8 @@
               </button>
 
               <button
+                *ngIf="shop"
+                jhiHasAnyAuthority="ROLE_ADMIN"
                 type="submit"
                 [routerLink]="['/shop', shop.id, 'edit']"
                 (click)="$event.stopPropagation()"
