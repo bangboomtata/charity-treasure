@@ -27,14 +27,16 @@
           <span>{{ reservation.status }}</span>
         </dd>
 
-        <dt><span>Customer</span></dt>
-        <dd>
-          <div *ngIf="reservation.customer">
-            <!--            <a [routerLink]="['/customer', reservation.customer.customerName, 'view']">{{ reservation.customer.customerName }}</a>-->
+        <div *jhiHasAnyAuthority="'!ROLE_USER'">
+          <dt><span>Customer</span></dt>
+          <dd>
+            <div *ngIf="reservation.customer">
+              <!--            <a [routerLink]="['/customer', reservation.customer.customerName, 'view']">{{ reservation.customer.customerName }}</a>-->
 
-            <a [routerLink]="['/customer', reservation.customer.id, 'view']">{{ reservation.customer.id }}</a>
-          </div>
-        </dd>
+              <a [routerLink]="['/customer', reservation.customer.id, 'view']">{{ reservation.customer.id }}</a>
+            </div>
+          </dd>
+        </div>
 
         <dt><span>Item (click on the ID to view the item) </span></dt>
         <dd>
@@ -55,9 +57,11 @@
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
       </button>
 
-      <button type="button" [routerLink]="['/reservation', reservation.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-      </button>
+      <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <button type="button" [routerLink]="['/reservation', reservation.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        </button>
+      </div>
 
       <br />
       <br />

@@ -8,6 +8,8 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IReservation, NewReservation } from '../reservation.model';
+import { ItemService } from '../../item/service/item.service';
+import { IItem } from '../../item/item.model';
 
 export type PartialUpdateReservation = Partial<IReservation> & Pick<IReservation, 'id'>;
 
@@ -28,8 +30,15 @@ export type EntityArrayResponseType = HttpResponse<IReservation[]>;
 @Injectable({ providedIn: 'root' })
 export class ReservationService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/reservations');
+  itemAvailability: boolean | null | undefined = undefined;
+  itemId: number | null = null;
+  item: IItem | null | undefined = null;
 
-  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+    protected itemService: ItemService
+  ) {}
 
   create(reservation: NewReservation): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(reservation);
@@ -65,8 +74,64 @@ export class ReservationService {
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
+  // Assuming this is inside your ReservationService where `itemService` is already injected.
+
   delete(id: number): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    return new Observable(subscriber => {
+      // Assuming this.find() properly retrieves the full Reservation including the item object
+      this.find(id).subscribe({
+        next: reservationResponse => {
+          const reservation = reservationResponse.body;
+          if (reservation && reservation.item && reservation.item.id) {
+            // Fetch the full item details if necessary
+            this.itemService.find(reservation.item.id).subscribe({
+              next: itemResponse => {
+                const item = itemResponse.body;
+                if (item) {
+                  // Update the item's availability
+                  item.itemAvailability = true;
+
+                  // Update the item
+                  this.itemService.update(item).subscribe({
+                    next: () => {
+                      console.log('Item updated successfully');
+                      // Proceed to delete the reservation
+                      this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' }).subscribe({
+                        next: response => {
+                          subscriber.next(response);
+                          subscriber.complete();
+                        },
+                        error: err => {
+                          console.error('Error deleting reservation', err);
+                          subscriber.error(err);
+                        },
+                      });
+                    },
+                    error: err => {
+                      console.error('Error updating item', err);
+                      subscriber.error(err);
+                    },
+                  });
+                } else {
+                  subscriber.error(new Error('Item not found for updating availability'));
+                }
+              },
+              error: err => {
+                console.error('Error fetching item', err);
+                subscriber.error(err);
+              },
+            });
+          } else {
+            console.error('Reservation not found or item missing');
+            subscriber.error(new Error('Reservation not found or item missing'));
+          }
+        },
+        error: err => {
+          console.error('Error fetching reservation', err);
+          subscriber.error(err);
+        },
+      });
+    });
   }
 
   getReservationIdentifier(reservation: Pick<IReservation, 'id'>): number {

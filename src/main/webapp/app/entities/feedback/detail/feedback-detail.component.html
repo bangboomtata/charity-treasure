@@ -22,18 +22,18 @@
         <dd>
           <span>{{ feedback.time | formatMediumDatetime }}</span>
         </dd>
-        <dt><span>Customer</span></dt>
-        <dd>
-          <div *ngIf="feedback.customer">
-            <a [routerLink]="['/customer', feedback.customer.id, 'view']">{{ feedback.customer.id }}</a>
-          </div>
-        </dd>
-        <dt><span>Shop</span></dt>
-        <dd>
-          <div *ngIf="feedback.shop">
-            <a [routerLink]="['/shop', feedback.shop.id, 'view']">{{ feedback.shop.id }}</a>
-          </div>
-        </dd>
+        <!--        <dt><span>Customer</span></dt>-->
+        <!--        <dd>-->
+        <!--          <div *ngIf="feedback.customer">-->
+        <!--            <a [routerLink]="['/customer', feedback.customer.id, 'view']">{{ feedback.customer.id }}</a>-->
+        <!--          </div>-->
+        <!--        </dd>-->
+        <!--        <dt><span>Shop</span></dt>-->
+        <!--        <dd>-->
+        <!--          <div *ngIf="feedback.shop">-->
+        <!--            <a [routerLink]="['/shop', feedback.shop.id, 'view']">{{ feedback.shop.id }}</a>-->
+        <!--          </div>-->
+        <!--        </dd>-->
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

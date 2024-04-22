@@ -218,13 +218,20 @@
                   [routerLink]="['/reservation', reservation.id, 'view']"
                   class="btn btn-info btn-sm"
                   data-cy="entityDetailsButton"
+                  style="color: darkblue"
                 >
-                  <fa-icon icon="eye"></fa-icon>
+                  <fa-icon icon="eye">View Reservation</fa-icon>
                   <!--              <span class="d-none d-md-inline">View</span>-->
                 </button>
 
-                <button type="submit" (click)="delete(reservation)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                  <fa-icon icon="times"></fa-icon>
+                <button
+                  type="submit"
+                  (click)="delete(reservation)"
+                  class="btn btn-danger btn-sm"
+                  data-cy="entityDeleteButton"
+                  style="color: red"
+                >
+                  <fa-icon icon="times">Delete</fa-icon>
                   <!--              <span class="d-none d-md-inline">Delete</span>-->
                 </button>
               </div>
@@ -288,13 +295,22 @@
                   [routerLink]="['/reservation', reservation.id, 'view']"
                   class="btn btn-info btn-sm"
                   data-cy="entityDetailsButton"
+                  style="color: darkblue"
                 >
                   <fa-icon icon="eye"></fa-icon>
+                  <b> <span>View Item</span></b>
                   <!--              <span class="d-none d-md-inline">View</span>-->
                 </button>
 
-                <button type="submit" (click)="delete(reservation)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <button
+                  type="submit"
+                  (click)="delete(reservation)"
+                  class="btn btn-danger btn-sm"
+                  data-cy="entityDeleteButton"
+                  style="color: red"
+                >
                   <fa-icon icon="times"></fa-icon>
+                  <b><span> Delete Reservation</span></b>
                   <!--              <span class="d-none d-md-inline">Delete</span>-->
                 </button>
               </div>
