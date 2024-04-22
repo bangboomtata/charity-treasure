@@ -13,6 +13,7 @@ import { Account } from 'app/core/auth/account.model';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
+  isAuthenticated: boolean = false; // Add this line
 
   darkModeEnabled = false;
   largeFont = false;
@@ -26,7 +27,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.accountService
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(account => (this.account = account));
+      .subscribe(account => {
+        this.account = account;
+        this.isAuthenticated = this.accountService.isAuthenticated();
+      });
   }
 
   // dark mode

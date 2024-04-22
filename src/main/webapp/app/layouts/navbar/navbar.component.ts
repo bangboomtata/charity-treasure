@@ -9,6 +9,7 @@ import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 import { FontSizeService } from '../../font-size/font-size.service';
 import { IShop } from 'app/entities/shop/shop.model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'jhi-navbar',
@@ -25,6 +26,8 @@ export class NavbarComponent implements OnInit {
   fontSize = 100;
   isShop = false;
   Shop: IShop | null = null;
+  isAuthenticated: boolean = false; // Add this property
+  private destroy$ = new Subject<void>();
 
   constructor(
     private loginService: LoginService,
@@ -54,6 +57,13 @@ export class NavbarComponent implements OnInit {
         }
       });
     });
+
+    this.accountService
+      .getAuthenticationState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(account => {
+        this.isAuthenticated = this.accountService.isAuthenticated();
+      });
 
     // const increaseButton = document.getElementById('increase-btn');
     // const decreaseButton = document.getElementById('decrease-btn');

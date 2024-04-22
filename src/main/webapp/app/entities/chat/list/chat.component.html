@@ -151,7 +151,7 @@
 </main>
 
 <!--Default Jgipster Chat-->
-<div *hasAnyAuthority="ROLE_ADMIN">
+<div *jhiHasAnyAuthority="'ROLE_ADMIN'">
   <h2 id="page-heading" data-cy="ChatHeading">
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
