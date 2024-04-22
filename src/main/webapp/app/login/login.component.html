@@ -15,18 +15,7 @@
       <div class="right">
         <div class="white-Container">
           <div class="login-Container">
-            <h2>Welcome to Charity Treasures</h2>
-            <br />
-            <div class="userSelectionBox">
-              <div class="box" [class.selected]="selectedPhoto === 'user'" (click)="selectPhoto('user')">
-                <img src="/content/images/user.png" class="photo" alt="User" />
-                <p>Customer</p>
-              </div>
-              <div class="box" [class.selected]="selectedPhoto === 'charityUser'" (click)="selectPhoto('charityUser')">
-                <img src="/content/images/charityUser.png" class="photo" alt="charityUser" />
-                <p>Charity User</p>
-              </div>
-            </div>
+            <h2 class="welcomeH2">Welcome to Charity Treasures</h2>
             <br />
             <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
               <h4 class="username">Username:</h4>
