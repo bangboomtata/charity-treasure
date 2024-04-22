@@ -50,17 +50,4 @@ export class AuthServerProvider {
       this.localStorageService.clear('authenticationToken');
     }
   }
-
-  private authenticateAsGuest(): Observable<void> {
-    // Generate a guest session token
-    const guestToken = 'guest_token';
-
-    // Store the guest session token
-    this.sessionStorageService.store('authenticationToken', guestToken);
-
-    // Return an observable that completes immediately
-    return new Observable(observer => {
-      observer.complete();
-    });
-  }
 }

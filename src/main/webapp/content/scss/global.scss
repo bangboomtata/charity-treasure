@@ -453,10 +453,10 @@ $text-dark: #e4e6eb;
       }
     }
 
-    .edit-button {
-      background-color: $secondary-dark !important;
-      color: $text-dark !important;
-    }
+    //  .edit-button {
+    //    background-color: $secondary-dark !important;
+    //    color: $text-dark !important;
+    //  }
 
     .refresh-button {
       background-color: $secondary-dark !important;
@@ -468,6 +468,13 @@ $text-dark: #e4e6eb;
       color: #ff6961 !important;
     }
 
+    .user-main-box {
+      .inside {
+        p {
+          color: $main-dark !important;
+        }
+      }
+    }
     .application-container {
       background: $third-dark !important;
       p {
@@ -538,6 +545,12 @@ $text-dark: #e4e6eb;
     }
   }
 
+  .shop-view-cont {
+    p {
+      color: $text-dark !important;
+    }
+  }
+
   .admin-main-box {
     background-color: $main-dark;
     td {
@@ -570,8 +583,17 @@ $text-dark: #e4e6eb;
       background-color: $third-dark !important; /* Light pink background for odd rows */
       td {
         color: $text-dark !important;
+        a {
+          color: $text-dark !important;
+        }
       }
     }
+  }
+  .reservation-wrapper {
+    background-color: $secondary-dark !important;
+  }
+  .reservation-form {
+    background-color: $main-dark !important;
   }
 
   .feedback-cont {
@@ -683,6 +705,28 @@ $text-dark: #e4e6eb;
   .home-container {
     h1 {
       color: #ff6961 !important;
+    }
+  }
+
+  //login page
+  .background-Container::before {
+    background-color: $main-dark !important;
+  }
+  .background-Container::after {
+    background-color: $main-dark !important;
+  }
+  .background-Container {
+    .white-Container {
+      background-color: $third-dark !important;
+    }
+    h4 {
+      color: $text-dark !important;
+    }
+    .rememberMeText {
+      color: $text-dark !important;
+    }
+    .noAccount {
+      color: $text-dark !important;
     }
   }
 }

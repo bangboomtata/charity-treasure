@@ -1,21 +1,23 @@
 <div *jhiHasAnyAuthority="'ROLE_USER'" style="text-align: center" class="reservation-cont">
-  <h2 data-cy="ReservationHeading" class="text-center big-title">Reservation</h2>
-  <br /><br />
-  <h2 id="info-heading" data-cy="ReservationHeading" class="text-center">
-    You can reserve an item for 48 hours and pick it up from the shop
-  </h2>
-  <br /><br />
-  <h3><i> Amazing right? </i></h3>
-  <br /><br />
-  <h5>Click on the button below or go to "Items" to see what items we have available!</h5>
-  <br />
-  <br />
-  <div class="centered-button-container">
-    <button class="blue-button" [routerLink]="['/item']"><b> Check Items </b></button>
+  <div *ngIf="!isShop">
+    <h2 data-cy="ReservationHeading" class="text-center big-title">Reservation</h2>
+    <br /><br />
+    <h2 id="info-heading" data-cy="ReservationHeading" class="text-center">
+      You can reserve an item for 48 hours and pick it up from the shop
+    </h2>
+    <br /><br />
+    <h3><i> Amazing right? </i></h3>
+    <br /><br />
+    <h5>Click on the button below or go to "Items" to see what items we have available!</h5>
+    <br />
+    <br />
+    <div class="centered-button-container">
+      <button class="blue-button" [routerLink]="['/item']"><b> Check Items </b></button>
+    </div>
+    <br /><br />
+    <br />
+    <br />
   </div>
-  <br /><br />
-  <br />
-  <br />
 </div>
 
 <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="reservation-cont">
@@ -218,13 +220,20 @@
                   [routerLink]="['/reservation', reservation.id, 'view']"
                   class="btn btn-info btn-sm"
                   data-cy="entityDetailsButton"
+                  style="color: darkblue"
                 >
-                  <fa-icon icon="eye"></fa-icon>
+                  <fa-icon icon="eye">View Reservation</fa-icon>
                   <!--              <span class="d-none d-md-inline">View</span>-->
                 </button>
 
-                <button type="submit" (click)="delete(reservation)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                  <fa-icon icon="times"></fa-icon>
+                <button
+                  type="submit"
+                  (click)="delete(reservation)"
+                  class="btn btn-danger btn-sm"
+                  data-cy="entityDeleteButton"
+                  style="color: red"
+                >
+                  <fa-icon icon="times">Delete</fa-icon>
                   <!--              <span class="d-none d-md-inline">Delete</span>-->
                 </button>
               </div>
@@ -288,13 +297,22 @@
                   [routerLink]="['/reservation', reservation.id, 'view']"
                   class="btn btn-info btn-sm"
                   data-cy="entityDetailsButton"
+                  style="color: darkblue"
                 >
                   <fa-icon icon="eye"></fa-icon>
+                  <b> <span>View Item</span></b>
                   <!--              <span class="d-none d-md-inline">View</span>-->
                 </button>
 
-                <button type="submit" (click)="delete(reservation)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <button
+                  type="submit"
+                  (click)="delete(reservation)"
+                  class="btn btn-danger btn-sm"
+                  data-cy="entityDeleteButton"
+                  style="color: red"
+                >
                   <fa-icon icon="times"></fa-icon>
+                  <b><span> Delete Reservation</span></b>
                   <!--              <span class="d-none d-md-inline">Delete</span>-->
                 </button>
               </div>

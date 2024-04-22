@@ -112,34 +112,35 @@ public class MailService {
         log.debug("Sending password reset email to '{}'", user.getEmail());
         sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title");
     }
-    //    @Async
-    //    public void sendSaleNotificationEmail(SaleDTO sale, String userEmail) {
-    //        if (userEmail == null) {
-    //            log.debug("No email address provided for sale notification");
-    //            return;
-    //        }
-    //
-    //        // Prepare email content
-    //        String subject = "A new sale near you!";
-    //        String content = buildSaleEmailContent(sale);
-    //
-    //        // Send email
-    //        sendEmail(userEmail, subject, content, false, true);
-    //    }
-    //
-    //    private String buildSaleEmailContent(SaleDTO sale) {
-    //        String content = String.format(
-    //            "Hello,\n\n" +
-    //                "There is a new sale nearby at :\n" +
-    //                "- Sale Amount: $%.2f\n" +
-    //                "- Duration: %d days and %d hours\n" +
-    //                "- Message: %s\n\n" +
-    //                "Thank you for using our service!",
-    //            sale.getSaleAmount(),
-    //            sale.getTimeDays(),
-    //            sale.getTimeHours(),
-    //            sale.getMessage()
-    //        );
-    //        return content;
-    //    }
+
+    @Async
+    public void sendSaleNotificationEmail(SaleDTO sale, String userEmail, String shopName) {
+        if (userEmail == null) {
+            log.debug("No email address provided for sale notification");
+            return;
+        }
+
+        // Prepare email content
+        String subject = "A new sale near you!";
+        String content = buildSaleEmailContent(sale, shopName);
+
+        // Send email
+        sendEmail(userEmail, subject, content, false, true);
+    }
+
+    private String buildSaleEmailContent(SaleDTO sale, String shopName) {
+        String content = String.format(
+            "Hi there!\n\n" +
+            "There is a new sale nearby at %s:\n" +
+            "- Sale Amount: $%d\n" +
+            "- Duration: %d days and %d hours\n" +
+            "- Message: %s\n\n",
+            shopName,
+            sale.getSaleAmount(),
+            sale.getTimeDays() != null ? sale.getTimeDays() : 0, // Ensure null safety
+            sale.getTimeHours() != null ? sale.getTimeHours() : 0, // Ensure null safety
+            sale.getMessage() != null ? sale.getMessage() : "No additional message provided" // Handle null message
+        );
+        return content;
+    }
 }

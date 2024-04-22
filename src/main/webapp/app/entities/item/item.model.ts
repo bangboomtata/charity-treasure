@@ -21,7 +21,7 @@ export interface IItem {
   condition?: Condition | null;
   itemType?: ItemType | null;
   subCategory?: string | null;
-  shop?: Pick<IShop, 'id' | 'logo' | 'logoContentType' | 'shopName' | 'rating'> | null;
+  shop?: Pick<IShop, 'id' | 'logo' | 'logoContentType' | 'shopName' | 'rating' | 'city'> | null;
 }
 
 export interface SSale {

@@ -16,7 +16,7 @@
       <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
       <span>Refresh list</span>
     </button> -->
-
+      <input type="search" name="city" id="city" placeholder="City" [(ngModel)]="searchQuery" (input)="filterByCity()" />
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
@@ -88,7 +88,7 @@
         <div class="rowContainer">
           <!-- Loop through items and create product cards -->
           <ng-container *ngIf="currentCustomerId; else tableBlock">
-            <ng-container *ngFor="let item of items">
+            <ng-container *ngFor="let item of filterItemsByCity">
               <div class="productCard" [routerLink]="['/item', item.id, 'view']" *ngIf="shouldDisplayItem(item)">
                 <div class="card-img text-center">
                   <img *ngIf="item.itemImage" [src]="'data:' + item.itemImageContentType + ';base64,' + item.itemImage" alt="item image" />
@@ -103,6 +103,7 @@
                   <ng-template #notOnSale>
                     <p class="card-price">£{{ item.shownPrice }}</p>
                   </ng-template>
+                  <p>{{ item.shop?.city }}</p>
                 </div>
                 <!--            <div class="card-details">-->
                 <!--              <p class="card-name">{{ item.itemName }}</p>-->
