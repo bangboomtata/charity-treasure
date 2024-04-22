@@ -1,6 +1,6 @@
+<h2 class="big-title">Chat</h2>
 <main class="content">
   <!--Entire Chat-->
-  <h2>Chat</h2>
   <div class="chatCard">
     <div class="row g-0">
       <div class="leftBox col-12 col-lg-5 col-xl-3">
@@ -14,7 +14,7 @@
           <!-- Customer's Contact List-->
           <ng-container *ngIf="!(isCurrentUserInShopUserIds$ | async)">
             <div class="contactList">
-              <div *ngFor="let shop of shops" style="max-height: 130px; overflow: auto">
+              <div *ngFor="let shop of shops" style="max-height: 150px; overflow: auto">
                 <button class="shopUsers" (click)="setReceiverLoginAndSendMessage(shop?.shopName || '', shop?.user?.id || 0)">
                   <a class="list-group-item list-group-item-action my-3">
                     <div class="d-flex align-items-center justify-content-start px-4">
@@ -32,7 +32,7 @@
           <!-- Shop User's Contact List-->
           <ng-container *ngIf="isCurrentUserInShopUserIds$ | async as isCurrentUserInShopUserIds">
             <div class="contactList">
-              <div *ngFor="let customer of customers" style="max-height: 130px; overflow: auto">
+              <div *ngFor="let customer of customers" style="max-height: 150px; overflow: auto">
                 <button class="shopUsers" (click)="getLoginAndSendMessage(customer?.user?.id ?? 0)" *ngIf="isCurrentUserInShopUserIds">
                   <a class="list-group-item list-group-item-action border-0 my-3">
                     <div class="d-flex align-items-center justify-content-start px-4">
