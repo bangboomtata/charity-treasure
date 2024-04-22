@@ -233,11 +233,11 @@
           <button type="submit" (click)="previousState()" class="btn btn-info btn-back" data-cy="entityDetailsBackButton" *ngIf="!isShop">
             <fa-icon icon="arrow-left"></fa-icon>Back
           </button>
-
-          <button type="button" [routerLink]="['/shop', shop.id, 'edit']" class="btn btn-primary btn-edit">
+          <button type="button" [routerLink]="['/shop', shop.id, 'edit']" class="btn btn-primary btn-edit" *ngIf="!customer">
             <fa-icon icon="pencil-alt"></fa-icon>Edit
           </button>
         </div>
+        <br /><br /><br /><br />
       </div>
     </div>
   </div>
