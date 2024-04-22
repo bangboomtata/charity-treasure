@@ -6,6 +6,10 @@ import { Router, NavigationEnd } from '@angular/router';
   providedIn: 'root',
 })
 export class FontSizeService {
+  private maxClickCount = 5;
+  private minClickCount = -5;
+  private clickCount = 0;
+
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -27,13 +31,19 @@ export class FontSizeService {
   }
 
   increaseFont(event: Event): void {
-    this.setFontSize(this.getFontSize() + 5);
-    this.adjustFontSize();
+    if (this.clickCount < this.maxClickCount) {
+      this.clickCount++;
+      this.setFontSize(this.getFontSize() + 5);
+      this.adjustFontSize();
+    }
   }
 
   decreaseFont(event: Event): void {
-    this.setFontSize(this.getFontSize() - 5);
-    this.adjustFontSize();
+    if (this.clickCount > this.minClickCount) {
+      this.clickCount--;
+      this.setFontSize(this.getFontSize() - 5);
+      this.adjustFontSize();
+    }
   }
 
   adjustFontSize() {
