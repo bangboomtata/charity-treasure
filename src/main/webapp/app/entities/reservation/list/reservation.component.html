@@ -1,21 +1,23 @@
 <div *jhiHasAnyAuthority="'ROLE_USER'" style="text-align: center" class="reservation-cont">
-  <h2 data-cy="ReservationHeading" class="text-center big-title">Reservation</h2>
-  <br /><br />
-  <h2 id="info-heading" data-cy="ReservationHeading" class="text-center">
-    You can reserve an item for 48 hours and pick it up from the shop
-  </h2>
-  <br /><br />
-  <h3><i> Amazing right? </i></h3>
-  <br /><br />
-  <h5>Click on the button below or go to "Items" to see what items we have available!</h5>
-  <br />
-  <br />
-  <div class="centered-button-container">
-    <button class="blue-button" [routerLink]="['/item']"><b> Check Items </b></button>
+  <div *ngIf="!isShop">
+    <h2 data-cy="ReservationHeading" class="text-center big-title">Reservation</h2>
+    <br /><br />
+    <h2 id="info-heading" data-cy="ReservationHeading" class="text-center">
+      You can reserve an item for 48 hours and pick it up from the shop
+    </h2>
+    <br /><br />
+    <h3><i> Amazing right? </i></h3>
+    <br /><br />
+    <h5>Click on the button below or go to "Items" to see what items we have available!</h5>
+    <br />
+    <br />
+    <div class="centered-button-container">
+      <button class="blue-button" [routerLink]="['/item']"><b> Check Items </b></button>
+    </div>
+    <br /><br />
+    <br />
+    <br />
   </div>
-  <br /><br />
-  <br />
-  <br />
 </div>
 
 <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="reservation-cont">
