@@ -431,6 +431,9 @@ $text-dark: #e4e6eb;
   .big-title {
     color: $text-dark !important;
   }
+  .big-item-container {
+    background-color: $main-dark !important;
+  }
   .big-container {
     background-color: $main-dark !important;
     color: $text-dark !important;
@@ -527,6 +530,11 @@ $text-dark: #e4e6eb;
     }
     h3 {
       color: $text-dark !important;
+    }
+
+    //sale
+    .announcement-box {
+      background-color: $secondary-dark !important;
     }
   }
 
@@ -660,7 +668,9 @@ $text-dark: #e4e6eb;
   }
   .gdpr-container {
     background-color: $secondary-dark !important;
-    h1 {
+    h1,
+    h2,
+    h3 {
       color: #ff6961;
     }
     li,
