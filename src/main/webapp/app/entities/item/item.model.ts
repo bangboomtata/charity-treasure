@@ -34,7 +34,7 @@ export interface SSale {
   itemType?: ItemType | null;
   subCategory?: string[] | null;
   gender?: Gender | null;
-  shop?: Pick<IShop, 'id'> | null;
+  shop?: number | null;
 }
 
 export type NewItem = Omit<IItem, 'id'> & { id: null };

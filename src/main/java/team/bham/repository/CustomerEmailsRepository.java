@@ -16,4 +16,6 @@ public interface CustomerEmailsRepository extends JpaRepository<CustomerEmails, 
 
     @Query("SELECT ce.id FROM CustomerEmails ce WHERE LOWER(ce.email) = LOWER(:email)")
     List<Long> findIdsByEmail(@Param("email") String email);
+
+    List<CustomerEmails> findByEmail(String email);
 }

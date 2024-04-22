@@ -23,8 +23,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import team.bham.domain.Customer;
+import team.bham.domain.CustomerEmails;
 import team.bham.domain.Item;
+import team.bham.domain.Shop;
+import team.bham.domain.User;
+import team.bham.repository.CustomerEmailsRepository;
 import team.bham.repository.ItemRepository;
+import team.bham.repository.ShopRepository;
 import team.bham.service.MailService;
 import team.bham.service.dto.SaleDTO;
 import team.bham.web.rest.errors.BadRequestAlertException;
@@ -49,11 +55,22 @@ public class ItemResource {
 
     private final ItemRepository itemRepository;
 
+    private final ShopRepository shopRepository;
+
+    private final CustomerEmailsRepository customerEmailsRepository;
+
     private final MailService mailService;
 
-    public ItemResource(ItemRepository itemRepository, MailService mailService) {
+    public ItemResource(
+        ItemRepository itemRepository,
+        MailService mailService,
+        CustomerEmailsRepository customerEmailsRepository,
+        ShopRepository shopRepository
+    ) {
         this.itemRepository = itemRepository;
         this.mailService = mailService;
+        this.customerEmailsRepository = customerEmailsRepository;
+        this.shopRepository = shopRepository;
     }
 
     /**
@@ -111,44 +128,56 @@ public class ItemResource {
     @PatchMapping("/items/sale")
     public ResponseEntity<Boolean> createSale(@RequestBody SaleDTO sale) {
         log.debug("Applying sale to items based on saleDTO");
-        log.debug("CHECKING SALE {}", sale.getSaleAmount());
         for (String subCategory : sale.getSubCategory()) {
             List<Item> items = itemRepository.findAllBySubCategory(subCategory);
             log.debug("Found {} items for subCategory '{}'", items.size(), subCategory);
 
             for (Item item : items) {
-                BigDecimal originalPrice = item.getPrice();
-                int saleAmountInt = sale.getSaleAmount();
-                long hundredd = 100;
-                BigDecimal saleAmount = BigDecimal.valueOf((long) saleAmountInt);
-                BigDecimal hundred = BigDecimal.valueOf(hundredd);
-                BigDecimal discountRate = saleAmount.divide(hundred);
-                BigDecimal discountAmount = originalPrice.multiply(discountRate);
-                BigDecimal discountedPrice = originalPrice.subtract(discountAmount);
+                Shop shop = item.getShop();
+                Long shopId = shop.getId();
+                if (shopId.equals(sale.getShop())) {
+                    BigDecimal originalPrice = item.getPrice();
+                    int saleAmountInt = sale.getSaleAmount();
+                    long hundredd = 100;
+                    BigDecimal saleAmount = BigDecimal.valueOf((long) saleAmountInt);
+                    BigDecimal hundred = BigDecimal.valueOf(hundredd);
+                    BigDecimal discountRate = saleAmount.divide(hundred);
+                    BigDecimal discountAmount = originalPrice.multiply(discountRate);
+                    BigDecimal discountedPrice = originalPrice.subtract(discountAmount);
 
-                item.setSaleFlag(true);
-                ZonedDateTime currentTime = ZonedDateTime.now();
-                if (sale.getTimeDays() == null) {
-                    currentTime = currentTime.plusHours(sale.getTimeHours());
-                } else {
-                    currentTime = currentTime.plusDays(sale.getTimeDays()).plusHours(sale.getTimeHours());
+                    item.setSaleFlag(true);
+                    ZonedDateTime currentTime = ZonedDateTime.now();
+                    if (sale.getTimeDays() == null) {
+                        currentTime = currentTime.plusHours(sale.getTimeHours());
+                    } else {
+                        currentTime = currentTime.plusDays(sale.getTimeDays()).plusHours(sale.getTimeHours());
+                    }
+                    item.setSaleEndTime(currentTime);
+                    item.setSaleAmount(sale.getSaleAmount());
+                    item.setPrice(discountedPrice);
+                    String formattedOriginalPrice = originalPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+                    String formattedDiscountedPrice = discountedPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+                    String formattedPrice = String.format(
+                        "£%s £%s (-%s%%)",
+                        formattedOriginalPrice,
+                        formattedDiscountedPrice,
+                        String.valueOf(saleAmountInt)
+                    );
+                    item.setShownPrice(formattedPrice);
+                    itemRepository.save(item);
                 }
-                item.setSaleEndTime(currentTime);
-                item.setSaleAmount(sale.getSaleAmount());
-                item.setPrice(discountedPrice);
-                String formattedOriginalPrice = originalPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
-                String formattedDiscountedPrice = discountedPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
-                String formattedPrice = String.format(
-                    "£%s £%s (-%s%%)",
-                    formattedOriginalPrice,
-                    formattedDiscountedPrice,
-                    String.valueOf(saleAmountInt)
-                );
-                item.setShownPrice(formattedPrice);
-                itemRepository.save(item);
             }
         }
-        if (sale.getEmailA()) {}
+        if (sale.getEmailA() == true) {
+            String email = shopRepository.findEmailById(sale.getShop());
+            log.debug("email of shop {}", email);
+            List<CustomerEmails> customerEmailsList = customerEmailsRepository.findByEmail(email);
+            for (CustomerEmails customer : customerEmailsList) {
+                Customer cust = customer.getCustomer();
+                User use = cust.getUser();
+                //                mailService.mailSubscribers(sale, use.getEmail());
+            }
+        }
         return ResponseEntity.ok().body(true);
     }
 

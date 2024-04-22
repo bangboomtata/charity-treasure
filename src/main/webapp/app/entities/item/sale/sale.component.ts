@@ -27,7 +27,7 @@ export class SaleComponent implements OnInit {
   genderValues = Object.values(Gender);
   itemTypeValues = Object.values(ItemType);
   shopsSharedCollection: IShop[] = [];
-  shop!: IShop;
+  shop: number | null = null;
 
   currentSubCategories: string[] = [];
   // selectedSubcategories: {[key: string]: string[]} = {};
@@ -70,7 +70,7 @@ export class SaleComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.getShop().subscribe(shop => {
       if (shop !== null) {
-        this.shop = shop;
+        this.shop = shop.id;
       }
     });
     this.editForm.get('itemType')!.valueChanges.subscribe(() => {
@@ -112,9 +112,7 @@ export class SaleComponent implements OnInit {
       subCategory: selectedSubCategories,
       shop: this.shop,
     };
-    console.log('the shopname is ', this.shop.shopName);
     const saleData: SSale = this.prepareDataForSubmission(submissionData);
-    console.log('sale data ', saleData);
     this.subscribeToSaveResponse(this.itemService.createSale(saleData));
   }
 

@@ -17,18 +17,8 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import team.bham.domain.User;
 import team.bham.domain.enumeration.Gender;
 import team.bham.domain.enumeration.ItemType;
+import team.bham.service.dto.SaleDTO;
 import tech.jhipster.config.JHipsterProperties;
-
-//import dayjs from 'dayjs/esm';
-
-//export interface Sale {
-//    message: string;
-//    saleAmount: number;
-//    itemType: ItemType;
-//    saleEndTime: dayjs.Dayjs;
-//    gender: Gender
-//    subCategory: List<String>;
-//}
 
 /**
  * Service for sending emails.
@@ -122,5 +112,34 @@ public class MailService {
         log.debug("Sending password reset email to '{}'", user.getEmail());
         sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title");
     }
-    //    public void mailSubscribers(Sale sale)
+    //    @Async
+    //    public void sendSaleNotificationEmail(SaleDTO sale, String userEmail) {
+    //        if (userEmail == null) {
+    //            log.debug("No email address provided for sale notification");
+    //            return;
+    //        }
+    //
+    //        // Prepare email content
+    //        String subject = "A new sale near you!";
+    //        String content = buildSaleEmailContent(sale);
+    //
+    //        // Send email
+    //        sendEmail(userEmail, subject, content, false, true);
+    //    }
+    //
+    //    private String buildSaleEmailContent(SaleDTO sale) {
+    //        String content = String.format(
+    //            "Hello,\n\n" +
+    //                "There is a new sale nearby at :\n" +
+    //                "- Sale Amount: $%.2f\n" +
+    //                "- Duration: %d days and %d hours\n" +
+    //                "- Message: %s\n\n" +
+    //                "Thank you for using our service!",
+    //            sale.getSaleAmount(),
+    //            sale.getTimeDays(),
+    //            sale.getTimeHours(),
+    //            sale.getMessage()
+    //        );
+    //        return content;
+    //    }
 }

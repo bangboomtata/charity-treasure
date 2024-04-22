@@ -33,8 +33,7 @@ public class SaleDTO implements Serializable {
     @Nullable
     private Gender gender;
 
-    @Nullable
-    private Long shopId;
+    private Long shop;
 
     public SaleDTO() {}
 
@@ -110,11 +109,11 @@ public class SaleDTO implements Serializable {
         this.gender = gender;
     }
 
-    public Long getShopId() {
-        return shopId;
+    public Long getShop() {
+        return shop;
     }
 
-    public void setShopId(Long id) {
-        this.shopId = id;
+    public void setShop(Long id) {
+        this.shop = id;
     }
 }
