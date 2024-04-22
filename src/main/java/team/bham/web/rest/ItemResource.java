@@ -29,8 +29,10 @@ import team.bham.domain.Item;
 import team.bham.domain.Shop;
 import team.bham.domain.User;
 import team.bham.repository.CustomerEmailsRepository;
+import team.bham.repository.CustomerRepository;
 import team.bham.repository.ItemRepository;
 import team.bham.repository.ShopRepository;
+import team.bham.repository.UserRepository;
 import team.bham.service.MailService;
 import team.bham.service.dto.SaleDTO;
 import team.bham.web.rest.errors.BadRequestAlertException;
@@ -131,7 +133,6 @@ public class ItemResource {
         for (String subCategory : sale.getSubCategory()) {
             List<Item> items = itemRepository.findAllBySubCategory(subCategory);
             log.debug("Found {} items for subCategory '{}'", items.size(), subCategory);
-
             for (Item item : items) {
                 Shop shop = item.getShop();
                 Long shopId = shop.getId();
@@ -168,16 +169,19 @@ public class ItemResource {
                 }
             }
         }
-        //        if (sale.getEmailA() == true) {
-        //            String email = shopRepository.findEmailById(sale.getShop());
-        //            log.debug("email of shop {}", email);
-        //            List<CustomerEmails> customerEmailsList = customerEmailsRepository.findByEmail(email);
-        //            for (CustomerEmails customer : customerEmailsList) {
-        //                Customer cust = customer.getCustomer();
-        //                User use = cust.getUser();
-        //                //                mailService.mailSubscribers(sale, use.getEmail());
-        //            }
-        //        }
+        if (sale.getEmailA() == true) {
+            String email = shopRepository.findShopEmailById(sale.getShop());
+            String name = shopRepository.findShopNameById(sale.getShop());
+            log.debug("email of shop {}", email);
+            List<CustomerEmails> customerEmailsList = customerEmailsRepository.findByEmail(email);
+            for (CustomerEmails customer : customerEmailsList) {
+                Customer cust = customer.getCustomer();
+                User use = cust.getUser();
+                if (use.getEmail() != null) {
+                    mailService.sendSaleNotificationEmail(sale, use.getEmail(), name);
+                }
+            }
+        }
         return ResponseEntity.ok().body(true);
     }
 
