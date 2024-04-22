@@ -168,16 +168,16 @@ public class ItemResource {
                 }
             }
         }
-        if (sale.getEmailA() == true) {
-            String email = shopRepository.findEmailById(sale.getShop());
-            log.debug("email of shop {}", email);
-            List<CustomerEmails> customerEmailsList = customerEmailsRepository.findByEmail(email);
-            for (CustomerEmails customer : customerEmailsList) {
-                Customer cust = customer.getCustomer();
-                User use = cust.getUser();
-                //                mailService.mailSubscribers(sale, use.getEmail());
-            }
-        }
+        //        if (sale.getEmailA() == true) {
+        //            String email = shopRepository.findEmailById(sale.getShop());
+        //            log.debug("email of shop {}", email);
+        //            List<CustomerEmails> customerEmailsList = customerEmailsRepository.findByEmail(email);
+        //            for (CustomerEmails customer : customerEmailsList) {
+        //                Customer cust = customer.getCustomer();
+        //                User use = cust.getUser();
+        //                //                mailService.mailSubscribers(sale, use.getEmail());
+        //            }
+        //        }
         return ResponseEntity.ok().body(true);
     }
 
