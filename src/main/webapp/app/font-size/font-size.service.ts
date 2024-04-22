@@ -110,11 +110,6 @@ export class FontSizeService {
       button.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
     });
 
-    const btn = document.querySelectorAll('btn') as NodeListOf<HTMLElement>;
-    btn.forEach(button => {
-      button.style.fontSize = `${14 * (this.getFontSize() / 100)}px`;
-    });
-
     const navbarTitle = document.querySelectorAll('.navbar-title') as NodeListOf<HTMLElement>;
     navbarTitle.forEach(title => {
       title.style.fontSize = `${20 * (this.getFontSize() / 100)}px`;
@@ -151,6 +146,11 @@ export class FontSizeService {
     const shopSname = document.querySelectorAll('.shop-sname') as NodeListOf<HTMLElement>;
     shopSname.forEach(title => {
       title.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    });
+
+    const btn = document.querySelectorAll('btn') as NodeListOf<HTMLElement>;
+    btn.forEach(button => {
+      button.style.fontSize = `${14 * (this.getFontSize() / 100)}px`;
     });
   }
 }

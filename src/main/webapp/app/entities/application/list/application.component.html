@@ -7,10 +7,19 @@
   <div class="d-flex justify-content-end create-refresh-box">
     <select [(ngModel)]="selectedPost" *ngIf="shopId">
       <option value="ALL">ALL</option>
-      <ng-container *ngFor="let volunteerPostOption of volunteerPostsList">
-        <option [ngValue]="volunteerPostOption.id.toString()" *ngIf="checkPost(volunteerPostOption.shop?.id)">
-          {{ volunteerPostOption.postTitle }}
-        </option>
+      <ng-container *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <ng-container *ngFor="let volunteerPostOption of volunteerPostsList">
+          <option [ngValue]="volunteerPostOption.id.toString()">
+            {{ volunteerPostOption.postTitle }}
+          </option>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="shopId">
+        <ng-container *ngFor="let volunteerPostOption of volunteerPostsList">
+          <option [ngValue]="volunteerPostOption.id.toString()" *ngIf="checkPost(volunteerPostOption.shop?.id)">
+            {{ volunteerPostOption.postTitle }}
+          </option>
+        </ng-container>
       </ng-container>
     </select>
 
@@ -40,7 +49,7 @@
     <span>No Applications found</span>
   </div>
 
-  <!--admin view for list-->
+  <!--shop view for list-->
   <div class="admin-main-box" *ngIf="shopId">
     <div class="admin-table-box" id="entities" *ngIf="applications && applications.length > 0">
       <table class="table admin-table" aria-describedby="page-heading">
@@ -380,6 +389,116 @@
         ></ngb-pagination>
       </div>
     </div> -->
+  </div>
+
+  <div class="admin-main-box" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+    <div class="admin-table-box" id="entities" *ngIf="applications && applications.length > 0">
+      <table class="table admin-table" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" class="text-center" jhiSortBy="firstName">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>First Name</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="email">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Email</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="post.id">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Post</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="contactNum">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Application Status</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="text-center">
+              <div class="d-flex justify-content-center align-items-center">
+                <span>Action</span>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="selectedPost == 'ALL'; else elseBlock">
+            <ng-container *ngFor="let application of applications; trackBy: trackId">
+              <tr data-cy="entityTable" [routerLink]="['/application', application.id, 'view']" class="admin-tr">
+                <td class="text-center">{{ application.firstName }}</td>
+                <td class="text-center">{{ application.email }}</td>
+                <td class="text-center">
+                  <div *ngIf="application.post">
+                    <a [routerLink]="['/volunteer-post', application.post.id, 'view']" (click)="$event.stopPropagation()">{{
+                      application.post.postTitle
+                    }}</a>
+                  </div>
+                </td>
+                <td class="text-center">{{ application.applicationStatus }}</td>
+                <td class="text-center">
+                  <div class="btn-group">
+                    <button type="submit" (click)="pendingApplication($event, application)" class="btn btn-warning btn-sm">
+                      <span class="d-none d-md-inline">Pending</span>
+                    </button>
+
+                    <button type="submit" (click)="acceptApplication($event, application)" class="btn btn-success btn-sm">
+                      <span class="d-none d-md-inline">Accept</span>
+                    </button>
+
+                    <button type="submit" (click)="rejectApplication($event, application)" class="btn btn-danger btn-sm delete-button">
+                      <span class="d-none d-md-inline">Reject</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-container>
+
+          <ng-template #elseBlock>
+            <ng-container *ngFor="let application of applications; trackBy: trackId">
+              <tr
+                data-cy="entityTable"
+                *ngIf="application.post?.id?.toString() == selectedPost"
+                [routerLink]="['/application', application.id, 'view']"
+                class="admin-tr"
+              >
+                <td class="text-center">{{ application.firstName }}</td>
+                <td class="text-center">{{ application.email }}</td>
+                <td class="text-center">
+                  <div *ngIf="application.post">
+                    <a [routerLink]="['/volunteer-post', application.post.id, 'view']" (click)="$event.stopPropagation()">{{
+                      application.post.postTitle
+                    }}</a>
+                  </div>
+                </td>
+                <td class="text-center">{{ application.applicationStatus }}</td>
+                <td class="text-center">
+                  <div class="btn-group">
+                    <button type="submit" (click)="pendingApplication($event, application)" class="btn btn-warning btn-sm">
+                      <span class="d-none d-md-inline">Pending</span>
+                    </button>
+
+                    <button type="submit" (click)="acceptApplication($event, application)" class="btn btn-success btn-sm">
+                      <span class="d-none d-md-inline">Accept</span>
+                    </button>
+
+                    <button type="submit" (click)="rejectApplication($event, application)" class="btn btn-danger btn-sm delete-button">
+                      <span class="d-none d-md-inline">Reject</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-template>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <ng-container *ngIf="customerId">
