@@ -186,6 +186,7 @@
               ngbDatepicker
               #creationDateDp="ngbDatepicker"
               formControlName="creationDate"
+              readonly
             />
             <button type="button" class="btn btn-secondary" (click)="creationDateDp.toggle()">
               <fa-icon icon="calendar-alt"></fa-icon>
@@ -276,8 +277,8 @@
         <div class="col">
           <label class="form-label" for="field_user">Shop Owner</label>
           <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
-            <option [ngValue]="null"></option>
-            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+            <option [ngValue]="null" disabled></option>
+            <option [ngValue]="userOption" disabled *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
           </select>
         </div>
       </div>
