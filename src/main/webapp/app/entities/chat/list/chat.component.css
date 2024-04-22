@@ -97,6 +97,35 @@ main {
 }
 
 /* Scroll Bar */
+.contactListScrollBarContainer {
+  display: flex;
+  column-gap: 10px;
+  height: 100%;
+  width: 90%;
+  background-color: black;
+}
+
+.contactListScrollBar {
+  height: 95%;
+  width: 100%;
+  overflow: auto;
+}
+
+.contactListScrollBar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.contactListScrollBar::-webkit-scrollbar-track {
+  border-radius: 8px;
+  border: 1px solid #cacaca;
+  background-color: white;
+}
+
+.contactListScrollBar::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: grey;
+}
+
 .scrollBarContainer {
   display: flex;
   column-gap: 10px;
