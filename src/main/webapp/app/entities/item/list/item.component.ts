@@ -135,8 +135,7 @@ export class ItemComponent implements OnInit {
       }
     });
     this.searchQuery = '';
-    console.log(this.searchQuery);
-    this.load();
+    this.loadData(); // Load data and filter by city
     this.filterByCity();
   }
 
@@ -173,15 +172,13 @@ export class ItemComponent implements OnInit {
       });
   }
 
-  load(): void {
+  loadData(): void {
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
+        this.filterByCity(); // Filter items by city after loading
       },
     });
-    if (this.items !== undefined) {
-      this.checkAndUpdateItems();
-    }
   }
 
   checkAndUpdateItems() {
