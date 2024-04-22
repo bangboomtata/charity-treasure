@@ -31,6 +31,8 @@ export class ItemComponent implements OnInit {
   isLoading = false;
   selectedOptions: string[] = [];
   isShop: boolean = false;
+  searchQuery = '';
+  filterItemsByCity?: IItem[];
 
   genderValues = Object.values(Gender);
   itemTypeValues = Object.values(ItemType);
@@ -132,7 +134,18 @@ export class ItemComponent implements OnInit {
         });
       }
     });
+    this.searchQuery = '';
+    console.log(this.searchQuery);
     this.load();
+    this.filterByCity();
+  }
+
+  protected filterByCity(): void {
+    if (this.searchQuery == '') {
+      this.filterItemsByCity = this.items;
+    } else {
+      this.filterItemsByCity = this.items?.filter(item => item.shop?.city?.toLowerCase().includes(this.searchQuery.toLowerCase()));
+    }
   }
 
   byteSize(base64String: string): string {
