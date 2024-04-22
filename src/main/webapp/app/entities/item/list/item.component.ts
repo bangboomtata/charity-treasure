@@ -5,6 +5,7 @@ import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IItem } from '../item.model';
+import { Account } from 'app/core/auth/account.model';
 
 import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/config/pagination.constants';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
@@ -31,6 +32,7 @@ export class ItemComponent implements OnInit {
   isLoading = false;
   selectedOptions: string[] = [];
   isShop: boolean = false;
+  currentAccount: Account | null = null;
 
   genderValues = Object.values(Gender);
   itemTypeValues = Object.values(ItemType);
@@ -116,6 +118,7 @@ export class ItemComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
       if (account) {
+        this.currentAccount = account;
         this.accountService.getShop().subscribe(shop => {
           if (shop) {
             this.isShop = true;

@@ -23,7 +23,7 @@ const shopRoute: Routes = [
     resolve: {
       shop: ShopRoutingResolveService,
     },
-    canActivate: [UserRouteAccessService],
+    // canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',

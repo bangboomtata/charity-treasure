@@ -149,6 +149,11 @@ hr {
   }
 }
 
-.btn-reserve {
+.btn-reserve:disabled {
   opacity: 0.5;
+}
+
+.danger-text {
+  color: red;
+  font-weight: bold;
 }

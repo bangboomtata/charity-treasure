@@ -67,7 +67,7 @@ export class FontSizeService {
 
     const h4Elements = document.querySelectorAll('h4');
     h4Elements.forEach(element => {
-      element.style.fontSize = `${25 * (this.getFontSize() / 100)}px`;
+      element.style.fontSize = `${24 * (this.getFontSize() / 100)}px`;
     });
 
     const h5Elements = document.querySelectorAll('h5');

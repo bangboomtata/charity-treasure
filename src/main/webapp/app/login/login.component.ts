@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { LoginService } from 'app/login/login.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { UserDataService } from '../account/register/userData.service'; // Import UserDataService
+import { AuthServerProvider } from 'app/core/auth/auth-jwt.service';
+import { Login } from './login.model';
 
 @Component({
   selector: 'jhi-login',
@@ -27,7 +29,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private accountService: AccountService,
     private loginService: LoginService,
     private router: Router,
-    private userDataService: UserDataService // Inject UserDataService
+    private userDataService: UserDataService, // Inject UserDataService
+    protected authServerProvider: AuthServerProvider
   ) {}
 
   selectedPhoto: string | null = null;
