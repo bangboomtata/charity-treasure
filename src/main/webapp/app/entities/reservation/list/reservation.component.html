@@ -1,5 +1,5 @@
 <div *jhiHasAnyAuthority="'ROLE_USER'" style="text-align: center" class="reservation-cont">
-  <h2 data-cy="ReservationHeading" class="text-center big-title">RESERVATION</h2>
+  <h2 data-cy="ReservationHeading" class="text-center big-title">Reservation</h2>
   <br /><br />
   <h2 id="info-heading" data-cy="ReservationHeading" class="text-center">
     You can reserve an item for 48 hours and pick it up from the shop
@@ -157,6 +157,7 @@
       </tbody>
     </table>
   </div>
+  <br />
 </div>
 
 <!--  <th scope="col">-->
@@ -167,7 +168,7 @@
 <!--  </th>-->
 
 <div *ngIf="isShop" class="reservation-cont">
-  <h2 class="text-center big-title">RESERVATIONS</h2>
+  <h2 class="big-title">Reservations For Your Shop</h2>
   <div class="table-responsive table-entities" id="shop-table" *ngIf="reservations && reservations.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
@@ -237,6 +238,7 @@
 
 <div *ngIf="isCustomer" class="reservation-cont">
   <h2 class="text-center big-title">MY RESERVATIONS</h2>
+  <br />
   <div class="table-responsive table-entities" id="customer-table" *ngIf="reservations && reservations.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
@@ -302,6 +304,7 @@
       </tbody>
     </table>
   </div>
+  <br /><
 </div>
 
 <div *ngIf="reservations && reservations.length > 0">
