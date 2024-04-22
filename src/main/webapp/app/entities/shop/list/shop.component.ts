@@ -17,6 +17,8 @@ import { SortService } from 'app/shared/sort/sort.service';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { UserDataService } from 'app/account/register/userData.service';
 import { ChatService } from 'app/entities/chat/service/chat.service';
+import { Account } from 'app/core/auth/account.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-shop',
@@ -42,6 +44,7 @@ export class ShopComponent implements OnInit {
   selectedShop: IShop | null = null;
   routingStarted: boolean = false;
   darkModeEnabled = false;
+  currentAccount: Account | null = null;
 
   // marker design
   protected userMarkerIcon = L.icon({
@@ -77,12 +80,19 @@ export class ShopComponent implements OnInit {
     protected modalService: NgbModal,
     private http: HttpClient,
     private userDataService: UserDataService,
-    protected chatService: ChatService
+    protected chatService: ChatService,
+    protected accountService: AccountService
   ) {}
 
   trackId = (_index: number, item: IShop): number => this.shopService.getShopIdentifier(item);
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.currentAccount = account;
+      }
+    });
+
     // this.loadAverageRating();
     setTimeout(() => {
       this.initMap();

@@ -70,7 +70,6 @@
 
         <li
           class="nav-item"
-          *ngSwitchCase="true"
           ngbDropdown
           class="nav-item dropdown pointer"
           display="dynamic"
@@ -97,6 +96,7 @@
             <li>
               <a
                 class="dropdown-item"
+                *ngSwitchCase="true"
                 routerLink="volunteer-post"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
@@ -110,6 +110,7 @@
             <li>
               <a
                 class="dropdown-item"
+                *ngSwitchCase="true"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
