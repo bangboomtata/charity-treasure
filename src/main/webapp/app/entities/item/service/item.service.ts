@@ -49,6 +49,7 @@ export class ItemService {
       }),
       observe: 'response' as const,
     };
+    console.log('shop id ', sale.shop);
     return this.http.patch<boolean>(this.applicationConfigService.getEndpointFor('api/items/sale'), sale, httpOptions);
   }
 

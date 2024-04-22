@@ -1,5 +1,5 @@
 <div *jhiHasAnyAuthority="'ROLE_USER'" style="text-align: center" class="reservation-cont">
-  <h2 data-cy="ReservationHeading" class="text-center big-title">RESERVATION</h2>
+  <h2 data-cy="ReservationHeading" class="text-center big-title">Reservation</h2>
   <br /><br />
   <h2 id="info-heading" data-cy="ReservationHeading" class="text-center">
     You can reserve an item for 48 hours and pick it up from the shop
@@ -157,29 +157,172 @@
       </tbody>
     </table>
   </div>
+  <br />
+</div>
 
-  <!--  <th scope="col">-->
-  <!--    <div class="d-flex">-->
-  <!--      <span>Customer Full Name</span>-->
-  <!--      <fa-icon class="p-1" icon="sort"></fa-icon>-->
-  <!--    </div>-->
-  <!--  </th>-->
+<!--  <th scope="col">-->
+<!--    <div class="d-flex">-->
+<!--      <span>Customer Full Name</span>-->
+<!--      <fa-icon class="p-1" icon="sort"></fa-icon>-->
+<!--    </div>-->
+<!--  </th>-->
 
-  <div *ngIf="reservations && reservations.length > 0">
+<div *ngIf="isShop" class="reservation-cont">
+  <h2 class="big-title">Reservations For Your Shop</h2>
+  <div class="table-responsive table-entities" id="shop-table" *ngIf="reservations && reservations.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reservedTime">
+            <div class="d-flex">
+              <span>Reserved Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reservedExpiry">
+            <div class="d-flex">
+              <span>Reserved Expiry</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="status">
+            <div class="d-flex">
+              <span>Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <ng-container *ngFor="let reservation of reservations; trackBy: trackId">
+          <tr *ngIf="reservation.shop?.id == shopId1" data-cy="entityTable">
+            <td>
+              <a [routerLink]="['/reservation', reservation.id, 'view']">{{ reservation.id }}</a>
+            </td>
+            <td>{{ reservation.reservedTime | formatMediumDatetime }}</td>
+            <td>{{ reservation.reservedExpiry | formatMediumDatetime }}</td>
+            <td>{{ reservation.status }}</td>
+
+            <td class="text-end">
+              <div class="btn-group">
+                <button
+                  type="submit"
+                  [routerLink]="['/reservation', reservation.id, 'view']"
+                  class="btn btn-info btn-sm"
+                  data-cy="entityDetailsButton"
+                >
+                  <fa-icon icon="eye"></fa-icon>
+                  <!--              <span class="d-none d-md-inline">View</span>-->
+                </button>
+
+                <button type="submit" (click)="delete(reservation)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <fa-icon icon="times"></fa-icon>
+                  <!--              <span class="d-none d-md-inline">Delete</span>-->
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="isCustomer" class="reservation-cont">
+  <h2 class="text-center big-title">MY RESERVATIONS</h2>
+  <br />
+  <div class="table-responsive table-entities" id="customer-table" *ngIf="reservations && reservations.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reservedTime">
+            <div class="d-flex">
+              <span>Reserved Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reservedExpiry">
+            <div class="d-flex">
+              <span>Reserved Expiry</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="status">
+            <div class="d-flex">
+              <span>Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <ng-container *ngFor="let reservation of reservations; trackBy: trackId">
+          <tr *ngIf="reservation.customer?.id == customerId" data-cy="entityTable">
+            <td>
+              <a [routerLink]="['/reservation', reservation.id, 'view']">{{ reservation.id }}</a>
+            </td>
+            <td>{{ reservation.reservedTime | formatMediumDatetime }}</td>
+            <td>{{ reservation.reservedExpiry | formatMediumDatetime }}</td>
+            <td>{{ reservation.status }}</td>
+
+            <td class="text-end">
+              <div class="btn-group">
+                <button
+                  type="submit"
+                  [routerLink]="['/reservation', reservation.id, 'view']"
+                  class="btn btn-info btn-sm"
+                  data-cy="entityDetailsButton"
+                >
+                  <fa-icon icon="eye"></fa-icon>
+                  <!--              <span class="d-none d-md-inline">View</span>-->
+                </button>
+
+                <button type="submit" (click)="delete(reservation)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <fa-icon icon="times"></fa-icon>
+                  <!--              <span class="d-none d-md-inline">Delete</span>-->
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <br /><
+</div>
+
+<div *ngIf="reservations && reservations.length > 0">
+  <!--
     <div class="d-flex justify-content-center">
       <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
     </div>
+    -->
 
-    <div class="d-flex justify-content-center">
-      <ngb-pagination
-        [collectionSize]="totalItems"
-        [page]="page"
-        [pageSize]="itemsPerPage"
-        [maxSize]="5"
-        [rotate]="true"
-        [boundaryLinks]="true"
-        (pageChange)="navigateToPage($event)"
-      ></ngb-pagination>
-    </div>
+  <div class="d-flex justify-content-center">
+    <ngb-pagination
+      [collectionSize]="totalItems"
+      [page]="page"
+      [pageSize]="itemsPerPage"
+      [maxSize]="5"
+      [rotate]="true"
+      [boundaryLinks]="true"
+      (pageChange)="navigateToPage($event)"
+    ></ngb-pagination>
   </div>
 </div>

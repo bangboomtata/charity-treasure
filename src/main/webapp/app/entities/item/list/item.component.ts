@@ -24,6 +24,7 @@ import { Gender } from 'app/entities/enumerations/gender.model';
 })
 export class ItemComponent implements OnInit {
   currentShopId: number | null = null;
+  currentCustomerId: number | null = null;
   selectedCategory = 'ALL';
   items?: IItem[];
   currentSubCategories: string[] = [];
@@ -56,30 +57,40 @@ export class ItemComponent implements OnInit {
     // If option is already selected, remove it; otherwise, add it
     if (this.selectedOptions.includes(option)) {
       this.selectedOptions = this.selectedOptions.filter(item => item !== option);
+      console.log('removed');
     } else {
       this.selectedOptions.push(option);
+      console.log('added');
     }
   }
 
   shouldDisplayItem(item: IItem): boolean {
+    console.log(this.selectedOptions);
     // Check if any options are selected
     if (this.selectedOptions.length === 0) {
       return true; // If no options are selected, display all items
     }
 
     // Check if the current item matches any of the selected options
-    if (item && item.itemType && item.gender && item.subCategory) {
-      // Ensure that item properties are strings before comparison
+    if (item && item.itemType && item.subCategory) {
       const itemTypeString = item.itemType.toString();
-      const genderString = item.gender.toString();
       const subCategoryString = item.subCategory.toString();
+      if (item.itemType == ItemType.CLOTHING) {
+        if (item.gender) {
+          const genderString = item.gender.toString();
+          if (
+            this.selectedOptions.includes(itemTypeString) ||
+            this.selectedOptions.includes(genderString) ||
+            this.selectedOptions.includes(subCategoryString)
+          ) {
+            return true;
+          }
+        }
+      }
+      // Ensure that item properties are strings before comparison
 
       // Check if any selected option matches the current item
-      if (
-        this.selectedOptions.includes(itemTypeString) ||
-        this.selectedOptions.includes(genderString) ||
-        this.selectedOptions.includes(subCategoryString)
-      ) {
+      if (this.selectedOptions.includes(itemTypeString) || this.selectedOptions.includes(subCategoryString)) {
         return true; // If any selected option matches the current item, display it
       }
     }
@@ -110,6 +121,13 @@ export class ItemComponent implements OnInit {
             this.isShop = true;
             console.log('Shop ID: ', shop.id);
             this.currentShopId = shop.id;
+          }
+        });
+
+        this.accountService.getCustomer().subscribe(customer => {
+          if (customer) {
+            console.log('Customer ID: ' + customer.id);
+            this.currentCustomerId = customer.id;
           }
         });
       }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { LoginService } from 'app/login/login.service';
 import { AccountService } from 'app/core/auth/account.service';
+import { UserDataService } from '../account/register/userData.service'; // Import UserDataService
 
 @Component({
   selector: 'jhi-login',
@@ -22,7 +23,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
     rememberMe: new FormControl(false, { nonNullable: true, validators: [Validators.required] }),
   });
 
-  constructor(private accountService: AccountService, private loginService: LoginService, private router: Router) {}
+  constructor(
+    private accountService: AccountService,
+    private loginService: LoginService,
+    private router: Router,
+    private userDataService: UserDataService // Inject UserDataService
+  ) {}
 
   selectedPhoto: string | null = null;
 
@@ -48,15 +54,18 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   login(): void {
-    this.loginService.login(this.loginForm.getRawValue()).subscribe({
-      next: () => {
-        this.authenticationError = false;
-        if (!this.router.getCurrentNavigation()) {
-          // There were no routing during login (e.g. from navigationToStoredUrl)
-          this.router.navigate(['']);
-        }
-      },
-      error: () => (this.authenticationError = true),
-    });
+    const username = this.loginForm.get('username')?.value;
+    if (username) {
+      this.loginService.login(this.loginForm.getRawValue()).subscribe({
+        next: () => {
+          this.authenticationError = false;
+          this.userDataService.setUsername(username);
+          if (!this.router.getCurrentNavigation()) {
+            this.router.navigate(['']);
+          }
+        },
+        error: () => (this.authenticationError = true),
+      });
+    }
   }
 }

@@ -1,7 +1,7 @@
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center reservation-cont">
   <div class="col-8">
     <div *ngIf="reservation">
-      <h2 data-cy="reservationDetailsHeading"><span>Reservation</span></h2>
+      <h2 data-cy="reservationDetailsHeading" class="big-title">Reservation</h2>
 
       <hr />
 
@@ -26,19 +26,24 @@
         <dd>
           <span>{{ reservation.status }}</span>
         </dd>
-        <dt><span>Item</span></dt>
+
+        <dt><span>Customer</span></dt>
+        <dd>
+          <div *ngIf="reservation.customer">
+            <!--            <a [routerLink]="['/customer', reservation.customer.customerName, 'view']">{{ reservation.customer.customerName }}</a>-->
+
+            <a [routerLink]="['/customer', reservation.customer.id, 'view']">{{ reservation.customer.id }}</a>
+          </div>
+        </dd>
+
+        <dt><span>Item (click on the ID to view the item) </span></dt>
         <dd>
           <div *ngIf="reservation.item">
             <a [routerLink]="['/item', reservation.item.id, 'view']">{{ reservation.item.id }}</a>
           </div>
         </dd>
-        <dt><span>Customer</span></dt>
-        <dd>
-          <div *ngIf="reservation.customer">
-            <a [routerLink]="['/customer', reservation.customer.id, 'view']">{{ reservation.customer.id }}</a>
-          </div>
-        </dd>
-        <dt><span>Shop</span></dt>
+
+        <dt><span>Shop (click on the ID to view the shop)</span></dt>
         <dd>
           <div *ngIf="reservation.shop">
             <a [routerLink]="['/shop', reservation.shop.id, 'view']">{{ reservation.shop.id }}</a>
@@ -53,6 +58,10 @@
       <button type="button" [routerLink]="['/reservation', reservation.id, 'edit']" class="btn btn-primary">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
       </button>
+
+      <br />
+      <br />
+      <br />
     </div>
   </div>
 </div>

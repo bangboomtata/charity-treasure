@@ -65,20 +65,20 @@ export class FontSizeService {
       element.style.fontSize = `${20 * (this.getFontSize() / 100)}px`;
     });
 
-    const pElements = document.querySelectorAll('p');
-    pElements.forEach(element => {
-      element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
-    });
+    // const pElements = document.querySelectorAll('p');
+    // pElements.forEach(element => {
+    //   element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    // });
 
-    const aElements = document.querySelectorAll('a');
-    aElements.forEach(element => {
-      element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
-    });
+    // const aElements = document.querySelectorAll('a');
+    // aElements.forEach(element => {
+    //   element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    // });
 
-    const divElements = document.querySelectorAll('div');
-    divElements.forEach(element => {
-      element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
-    });
+    // const divElements = document.querySelectorAll('div');
+    // divElements.forEach(element => {
+    //   element.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    // });
 
     const liElements = document.querySelectorAll('li');
     liElements.forEach(element => {
@@ -107,6 +107,35 @@ export class FontSizeService {
     const navbarVersion = document.querySelectorAll('.navbar-version') as NodeListOf<HTMLElement>;
     navbarVersion.forEach(title => {
       title.style.fontSize = `${13 * (this.getFontSize() / 100)}px`;
+    });
+
+    const gdprDetail = document.querySelectorAll('.gdpr-detail') as NodeListOf<HTMLElement>;
+    gdprDetail.forEach(title => {
+      title.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
+    });
+
+    //item product card name
+    const cardTitle = document.querySelectorAll('.card-name') as NodeListOf<HTMLElement>;
+    cardTitle.forEach(title => {
+      title.style.fontSize = `${1.3 * (this.getFontSize() / 100)}rem`;
+    });
+
+    //item detail image
+    const imgContainer = document.querySelectorAll('.img-container') as NodeListOf<HTMLElement>;
+    imgContainer.forEach(title => {
+      title.style.width = `${300 * (this.getFontSize() / 100)}px`;
+      title.style.height = `${300 * (this.getFontSize() / 100)}px`;
+    });
+
+    //item detail shop name
+    const shopName = document.querySelectorAll('.shop-name') as NodeListOf<HTMLElement>;
+    shopName.forEach(title => {
+      title.style.fontSize = `${25 * (this.getFontSize() / 100)}px`;
+    });
+
+    const shopSname = document.querySelectorAll('.shop-sname') as NodeListOf<HTMLElement>;
+    shopSname.forEach(title => {
+      title.style.fontSize = `${16 * (this.getFontSize() / 100)}px`;
     });
   }
 }

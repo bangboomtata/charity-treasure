@@ -8,6 +8,7 @@ import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 import { FontSizeService } from '../../font-size/font-size.service';
+import { IShop } from 'app/entities/shop/shop.model';
 
 @Component({
   selector: 'jhi-navbar',
@@ -22,6 +23,8 @@ export class NavbarComponent implements OnInit {
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
   fontSize = 100;
+  isShop = false;
+  Shop: IShop | null = null;
 
   constructor(
     private loginService: LoginService,
@@ -44,6 +47,12 @@ export class NavbarComponent implements OnInit {
 
     this.accountService.getAuthenticationState().subscribe(account => {
       this.account = account;
+      this.accountService.getShop().subscribe(shop => {
+        if (shop !== null) {
+          this.isShop = true;
+          this.Shop = shop;
+        }
+      });
     });
 
     // const increaseButton = document.getElementById('increase-btn');
@@ -73,12 +82,14 @@ export class NavbarComponent implements OnInit {
 
   login(): void {
     this.router.navigate(['/login']);
+    this.isShop = false;
   }
 
   logout(): void {
     this.collapseNavbar();
     this.loginService.logout();
     this.router.navigate(['']);
+    this.isShop = false;
   }
 
   toggleNavbar(): void {

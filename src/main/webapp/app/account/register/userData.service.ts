@@ -13,4 +13,8 @@ export class UserDataService {
   getUsername(): string | null {
     return this.username;
   }
+
+  clearUsername(): void {
+    this.username = null;
+  }
 }

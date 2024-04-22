@@ -10,7 +10,7 @@ $main-blue: #000080;
 
 textarea {
   height: 100px;
-  width: 600px;
+  width: 100%;
 }
 
 .announcement-box {
@@ -48,10 +48,16 @@ textarea {
   height: 10px;
 }
 
+.container > .main-box,
+.border-box {
+  width: 100%;
+}
+
 .container {
   display: flex;
   height: 100%;
   width: 55%;
+  max-width: 500px;
   border-radius: 8px;
   background-color: #ffd2d2;
   padding: 30px;

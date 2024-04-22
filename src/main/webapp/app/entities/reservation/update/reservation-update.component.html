@@ -59,16 +59,34 @@
                 </td>
 
                 <td>
+                  <!--                  <input-->
+                  <!--                    type="text"-->
+                  <!--                    id="customerFullName" required-->
+                  <!--                    class="form-control"-->
+                  <!--                    formControlName="customerFullName"-->
+
+                  <!--                    placeholderr="Your Full Name"-->
+                  <!--                  />-->
+                  <!--                  <small class="form-text text-danger" *ngIf="editForm.get('customerName')!.touched && editForm.get('customerName')!.errors">-->
+                  <!--                    <span *ngIf="editForm.get('customerName')!.errors!.required">Name is required.</span>-->
+                  <!--                    <span *ngIf="editForm.get('customerName')!.errors!.minlength">Name must be at least 2 characters long.</span>-->
+                  <!--                  </small>-->
                   <input
                     type="text"
                     id="customerFullName"
                     class="form-control"
-                    formControlName="customerFullName"
-                    ngModel
-                    required
-                    placeholderr="Your Full Name"
+                    formControlName="customerName"
+                    placeholder="Your Full Name"
                   />
-                  <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="
+                      editForm.get('customerName')?.errors?.required &&
+                      (editForm.get('customerName')?.touched || editForm.get('customerName')?.dirty)
+                    "
+                  >
+                    This field is required.
+                  </small>
                 </td>
               </tr>
 
@@ -140,24 +158,19 @@
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
             <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
           </button>
-          <button type="button" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary" (click)="showModal()">
-            <!--            (click)="navigateToConfirmation()"-->
-            <!--          >-->
+          <button
+            type="button"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            class="btn btn-primary"
+            (click)="showModal()"
+            [disabled]="!editForm.valid"
+          >
+            <!--                  [disabled]="!editForm.get('customerFullName')?.valid">-->
+
             <fa-icon icon="save"></fa-icon>&nbsp;<span>Reserve Now!</span>
           </button>
 
-          <!--          <button-->
-          <!--            type="submit"-->
-          <!--            id="saver-entity"-->
-          <!--            data-cy="entityCreateSaveButton"-->
-          <!--            [disabled]="editForm.invalid || isSaving"-->
-          <!--            class="btn btn-primary">-->
-          <!--&lt;!&ndash;            (click)="prepareReservation()"&ndash;&gt;-->
-          <!--&lt;!&ndash;          >&ndash;&gt;-->
-          <!--            <fa-icon icon="save"></fa-icon>&nbsp;<span>this saves the reservation so for pop up window!!!!</span>-->
-          <!--          </button>-->
-
-          <!-- Inline Confirmation Modal -->
           <div
             class="modal"
             *ngIf="isModalVisible"
