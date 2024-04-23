@@ -7,8 +7,13 @@
 }
 
 .text-container {
-  margin-left: 5%; /* Adjust the spacing as needed */
+  margin-left: 4%; /* Adjust the spacing as needed */
+  margin-right: 2%;
   color: red; /* Welcome text color */
+}
+
+.row-divider {
+  height: 10px;
 }
 
 .welcome-text {
