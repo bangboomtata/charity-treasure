@@ -3,7 +3,7 @@
   <h2 id="page-heading" data-cy="ItemHeading" class="big-title">Items</h2>
 
   <div class="big-container">
-    <label for="help" class="label-help">
+    <label for="help" class="label-help" *ngIf="isCustomer">
       <button class="help-button" (click)="openHelpModal()"></button>
     </label>
     <!--  <h2 id="page-heading" data-cy="ItemHeading" class="big-title">Items</h2>-->
