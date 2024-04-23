@@ -12,6 +12,7 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, ShopService } from '../service/shop.service';
 import { ShopDeleteDialogComponent } from '../delete/shop-delete-dialog.component';
 import { PermissionComponent } from '../permission/permission.component';
+import { InstructionComponent } from '../instruction/instruction.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { SortService } from 'app/shared/sort/sort.service';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
@@ -45,6 +46,8 @@ export class ShopComponent implements OnInit {
   routingStarted: boolean = false;
   darkModeEnabled = false;
   currentAccount: Account | null = null;
+  isShop = false;
+  isCustomer = false;
 
   // marker design
   protected userMarkerIcon = L.icon({
@@ -98,6 +101,24 @@ export class ShopComponent implements OnInit {
       this.initMap();
     }, 100);
     this.load();
+
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getShop().subscribe(shop => {
+          if (shop) {
+            this.isShop = true;
+            console.log('Shop ID: ', shop.id);
+          }
+        });
+
+        this.accountService.getCustomer().subscribe(customer => {
+          if (customer) {
+            this.isCustomer = true;
+            console.log('Customer ID: ' + customer.id);
+          }
+        });
+      }
+    });
 
     this.activatedRoute.queryParams.subscribe(params => {
       const shopName = params['shopName'];
@@ -309,6 +330,11 @@ export class ShopComponent implements OnInit {
       console.error('Geolocation permissions API is not supported.');
       // Handle unsupported browser
     }
+  }
+
+  openHelpModal(): void {
+    // Open the permission modal
+    this.modalService.open(InstructionComponent, { centered: true });
   }
 
   openPermissionModal(): void {

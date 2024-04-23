@@ -91,7 +91,7 @@ public class Item implements Serializable {
     private Shop shop;
 
     @JsonIgnoreProperties(value = { "item", "customer", "shop" }, allowSetters = true)
-    @OneToOne(mappedBy = "item")
+    @OneToOne(mappedBy = "item", orphanRemoval = true)
     private Reservation reservedBy;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

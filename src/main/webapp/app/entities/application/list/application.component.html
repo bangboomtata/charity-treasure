@@ -502,6 +502,9 @@
   </div>
 
   <ng-container *ngIf="customerId">
+    <label for="help" class="label-help">
+      <button class="help-button" (click)="openHelpModal()"></button>
+    </label>
     <div class="user-main-box">
       <ng-container *ngFor="let application of applications; trackBy: trackId">
         <div class="application-container row" [routerLink]="['/application', application.id, 'view']">

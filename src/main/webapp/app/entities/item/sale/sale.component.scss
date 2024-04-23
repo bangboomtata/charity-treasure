@@ -84,6 +84,24 @@ textarea {
   font-weight: bold;
 }
 
+.input-container {
+  position: relative;
+  display: inline-block;
+}
+.input-container input {
+  padding-right: 20px; /* Add padding to prevent typing over the symbol */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+.percentage-symbol {
+  position: absolute;
+  right: 5px; /* Adjust as needed */
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none; /* Prevents the symbol from being clickable or focusable */
+}
+
 .form-label-small {
   color: $main-blue;
   font-weight: normal;

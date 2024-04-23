@@ -3,10 +3,10 @@
   <form class="form" name="saleForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
     <div class="row-divider"></div>
     <div class="row-mb-4">
-      <div class="announcement-box">
-        <label class="announcement-label" for="onlineA">Online Announcement</label>
-        <input type="checkbox" id="onlineA" name="onlineA" formControlName="onlineA" data-cy="onlineA" />
-      </div>
+      <!--      <div class="announcement-box">-->
+      <!--        <label class="announcement-label" for="onlineA">Online Announcement</label>-->
+      <!--        <input type="checkbox" id="onlineA" name="onlineA" formControlName="onlineA" data-cy="onlineA" />-->
+      <!--      </div>-->
       <div class="announcement-box">
         <label class="announcement-label" for="emailA">Email Announcement</label>
         <input type="checkbox" id="emailA" name="emailA" formControlName="emailA" data-cy="emailA" />
@@ -61,14 +61,19 @@
           <label class="form-label" for="saleAmount">Sale Amount</label>
           <div class="row mb-2">
             <div class="col">
-              <input
-                type="number"
-                class="form-control"
-                name="saleAmount"
-                id="saleAmount"
-                data-cy="saleAmount"
-                formControlName="saleAmount"
-              />
+              <div class="input-container">
+                <input
+                  type="number"
+                  class="form-control"
+                  name="saleAmount"
+                  id="saleAmount"
+                  placeholder="Enter "
+                  data-cy="saleAmount"
+                  formControlName="saleAmount"
+                />
+                <span class="percentage-symbol">%</span>
+              </div>
+
               <div
                 *ngIf="editForm.get('saleAmount')!.invalid && (editForm.get('saleAmount')!.dirty || editForm.get('saleAmount')!.touched)"
               >

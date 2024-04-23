@@ -45,10 +45,17 @@ spring:
   liquibase:
     contexts: prod
   mail:
-    host: localhost
-    port: 25
-    username:
-    password:
+    host: smtp.gmail.com
+    port: 465
+    tls: true
+    auth: true
+    username: charitytreasures25@gmail.com
+    password: xsuf xbee zyvm jxio
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.socketFactory.port: 465
+      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
   thymeleaf:
     cache: true
 

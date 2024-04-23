@@ -15,6 +15,7 @@ import { IVolunteerPost } from 'app/entities/volunteer-post/volunteer-post.model
 import { AccountService } from 'app/core/auth/account.service';
 import { VolunteerPostService } from 'app/entities/volunteer-post/service/volunteer-post.service';
 import { ApplicationStatus } from 'app/entities/enumerations/application-status.model';
+import { InstructionComponent } from '../instruction/instruction.component';
 
 @Component({
   selector: 'jhi-application',
@@ -109,6 +110,11 @@ export class ApplicationComponent implements OnInit {
         this.onResponseSuccess(res);
       },
     });
+  }
+
+  openHelpModal(): void {
+    // Open the permission modal
+    this.modalService.open(InstructionComponent, { centered: true });
   }
 
   navigateToWithComponentValues(): void {

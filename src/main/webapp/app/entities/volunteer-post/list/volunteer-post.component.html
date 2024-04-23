@@ -298,6 +298,9 @@
   </div>
 
   <div class="user-main-box" *ngIf="customerID">
+    <label for="help" class="label-help">
+      <button class="help-button" (click)="openHelpModal()"></button>
+    </label>
     <!--user table view for list-->
     <div>
       <div class="table-entities volunteer-list" id="entities" *ngIf="volunteerPosts && volunteerPosts.length > 0">

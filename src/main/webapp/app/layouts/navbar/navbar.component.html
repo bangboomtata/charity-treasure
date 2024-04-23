@@ -359,6 +359,12 @@
           </a>
         </li>
 
+        <li *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="shop">
+            <span class="nav-text">Shop</span>
+          </a>
+        </li>
+
         <!--
         <li
           *ngSwitchCase="true"

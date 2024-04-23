@@ -99,6 +99,13 @@ $main-blue: #000080;
   padding: 5px 5px;
 }
 
+input[type='search'] {
+  background-color: $second-pink;
+  outline: none;
+  border-radius: 10px;
+  padding-left: 3px;
+}
+
 .row-divider {
   height: 10px;
 }

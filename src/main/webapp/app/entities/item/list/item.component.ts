@@ -13,6 +13,7 @@ import { EntityArrayResponseType, ItemService } from '../service/item.service';
 import { ItemDeleteDialogComponent } from '../delete/item-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { AccountService } from 'app/core/auth/account.service';
+import { InstructionComponent } from '../instruction/instruction.component';
 import dayjs from 'dayjs/esm';
 import { ItemType } from 'app/entities/enumerations/item-type.model';
 import { subCategoryOptions } from '../item.model';
@@ -32,6 +33,7 @@ export class ItemComponent implements OnInit {
   isLoading = false;
   selectedOptions: string[] = [];
   isShop: boolean = false;
+  isCustomer: boolean = false;
   currentAccount: Account | null = null;
   searchQuery = '';
   filterItemsByCity?: IItem[];
@@ -131,6 +133,7 @@ export class ItemComponent implements OnInit {
 
         this.accountService.getCustomer().subscribe(customer => {
           if (customer) {
+            this.isCustomer = true;
             console.log('Customer ID: ' + customer.id);
             this.currentCustomerId = customer.id;
           }
@@ -199,6 +202,11 @@ export class ItemComponent implements OnInit {
         this.itemService.update(item); // Call the update function with this item
       }
     });
+  }
+
+  openHelpModal(): void {
+    // Open the permission modal
+    this.modalService.open(InstructionComponent, { centered: true });
   }
 
   updateSaleFlags(items: IItem[]) {}

@@ -1,7 +1,11 @@
 <!-- if role is shopkeeper, not implemented yet -->
 <div class="big-item-container">
   <h2 id="page-heading" data-cy="ItemHeading" class="big-title">Items</h2>
+
   <div class="big-container">
+    <label for="help" class="label-help" *ngIf="isCustomer">
+      <button class="help-button" (click)="openHelpModal()"></button>
+    </label>
     <!--  <h2 id="page-heading" data-cy="ItemHeading" class="big-title">Items</h2>-->
     <div class="d-flex justify-content-end create-refresh-box">
       <!-- <select name="filter" id="filter" [(ngModel)]="selectedCategory">
@@ -16,7 +20,7 @@
       <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
       <span>Refresh list</span>
     </button> -->
-      <input type="search" name="city" id="city" placeholder="City" [(ngModel)]="searchQuery" (input)="filterByCity()" />
+      <input type="search" name="city" id="city" placeholder="City" [(ngModel)]="searchQuery" (input)="filterByCity()" *ngIf="isCustomer" />
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"

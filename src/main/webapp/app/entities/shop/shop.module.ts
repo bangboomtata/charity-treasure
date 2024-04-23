@@ -6,9 +6,17 @@ import { ShopUpdateComponent } from './update/shop-update.component';
 import { ShopDeleteDialogComponent } from './delete/shop-delete-dialog.component';
 import { ShopRoutingModule } from './route/shop-routing.module';
 import { PermissionComponent } from './permission/permission.component';
+import { InstructionComponent } from './instruction/instruction.component';
 
 @NgModule({
   imports: [SharedModule, ShopRoutingModule],
-  declarations: [ShopComponent, ShopDetailComponent, ShopUpdateComponent, ShopDeleteDialogComponent, PermissionComponent],
+  declarations: [
+    ShopComponent,
+    ShopDetailComponent,
+    ShopUpdateComponent,
+    ShopDeleteDialogComponent,
+    PermissionComponent,
+    InstructionComponent,
+  ],
 })
 export class ShopModule {}

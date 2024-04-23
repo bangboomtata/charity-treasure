@@ -15,6 +15,7 @@ import { DataUtils } from 'app/core/util/data-util.service';
 import { Location } from '../../enumerations/location.model';
 import { AccountService } from '../../../core/auth/account.service';
 import { IShop } from '../../shop/shop.model';
+import { InstructionComponent } from '../instruction/instruction.component';
 
 @Component({
   selector: 'jhi-event',
@@ -101,6 +102,11 @@ export class EventComponent implements OnInit {
         this.onResponseSuccess(res);
       },
     });
+  }
+
+  openHelpModal(): void {
+    // Open the permission modal
+    this.modalService.open(InstructionComponent, { centered: true });
   }
 
   navigateToWithComponentValues(): void {
