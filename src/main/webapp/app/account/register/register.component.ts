@@ -244,10 +244,15 @@ export class RegisterComponent implements AfterViewInit {
               },
             });
             const shop = this.shopregisterForm.getRawValue();
-            this.shopService
-              .createShop(shop)
-              .subscribe({ next: () => (this.success = true), error: response => this.processError(response) });
-            this.router.navigate(['']);
+            this.shopService.createShop(shop).subscribe({
+              next: () => {
+                this.loginService.logout();
+                this.success = true;
+                console.log('kfjkd');
+                this.router.navigate(['']);
+              },
+              error: response => this.processError(response),
+            });
           }
         }
       });
@@ -255,6 +260,7 @@ export class RegisterComponent implements AfterViewInit {
   }
 
   private processError(response: HttpErrorResponse): void {
+    console.log('error');
     if (response.status === 400 && response.error.type === LOGIN_ALREADY_USED_TYPE) {
       this.errorUserExists = true;
     } else if (response.status === 400 && response.error.type === EMAIL_ALREADY_USED_TYPE) {
