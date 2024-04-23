@@ -1,5 +1,5 @@
-<h1 id="jhi-item-heading" class="form-title-p text-center" data-cy="RegistrationHeading">Registration</h1>
-
+<h1 id="jhi-item-heading" class="form-title-p text-center" *ngIf="!shopSubmitted" data-cy="RegistrationHeading">Registration</h1>
+<h1 class="form-title-p text-center" *ngIf="shopSubmitted">Fill in your Charity Shop details</h1>
 <div class="selection-overlay" *ngIf="!selectedRole">
   <div class="role-container">
     <div class="image-container">
