@@ -37,7 +37,7 @@ export class ReservationComponent implements OnInit {
 
   //shopId: number | null = null;
   shopId1: number | null = null;
-  isShop: Boolean = false;
+  isShop: Boolean = true;
 
   constructor(
     protected reservationService: ReservationService,
@@ -51,18 +51,21 @@ export class ReservationComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
-      if (account) {
+      if (account !== null) {
         this.accountService.getShop().subscribe(shop => {
-          if (shop) {
+          if (shop !== null) {
             this.shopId1 = shop.id;
             this.isShop = true;
-          }
-        });
-
-        this.accountService.getCustomer().subscribe(customer => {
-          if (customer) {
-            this.isCustomer = true;
-            this.customerId = customer.id;
+          } else {
+            this.isShop = false;
+            this.accountService.getCustomer().subscribe(customer => {
+              if (customer !== null) {
+                this.isCustomer = true;
+                this.customerId = customer.id;
+              } else {
+                this.isCustomer = false;
+              }
+            });
           }
         });
       }

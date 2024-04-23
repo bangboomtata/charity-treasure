@@ -21,7 +21,7 @@ export type SaleFormGroup = FormGroup<SaleFormGroupContent>;
 export class SaleFormService {
   createSaleFormGroup(): SaleFormGroup {
     return new FormGroup<SaleFormGroupContent>({
-      onlineA: new FormControl(true),
+      onlineA: new FormControl(false),
       emailA: new FormControl(false),
       message: new FormControl(''),
       timeDays: new FormControl(null, [Validators.min(0)]),
