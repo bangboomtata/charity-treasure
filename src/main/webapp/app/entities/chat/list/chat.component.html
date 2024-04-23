@@ -40,8 +40,8 @@
           <ng-container *ngIf="isCurrentUserInShopUserIds$ | async as isCurrentUserInShopUserIds">
             <div class="contactListScrollBarContainer">
               <div class="contactListScrollBar">
-                <div class="contactList">
-                  <div *ngFor="let customer of customers" style="max-height: 150px; overflow: auto">
+                <div class="contactList" style="max-height: 300px">
+                  <div *ngFor="let customer of customers" style="overflow: auto">
                     <button class="shopUsers" (click)="getLoginAndSendMessage(customer?.user?.id ?? 0)" *ngIf="isCurrentUserInShopUserIds">
                       <a class="list-group-item list-group-item-action border-0 my-3">
                         <div class="d-flex align-items-center justify-content-start px-4">

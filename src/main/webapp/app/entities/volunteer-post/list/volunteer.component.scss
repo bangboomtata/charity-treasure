@@ -5,7 +5,7 @@ $second-pink: #ffe7e7;
 
 .main-box {
   margin: 0 auto;
-  height: 365px;
+  height: 75vh;
   padding: 0;
   overflow-y: scroll; // Use "auto" to enable scrolling
 
@@ -26,11 +26,11 @@ $second-pink: #ffe7e7;
 
 .user-main-box {
   margin: 0 auto;
-  height: 460px;
+  height: 75vh;
 }
 
 .volunteer-list {
-  height: 460px;
+  height: 75vh;
   width: 40%;
   float: left;
   border-right: $main-pink solid 5px;
@@ -43,7 +43,7 @@ $second-pink: #ffe7e7;
 }
 
 .volunteer-detail {
-  height: 460px;
+  height: 75vh;
   width: 60%;
   float: right;
   overflow-y: scroll; // Use "auto" to enable scrolling
@@ -209,6 +209,7 @@ table td {
   transform: translate(0px, -15%);
   border-radius: 50%;
   width: 90%;
+  height: 150px;
   max-width: 150px;
   max-height: 150px;
   //width: 150px; // Adjust the width of the circular image
@@ -273,6 +274,7 @@ table td {
   -webkit-line-clamp: 1;
   overflow: hidden;
   margin: 0;
+  font-size: 24px;
 }
 
 .volunteer-detail hr {

@@ -3,7 +3,7 @@ $second-pink: #ffe7e7;
 $main-blue: #000080;
 
 .main-box {
-  max-height: 550px;
+  max-height: 75vh;
   overflow-y: scroll; // Use "auto" to enable scrolling
 
   &::-webkit-scrollbar {

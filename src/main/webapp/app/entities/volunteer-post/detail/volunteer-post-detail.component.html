@@ -1,7 +1,7 @@
 <div class="big-container">
   <div>
     <div *ngIf="volunteerPost">
-      <h2 data-cy="volunteerPostDetailsHeading" class="big-title"><span>Volunteer Post</span></h2>
+      <h2 data-cy="volunteerPostDetailsHeading" class="big-title">Volunteer Post</h2>
 
       <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
         <jhi-alert-error></jhi-alert-error>
@@ -12,7 +12,7 @@
       <!-- <div class="main-box">
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Post Image:</p>
+            <h4 class="detail-title-p">Post Image:</h4>
           </div>
           <div *ngIf="volunteerPost.img" class="img-container">
             <a (click)="openFile(volunteerPost.img, volunteerPost.imgContentType)">
@@ -26,7 +26,7 @@
 
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Shop Image:</p>
+            <h4 class="detail-title-p">Shop Image:</h4>
           </div>
           <div>
             <img [src]="'data:' + volunteerPost.shop?.logoContentType + ';base64,' + volunteerPost.shop?.logo"
@@ -40,7 +40,7 @@
 
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Basic Info:</p>
+            <h4 class="detail-title-p">Basic Info:</h4>
           </div>
           <div>
             <div>
@@ -68,35 +68,35 @@
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Active Status:</p>
+            <h4 class="detail-title-p">Active Status:</h4>
           </div>
           <p>{{ volunteerPost.activeStatus }}</p>
         </div>
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">About Us:</p>
+            <h4 class="detail-title-p">About Us:</h4>
           </div>
           <p>{{ volunteerPost.aboutUs }}</p>
         </div>
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">About the Role:</p>
+            <h4 class="detail-title-p">About the Role:</h4>
           </div>
           <p>{{ volunteerPost.aboutRole }}</p>
         </div>
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Benefits:</p>
+            <h4 class="detail-title-p">Benefits:</h4>
           </div>
           <p>{{ volunteerPost.benefits }}</p>
         </div>
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Days Required:</p>
+            <h4 class="detail-title-p">Days Required:</h4>
           </div>
           <ul>
             <li *ngIf="volunteerPost.monday">Monday</li>
@@ -111,7 +111,7 @@
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Shifts Required:</p>
+            <h4 class="detail-title-p">Shifts Required:</h4>
           </div>
           <ul>
             <li *ngIf="volunteerPost.morning">Morning</li>
@@ -122,7 +122,7 @@
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Our Contacts:</p>
+            <h4 class="detail-title-p">Our Contacts:</h4>
           </div>
           <p>E-mail: {{ volunteerPost.email }}</p>
           <p>Contact Number: {{ volunteerPost.contactNum }}</p>
@@ -130,7 +130,7 @@
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Active Status:</p>
+            <h4 class="detail-title-p">Active Status:</h4>
           </div>
           <p>{{ volunteerPost.activeStatus }}</p>
         </div>
@@ -159,7 +159,7 @@
           </div>
           <div class="detail-basic-info-box">
             <div class="volunteer-title detail-title-box">
-              <p class="detail-title-p">{{ volunteerPost.postTitle }}</p>
+              <h4 class="detail-title-p">{{ volunteerPost.postTitle }}</h4>
             </div>
             <div>
               <p>Location: {{ volunteerPost.locationAddress }}</p>
@@ -181,28 +181,28 @@
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">About Us:</p>
+            <h4 class="detail-title-p">About Us:</h4>
           </div>
           <p>{{ volunteerPost.aboutUs }}</p>
         </div>
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">About the Role:</p>
+            <h4 class="detail-title-p">About the Role:</h4>
           </div>
           <p>{{ volunteerPost.aboutRole }}</p>
         </div>
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Benefits:</p>
+            <h4 class="detail-title-p">Benefits:</h4>
           </div>
           <p>{{ volunteerPost.benefits }}</p>
         </div>
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Days Required:</p>
+            <h4 class="detail-title-p">Days Required:</h4>
           </div>
           <ul>
             <li *ngIf="volunteerPost.monday">Monday</li>
@@ -217,7 +217,7 @@
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Shifts Required:</p>
+            <h4 class="detail-title-p">Shifts Required:</h4>
           </div>
           <ul>
             <li *ngIf="volunteerPost.morning">Morning</li>
@@ -229,7 +229,7 @@
         <section id="contact-section">
           <div class="detail-section-box">
             <div>
-              <p class="detail-title-p">Our Contacts:</p>
+              <h4 class="detail-title-p">Our Contacts:</h4>
             </div>
             <p>E-mail: {{ volunteerPost.email }}</p>
             <p>Contact Number: {{ volunteerPost.contactNum }}</p>

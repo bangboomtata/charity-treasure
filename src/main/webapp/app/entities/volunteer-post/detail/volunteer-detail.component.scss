@@ -14,7 +14,7 @@ $main-blue: #000080;
 }
 
 .main-box {
-  height: 460px;
+  height: 75vh;
   overflow-y: scroll; // Use "auto" to enable scrolling
 
   &::-webkit-scrollbar {

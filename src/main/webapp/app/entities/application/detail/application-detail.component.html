@@ -1,9 +1,7 @@
 <div class="big-container">
   <div>
     <div *ngIf="application">
-      <h2 data-cy="applicationDetailsHeading" class="big-title">
-        <span>Application ID: {{ application.id }}</span>
-      </h2>
+      <h2 data-cy="applicationDetailsHeading" class="big-title">Application ID: {{ application.id }}</h2>
 
       <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
         <jhi-alert-error></jhi-alert-error>
@@ -14,7 +12,7 @@
       <div class="main-box">
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Application For:</p>
+            <h4 class="detail-title-p">Application For:</h4>
           </div>
           <div *ngIf="application.post">
             <a [routerLink]="['/volunteer-post', application.post.id, 'view']">{{ application.post.postTitle }}</a>
@@ -25,7 +23,7 @@
 
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Application Status:</p>
+            <h4 class="detail-title-p">Application Status:</h4>
           </div>
           <div>
             <div *ngIf="customerId">
@@ -55,7 +53,7 @@
 
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Personal Information:</p>
+            <h4 class="detail-title-p">Personal Information:</h4>
           </div>
           <div *ngIf="application.customer">
             <p>
@@ -85,7 +83,7 @@
 
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Days Available:</p>
+            <h4 class="detail-title-p">Days Available:</h4>
           </div>
           <ul>
             <li *ngIf="application.appliedMonday">Monday</li>
@@ -102,7 +100,7 @@
 
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Shitfs Available:</p>
+            <h4 class="detail-title-p">Shitfs Available:</h4>
           </div>
           <ul>
             <li *ngIf="application.appliedMorning">Morning</li>
@@ -114,7 +112,7 @@
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Volunteer Experiences:</p>
+            <h4 class="detail-title-p">Volunteer Experiences:</h4>
           </div>
           <div>
             <p>{{ application.volunteerExperience }}</p>
@@ -124,7 +122,7 @@
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Relevant Skills:</p>
+            <h4 class="detail-title-p">Relevant Skills:</h4>
           </div>
           <div>
             <p>{{ application.relevantSkills }}</p>
@@ -134,7 +132,7 @@
         <hr />
         <div class="detail-section-box">
           <div>
-            <p class="detail-title-p">Motivation:</p>
+            <h4 class="detail-title-p">Motivation:</h4>
           </div>
           <div>
             <p>{{ application.motivation }}</p>
