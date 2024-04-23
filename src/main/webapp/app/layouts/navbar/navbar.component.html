@@ -93,7 +93,7 @@
               </a>
             </li>
 
-            <li>
+            <li *ngIf="isShop">
               <a
                 class="dropdown-item"
                 *ngSwitchCase="true"
@@ -660,6 +660,13 @@
               </a>
             </li>
 
+            <li *ngSwitchCase="false">
+              <a class="dropdown-item" (click)="login()" id="login" data-cy="login">
+                <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
+                <span>Sign in</span>
+              </a>
+            </li>
+
             <li>
               <a
                 class="dropdown-item"
@@ -678,12 +685,7 @@
                 <span>Sign out</span>
               </a>
             </li>
-            <li *ngSwitchCase="false">
-              <a class="dropdown-item" (click)="login()" id="login" data-cy="login">
-                <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
-                <span>Sign in</span>
-              </a>
-            </li>
+
             <li *ngSwitchCase="false">
               <a
                 class="dropdown-item"
