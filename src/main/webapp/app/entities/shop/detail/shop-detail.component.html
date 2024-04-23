@@ -230,7 +230,7 @@
         </dd>
       </dl> -->
         <div class="rol btn-row">
-          <button type="submit" (click)="previousState()" class="btn btn-info btn-back" data-cy="entityDetailsBackButton" *ngIf="!isShop">
+          <button type="submit" (click)="previousState()" class="btn btn-info btn-back" data-cy="entityDetailsBackButton">
             <fa-icon icon="arrow-left"></fa-icon>Back
           </button>
           <button type="button" [routerLink]="['/shop', shop.id, 'edit']" class="btn btn-primary btn-edit" *ngIf="!customer">

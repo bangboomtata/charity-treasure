@@ -30,6 +30,113 @@
     <span>No Volunteer Posts found</span>
   </div>
 
+  <div class="main-box" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+    <!--admin view for list-->
+    <div class="admin-table-box table-entities">
+      <table class="table admin-table" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" class="text-center" jhiSortBy="img">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                  <span>Img</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="postTitle">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                  <span>Post Title</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="activeStatus">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                  <span>Active Status</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="shop.id">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                  <span>Shop</span>
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                </div>
+              </div>
+            </th>
+            <th scope="col" class="text-center" jhiSortBy="shop.id">
+              <div class="d-flex justify-content-center align-items-center">
+                <div>
+                  <span>Action</span>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let volunteerPost of volunteerPosts; trackBy: trackId">
+            <tr data-cy="entityTable" class="admin-tr" [routerLink]="['/volunteer-post', volunteerPost.id, 'view']">
+              <td class="text-center">
+                <a *ngIf="volunteerPost.img" (click)="openFile(volunteerPost.img, volunteerPost.imgContentType); $event.stopPropagation()">
+                  <img [src]="'data:' + volunteerPost.imgContentType + ';base64,' + volunteerPost.img" alt="volunteerPost image" />
+                </a>
+              </td>
+              <td class="w-20 text-center">
+                <p class="admin-table-title">{{ volunteerPost.postTitle }}</p>
+              </td>
+              <!-- <td class="text-center">{{ volunteerPost.locationAddress }}</td>
+              <td class="text-center">{{ volunteerPost.contactNum }}</td>
+              <td class="text-center">{{ volunteerPost.email }}</td>
+              <td class="text-center">{{ volunteerPost.aboutUs }}</td>
+              <td class="text-center">{{ volunteerPost.aboutRole }}</td>
+              <td class="text-center">{{ volunteerPost.benefits }}</td> -->
+              <td class="text-center">{{ volunteerPost.activeStatus }}</td>
+              <td class="text-center">
+                <div *ngIf="volunteerPost.shop">
+                  <a [routerLink]="['/shop', volunteerPost.shop.id, 'view']" (click)="$event.stopPropagation()">{{
+                    volunteerPost.shop.shopName
+                  }}</a>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="btn-group">
+                  <!-- <button type="submit" [routerLink]="['/volunteer-post', volunteerPost.id, 'view']"
+                    class="btn btn-info btn-sm view-button" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">View</span>
+                  </button> -->
+
+                  <button
+                    type="submit"
+                    (click)="editVolunteerPost($event, volunteerPost)"
+                    class="btn btn-primary btn-sm edit-button"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edit</span>
+                  </button>
+                  <button
+                    type="submit"
+                    (click)="delete($event, volunteerPost)"
+                    class="btn btn-danger btn-sm delete-button"
+                    data-cy="entityDeleteButton"
+                  >
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <div class="main-box" *ngIf="shopID">
     <!--admin view for list-->
     <div class="admin-table-box table-entities">
