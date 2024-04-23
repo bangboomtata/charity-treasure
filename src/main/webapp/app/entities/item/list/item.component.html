@@ -16,7 +16,7 @@
       <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
       <span>Refresh list</span>
     </button> -->
-      <input type="search" name="city" id="city" placeholder="City" [(ngModel)]="searchQuery" (input)="filterByCity()" />
+      <input type="search" name="city" id="city" placeholder="City" [(ngModel)]="searchQuery" (input)="filterByCity()" *ngIf="isCustomer" />
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"

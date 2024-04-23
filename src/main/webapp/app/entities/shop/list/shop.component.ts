@@ -17,6 +17,7 @@ import { SortService } from 'app/shared/sort/sort.service';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { UserDataService } from 'app/account/register/userData.service';
 import { ChatService } from 'app/entities/chat/service/chat.service';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-shop',
@@ -42,6 +43,8 @@ export class ShopComponent implements OnInit {
   selectedShop: IShop | null = null;
   routingStarted: boolean = false;
   darkModeEnabled = false;
+  isShop = false;
+  isCustomer = false;
 
   // marker design
   protected userMarkerIcon = L.icon({
@@ -77,7 +80,8 @@ export class ShopComponent implements OnInit {
     protected modalService: NgbModal,
     private http: HttpClient,
     private userDataService: UserDataService,
-    protected chatService: ChatService
+    protected chatService: ChatService,
+    protected accountService: AccountService
   ) {}
 
   trackId = (_index: number, item: IShop): number => this.shopService.getShopIdentifier(item);
@@ -88,6 +92,24 @@ export class ShopComponent implements OnInit {
       this.initMap();
     }, 100);
     this.load();
+
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.accountService.getShop().subscribe(shop => {
+          if (shop) {
+            this.isShop = true;
+            console.log('Shop ID: ', shop.id);
+          }
+        });
+
+        this.accountService.getCustomer().subscribe(customer => {
+          if (customer) {
+            this.isCustomer = true;
+            console.log('Customer ID: ' + customer.id);
+          }
+        });
+      }
+    });
 
     this.activatedRoute.queryParams.subscribe(params => {
       const shopName = params['shopName'];

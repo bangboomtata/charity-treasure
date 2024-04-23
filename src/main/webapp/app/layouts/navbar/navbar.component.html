@@ -137,6 +137,7 @@
 
         <li
           *ngIf="!isShop"
+          jhiHasAnyAuthority="ROLE_ADMIN"
           ngbDropdown
           class="nav-item dropdown pointer"
           display="dynamic"
@@ -355,6 +356,12 @@
         <li *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="customer">
             <span class="nav-text">Customer</span>
+          </a>
+        </li>
+
+        <li *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="shop">
+            <span class="nav-text">Shop</span>
           </a>
         </li>
 

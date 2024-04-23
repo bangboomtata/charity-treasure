@@ -31,6 +31,7 @@ export class ItemComponent implements OnInit {
   isLoading = false;
   selectedOptions: string[] = [];
   isShop: boolean = false;
+  isCustomer: boolean = false;
   searchQuery = '';
   filterItemsByCity?: IItem[];
 
@@ -128,6 +129,7 @@ export class ItemComponent implements OnInit {
 
         this.accountService.getCustomer().subscribe(customer => {
           if (customer) {
+            this.isCustomer = true;
             console.log('Customer ID: ' + customer.id);
             this.currentCustomerId = customer.id;
           }
