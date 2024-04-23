@@ -8,9 +8,10 @@ import { ItemDeleteDialogComponent } from './delete/item-delete-dialog.component
 import { ItemRoutingModule } from './route/item-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgForOf, NgIf } from '@angular/common';
+import { InstructionComponent } from './instruction/instruction.component';
 
 @NgModule({
   imports: [SharedModule, ItemRoutingModule, NgIf, NgForOf, ReactiveFormsModule],
-  declarations: [ItemComponent, ItemDetailComponent, ItemUpdateComponent, SaleComponent, ItemDeleteDialogComponent],
+  declarations: [ItemComponent, ItemDetailComponent, ItemUpdateComponent, SaleComponent, ItemDeleteDialogComponent, InstructionComponent],
 })
 export class ItemModule {}

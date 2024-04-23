@@ -7,9 +7,10 @@ import { EventDeleteDialogComponent } from './delete/event-delete-dialog.compone
 import { EventRoutingModule } from './route/event-routing.module';
 
 import { InterestedEventsRoutingModule } from '../interested-events/route/interested-events-routing.module';
+import { InstructionComponent } from './instruction/instruction.component';
 
 @NgModule({
   imports: [SharedModule, EventRoutingModule, InterestedEventsRoutingModule],
-  declarations: [EventComponent, EventDetailComponent, EventUpdateComponent, EventDeleteDialogComponent],
+  declarations: [EventComponent, EventDetailComponent, EventUpdateComponent, EventDeleteDialogComponent, InstructionComponent],
 })
 export class EventModule {}

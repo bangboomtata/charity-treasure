@@ -3,6 +3,9 @@
     <div class="col-8">
       <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
         <h2 class="big-title" id="jhi-feedback-heading" data-cy="FeedbackCreateUpdateHeading">Feedback</h2>
+        <label for="help" class="label-help">
+          <button class="help-button" (click)="openHelpModal()"></button>
+        </label>
 
         <div>
           <br /><br />

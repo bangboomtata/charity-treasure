@@ -12,6 +12,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ShopService } from 'app/entities/shop/service/shop.service';
 import { SelectedShopService } from '../service/selected-shop.service';
 import { CustomerService } from 'app/entities/customer/service/customer.service';
+import { InstructionComponent } from '../instruction/instruction.component';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
@@ -183,6 +184,11 @@ export class ChatComponent implements OnInit {
     } else {
       console.error('Customer ID is not available.');
     }
+  }
+
+  openHelpModal(): void {
+    // Open the permission modal
+    this.modalService.open(InstructionComponent, { centered: true });
   }
 
   redirectToShop(shopName: string): void {

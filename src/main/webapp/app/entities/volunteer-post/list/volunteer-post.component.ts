@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IVolunteerPost } from '../volunteer-post.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { FontSizeService } from 'app/font-size/font-size.service';
+import { InstructionComponent } from '../instruction/instruction.component';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
@@ -142,6 +143,11 @@ export class VolunteerPostComponent implements OnInit {
         this.onResponseSuccess(res);
       },
     });
+  }
+
+  openHelpModal(): void {
+    // Open the permission modal
+    this.modalService.open(InstructionComponent, { centered: true });
   }
 
   navigateToWithComponentValues(): void {

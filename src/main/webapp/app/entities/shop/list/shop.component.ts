@@ -12,6 +12,7 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, ShopService } from '../service/shop.service';
 import { ShopDeleteDialogComponent } from '../delete/shop-delete-dialog.component';
 import { PermissionComponent } from '../permission/permission.component';
+import { InstructionComponent } from '../instruction/instruction.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { SortService } from 'app/shared/sort/sort.service';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
@@ -329,6 +330,11 @@ export class ShopComponent implements OnInit {
       console.error('Geolocation permissions API is not supported.');
       // Handle unsupported browser
     }
+  }
+
+  openHelpModal(): void {
+    // Open the permission modal
+    this.modalService.open(InstructionComponent, { centered: true });
   }
 
   openPermissionModal(): void {

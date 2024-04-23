@@ -5,9 +5,16 @@ import { ApplicationDetailComponent } from './detail/application-detail.componen
 import { ApplicationUpdateComponent } from './update/application-update.component';
 import { ApplicationDeleteDialogComponent } from './delete/application-delete-dialog.component';
 import { ApplicationRoutingModule } from './route/application-routing.module';
+import { InstructionComponent } from './instruction/instruction.component';
 
 @NgModule({
   imports: [SharedModule, ApplicationRoutingModule],
-  declarations: [ApplicationComponent, ApplicationDetailComponent, ApplicationUpdateComponent, ApplicationDeleteDialogComponent],
+  declarations: [
+    ApplicationComponent,
+    ApplicationDetailComponent,
+    ApplicationUpdateComponent,
+    ApplicationDeleteDialogComponent,
+    InstructionComponent,
+  ],
 })
 export class ApplicationModule {}

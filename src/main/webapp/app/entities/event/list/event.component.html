@@ -5,6 +5,9 @@
     <hr />
 
     <div class="d-flex justify-content-end">
+      <label for="help" class="label-help">
+        <button class="help-button" (click)="openHelpModal()"></button>
+      </label>
       <button class="events-reload-btn" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>All Events</span>

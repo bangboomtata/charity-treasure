@@ -1,7 +1,11 @@
 <!-- if role is shopkeeper, not implemented yet -->
 <div class="big-item-container">
   <h2 id="page-heading" data-cy="ItemHeading" class="big-title">Items</h2>
+
   <div class="big-container">
+    <label for="help" class="label-help">
+      <button class="help-button" (click)="openHelpModal()"></button>
+    </label>
     <!--  <h2 id="page-heading" data-cy="ItemHeading" class="big-title">Items</h2>-->
     <div class="d-flex justify-content-end create-refresh-box">
       <!-- <select name="filter" id="filter" [(ngModel)]="selectedCategory">

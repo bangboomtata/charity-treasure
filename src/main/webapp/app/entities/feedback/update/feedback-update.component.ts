@@ -3,6 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { FeedbackFormService, FeedbackFormGroup } from './feedback-form.service';
 import { IFeedback } from '../feedback.model';
@@ -14,6 +15,7 @@ import { ICustomer } from 'app/entities/customer/customer.model';
 import { CustomerService } from 'app/entities/customer/service/customer.service';
 import { IShop } from 'app/entities/shop/shop.model';
 import { ShopService } from 'app/entities/shop/service/shop.service';
+import { InstructionComponent } from '../instruction/instruction.component';
 
 import { Router } from '@angular/router';
 
@@ -41,6 +43,7 @@ export class FeedbackUpdateComponent implements OnInit {
     protected customerService: CustomerService,
     protected shopService: ShopService,
     protected activatedRoute: ActivatedRoute,
+    protected modalService: NgbModal,
 
     private router: Router
   ) {}
@@ -98,6 +101,11 @@ export class FeedbackUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.feedbackService.create(feedback));
     }
+  }
+
+  openHelpModal(): void {
+    // Open the permission modal
+    this.modalService.open(InstructionComponent, { centered: true });
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IFeedback>>): void {

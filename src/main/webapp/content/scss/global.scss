@@ -746,3 +746,24 @@ $text-dark: #e4e6eb;
     border-bottom: $main-pink 4px solid;
   }
 }
+
+// HELP button
+.label-help {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: block;
+}
+
+.help-button {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  background-image: url('../../../../content//images//icon-help.png');
+  background-repeat: no-repeat;
+  background-size: cover; /* Ensure the image covers the button */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}

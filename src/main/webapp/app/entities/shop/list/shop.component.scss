@@ -22,8 +22,16 @@ $main-red: #ff392e;
   letter-spacing: 0.03em;
 }
 
+//Help Button
+.label-help-shop {
+  position: absolute;
+  top: 10px;
+  right: 90px;
+  display: block;
+}
+
 //Dark mode button
-label {
+.label-darkmode {
   width: 80px;
   height: 30px;
   position: absolute;
@@ -36,7 +44,7 @@ label {
   cursor: pointer;
 }
 
-label:after {
+.label-darkmode:after {
   content: '';
   width: 25px;
   height: 25px;
@@ -54,37 +62,38 @@ input[type='checkbox'] {
   visibility: hidden;
 }
 
-input:checked + label {
+input:checked + .label-darkmode {
   background: #242424;
 }
 
-input:checked + label:after {
+input:checked + .label-darkmode:after {
   left: 75px;
   transform: translateX(-100%);
   background: linear-gradient(180deg, #777, #3a3a3a);
 }
 
-label + label:after {
+.label-darkmode + .label-darkmode:after {
   transition: 0.3s;
 }
 
-label:active:after {
+.label-darkmode:active:after {
   width: 40px;
 }
 
-label img {
+.label-darkmode .sun,
+.label-darkmode .moon {
   position: absolute;
   width: 19px;
   top: 5px;
   z-index: 1;
 }
 
-label .sun {
+.label-darkmode .sun {
   left: 6px;
   transition: 0.3s;
 }
 
-label .moon {
+.label-darkmode .moon {
   left: 53px;
   transition: 0.3s;
 }
