@@ -12,7 +12,7 @@ $main-blue: #000080;
 .filter-box {
   float: left;
   width: 20%;
-  height: 700px;
+  height: 400px;
   overflow-y: scroll;
   background-color: $second-pink;
   padding: 1%;
@@ -69,7 +69,7 @@ $main-blue: #000080;
 .main-box {
   float: right;
   width: 80%;
-  height: 700px;
+  height: 400px;
   background-color: white;
   padding: 0;
 
@@ -97,6 +97,13 @@ $main-blue: #000080;
 
 .productDisplay {
   padding: 5px 5px;
+}
+
+input[type='search'] {
+  background-color: $second-pink;
+  outline: none;
+  border-radius: 10px;
+  padding-left: 3px;
 }
 
 .row-divider {
@@ -145,9 +152,10 @@ h2.page_title {
 }
 
 .card-img {
-  height: 70%;
+  height: 150px;
   width: auto;
   margin: 0;
+  margin-bottom: 20px;
 
   img {
     height: 100%;

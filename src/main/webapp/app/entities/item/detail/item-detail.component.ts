@@ -5,6 +5,7 @@ import { IItem } from '../item.model';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-item-detail',
@@ -16,10 +17,17 @@ export class ItemDetailComponent implements OnInit {
   editable: boolean = false;
   Shop: boolean = true;
   currentCustomerId: number | null = null;
+  currentAccount: Account | null = null;
 
   constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, private accountService: AccountService) {}
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.currentAccount = account;
+      }
+    });
+
     this.activatedRoute.data.subscribe(({ item }) => {
       this.item = item;
       this.getShopID().subscribe(isEditable => {

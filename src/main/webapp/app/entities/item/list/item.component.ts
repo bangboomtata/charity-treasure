@@ -5,6 +5,7 @@ import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IItem } from '../item.model';
+import { Account } from 'app/core/auth/account.model';
 
 import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/config/pagination.constants';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
@@ -31,6 +32,8 @@ export class ItemComponent implements OnInit {
   isLoading = false;
   selectedOptions: string[] = [];
   isShop: boolean = false;
+  isCustomer: boolean = false;
+  currentAccount: Account | null = null;
   searchQuery = '';
   filterItemsByCity?: IItem[];
 
@@ -118,6 +121,7 @@ export class ItemComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
       if (account) {
+        this.currentAccount = account;
         this.accountService.getShop().subscribe(shop => {
           if (shop) {
             this.isShop = true;
@@ -128,6 +132,7 @@ export class ItemComponent implements OnInit {
 
         this.accountService.getCustomer().subscribe(customer => {
           if (customer) {
+            this.isCustomer = true;
             console.log('Customer ID: ' + customer.id);
             this.currentCustomerId = customer.id;
           }
@@ -135,8 +140,7 @@ export class ItemComponent implements OnInit {
       }
     });
     this.searchQuery = '';
-    console.log(this.searchQuery);
-    this.load();
+    this.loadData(); // Load data and filter by city
     this.filterByCity();
   }
 
@@ -173,15 +177,13 @@ export class ItemComponent implements OnInit {
       });
   }
 
-  load(): void {
+  loadData(): void {
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
+        this.filterByCity(); // Filter items by city after loading
       },
     });
-    if (this.items !== undefined) {
-      this.checkAndUpdateItems();
-    }
   }
 
   checkAndUpdateItems() {

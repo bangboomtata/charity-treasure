@@ -70,7 +70,6 @@
 
         <li
           class="nav-item"
-          *ngSwitchCase="true"
           ngbDropdown
           class="nav-item dropdown pointer"
           display="dynamic"
@@ -94,9 +93,10 @@
               </a>
             </li>
 
-            <li>
+            <li *ngIf="isShop">
               <a
                 class="dropdown-item"
+                *ngSwitchCase="true"
                 routerLink="volunteer-post"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
@@ -110,6 +110,7 @@
             <li>
               <a
                 class="dropdown-item"
+                *ngSwitchCase="true"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
@@ -137,6 +138,7 @@
 
         <li
           *ngIf="!isShop"
+          jhiHasAnyAuthority="ROLE_ADMIN"
           ngbDropdown
           class="nav-item dropdown pointer"
           display="dynamic"
@@ -355,6 +357,12 @@
         <li *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="customer">
             <span class="nav-text">Customer</span>
+          </a>
+        </li>
+
+        <li *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="shop">
+            <span class="nav-text">Shop</span>
           </a>
         </li>
 
@@ -659,6 +667,13 @@
               </a>
             </li>
 
+            <li *ngSwitchCase="false">
+              <a class="dropdown-item" (click)="login()" id="login" data-cy="login">
+                <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
+                <span>Sign in</span>
+              </a>
+            </li>
+
             <li>
               <a
                 class="dropdown-item"
@@ -677,12 +692,7 @@
                 <span>Sign out</span>
               </a>
             </li>
-            <li *ngSwitchCase="false">
-              <a class="dropdown-item" (click)="login()" id="login" data-cy="login">
-                <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
-                <span>Sign in</span>
-              </a>
-            </li>
+
             <li *ngSwitchCase="false">
               <a
                 class="dropdown-item"

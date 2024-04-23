@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   //align-items: center;
-  height: 100vh;
+  height: auto;
 }
 
 .text-container {
@@ -12,9 +12,13 @@
 }
 
 .welcome-text {
-  margin-top: 100px;
-  font-size: 2rem; /* Adjust size as needed */
+  margin-top: 10px;
+  font-size: 32px; /* Adjust size as needed */
   font-weight: bold;
+}
+
+h4 {
+  font-size: 24px;
 }
 
 .charity-title {
@@ -25,7 +29,7 @@
 
 .image-container {
   flex: 1;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: flex-end;
 }
@@ -63,118 +67,6 @@
 
 .checkbox {
   display: none; // Hide the actual checkbox input
-}
-
-.toggle-label {
-  position: absolute;
-  top: 10px; // Adjust as needed
-  left: 10px; // Move to the left
-  width: 70px; // Width of the toggle
-  height: 30px; // Height of the toggle
-  background: lightgray; // Default background
-  border-radius: 20px;
-  cursor: pointer;
-  &:after {
-    content: '';
-    position: absolute;
-    width: 25px;
-    height: 27px;
-    border-radius: 50%;
-    background: white; // Toggle button color
-    transition: 0.3s;
-
-    top: 1px;
-    left: 1px; // Start on the left side
-  }
-}
-
-#dark-mode-toggle:checked + .toggle-label {
-  background: black; // Background when toggled
-  &:after {
-    left: 40px; // Move to the right when toggled
-    //background: black;
-  }
-}
-
-//.font-size-label {
-//  position: absolute;
-//  top: 10px; // Adjust as needed and place below the dark mode toggle
-//  left: 100px; // Align with the dark mode toggle
-//  width: 40px; // Width of the toggle
-//  height: 20px; // Height of the toggle
-//  background: gray; // Default background
-//  border-radius: 20px;
-//  cursor: pointer;
-//  transition: background-color 0.3s;
-//
-//  &:after {
-//    content: '';
-//    position: absolute;
-//    width: 18px;
-//    height: 18px;
-//    border-radius: 50%;
-//    background: white; // Toggle button color
-//    transition: 0.3s;
-//    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); // A little shadow for the knob
-//    top: 1px;
-//    left: 1px; // Start on the left side
-//  }
-//}
-//
-//#font-size-toggle:checked + .font-size-label {
-//  background: #4e4e4e; // Background when toggled
-//  &:after {
-//    background: #f0f0f0; // Knob color when toggled
-//    left: 20px; // Move to the right when toggled
-//  }
-//}
-//
-//// Add a class for the larger text to your styles
-//.large-text {
-//  font-size: 1.25em; // Larger text size
-//}
-
-/* home.component.css */
-.home-container {
-  display: flex;
-  justify-content: space-between;
-  //align-items: center;
-  height: 100vh;
-}
-
-.text-container {
-  margin-left: 5%; /* Adjust the spacing as needed */
-  color: red; /* Welcome text color */
-}
-
-.welcome-text {
-  margin-top: 100px;
-  font-size: 2rem; /* Adjust size as needed */
-  font-weight: bold;
-}
-
-.charity-title {
-  font-size: 5rem; /* Adjust size as needed */
-  font-weight: bold;
-  color: darkblue; /* Charity title text color */
-}
-
-.image-container {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.home-image {
-  max-width: 100%; /* Adjust width as needed */
-  max-height: 100%;
-  object-fit: cover; /* This will cover the area without stretching the image */
-}
-
-.text-container {
-  position: relative;
-  // Rest of your styles...
 }
 
 .toggle-label {

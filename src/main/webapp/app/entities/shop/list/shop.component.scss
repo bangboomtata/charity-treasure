@@ -301,6 +301,15 @@ hr {
   color: $main-red;
   width: 87%;
   background-color: $second-pink;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.danger-text {
+  color: red;
+  font-weight: bold;
 }
 
 .selected-shop-container .navigate {

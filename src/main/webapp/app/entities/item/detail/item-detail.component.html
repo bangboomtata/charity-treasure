@@ -52,10 +52,14 @@
                     <p>{{ item.itemDescription }}</p>
                   </ng-container>
 
-                  <div class="button-box" *ngIf="!Shop">
+                  <div class="button-box" *ngIf="!Shop && currentAccount">
                     <button [routerLink]="['/item', item.id, 'reservation', 'new']" class="btn-reserve" [disabled]="!item.itemAvailability">
                       Reserve Now
                     </button>
+                  </div>
+
+                  <div *ngIf="!currentAccount">
+                    <p class="danger-text">Login or Create an Account to reserve an item.</p>
                   </div>
                   <button
                     type="button"
