@@ -200,7 +200,11 @@ jhipster:
     license: unlicensed
     license-url:
   security:
-    content-security-policy: "default-src 'self' https://nominatim.openstreetmap.org; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data: https://tile.openstreetmap.org https://nominatim.openstreetmap.org; font-src 'self' https://fonts.gstatic.com data:"
+    #original
+    # content-security-policy: "default-src 'self' https://nominatim.openstreetmap.org; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data: https://tile.openstreetmap.org https://nominatim.openstreetmap.org; font-src 'self' https://fonts.gstatic.com data:"
+    #edited
+    content-security-policy: "default-src 'self' https://nominatim.openstreetmap.org https://router.project-osrm.org; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://tile.openstreetmap.org https://nominatim.openstreetmap.org *.openstreetmap.org; font-src 'self https://fonts.gstatic.com data:"
+    # content-security-policy: "default-src 'self' https://nominatim.openstreetmap.org https://router.project-osrm.org; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' ; style-src 'self' 'unsafe-inline' ; img-src 'self' data: https://tile.openstreetmap.org https://nominatim.openstreetmap.org *.openstreetmap.org; font-src 'self"
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

@@ -24,7 +24,7 @@ import { AccountService } from 'app/core/auth/account.service';
 @Component({
   selector: 'jhi-shop',
   templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.scss', './shop2.component.scss'],
+  styleUrls: ['./shop.component.scss'],
 })
 export class ShopComponent implements OnInit {
   shops?: IShop[];
@@ -323,6 +323,7 @@ export class ShopComponent implements OnInit {
         } else {
           console.log(permissionStatus.state);
           console.error('Geolocation permission denied.');
+          this.openPermissionModal();
           // Handle permission denied scenario
         }
       });
