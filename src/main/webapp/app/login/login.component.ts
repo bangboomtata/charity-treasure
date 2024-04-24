@@ -33,12 +33,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
     protected authServerProvider: AuthServerProvider
   ) {}
 
-  selectedPhoto: string | null = null;
-
-  selectPhoto(photoName: string): void {
-    this.selectedPhoto = this.selectedPhoto === photoName ? null : photoName;
-  }
-
   ngOnInit(): void {
     // if already authenticated then we should navigate to item view page
     this.accountService.identity().subscribe(() => {
