@@ -80,22 +80,24 @@ input:checked + .label-darkmode:after {
   width: 40px;
 }
 
-.label-darkmode .sun,
-.label-darkmode .moon {
-  position: absolute;
-  width: 19px;
-  top: 5px;
-  z-index: 1;
-}
+.label-darkmode {
+  img.sun,
+  img.moon {
+    position: absolute;
+    width: 19px;
+    top: 5px;
+    z-index: 1;
+  }
 
-.label-darkmode .sun {
-  left: 6px;
-  transition: 0.3s;
-}
+  img.sun {
+    left: 6px;
+    transition: 0.3s;
+  }
 
-.label-darkmode .moon {
-  left: 53px;
-  transition: 0.3s;
+  img.moon {
+    left: 53px;
+    transition: 0.3s;
+  }
 }
 
 //Map

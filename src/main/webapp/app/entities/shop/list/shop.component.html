@@ -178,8 +178,11 @@
 <div *ngIf="!currentAccount">
   <div class="big-container">
     <h2 class="big-title">SHOPS NEAR ME</h2>
+    <label for="help" class="label-help-shop">
+      <button class="help-button" (click)="openHelpModal()"></button>
+    </label>
     <input type="checkbox" name="toggle-darkmode" id="toggle-darkmode" (change)="toggleDarkMode()" />
-    <label for="toggle-darkmode">
+    <label for="toggle-darkmode" class="label-darkmode">
       <img src="../../../../content/images/icon-sun.png" class="sun" alt="sun" />
       <img src="../../../../content/images/icon-moon.png" class="moon" alt="moon" />
     </label>
