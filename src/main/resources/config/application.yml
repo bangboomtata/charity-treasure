@@ -179,7 +179,7 @@ jhipster:
     name: 'teamprojectApp'
   # By default CORS is disabled. Uncomment to enable.
   cors:
-    allowed-origins: 'http://localhost:8080,http://localhost:9000'
+    allowed-origins: 'http://localhost:8080,http://localhost:9000,https://team24.bham.team,https://team24.dev.bham.team'
     allowed-methods: '*'
     allowed-headers: '*'
     exposed-headers: 'Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
