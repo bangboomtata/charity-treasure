@@ -141,7 +141,7 @@ export class ReservationUpdateComponent implements OnInit {
 
         if (reservation) {
           this.updateForm(reservation);
-          this.createForm(reservation);
+          // this.createForm(reservation);
         } else {
           // New reservation - set default dates
           this.setReservationDates();
@@ -166,12 +166,27 @@ export class ReservationUpdateComponent implements OnInit {
     });
   }
 
+  private setReservationDates(): void {
+    const currentDay = dayjs().format('YYYY-MM-DDTHH:mm');
+    const twoDaysLater = dayjs().add(2, 'day').format('YYYY-MM-DDTHH:mm');
+    this.editForm.patchValue({
+      reservedTime: currentDay,
+      reservedExpiry: twoDaysLater,
+    });
+  }
+
   createForm(reservation?: IReservation): void {
-    if (reservation) {
-      this.editForm = this.reservationFormService.createReservationFormGroup(reservation);
-    } else {
-      // Create a new form for a new reservation
-      this.editForm = this.reservationFormService.createReservationFormGroup();
+    // Common form initialization
+    this.editForm = this.reservationFormService.createReservationFormGroup(reservation);
+
+    if (!reservation) {
+      // This is a new reservation, so set default dates
+      const currentDay = dayjs().format('YYYY-MM-DDTHH:mm');
+      const twoDaysLater = dayjs().add(2, 'day').format('YYYY-MM-DDTHH:mm');
+      this.editForm.patchValue({
+        reservedTime: currentDay,
+        reservedExpiry: twoDaysLater,
+      });
     }
 
     // Add validators if necessary
@@ -252,15 +267,6 @@ export class ReservationUpdateComponent implements OnInit {
   //   );
   // }
 
-  private setReservationDates(): void {
-    const currentDay = dayjs().format('YYYY-MM-DDTHH:mm');
-    const twoDaysLater = dayjs().add(2, 'day').format('YYYY-MM-DDTHH:mm');
-    this.editForm.patchValue({
-      reservedTime: currentDay,
-      reservedExpiry: twoDaysLater,
-    });
-  }
-
   previousState(): void {
     window.history.back();
   }
@@ -315,6 +321,8 @@ export class ReservationUpdateComponent implements OnInit {
   }
 
   protected updateForm(reservation: IReservation): void {
+    // this.reservationFormService.resetForm(this.editForm, reservation);
+
     this.reservation = reservation;
     this.reservationFormService.resetForm(this.editForm, reservation);
     // Now, add or update the form control for the customer's full name
