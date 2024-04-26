@@ -29,6 +29,7 @@ main {
   background-color: rgb(255, 231, 231);
   border: none;
   width: 65vw;
+  padding-bottom: 20px;
 }
 
 /* Chat Contact List */
@@ -46,6 +47,7 @@ main {
 .rightBox {
   padding: 15px 0 0 25px;
   width: 70%;
+  height: 100%;
 }
 
 .searchBarBox {
@@ -145,7 +147,7 @@ main {
 .scrollBarContainer {
   display: flex;
   column-gap: 10px;
-  height: 350px;
+  height: 70%;
   width: 90%;
 }
 
@@ -189,7 +191,6 @@ main {
   max-width: 42%;
   padding: 8px;
   border-radius: 10px;
-  margin-bottom: 10px;
 }
 
 .leftMessageBubble {
@@ -245,10 +246,11 @@ main {
 /* Send Message Input Group */
 .input-group {
   border-radius: 15px;
-  padding: 10px;
+  padding: 5px;
   max-width: 95%;
   text-align: center;
   margin: 0 auto;
+  margin-right: 30px;
 }
 
 #addImgButton {
