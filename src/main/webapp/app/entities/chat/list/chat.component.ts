@@ -25,7 +25,7 @@ import { IUser } from '../../user/user.model';
 @Component({
   selector: 'jhi-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css'],
+  styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit {
   chats?: IChat[];

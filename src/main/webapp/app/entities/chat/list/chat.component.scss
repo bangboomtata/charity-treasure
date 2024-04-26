@@ -1,13 +1,18 @@
+//colors
+$main-pink: #ff6961;
+$main-blue: #000080;
+$second-pink: #ffe7e7;
+
 main {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0px 0 30px 0;
+  padding: 0px 0 10px 0;
+  height: 75vh;
 }
 
-.scrollable {
-  max-width: 80vw;
-  overflow-y: auto; /* Enable vertical scrolling */
+.chat-big-box {
+  height: 70vh;
 }
 
 /* h2 {
@@ -24,13 +29,14 @@ main {
   background-color: rgb(255, 231, 231);
   border: none;
   width: 65vw;
-  margin-top: 60px;
 }
 
 /* Chat Contact List */
 .leftBox {
   padding: 20px 0px 0px 40px;
   border-radius: 30px 0 0 30px;
+  width: 30%;
+  height: 100%;
 }
 
 .contactListName {
@@ -39,6 +45,7 @@ main {
 
 .rightBox {
   padding: 15px 0 0 25px;
+  width: 70%;
 }
 
 .searchBarBox {
@@ -70,6 +77,11 @@ main {
   border: none;
 }
 
+.imageNameBox {
+  padding: 0 0px 0 5px;
+  /* overflow: hidden; */
+}
+
 .userShopName {
   font-size: 15px;
 }
@@ -94,17 +106,21 @@ main {
 }
 
 /* Scroll Bar */
+.leftInnerBox {
+  height: 100%;
+}
+
 .contactListScrollBarContainer {
   display: flex;
   column-gap: 10px;
-  height: 100%;
+  height: 70%;
   width: 98%;
 }
 
 .contactListScrollBar {
-  height: 95%;
+  height: 100%;
   width: 100%;
-  overflow: auto;
+  overflow-y: scroll;
   border-radius: 10px 0 0 10px;
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.37);
@@ -123,7 +139,7 @@ main {
 
 .contactListScrollBar::-webkit-scrollbar-thumb {
   border-radius: 8px;
-  background-color: grey;
+  background-color: $main-pink;
 }
 
 .scrollBarContainer {
@@ -134,7 +150,7 @@ main {
 }
 
 .scrollBar {
-  height: 95%;
+  height: 100%;
   width: 100%;
   overflow: auto;
 }
@@ -151,7 +167,7 @@ main {
 
 .scrollBar::-webkit-scrollbar-thumb {
   border-radius: 8px;
-  background-color: grey;
+  background-color: $main-pink;
 }
 
 /* Chat History */
@@ -205,7 +221,7 @@ main {
 
 .timestamp {
   align-self: flex-end;
-  color: #f4f2f2;
+  color: black;
   font-size: 10px;
   margin-bottom: 2px;
   margin-left: 11px;

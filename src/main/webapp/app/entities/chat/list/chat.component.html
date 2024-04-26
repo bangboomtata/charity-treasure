@@ -5,7 +5,7 @@
   </label>
   <!--Entire Chat-->
   <div class="chatCard">
-    <div class="row g-0">
+    <div class="row g-0 chat-big-box">
       <div class="leftBox col-12 col-lg-5 col-xl-3">
         <div class="leftInnerBox">
           <div class="searchBarBox d-none d-md-block">
@@ -18,12 +18,19 @@
           <ng-container *ngIf="!(isCurrentUserInShopUserIds$ | async)">
             <div class="contactListScrollBarContainer">
               <div class="contactListScrollBar">
-                <div class="contactList" style="max-height: 300px">
-                  <div *ngFor="let shop of shops" style="overflow: auto">
+                <div class="contactList">
+                  <div *ngFor="let shop of shops" class="shopUsersBox">
                     <button class="shopUsers" (click)="setReceiverLoginAndSendMessage(shop?.shopName || '', shop?.user?.id || 0)">
                       <a class="list-group-item list-group-item-action my-3">
-                        <div class="d-flex align-items-center justify-content-start px-4">
-                          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" width="40" height="40" />
+                        <div class="imageNameBox d-flex align-items-center justify-content-start">
+                          <img
+                            [src]="'data:' + shop.logoContentType + ';base64,' + shop.logo"
+                            alt="shop image"
+                            class="logo"
+                            class="rounded-circle"
+                            width="40"
+                            height="40"
+                          />
                           <div id="userShopName" class="userShopName px-2">
                             <span class="contactListName">{{ shop?.shopName }}</span>
                           </div>
@@ -40,12 +47,12 @@
           <ng-container *ngIf="isCurrentUserInShopUserIds$ | async as isCurrentUserInShopUserIds">
             <div class="contactListScrollBarContainer">
               <div class="contactListScrollBar">
-                <div class="contactList" style="max-height: 300px">
-                  <div *ngFor="let customer of customers" style="overflow: auto">
+                <div class="contactList">
+                  <div *ngFor="let customer of customers">
                     <button class="shopUsers" (click)="getLoginAndSendMessage(customer?.user?.id ?? 0)" *ngIf="isCurrentUserInShopUserIds">
                       <a class="list-group-item list-group-item-action border-0 my-3">
-                        <div class="d-flex align-items-center justify-content-start px-4">
-                          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" width="40" height="40" />
+                        <div class="imageNameBox d-flex align-items-center justify-content-start px-4">
+                          <img src="../../../../content/images/dora.jpg" class="rounded-circle" width="40" height="40" />
                           <div id="userShopName" class="userShopName px-2">
                             <span class="contactListName">{{ customer.user?.login }}</span>
                           </div>
@@ -63,9 +70,9 @@
       <!-- Chat History -->
       <div class="rightBox col-12 col-lg-7 col-xl-9">
         <div class="chatName py-2 d-none d-lg-block mb-3">
-          <div *ngIf="showChatPerson" class="d-flex align-items-center py-1 px-4">
+          <div *ngIf="showChatPerson" class="d-flex align-items-center py-1 px-2">
             <div class="position-relative">
-              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" width="40" height="40" />
+              <img src="../../../../content/images/dora.jpg" class="rounded-circle" width="40" height="40" />
             </div>
             <div class="flex-grow-1 pl-3">
               <!--If user is customer-->
@@ -104,7 +111,7 @@
                         }"
                       >
                         <ng-container *ngIf="chat.senderLogin != currentUserId.toString()">
-                          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" width="40" height="40" />
+                          <img src="../../../../content/images/dora.jpg" class="rounded-circle" width="40" height="40" />
                         </ng-container>
                         <div
                           class="messageBubble"
